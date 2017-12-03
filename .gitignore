@@ -1,0 +1,11 @@
+.pioenvs
+.piolibdeps
+fp-lib-table
+*.DS_Store
+hardware/*.pdf
+hardware/*.svg
+hardware/*.bak
+hardware/*-bak
+hardware/*-cache*
+hardware/*_saved*
+hardware/*_autosave*
