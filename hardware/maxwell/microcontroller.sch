@@ -461,4 +461,6 @@ Wire Wire Line
 Wire Wire Line
 	2850 1850 2850 2250
 Connection ~ 2850 2250
+Text GLabel 8500 4850 2    60   Output ~ 0
+ENABLE_BATT_POWER
 $EndSCHEMATC
