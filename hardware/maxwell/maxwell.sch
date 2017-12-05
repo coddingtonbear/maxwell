@@ -282,8 +282,6 @@ Wire Wire Line
 Wire Wire Line
 	8600 2050 9700 2050
 Wire Wire Line
-	8600 850  8600 2050
-Wire Wire Line
 	8600 1450 8800 1450
 Wire Wire Line
 	7850 1250 7850 2800
@@ -348,9 +346,8 @@ Wire Wire Line
 	9450 850  9850 850 
 Wire Wire Line
 	9150 850  8600 850 
-Connection ~ 8600 1450
 Text GLabel 9850 850  2    60   Input ~ 0
-~DISABLE_USB_OUT
+ENABLE_USB_OUT
 Connection ~ 9800 850 
 $Comp
 L SN65HVD233 U2
@@ -433,28 +430,6 @@ Wire Wire Line
 Wire Wire Line
 	3350 6700 3900 6700
 Connection ~ 3900 6700
-$Comp
-L Conn_01x04 J1
-U 1 1 5A228A9B
-P 5100 6100
-F 0 "J1" H 5180 6092 50  0000 L CNN
-F 1 "Canbus 1" H 5180 6001 50  0000 L CNN
-F 2 "pbrook/Parts.pretty:JST-XH-4" H 5100 6100 50  0001 C CNN
-F 3 "" H 5100 6100 50  0001 C CNN
-	1    5100 6100
-	1    0    0    -1  
-$EndComp
-$Comp
-L Conn_01x04 J2
-U 1 1 5A228ADF
-P 5100 6700
-F 0 "J2" H 5180 6692 50  0000 L CNN
-F 1 "Canbus 2" H 5180 6601 50  0000 L CNN
-F 2 "pbrook/Parts.pretty:JST-XH-4" H 5100 6700 50  0001 C CNN
-F 3 "" H 5100 6700 50  0001 C CNN
-	1    5100 6700
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	4300 6100 4900 6100
 Wire Wire Line
@@ -660,9 +635,9 @@ F 3 "" H 10000 3650 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	8800 3650 10000 3650
-Text GLabel 5950 2450 2    60   BiDi ~ 0
+Text GLabel 5900 2450 2    60   BiDi ~ 0
 BOOT0
-Text GLabel 5400 1850 2    60   Input ~ 0
+Text GLabel 6100 2650 2    60   Input ~ 0
 BT_KEY
 $Comp
 L SIM800L_5-pin U4
@@ -799,10 +774,6 @@ F 3 "" H 5650 2450 50  0001 C CNN
 	1    5650 2450
 	0    1    1    0   
 $EndComp
-Wire Wire Line
-	5500 2450 5400 2450
-Wire Wire Line
-	5800 2450 5950 2450
 $Comp
 L +BATT #PWR021
 U 1 1 5A24D0EA
@@ -884,5 +855,105 @@ F 2 "" H 9600 2850 50  0001 C CNN
 F 3 "" H 9600 2850 50  0001 C CNN
 	1    9600 2900
 	1    0    0    -1  
+$EndComp
+$Comp
+L Conn_01x05 J1
+U 1 1 5A25E0A2
+P 5100 6100
+F 0 "J1" H 5180 6142 50  0000 L CNN
+F 1 "Canbus 1" H 5180 6051 50  0000 L CNN
+F 2 "KiCad/Connectors_JST.pretty:JST_XH_B05B-XH-A_05x2.50mm_Straight" H 5100 6100 50  0001 C CNN
+F 3 "" H 5100 6100 50  0001 C CNN
+	1    5100 6100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Conn_01x05 J2
+U 1 1 5A25E262
+P 5100 6700
+F 0 "J2" H 5180 6742 50  0000 L CNN
+F 1 "Canbus 2" H 5180 6651 50  0000 L CNN
+F 2 "KiCad/Connectors_JST.pretty:JST_XH_B05B-XH-A_05x2.50mm_Straight" H 5100 6700 50  0001 C CNN
+F 3 "" H 5100 6700 50  0001 C CNN
+	1    5100 6700
+	1    0    0    -1  
+$EndComp
+Text GLabel 4800 5900 1    60   Output ~ 0
+POWER_ON
+Wire Wire Line
+	4900 5900 4800 5900
+Wire Wire Line
+	4800 5900 4800 6500
+Wire Wire Line
+	4800 6500 4900 6500
+Text Label 4350 6100 0    60   ~ 0
+CAN+
+Text Label 4350 6200 0    60   ~ 0
+CAN-
+Text Label 2850 6000 0    60   ~ 0
+RXCAN
+Text Label 2850 6100 0    60   ~ 0
+TXCAN
+Wire Wire Line
+	5800 2450 5900 2450
+Text GLabel 5700 2150 2    60   Output ~ 0
+POWER_ON
+$Comp
+L R R27
+U 1 1 5A263D2E
+P 5550 2150
+F 0 "R27" H 5620 2196 50  0000 L CNN
+F 1 "1k" H 5620 2105 50  0000 L CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 5480 2150 50  0001 C CNN
+F 3 "" H 5550 2150 50  0001 C CNN
+	1    5550 2150
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8600 850  8600 1250
+Connection ~ 8600 1250
+Wire Wire Line
+	8600 1450 8600 2050
+$Comp
+L R R28
+U 1 1 5A265BD2
+P 5700 2850
+F 0 "R28" H 5770 2896 50  0000 L CNN
+F 1 "10k" H 5770 2805 50  0000 L CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 5630 2850 50  0001 C CNN
+F 3 "" H 5700 2850 50  0001 C CNN
+	1    5700 2850
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR052
+U 1 1 5A265CDC
+P 5850 2850
+F 0 "#PWR052" H 5850 2600 50  0001 C CNN
+F 1 "GND" H 5855 2677 50  0000 C CNN
+F 2 "" H 5850 2850 50  0001 C CNN
+F 3 "" H 5850 2850 50  0001 C CNN
+	1    5850 2850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5400 2650 5800 2650
+Wire Wire Line
+	5550 2850 5500 2850
+Wire Wire Line
+	5500 2850 5500 2650
+Connection ~ 5500 2650
+Wire Wire Line
+	5500 2450 5400 2450
+$Comp
+L R R29
+U 1 1 5A266BEB
+P 5950 2650
+F 0 "R29" H 6020 2696 50  0000 L CNN
+F 1 "330" H 6020 2605 50  0000 L CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 5880 2650 50  0001 C CNN
+F 3 "" H 5950 2650 50  0001 C CNN
+	1    5950 2650
+	0    1    1    0   
 $EndComp
 $EndSCHEMATC

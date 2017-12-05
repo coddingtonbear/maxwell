@@ -92,7 +92,7 @@ Wire Wire Line
 Wire Wire Line
 	8900 3550 8900 3450
 Connection ~ 8900 3450
-Text GLabel 8800 3350 2    60   BiDi ~ 0
+Text GLabel 9550 3350 2    60   BiDi ~ 0
 USB-
 $Comp
 L R R13
@@ -108,12 +108,12 @@ $EndComp
 $Comp
 L R R11
 U 1 1 5A1FCF7E
-P 8650 3350
-F 0 "R11" V 8857 3350 50  0000 C CNN
-F 1 "20" V 8766 3350 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 8580 3350 50  0001 C CNN
-F 3 "" H 8650 3350 50  0001 C CNN
-	1    8650 3350
+P 9400 3350
+F 0 "R11" V 9607 3350 50  0000 C CNN
+F 1 "20" V 9516 3350 50  0000 C CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 9330 3350 50  0001 C CNN
+F 3 "" H 9400 3350 50  0001 C CNN
+	1    9400 3350
 	0    -1   -1   0   
 $EndComp
 $Comp
@@ -417,10 +417,10 @@ SWCLK
 Text GLabel 8500 5250 2    60   Input ~ 0
 SPEED
 Text GLabel 8500 2450 2    60   Output ~ 0
-~DISABLE_USB_OUT
+ENABLE_USB_OUT
 Text GLabel 8500 2550 2    60   Input ~ 0
 ~BATT_CHARGING
-Text GLabel 8500 3950 2    60   Output ~ 0
+Text GLabel 8800 3950 2    60   Output ~ 0
 POWER_ON
 Text GLabel 8500 2750 2    60   Output ~ 0
 SCK
@@ -463,4 +463,21 @@ Wire Wire Line
 Connection ~ 2850 2250
 Text GLabel 8500 4850 2    60   Output ~ 0
 ENABLE_BATT_POWER
+$Comp
+L R R26
+U 1 1 5A260AAF
+P 8650 3950
+F 0 "R26" V 8443 3950 50  0000 C CNN
+F 1 "1k" V 8534 3950 50  0000 C CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 8580 3950 50  0001 C CNN
+F 3 "" H 8650 3950 50  0001 C CNN
+	1    8650 3950
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8500 3350 9250 3350
+Text Label 8600 3350 0    60   ~ 0
+USB_PRER-
+Text Label 8600 3450 0    60   ~ 0
+USB_PRER+
 $EndSCHEMATC
