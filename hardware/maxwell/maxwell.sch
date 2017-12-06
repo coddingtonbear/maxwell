@@ -102,35 +102,27 @@ Wire Wire Line
 $Comp
 L R R5
 U 1 1 5A1763A1
-P 8800 3950
-F 0 "R5" H 8870 3996 50  0000 L CNN
-F 1 "100k" H 8870 3905 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 8730 3950 50  0001 C CNN
-F 3 "" H 8800 3950 50  0001 C CNN
-	1    8800 3950
-	1    0    0    -1  
+P 8800 4100
+F 0 "R5" H 8870 4146 50  0000 L CNN
+F 1 "100k" H 8870 4055 50  0000 L CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 8730 4100 50  0001 C CNN
+F 3 "" H 8800 4100 50  0001 C CNN
+	1    8800 4100
+	0    -1   -1   0   
 $EndComp
 $Comp
 L R R9
 U 1 1 5A1763F8
-P 10000 3950
-F 0 "R9" H 10070 3996 50  0000 L CNN
-F 1 "100k" H 10070 3905 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 9930 3950 50  0001 C CNN
-F 3 "" H 10000 3950 50  0001 C CNN
-	1    10000 3950
-	1    0    0    -1  
+P 9600 4100
+F 0 "R9" H 9670 4146 50  0000 L CNN
+F 1 "100k" H 9670 4055 50  0000 L CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 9530 4100 50  0001 C CNN
+F 3 "" H 9600 4100 50  0001 C CNN
+	1    9600 4100
+	0    -1   -1   0   
 $EndComp
-Text GLabel 10300 4100 2    60   BiDi ~ 0
+Text GLabel 9750 4100 2    60   BiDi ~ 0
 BOOT1
-Wire Wire Line
-	10000 3650 10000 3800
-Wire Wire Line
-	9450 4100 10300 4100
-Wire Wire Line
-	8600 4100 8950 4100
-Wire Wire Line
-	8800 3800 8800 3650
 $Comp
 L Conn_01x04 J6
 U 1 1 5A178B78
@@ -618,23 +610,8 @@ Text GLabel 4200 1500 0    60   Input ~ 0
 TXD
 Text GLabel 4200 1600 0    60   Output ~ 0
 RXD
-Text GLabel 8600 4100 0    60   BiDi ~ 0
+Text GLabel 8650 4100 0    60   BiDi ~ 0
 BOOT0
-Connection ~ 10000 4100
-Connection ~ 8800 4100
-$Comp
-L GND #PWR014
-U 1 1 5A23B2EB
-P 10000 3650
-F 0 "#PWR014" H 10000 3400 50  0001 C CNN
-F 1 "GND" V 10005 3522 50  0000 R CNN
-F 2 "" H 10000 3650 50  0001 C CNN
-F 3 "" H 10000 3650 50  0001 C CNN
-	1    10000 3650
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	8800 3650 10000 3650
 Text GLabel 5900 2450 2    60   BiDi ~ 0
 BOOT0
 Text GLabel 6100 2650 2    60   Input ~ 0
@@ -755,12 +732,10 @@ F 3 "" H 6000 4850 50  0001 C CNN
 	1    6000 4850
 	1    0    0    -1  
 $EndComp
-Text GLabel 6000 4950 0    60   Input ~ 0
+Text GLabel 5700 4950 0    60   Input ~ 0
 NEOPIXEL
 Wire Wire Line
 	6000 4850 6200 4850
-Wire Wire Line
-	6200 4950 6000 4950
 Wire Wire Line
 	6000 5050 6200 5050
 $Comp
@@ -956,4 +931,43 @@ F 3 "" H 5950 2650 50  0001 C CNN
 	1    5950 2650
 	0    1    1    0   
 $EndComp
+$Comp
+L R R31
+U 1 1 5A271748
+P 5850 4950
+F 0 "R31" H 5920 4996 50  0000 L CNN
+F 1 "330" H 5920 4905 50  0000 L CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 5780 4950 50  0001 C CNN
+F 3 "" H 5850 4950 50  0001 C CNN
+	1    5850 4950
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6000 4950 6200 4950
+$Comp
+L R R32
+U 1 1 5A271FA2
+P 3050 7050
+F 0 "R32" H 3120 7096 50  0000 L CNN
+F 1 "10k" H 3120 7005 50  0000 L CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 2980 7050 50  0001 C CNN
+F 3 "" H 3050 7050 50  0001 C CNN
+	1    3050 7050
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3V3 #PWR034
+U 1 1 5A271FFF
+P 3050 6900
+F 0 "#PWR034" H 3050 6750 50  0001 C CNN
+F 1 "+3V3" H 3065 7073 50  0000 C CNN
+F 2 "" H 3050 6900 50  0001 C CNN
+F 3 "" H 3050 6900 50  0001 C CNN
+	1    3050 6900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2800 7200 3050 7200
+Text GLabel 2800 6600 2    60   Output ~ 0
+CAN_INT
 $EndSCHEMATC

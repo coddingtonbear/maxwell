@@ -167,18 +167,6 @@ Wire Wire Line
 Wire Wire Line
 	1950 3600 2150 3600
 Connection ~ 2150 3600
-Wire Wire Line
-	2450 3450 2700 3450
-Wire Wire Line
-	2700 3450 2700 3550
-Wire Wire Line
-	2700 3550 2900 3550
-Wire Wire Line
-	2450 3750 2700 3750
-Wire Wire Line
-	2700 3750 2700 3650
-Wire Wire Line
-	2700 3650 2900 3650
 $Comp
 L Crystal Y3
 U 1 1 5A1FCFAA
@@ -223,18 +211,6 @@ F 3 "" H 1950 5400 50  0001 C CNN
 	1    1950 5400
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	2450 5250 2700 5250
-Wire Wire Line
-	2700 5250 2700 5350
-Wire Wire Line
-	2700 5350 2900 5350
-Wire Wire Line
-	2450 5550 2700 5550
-Wire Wire Line
-	2700 5550 2700 5450
-Wire Wire Line
-	2700 5450 2900 5450
 Wire Wire Line
 	2150 5250 2150 5550
 Wire Wire Line
@@ -480,4 +456,47 @@ Text Label 8600 3350 0    60   ~ 0
 USB_PRER-
 Text Label 8600 3450 0    60   ~ 0
 USB_PRER+
+Text GLabel 8500 2250 2    60   Input ~ 0
+CAN_INT
+$Comp
+L R R33
+U 1 1 5A2732F7
+P 2700 3600
+F 0 "R33" V 2493 3600 50  0000 C CNN
+F 1 "1M" V 2584 3600 50  0000 C CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 2630 3600 50  0001 C CNN
+F 3 "" H 2700 3600 50  0001 C CNN
+	1    2700 3600
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	2450 5250 2800 5250
+Wire Wire Line
+	2800 5250 2800 5350
+Wire Wire Line
+	2800 5350 2900 5350
+Wire Wire Line
+	2900 5450 2800 5450
+Wire Wire Line
+	2800 5450 2800 5550
+Wire Wire Line
+	2800 5550 2450 5550
+Wire Wire Line
+	2450 3450 2800 3450
+Wire Wire Line
+	2800 3450 2800 3550
+Wire Wire Line
+	2800 3550 2900 3550
+Connection ~ 2700 3450
+Wire Wire Line
+	2450 3750 2800 3750
+Wire Wire Line
+	2800 3750 2800 3650
+Wire Wire Line
+	2800 3650 2900 3650
+Connection ~ 2700 3750
+Text GLabel 8500 4050 2    60   Input ~ 0
+DYNAMO_VOLTAGE
+Text GLabel 8500 5350 2    60   Output ~ 0
+BATT_CHARGE_ENABLE
 $EndSCHEMATC
