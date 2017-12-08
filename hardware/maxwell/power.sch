@@ -712,7 +712,7 @@ Connection ~ 2400 1550
 Wire Wire Line
 	7850 3400 7500 3400
 Wire Wire Line
-	7500 3500 7500 3400
+	7500 3400 7500 3500
 Connection ~ 7100 3500
 Wire Wire Line
 	3650 1250 3650 1450
@@ -729,7 +729,7 @@ Wire Wire Line
 Wire Wire Line
 	5600 1250 6400 1250
 Wire Wire Line
-	5450 3500 7500 3500
+	7500 3500 5450 3500
 Wire Wire Line
 	5900 1300 5900 1250
 Connection ~ 5900 1250

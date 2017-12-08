@@ -712,7 +712,7 @@ Connection ~ 2400 1550
 Wire Wire Line
 	7850 3400 7500 3400
 Wire Wire Line
-	7500 3400 7500 3500
+	7500 3500 7500 3400
 Connection ~ 7100 3500
 Wire Wire Line
 	3650 1250 3650 1450
@@ -729,7 +729,7 @@ Wire Wire Line
 Wire Wire Line
 	5600 1250 6400 1250
 Wire Wire Line
-	7500 3500 5450 3500
+	5450 3500 7500 3500
 Wire Wire Line
 	5900 1300 5900 1250
 Connection ~ 5900 1250
@@ -885,4 +885,5 @@ F 3 "" H 5400 1150 50  0001 C CNN
 $EndComp
 Text Label 5950 1250 0    60   ~ 0
 +Dynamo
+Connection ~ 7050 3500
 $EndSCHEMATC

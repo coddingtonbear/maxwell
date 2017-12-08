@@ -950,4 +950,23 @@ Wire Wire Line
 Wire Wire Line
 	8750 2200 8750 2300
 Connection ~ 8750 2300
+$Comp
+L R R?
+U 1 1 5A2B653B
+P 4350 6750
+F 0 "R?" H 4420 6796 50  0000 L CNN
+F 1 "120" H 4420 6705 50  0000 L CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 4280 6750 50  0001 C CNN
+F 3 "" H 4350 6750 50  0001 C CNN
+	1    4350 6750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4350 6200 4350 6600
+Connection ~ 4350 6200
+Wire Wire Line
+	4400 6100 4400 6900
+Wire Wire Line
+	4400 6900 4350 6900
+Connection ~ 4400 6100
 $EndSCHEMATC
