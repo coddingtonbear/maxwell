@@ -393,7 +393,7 @@ SWCLK
 Text GLabel 8500 5250 2    60   Input ~ 0
 SPEED
 Text GLabel 8500 2450 2    60   Output ~ 0
-ENABLE_USB_OUT
+~ENABLE_USB_OUT
 Text GLabel 8500 2550 2    60   Input ~ 0
 ~BATT_CHARGING
 Text GLabel 8800 3950 2    60   Output ~ 0
@@ -426,7 +426,7 @@ Text GLabel 8500 2650 2    60   Input ~ 0
 BATT_VOLTAGE
 Text Notes 700  4200 0    60   ~ 0
 V=(100*INPUT+47*INPUT)/100
-Text GLabel 8500 3750 2    60   Output ~ 0
+Text GLabel 8500 4550 2    60   Output ~ 0
 BUZZER
 Text GLabel 2900 4750 0    60   Output ~ 0
 NEOPIXEL
@@ -498,5 +498,5 @@ Connection ~ 2700 3750
 Text GLabel 8500 4050 2    60   Input ~ 0
 DYNAMO_VOLTAGE
 Text GLabel 8500 5350 2    60   Output ~ 0
-BATT_CHARGE_ENABLE
+~BATT_CHARGE_ENABLE
 $EndSCHEMATC
