@@ -10,7 +10,9 @@ hardware/*-cache*
 hardware/*_saved*
 hardware/*_autosave*
 *.gbr
+*.gbj
 *.gbrjob
 *.zip
 *.drl
 _saved_*
+*.gcode
