@@ -269,7 +269,7 @@ F 3 "" H 2350 2250 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2900 2250 2800 2250
+	2800 2250 2900 2250
 Wire Wire Line
 	2500 2250 2350 2250
 $Comp
@@ -418,11 +418,9 @@ Text GLabel 8500 5050 2    60   Output ~ 0
 GSM_RXD
 Text GLabel 8500 5150 2    60   Output ~ 0
 GSM_RST
-Text GLabel 2900 4450 0    60   Input ~ 0
-CURRENT_SENSE_1
 Text GLabel 2900 4350 0    60   Input ~ 0
-CURRENT_SENSE_2
-Text GLabel 8500 2650 2    60   Input ~ 0
+CURRENT_SENSE
+Text GLabel 2900 4450 0    60   Input ~ 0
 BATT_VOLTAGE
 Text Notes 700  4200 0    60   ~ 0
 V=(100*INPUT+47*INPUT)/100

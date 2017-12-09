@@ -60,17 +60,6 @@ F 3 "" H 1500 1100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L AC #PWR030
-U 1 1 5A1FF250
-P 1250 1100
-F 0 "#PWR030" H 1250 1000 50  0001 C CNN
-F 1 "AC" V 1250 1329 50  0000 L CNN
-F 2 "" H 1250 1100 50  0001 C CNN
-F 3 "" H 1250 1100 50  0001 C CNN
-	1    1250 1100
-	0    -1   -1   0   
-$EndComp
-$Comp
 L TLP185(SE U8
 U 1 1 5A1FF25C
 P 1800 2700
@@ -91,17 +80,6 @@ F 2 "mcous/kicad-lib/footprints/diode.pretty:DO-214AC" H 1500 3250 50  0001 C CN
 F 3 "" H 1500 3250 50  0001 C CNN
 	1    1500 3250
 	0    -1   -1   0   
-$EndComp
-$Comp
-L AC #PWR031
-U 1 1 5A1FF26A
-P 1500 2600
-F 0 "#PWR031" H 1500 2500 50  0001 C CNN
-F 1 "AC" H 1500 2875 50  0000 C CNN
-F 2 "" H 1500 2600 50  0001 C CNN
-F 3 "" H 1500 2600 50  0001 C CNN
-	1    1500 2600
-	1    0    0    -1  
 $EndComp
 $Comp
 L R R15
@@ -185,12 +163,12 @@ $EndComp
 $Comp
 L +3V3 #PWR035
 U 1 1 5A1FFDA9
-P 9300 3100
-F 0 "#PWR035" H 9300 2950 50  0001 C CNN
-F 1 "+3V3" H 9315 3273 50  0000 C CNN
-F 2 "" H 9300 3100 50  0001 C CNN
-F 3 "" H 9300 3100 50  0001 C CNN
-	1    9300 3100
+P 8200 3100
+F 0 "#PWR035" H 8200 2950 50  0001 C CNN
+F 1 "+3V3" H 8215 3273 50  0000 C CNN
+F 2 "" H 8200 3100 50  0001 C CNN
+F 3 "" H 8200 3100 50  0001 C CNN
+	1    8200 3100
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -461,108 +439,62 @@ $EndComp
 $Comp
 L R R20
 U 1 1 5A245A23
-P 8350 3250
-F 0 "R20" H 8420 3296 50  0000 L CNN
-F 1 "4.7k" H 8420 3205 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 8280 3250 50  0001 C CNN
-F 3 "" H 8350 3250 50  0001 C CNN
-	1    8350 3250
+P 9300 1250
+F 0 "R20" H 9370 1296 50  0000 L CNN
+F 1 "4.7k" H 9370 1205 50  0000 L CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 9230 1250 50  0001 C CNN
+F 3 "" H 9300 1250 50  0001 C CNN
+	1    9300 1250
 	1    0    0    -1  
 $EndComp
 $Comp
 L R R21
 U 1 1 5A245A89
-P 8350 3650
-F 0 "R21" H 8420 3696 50  0000 L CNN
-F 1 "10k" H 8420 3605 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 8280 3650 50  0001 C CNN
-F 3 "" H 8350 3650 50  0001 C CNN
-	1    8350 3650
+P 9300 1650
+F 0 "R21" H 9370 1696 50  0000 L CNN
+F 1 "10k" H 9370 1605 50  0000 L CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 9230 1650 50  0001 C CNN
+F 3 "" H 9300 1650 50  0001 C CNN
+	1    9300 1650
 	1    0    0    -1  
 $EndComp
 $Comp
 L R R23
 U 1 1 5A245B4A
-P 9150 3250
-F 0 "R23" H 9220 3296 50  0000 L CNN
-F 1 "4.7k" H 9220 3205 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 9080 3250 50  0001 C CNN
-F 3 "" H 9150 3250 50  0001 C CNN
-	1    9150 3250
+P 10100 1250
+F 0 "R23" H 10170 1296 50  0000 L CNN
+F 1 "4.7k" H 10170 1205 50  0000 L CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 10030 1250 50  0001 C CNN
+F 3 "" H 10100 1250 50  0001 C CNN
+	1    10100 1250
 	1    0    0    -1  
 $EndComp
 $Comp
 L R R24
 U 1 1 5A245B93
-P 9150 3650
-F 0 "R24" H 9220 3696 50  0000 L CNN
-F 1 "10k" H 9220 3605 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 9080 3650 50  0001 C CNN
-F 3 "" H 9150 3650 50  0001 C CNN
-	1    9150 3650
+P 10100 1650
+F 0 "R24" H 10170 1696 50  0000 L CNN
+F 1 "10k" H 10170 1605 50  0000 L CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 10030 1650 50  0001 C CNN
+F 3 "" H 10100 1650 50  0001 C CNN
+	1    10100 1650
 	1    0    0    -1  
 $EndComp
 $Comp
 L R R22
 U 1 1 5A246038
-P 8750 3100
-F 0 "R22" V 8543 3100 50  0000 C CNN
-F 1 "0.02" V 8634 3100 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 8680 3100 50  0001 C CNN
-F 3 "" H 8750 3100 50  0001 C CNN
-	1    8750 3100
+P 9700 1100
+F 0 "R22" V 9493 1100 50  0000 C CNN
+F 1 "0.02" V 9584 1100 50  0000 C CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 9630 1100 50  0001 C CNN
+F 3 "" H 9700 1100 50  0001 C CNN
+	1    9700 1100
 	0    1    1    0   
 $EndComp
-$Comp
-L GND #PWR047
-U 1 1 5A24633B
-P 8350 3950
-F 0 "#PWR047" H 8350 3700 50  0001 C CNN
-F 1 "GND" H 8355 3777 50  0000 C CNN
-F 2 "" H 8350 3950 50  0001 C CNN
-F 3 "" H 8350 3950 50  0001 C CNN
-	1    8350 3950
-	1    0    0    -1  
-$EndComp
-Text GLabel 8550 4100 3    60   Output ~ 0
-CURRENT_SENSE_1
-Text GLabel 8950 4100 3    60   Output ~ 0
-CURRENT_SENSE_2
-$Comp
-L R R16
-U 1 1 5A246B28
-P 5050 3250
-F 0 "R16" H 5120 3296 50  0000 L CNN
-F 1 "4.7k" H 5120 3205 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 4980 3250 50  0001 C CNN
-F 3 "" H 5050 3250 50  0001 C CNN
-	1    5050 3250
-	1    0    0    -1  
-$EndComp
-$Comp
-L R R17
-U 1 1 5A246B87
-P 5050 3600
-F 0 "R17" H 5120 3646 50  0000 L CNN
-F 1 "10k" H 5120 3555 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 4980 3600 50  0001 C CNN
-F 3 "" H 5050 3600 50  0001 C CNN
-	1    5050 3600
-	1    0    0    -1  
-$EndComp
-Text GLabel 4750 3500 3    60   Output ~ 0
+Text GLabel 9900 2100 3    60   Output ~ 0
+CURRENT_SENSE
+Text GLabel 9500 2100 3    60   Output ~ 0
 BATT_VOLTAGE
-$Comp
-L GND #PWR048
-U 1 1 5A246E28
-P 5050 3750
-F 0 "#PWR048" H 5050 3500 50  0001 C CNN
-F 1 "GND" H 5055 3577 50  0000 C CNN
-F 2 "" H 5050 3750 50  0001 C CNN
-F 3 "" H 5050 3750 50  0001 C CNN
-	1    5050 3750
-	1    0    0    -1  
-$EndComp
 $Comp
 L CP C17
 U 1 1 5A24B0B8
@@ -621,9 +553,9 @@ $EndComp
 Text GLabel 2450 3900 0    60   Input ~ 0
 ENABLE_BATT_POWER
 Text GLabel 1300 1200 0    60   Input ~ 0
-AC_NEUTRAL
+DYNAMO_NEUTRAL
 Text GLabel 1350 3500 0    60   Input ~ 0
-AC_NEUTRAL
+DYNAMO_NEUTRAL
 $Comp
 L R R30
 U 1 1 5A26A72F
@@ -686,12 +618,12 @@ $EndComp
 $Comp
 L +BATT #PWR043
 U 1 1 5A210C7A
-P 8250 1200
-F 0 "#PWR043" H 8250 1050 50  0001 C CNN
-F 1 "+BATT" H 8265 1373 50  0000 C CNN
-F 2 "" H 8250 1200 50  0001 C CNN
-F 3 "" H 8250 1200 50  0001 C CNN
-	1    8250 1200
+P 10250 1100
+F 0 "#PWR043" H 10250 950 50  0001 C CNN
+F 1 "+BATT" H 10265 1273 50  0000 C CNN
+F 2 "" H 10250 1100 50  0001 C CNN
+F 3 "" H 10250 1100 50  0001 C CNN
+	1    10250 1100
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -721,7 +653,7 @@ Wire Wire Line
 Wire Wire Line
 	3650 1250 4200 1250
 Wire Wire Line
-	7400 3100 8600 3100
+	8250 1100 9550 1100
 Wire Wire Line
 	7400 3200 7500 3200
 Wire Wire Line
@@ -738,8 +670,6 @@ Wire Wire Line
 Connection ~ 5650 1250
 Wire Wire Line
 	5450 3100 6700 3100
-Wire Wire Line
-	5450 3000 5450 3100
 Wire Wire Line
 	5450 3500 5450 3400
 Wire Wire Line
@@ -762,42 +692,31 @@ Wire Wire Line
 	6300 1750 6300 2200
 Wire Wire Line
 	6300 2200 6400 2200
-Connection ~ 8350 3100
+Connection ~ 9300 1100
 Wire Wire Line
-	8900 3100 9300 3100
+	9850 1100 10250 1100
 Wire Wire Line
-	8350 3400 8350 3500
+	9300 1400 9300 1500
 Wire Wire Line
-	9150 3400 9150 3500
-Connection ~ 9150 3100
+	10100 1400 10100 1500
+Connection ~ 10100 1100
 Wire Wire Line
-	8350 3800 8350 3950
+	9300 1800 9300 1950
 Wire Wire Line
-	8350 3850 9150 3850
+	9300 1850 10100 1850
 Wire Wire Line
-	9150 3850 9150 3800
-Connection ~ 8350 3850
+	10100 1850 10100 1800
+Connection ~ 9300 1850
 Wire Wire Line
-	8350 3450 8550 3450
+	9300 1450 9500 1450
 Wire Wire Line
-	8550 3450 8550 4100
-Connection ~ 8350 3450
+	9500 1450 9500 2100
+Connection ~ 9300 1450
 Wire Wire Line
-	8950 4100 8950 3450
+	9900 2100 9900 1450
 Wire Wire Line
-	8950 3450 9150 3450
-Connection ~ 9150 3450
-Wire Wire Line
-	5450 3050 5050 3050
-Wire Wire Line
-	5050 3050 5050 3100
-Connection ~ 5450 3050
-Wire Wire Line
-	5050 3400 5050 3450
-Wire Wire Line
-	5050 3450 4750 3450
-Wire Wire Line
-	4750 3450 4750 3500
+	9900 1450 10100 1450
+Connection ~ 10100 1450
 Wire Wire Line
 	7300 1250 8400 1250
 Wire Wire Line
@@ -853,7 +772,7 @@ Wire Wire Line
 Wire Wire Line
 	5200 600  5200 1250
 Wire Wire Line
-	8250 1200 8250 1250
+	8250 1100 8250 1250
 Connection ~ 8250 1250
 Wire Wire Line
 	7300 1500 7450 1500
@@ -886,4 +805,23 @@ $EndComp
 Text Label 5950 1250 0    60   ~ 0
 +Dynamo
 Connection ~ 7050 3500
+Wire Wire Line
+	7400 3100 8200 3100
+Wire Wire Line
+	5450 3000 5450 3100
+$Comp
+L GNDPWR #PWR020
+U 1 1 5A2C7A67
+P 9300 1950
+F 0 "#PWR020" H 9300 1750 50  0001 C CNN
+F 1 "GNDPWR" H 9304 2024 50  0000 C CNN
+F 2 "" H 9300 1900 50  0001 C CNN
+F 3 "" H 9300 1900 50  0001 C CNN
+	1    9300 1950
+	1    0    0    -1  
+$EndComp
+Text GLabel 1250 1100 0    60   Input ~ 0
+DYNAMO_AC
+Text GLabel 1500 2600 0    60   Input ~ 0
+DYNAMO_AC
 $EndSCHEMATC
