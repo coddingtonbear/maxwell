@@ -40,6 +40,7 @@ void setup() {
     commands.addCommand("voltage", voltageMeasurement);
     commands.addCommand("charging", isChargingNow);
     commands.addCommand("current", currentUsage);
+    commands.addCommand("aux", auxDevicesEnable);
 
     commands.addCommand("btcmd", bluetooth);
     commands.addCommand("reset", reset);
@@ -94,6 +95,21 @@ void beep() {
     }
 
     tone(BUZZER, frequency, duration); 
+}
+
+void auxDevicesEnable(){
+    int enable = 1;
+    char* state = commands.next();
+    if(state != NULL) {
+        enable = atoi(state);
+    }
+
+    digitalWrite(ENABLE_AUX_DEVICES, enable);
+    if(enable) {
+        Serial.println("Auxiliary devices enabled.");
+    } else {
+        Serial.println("Auxiliary devices disabled.");
+    }
 }
 
 void isChargingNow() {

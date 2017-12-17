@@ -48,7 +48,7 @@ F 3 "" H 9150 3450 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	8500 3450 9000 3450
+	8500 3450 8900 3450
 Wire Wire Line
 	9400 3450 9300 3450
 Text GLabel 9300 3550 2    60   BiDi ~ 0
@@ -127,7 +127,7 @@ F 3 "" H 1950 3650 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2150 3450 2150 3750
+	2150 3450 2150 3600
 Wire Wire Line
 	1950 3650 1950 3600
 Wire Wire Line
@@ -178,7 +178,7 @@ F 3 "" H 1950 5400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2150 5250 2150 5550
+	2150 5250 2150 5400
 Wire Wire Line
 	1950 5400 2150 5400
 Connection ~ 2150 5400
@@ -196,7 +196,7 @@ $EndComp
 Wire Wire Line
 	5500 5850 5500 6050
 Wire Wire Line
-	5500 6050 5900 6050
+	5500 6050 5600 6050
 Wire Wire Line
 	5600 5850 5600 6050
 Connection ~ 5600 6050
@@ -235,7 +235,7 @@ F 3 "" H 2350 2250 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2800 2250 2900 2250
+	2800 2250 2850 2250
 Wire Wire Line
 	2500 2250 2350 2250
 $Comp
@@ -316,24 +316,24 @@ F 3 "" H 5200 1750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5900 1650 5900 1850
+	5900 1650 5900 1750
 Wire Wire Line
-	5800 1650 5800 1850
+	5800 1650 5800 1750
 Wire Wire Line
-	5700 1650 5700 1850
+	5700 1650 5700 1750
 Wire Wire Line
-	5600 1650 5600 1850
+	5600 1650 5600 1750
 Wire Wire Line
-	5500 1650 5500 1850
+	5500 1650 5500 1750
 Wire Wire Line
-	5200 1750 5900 1750
+	5200 1750 5500 1750
 Connection ~ 5500 1750
 Connection ~ 5600 1750
 Connection ~ 5700 1750
 Connection ~ 5800 1750
 Connection ~ 5900 1750
 Wire Wire Line
-	5500 1350 5900 1350
+	5500 1350 5600 1350
 Connection ~ 5800 1350
 Connection ~ 5700 1350
 Connection ~ 5600 1350
@@ -446,14 +446,14 @@ Wire Wire Line
 Wire Wire Line
 	2800 5550 2450 5550
 Wire Wire Line
-	2450 3450 2800 3450
+	2450 3450 2700 3450
 Wire Wire Line
 	2800 3450 2800 3550
 Wire Wire Line
 	2800 3550 2900 3550
 Connection ~ 2700 3450
 Wire Wire Line
-	2450 3750 2800 3750
+	2450 3750 2700 3750
 Wire Wire Line
 	2800 3750 2800 3650
 Wire Wire Line
@@ -463,4 +463,46 @@ Text GLabel 8500 4050 2    60   Input ~ 0
 DYNAMO_VOLTAGE
 Text GLabel 8500 5350 2    60   Output ~ 0
 ~BATT_CHARGE_ENABLE
+Wire Wire Line
+	8900 3450 9000 3450
+Wire Wire Line
+	2150 3600 2150 3750
+Wire Wire Line
+	2150 5400 2150 5550
+Wire Wire Line
+	5600 6050 5700 6050
+Wire Wire Line
+	5700 6050 5800 6050
+Wire Wire Line
+	5800 6050 5900 6050
+Wire Wire Line
+	5500 1750 5500 1850
+Wire Wire Line
+	5500 1750 5600 1750
+Wire Wire Line
+	5600 1750 5600 1850
+Wire Wire Line
+	5600 1750 5700 1750
+Wire Wire Line
+	5700 1750 5700 1850
+Wire Wire Line
+	5700 1750 5800 1750
+Wire Wire Line
+	5800 1750 5800 1850
+Wire Wire Line
+	5800 1750 5900 1750
+Wire Wire Line
+	5900 1750 5900 1850
+Wire Wire Line
+	5800 1350 5900 1350
+Wire Wire Line
+	5700 1350 5800 1350
+Wire Wire Line
+	5600 1350 5700 1350
+Wire Wire Line
+	2850 2250 2900 2250
+Wire Wire Line
+	2700 3450 2800 3450
+Wire Wire Line
+	2700 3750 2800 3750
 $EndSCHEMATC

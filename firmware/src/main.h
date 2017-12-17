@@ -35,3 +35,4 @@ void voltageMeasurement();
 void isChargingNow();
 void currentUsage();
 void beep();
+void auxDevicesEnable();
