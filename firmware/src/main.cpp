@@ -26,15 +26,45 @@ void setup() {
     digitalWrite(USB_ENABLE_, LOW);
     digitalWrite(BT_KEY, LOW);
 
-    Serial.begin(115200);
+    Serial.begin(230400, SERIAL_8E1);
 
     commands.addCommand("ping", hello);
     commands.addCommand("btcmd", bluetooth);
     commands.addCommand("uptime", uptime);
-    commands.addCommand("reset", reset);
+    commands.addCommand("flash", programmingMode);
+    commands.addCommand("charging", isChargingNow);
+    commands.addCommand("current", currentUsage);
+    commands.addCommand("voltage", voltageMeasurement);
     commands.setDefaultHandler(unrecognized);
 
-    Serial.println("Ready");
+    Serial.println("[Maxwell 1.0]");
+    commands.prompt();
+}
+
+void isChargingNow() {
+    if(!digitalRead(I_BATTERY_CHARGING_)) {
+        Serial.println("Yes");
+    } else {
+        Serial.println("No");
+    }
+}
+
+void currentUsage() {
+    Serial.println(getCurrentUsage());
+}
+
+void voltageMeasurement() {
+    String source = String((char*)commands.next());
+
+    if(source == "dynamo") {
+        Serial.println(getVoltage(VOLTAGE_DYNAMO));
+    } else if(source == "battery") {
+        Serial.println(getVoltage(VOLTAGE_BATTERY));
+    } else if(source == "sense") {
+        Serial.println(getVoltage(VOLTAGE_SENSE));
+    } else {
+        Serial.println("Unknown source: " + source);
+    }
 }
 
 void unrecognized(const char *command) {
@@ -46,17 +76,32 @@ void uptime() {
     Serial.println(millis());
 }
 
-void reset() {
+void programmingMode() {
+    Serial.println("Resetting device...");
+    Serial.flush();
+    delay(100);
+
+    // Note that resetting while connected via Bluetooth will
+    // cause the device to enter flash mode due to to the BT module's
+    // 'connected device' line being connected to the BOOT0 net.
     nvic_sys_reset();
 }
 
 void hello() {
-    Serial.println("pong");
+    char *arg;
+    arg = commands.next();
+
+    Serial.print("pong");
+    if (arg != NULL) {
+        Serial.print(' ');
+        Serial.print(String(arg));
+    }
+    Serial.println();
 }
 
 void bluetooth() {
-    digitalWrite(BT_KEY, HIGH);
-    delay(100);
+
+    String btcommand;
 
     char *arg;
     bool firstArg = true;
@@ -67,19 +112,33 @@ void bluetooth() {
         }
 
         if (!firstArg) {
-            Serial.print(' ');
+            btcommand += " ";
         }
         firstArg = false;
-        Serial.print(*arg);
+        btcommand += String(arg);
     }
-    Serial.print("\r\n");
+    Serial.flush();
 
-    delay(1000);
+    delay(100);
+    digitalWrite(BT_KEY, HIGH);
+    delay(100);
+    Serial.println(btcommand);
+    Serial.flush();
+    delay(100);
     digitalWrite(BT_KEY, LOW);
+    delay(100);
 
-    while(Serial.available() > 0) {
-        Serial.print((char)Serial.read());
+    uint32 started = millis();
+
+    Serial.flush();
+    while(millis() < started + 1000) {
+        while(Serial.available() > 0) {
+            Serial.print((char)Serial.read());
+            Serial.flush();
+        }
     }
+    Serial.flush();
+    delay(100);
 }
 
 void loop() {

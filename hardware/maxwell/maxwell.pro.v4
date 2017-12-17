@@ -1,4 +1,4 @@
-update=Saturday, December 16, 2017 'PMt' 06:16:16 PM
+update=Saturday, December 16, 2017 'PMt' 06:16:14 PM
 version=1
 last_client=kicad
 [general]
@@ -30,3 +30,5 @@ NetIExt=net
 [eeschema]
 version=1
 LibDir=
+[eeschema/libraries]
+LibName1=maxwell-rescue

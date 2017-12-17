@@ -56,6 +56,11 @@ void SerialCommand::addCommand(const char *command, void (*function)()) {
   commandCount++;
 }
 
+void SerialCommand::prompt() {
+  Serial.println();
+  Serial.print(SERIALCOMMAND_PROMPT);
+}
+
 /**
  * This sets up a handler to be called in the event that the receveived command string
  * isn't in the list of commands.
@@ -73,9 +78,7 @@ void SerialCommand::setDefaultHandler(void (*function)(const char *)) {
 void SerialCommand::readSerial() {
   while (Serial.available() > 0) {
     char inChar = Serial.read();   // Read single available character, there may be more waiting
-    #ifdef SERIALCOMMAND_DEBUG
-      Serial.print(inChar);   // Echo back to serial stream
-    #endif
+    Serial.print(inChar);   // Echo back to serial stream
 
     if (inChar == term) {     // Check for the terminator (default '\r') meaning end of command
       #ifdef SERIALCOMMAND_DEBUG
@@ -113,6 +116,7 @@ void SerialCommand::readSerial() {
         }
       }
       clearBuffer();
+      prompt();
     }
     else if (isprint(inChar)) {     // Only printable characters into the buffer
       if (bufPos < SERIALCOMMAND_BUFFER) {

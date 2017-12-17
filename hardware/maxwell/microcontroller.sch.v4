@@ -1,4 +1,38 @@
-EESchema Schematic File Version 4
+EESchema Schematic File Version 3
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:stm32
+LIBS:coddingtonbear
+LIBS:mcp73831t
+LIBS:custom
+LIBS:w_rtx
 LIBS:maxwell-cache
 EELAYER 26 0
 EELAYER END
@@ -15,7 +49,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L maxwell-rescue:STM32F103RETx-RESCUE-maxwell U7
+L STM32F103RETx U7
 U 1 1 5A1FCF5C
 P 5700 3850
 F 0 "U7" H 5700 6028 50  0000 C CNN
@@ -26,7 +60,7 @@ F 3 "" H 5700 3850 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L maxwell-rescue:+3V3-RESCUE-maxwell #PWR022
+L +3V3 #PWR022
 U 1 1 5A1FCF63
 P 9400 3450
 F 0 "#PWR022" H 9400 3300 50  0001 C CNN
@@ -37,7 +71,7 @@ F 3 "" H 9400 3450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L maxwell-rescue:R-RESCUE-maxwell R12
+L R R12
 U 1 1 5A1FCF69
 P 9150 3450
 F 0 "R12" V 8943 3450 50  0000 C CNN
@@ -61,7 +95,7 @@ Connection ~ 8900 3450
 Text GLabel 9550 3350 2    60   BiDi ~ 0
 USB-
 $Comp
-L maxwell-rescue:R-RESCUE-maxwell R13
+L R R13
 U 1 1 5A1FCF77
 P 9150 3550
 F 0 "R13" V 9357 3550 50  0000 C CNN
@@ -72,7 +106,7 @@ F 3 "" H 9150 3550 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L maxwell-rescue:R-RESCUE-maxwell R11
+L R R11
 U 1 1 5A1FCF7E
 P 9400 3350
 F 0 "R11" V 9607 3350 50  0000 C CNN
@@ -83,7 +117,7 @@ F 3 "" H 9400 3350 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L maxwell-rescue:Crystal-RESCUE-maxwell Y2
+L Crystal Y2
 U 1 1 5A1FCF85
 P 2450 3600
 F 0 "Y2" V 2404 3731 50  0000 L CNN
@@ -94,7 +128,7 @@ F 3 "" H 2450 3600 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L maxwell-rescue:C-RESCUE-maxwell C6
+L C C6
 U 1 1 5A1FCF8C
 P 2300 3450
 F 0 "C6" V 2048 3450 50  0000 C CNN
@@ -105,7 +139,7 @@ F 3 "" H 2300 3450 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L maxwell-rescue:C-RESCUE-maxwell C7
+L C C7
 U 1 1 5A1FCF93
 P 2300 3750
 F 0 "C7" V 2048 3750 50  0000 C CNN
@@ -116,7 +150,7 @@ F 3 "" H 2300 3750 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L maxwell-rescue:GND-RESCUE-maxwell #PWR023
+L GND #PWR023
 U 1 1 5A1FCF9A
 P 1950 3650
 F 0 "#PWR023" H 1950 3400 50  0001 C CNN
@@ -134,7 +168,7 @@ Wire Wire Line
 	1950 3600 2150 3600
 Connection ~ 2150 3600
 $Comp
-L maxwell-rescue:Crystal-RESCUE-maxwell Y3
+L Crystal Y3
 U 1 1 5A1FCFAA
 P 2450 5400
 F 0 "Y3" V 2404 5531 50  0000 L CNN
@@ -145,7 +179,7 @@ F 3 "" H 2450 5400 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L maxwell-rescue:C-RESCUE-maxwell C8
+L C C8
 U 1 1 5A1FCFB1
 P 2300 5250
 F 0 "C8" V 2048 5250 50  0000 C CNN
@@ -156,7 +190,7 @@ F 3 "" H 2300 5250 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L maxwell-rescue:C-RESCUE-maxwell C9
+L C C9
 U 1 1 5A1FCFB8
 P 2300 5550
 F 0 "C9" V 2048 5550 50  0000 C CNN
@@ -167,7 +201,7 @@ F 3 "" H 2300 5550 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L maxwell-rescue:GND-RESCUE-maxwell #PWR024
+L GND #PWR024
 U 1 1 5A1FCFBF
 P 1950 5400
 F 0 "#PWR024" H 1950 5150 50  0001 C CNN
@@ -183,7 +217,7 @@ Wire Wire Line
 	1950 5400 2150 5400
 Connection ~ 2150 5400
 $Comp
-L maxwell-rescue:GND-RESCUE-maxwell #PWR025
+L GND #PWR025
 U 1 1 5A1FCFCE
 P 5700 6050
 F 0 "#PWR025" H 5700 5800 50  0001 C CNN
@@ -213,7 +247,7 @@ BOOT1
 Text GLabel 2900 2450 0    60   BiDi ~ 0
 BOOT0
 $Comp
-L maxwell-rescue:R-RESCUE-maxwell R10
+L R R10
 U 1 1 5A1FCFDF
 P 2650 2250
 F 0 "R10" V 2443 2250 50  0000 C CNN
@@ -224,7 +258,7 @@ F 3 "" H 2650 2250 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L maxwell-rescue:+3V3-RESCUE-maxwell #PWR026
+L +3V3 #PWR026
 U 1 1 5A1FCFE6
 P 2350 2250
 F 0 "#PWR026" H 2350 2100 50  0001 C CNN
@@ -239,7 +273,7 @@ Wire Wire Line
 Wire Wire Line
 	2500 2250 2350 2250
 $Comp
-L maxwell-rescue:C-RESCUE-maxwell C10
+L C C10
 U 1 1 5A1FCFEE
 P 5500 1500
 F 0 "C10" H 5385 1454 50  0000 R CNN
@@ -250,7 +284,7 @@ F 3 "" H 5500 1500 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L maxwell-rescue:C-RESCUE-maxwell C11
+L C C11
 U 1 1 5A1FCFF5
 P 5600 1500
 F 0 "C11" H 5485 1454 50  0000 R CNN
@@ -261,7 +295,7 @@ F 3 "" H 5600 1500 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L maxwell-rescue:C-RESCUE-maxwell C12
+L C C12
 U 1 1 5A1FCFFC
 P 5700 1500
 F 0 "C12" H 5585 1454 50  0000 R CNN
@@ -272,7 +306,7 @@ F 3 "" H 5700 1500 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L maxwell-rescue:C-RESCUE-maxwell C13
+L C C13
 U 1 1 5A1FD003
 P 5800 1500
 F 0 "C13" H 5685 1454 50  0000 R CNN
@@ -283,7 +317,7 @@ F 3 "" H 5800 1500 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L maxwell-rescue:C-RESCUE-maxwell C14
+L C C14
 U 1 1 5A1FD00A
 P 5900 1500
 F 0 "C14" H 5785 1454 50  0000 R CNN
@@ -294,7 +328,7 @@ F 3 "" H 5900 1500 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L maxwell-rescue:GND-RESCUE-maxwell #PWR027
+L GND #PWR027
 U 1 1 5A1FD011
 P 5700 1200
 F 0 "#PWR027" H 5700 950 50  0001 C CNN
@@ -305,7 +339,7 @@ F 3 "" H 5700 1200 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L maxwell-rescue:+3V3-RESCUE-maxwell #PWR028
+L +3V3 #PWR028
 U 1 1 5A1FD017
 P 5200 1750
 F 0 "#PWR028" H 5200 1600 50  0001 C CNN
@@ -340,7 +374,7 @@ Connection ~ 5600 1350
 Wire Wire Line
 	5700 1200 5700 1350
 $Comp
-L maxwell-rescue:+3V3-RESCUE-maxwell #PWR029
+L +3V3 #PWR029
 U 1 1 5A1FD02D
 P 2700 2650
 F 0 "#PWR029" H 2700 2500 50  0001 C CNN
@@ -404,7 +438,7 @@ Connection ~ 2850 2250
 Text GLabel 8500 4850 2    60   Output ~ 0
 ENABLE_BATT_POWER
 $Comp
-L maxwell-rescue:R-RESCUE-maxwell R26
+L R R26
 U 1 1 5A260AAF
 P 8650 3950
 F 0 "R26" V 8443 3950 50  0000 C CNN
@@ -423,7 +457,7 @@ USB_PRER+
 Text GLabel 8500 2250 2    60   Input ~ 0
 CAN_INT
 $Comp
-L maxwell-rescue:R-RESCUE-maxwell R33
+L R R33
 U 1 1 5A2732F7
 P 2700 3600
 F 0 "R33" V 2493 3600 50  0000 C CNN
