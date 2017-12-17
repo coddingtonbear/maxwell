@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <SerialCommand.h>
+#include <mcp2515.h>
 
+#include "can_message_ids.h"
 #include "power.h"
 
 // CAN
@@ -25,9 +27,11 @@ void loop();
 
 void unrecognized(const char *command);
 void uptime();
+void reset();
 void programmingMode();
 void hello();
 void bluetooth();
 void voltageMeasurement();
 void isChargingNow();
 void currentUsage();
+void beep();

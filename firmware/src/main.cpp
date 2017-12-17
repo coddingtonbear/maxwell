@@ -1,10 +1,14 @@
 #include "main.h"
 
 SerialCommand commands;
+MCP2515 canbus((const uint8_t)CAN_CS);
+
+unsigned int lastMessage = 0;
 
 void setup() {
     pinMode(I_CAN_INT, INPUT);
     pinMode(CAN_CS, OUTPUT);
+    digitalWrite(CAN_CS, HIGH);
 
     pinMode(POWER_ON, OUTPUT);
     pinMode(ENABLE_AUX_DEVICES, OUTPUT);
@@ -27,18 +31,69 @@ void setup() {
     digitalWrite(BT_KEY, LOW);
 
     Serial.begin(230400, SERIAL_8E1);
+    canbus.begin();
 
-    commands.addCommand("ping", hello);
-    commands.addCommand("btcmd", bluetooth);
     commands.addCommand("uptime", uptime);
-    commands.addCommand("flash", programmingMode);
+    commands.addCommand("ping", hello);
+    commands.addCommand("beep", beep);
+
+    commands.addCommand("voltage", voltageMeasurement);
     commands.addCommand("charging", isChargingNow);
     commands.addCommand("current", currentUsage);
-    commands.addCommand("voltage", voltageMeasurement);
+
+    commands.addCommand("btcmd", bluetooth);
+    commands.addCommand("reset", reset);
+    commands.addCommand("flash", programmingMode);
+
     commands.setDefaultHandler(unrecognized);
 
     Serial.println("[Maxwell 1.0]");
     commands.prompt();
+
+    canbus.reset();
+    canbus.setBitrate(CAN_10KBPS);
+    canbus.setNormalMode();
+}
+
+void reset() {
+    Serial.println(
+        "Disconnect within 5 seconds to prevent booting into Flash mode..."
+    );
+    Serial.print("5...");
+    Serial.flush();
+    delay(1000);
+    Serial.print("4...");
+    Serial.flush();
+    delay(1000);
+    Serial.print("3...");
+    Serial.flush();
+    delay(1000);
+    Serial.print("2...");
+    Serial.flush();
+    delay(1000);
+    Serial.println("1...");
+    Serial.flush();
+    delay(1000);
+    Serial.println("Resetting device...");
+    Serial.flush();
+
+    nvic_sys_reset();
+}
+
+void beep() {
+    int frequency = 554;
+    int duration = 100;
+    
+    char* frequencyString = commands.next();
+    if(frequencyString != NULL) {
+        frequency = atoi(frequencyString);
+    }
+    char* durationString = commands.next();
+    if(durationString != NULL) {
+        duration = atoi(durationString);
+    }
+
+    tone(BUZZER, frequency, duration); 
 }
 
 void isChargingNow() {
@@ -119,14 +174,14 @@ void bluetooth() {
     }
     Serial.flush();
 
-    delay(100);
+    delay(250);
     digitalWrite(BT_KEY, HIGH);
-    delay(100);
+    delay(250);
     Serial.println(btcommand);
     Serial.flush();
-    delay(100);
+    delay(250);
     digitalWrite(BT_KEY, LOW);
-    delay(100);
+    delay(250);
 
     uint32 started = millis();
 
@@ -143,4 +198,34 @@ void bluetooth() {
 
 void loop() {
     commands.readSerial();
+
+    if(lastMessage == 0 || millis() > lastMessage + 1000) {
+        struct can_frame voltage_frame;
+        MCP2515::ERROR error;
+        double voltage;
+        unsigned char *voltageBytes;
+
+        voltage = getVoltage(VOLTAGE_BATTERY);
+        voltageBytes = reinterpret_cast<unsigned char *>(&voltage);
+        voltage_frame.can_id = CAN_VOLTAGE_BATTERY;
+        voltage_frame.can_dlc = sizeof(double);
+        strcpy((char*)voltageBytes, (char*)voltage_frame.data);
+        error = canbus.sendMessage(&voltage_frame);
+
+        voltage = getVoltage(VOLTAGE_DYNAMO);
+        voltageBytes = reinterpret_cast<unsigned char *>(&voltage);
+        voltage_frame.can_id = CAN_VOLTAGE_DYNAMO;
+        voltage_frame.can_dlc = sizeof(double);
+        strcpy((char*)voltageBytes, (char*)voltage_frame.data);
+        error = canbus.sendMessage(&voltage_frame);
+
+        voltage = getVoltage(VOLTAGE_SENSE);
+        voltageBytes = reinterpret_cast<unsigned char *>(&voltage);
+        voltage_frame.can_id = CAN_VOLTAGE_SENSE;
+        voltage_frame.can_dlc = sizeof(double);
+        strcpy((char*)voltageBytes, (char*)voltage_frame.data);
+        error = canbus.sendMessage(&voltage_frame);
+
+        lastMessage = millis();
+    }
 }
