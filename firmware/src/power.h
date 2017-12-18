@@ -20,3 +20,5 @@
 int getRawVoltageAdcValue(uint source);
 double getVoltage(uint source);
 double getCurrentUsage();
+void enableBatteryCharging(bool);
+void enableAuxDevices(bool);

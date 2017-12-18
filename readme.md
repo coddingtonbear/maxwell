@@ -24,3 +24,12 @@ See `can_message_ids.h` for a complete list.
 # Handled Messages
 
 None yet
+
+
+## Errata
+
+*Note* None of these have been corrected in the schematics.
+
+* Neglected to add P-Channel MOSFET-based polarity protection to the board.  Added now via a small board; see `maxwell-polarity`. Note that even *that* board is incorrect in that the input and output sides are swapped, and the button does not properly turn the MOSFET off.
+* Battery and Sense resistors used GNDPWR as their ground reference, but GNDPWR is intentionally turned off to save power sometimes.  In the case of a voltage divider, that means that the microcontroller would see the full voltage of the battery (exceeding maximum ratings).
+* I used the wrong footprint for the LT1529, so I've had to bend the pins in unreasonable ways to fit.

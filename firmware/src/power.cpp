@@ -47,3 +47,21 @@ double getCurrentUsage() {
 
     return (battery - sense)/SENSE_RESISTOR_VALUE;
 }
+
+
+void enableBatteryCharging(bool enable) {
+    if(enable) {
+        digitalWrite(ENABLE_BATT_CHARGE_, HIGH);
+    } else {
+        digitalWrite(ENABLE_BATT_CHARGE_, LOW);
+    }
+}
+
+
+void enableAuxDevices(bool enable) {
+    if(enable) {
+        digitalWrite(ENABLE_AUX_DEVICES, HIGH);
+    } else {
+        digitalWrite(ENABLE_AUX_DEVICES, LOW);
+    }
+}
