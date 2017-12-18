@@ -1,0 +1,95 @@
+EESchema Schematic File Version 4
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L FPGMMOPA6H.lib:FGPMMOPA6H U?
+U 1 1 5A3AA11C
+P 7300 1800
+F 0 "U?" H 6900 2637 60  0000 C CNN
+F 1 "FGPMMOPA6H" H 6900 2531 60  0000 C CNN
+F 2 "" H 6900 2400 60  0000 C CNN
+F 3 "" H 6900 2400 60  0000 C CNN
+	1    7300 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L atmel:ATMEGA1284-AU U?
+U 1 1 5A3AA406
+P 2300 3050
+F 0 "U?" H 2300 5228 50  0000 C CNN
+F 1 "ATMEGA1284-AU" H 2300 5137 50  0000 C CNN
+F 2 "TQFP44" H 2300 3050 50  0001 C CIN
+F 3 "http://www.atmel.com/Images/Atmel-8272-8-bit-AVR-microcontroller-ATmega164A_PA-324A_PA-644A_PA-1284_P_datasheet.pdf" H 2300 3050 50  0001 C CNN
+	1    2300 3050
+	1    0    0    -1  
+$EndComp
+$Comp
+L coddingtonbear:MCP2515-E/ST-SOIC U?
+U 1 1 5A3AA742
+P 6900 3950
+F 0 "U?" H 6900 4928 50  0000 C CNN
+F 1 "MCP2515-E/ST-SOIC" H 6900 4837 50  0000 C CNN
+F 2 "" H 6900 3050 50  0001 C CIN
+F 3 "" H 7000 3150 50  0001 C CNN
+	1    6900 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L interface:SN65HVD235 U?
+U 1 1 5A3AA892
+P 8750 3500
+F 0 "U?" H 8750 3978 50  0000 C CNN
+F 1 "SN65HVD235" H 8750 3887 50  0000 C CNN
+F 2 "Housings_SOIC:SOIC-8_3.9x4.9mm_Pitch1.27mm" H 8750 3000 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/sn65hvd234.pdf" H 8650 3900 50  0001 C CNN
+	1    8750 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L coddingtonbear:OLED-SSD1306 U?
+U 1 1 5A3AAF00
+P 4500 1400
+F 0 "U?" H 4728 1358 60  0000 L CNN
+F 1 "OLED-SSD1306" H 4728 1252 60  0000 L CNN
+F 2 "" H 4350 1400 60  0001 C CNN
+F 3 "" H 4350 1400 60  0001 C CNN
+	1    4500 1400
+	1    0    0    -1  
+$EndComp
+$Comp
+L device:Battery_Cell BT?
+U 1 1 5A3AB2CC
+P 9450 1650
+F 0 "BT?" H 9568 1746 50  0000 L CNN
+F 1 "Battery_Cell" H 9568 1655 50  0000 L CNN
+F 2 "" V 9450 1710 50  0001 C CNN
+F 3 "" V 9450 1710 50  0001 C CNN
+	1    9450 1650
+	1    0    0    -1  
+$EndComp
+$Comp
+L cvra:LTC4412 U?
+U 1 1 5A3AB4C7
+P 9400 2400
+F 0 "U?" H 9425 2765 50  0000 C CNN
+F 1 "LTC4412" H 9425 2674 50  0000 C CNN
+F 2 "MODULE" H 9400 2400 50  0001 C CNN
+F 3 "DOCUMENTATION" H 9400 2400 50  0001 C CNN
+	1    9400 2400
+	1    0    0    -1  
+$EndComp
+Text Notes 4400 4000 0    60   ~ 0
+add MIC5209
+$EndSCHEMATC
