@@ -615,7 +615,7 @@ Text GLabel 5100 5700 0    60   BiDi ~ 0
 MISO
 Text GLabel 5100 5900 0    60   BiDi ~ 0
 SCK
-Text GLabel 3300 4400 2    60   Output ~ 0
+Text GLabel 3150 5000 2    60   Output ~ 0
 CAN_CS
 Text GLabel 5100 5800 0    60   Input ~ 0
 CAN_CS
@@ -879,13 +879,13 @@ Text GLabel 3150 5600 2    60   BiDi ~ 0
 SCL
 Text GLabel 3150 5700 2    60   BiDi ~ 0
 SDA
-Text GLabel 3300 4100 2    60   BiDi ~ 0
+Text GLabel 3150 4900 2    60   BiDi ~ 0
 WAKE
-Text GLabel 3300 3800 2    60   Output ~ 0
+Text GLabel 3150 4100 2    60   Output ~ 0
 ~DISABLE_REGULATOR
-Text GLabel 3300 3900 2    60   Input ~ 0
+Text GLabel 3150 4000 2    60   Input ~ 0
 BACKUP_POWER
-Text GLabel 3300 4200 2    60   Input ~ 0
+Text GLabel 3150 5100 2    60   Input ~ 0
 CAN_INT
 Text GLabel 6300 6200 2    60   Output ~ 0
 CAN_INT
@@ -977,7 +977,7 @@ Wire Wire Line
 	9450 2450 9450 2500
 Text GLabel 9400 2150 0    60   Input ~ 0
 ENABLE_SCREEN
-Text GLabel 3300 4000 2    60   Output ~ 0
+Text GLabel 3150 5800 2    60   Output ~ 0
 ENABLE_SCREEN
 Wire Wire Line
 	9400 2150 9450 2150
@@ -1307,13 +1307,13 @@ Text GLabel 6200 3500 3    60   Output ~ 0
 ~RIGHT_A
 Text GLabel 6300 3500 3    60   Output ~ 0
 ~RIGHT_B
-Text GLabel 3300 4500 2    60   Input ~ 0
+Text GLabel 3150 4400 2    60   Input ~ 0
 ~LEFT_A
-Text GLabel 3300 4700 2    60   Input ~ 0
+Text GLabel 3150 4500 2    60   Input ~ 0
 ~LEFT_B
-Text GLabel 3300 4800 2    60   Input ~ 0
+Text GLabel 3150 4200 2    60   Input ~ 0
 ~RIGHT_A
-Text GLabel 3300 4900 2    60   Input ~ 0
+Text GLabel 3150 4300 2    60   Input ~ 0
 ~RIGHT_B
 Wire Wire Line
 	10500 6250 10550 6250
