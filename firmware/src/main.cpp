@@ -38,7 +38,7 @@ void setup() {
     commandPrompt();
 
     canbus.reset();
-    canbus.setBitrate(CAN_10KBPS);
+    canbus.setBitrate(CAN_500KBPS);
     canbus.setNormalMode();
 
     ledSetup();
@@ -79,32 +79,81 @@ void loop() {
     ledCycle();
     commandLoop();
 
+    struct can_frame recvFrame;
+    if(canbus.readMessage(&recvFrame) == MCP2515::ERROR_OK) {
+        Serial.print("Received CAN Message: ");
+        Serial.print(recvFrame.can_id, HEX);
+        Serial.print(" (");
+        Serial.print(recvFrame.can_dlc);
+        Serial.print(")");
+
+        for (uint8_t i = 0; i < recvFrame.can_dlc; i++) {
+            Serial.print(recvFrame.data[i], HEX);
+            Serial.print(" ");
+        }
+        Serial.println("");
+    }
+
     if(lastMessage == 0 || millis() > lastMessage + 1000) {
-        struct can_frame voltage_frame;
+        Serial.println(millis());
         MCP2515::ERROR error;
         double voltage;
         unsigned char *voltageBytes;
 
+        struct can_frame batteryVoltageFrame;
         voltage = getVoltage(VOLTAGE_BATTERY);
         voltageBytes = reinterpret_cast<unsigned char *>(&voltage);
-        voltage_frame.can_id = CAN_VOLTAGE_BATTERY;
-        voltage_frame.can_dlc = sizeof(double);
-        strcpy((char*)voltageBytes, (char*)voltage_frame.data);
-        error = canbus.sendMessage(&voltage_frame);
+        batteryVoltageFrame.can_id = CAN_VOLTAGE_BATTERY;
+        batteryVoltageFrame.can_dlc = sizeof(double);
+        strcpy((char*)voltageBytes, (char*)batteryVoltageFrame.data);
+        error = canbus.sendMessage(&batteryVoltageFrame);
+        if(error != MCP2515::ERROR_OK) {
+            Serial.print("ERR: ");
+            Serial.println(error, DEC);
+        }
+        delay(50);
 
+        struct can_frame dynamoVoltageFrame;
         voltage = getVoltage(VOLTAGE_DYNAMO);
         voltageBytes = reinterpret_cast<unsigned char *>(&voltage);
-        voltage_frame.can_id = CAN_VOLTAGE_DYNAMO;
-        voltage_frame.can_dlc = sizeof(double);
-        strcpy((char*)voltageBytes, (char*)voltage_frame.data);
-        error = canbus.sendMessage(&voltage_frame);
+        dynamoVoltageFrame.can_id = CAN_VOLTAGE_DYNAMO;
+        dynamoVoltageFrame.can_dlc = sizeof(double);
+        strcpy((char*)voltageBytes, (char*)dynamoVoltageFrame.data);
+        error = canbus.sendMessage(&dynamoVoltageFrame);
+        if(error != MCP2515::ERROR_OK) {
+            Serial.print("ERR: ");
+            Serial.println(error, DEC);
+        }
+        delay(50);
 
+        struct can_frame senseVoltageFrame;
         voltage = getVoltage(VOLTAGE_SENSE);
         voltageBytes = reinterpret_cast<unsigned char *>(&voltage);
-        voltage_frame.can_id = CAN_VOLTAGE_SENSE;
-        voltage_frame.can_dlc = sizeof(double);
-        strcpy((char*)voltageBytes, (char*)voltage_frame.data);
-        error = canbus.sendMessage(&voltage_frame);
+        senseVoltageFrame.can_id = CAN_VOLTAGE_SENSE;
+        senseVoltageFrame.can_dlc = sizeof(double);
+        strcpy((char*)voltageBytes, (char*)senseVoltageFrame.data);
+        error = canbus.sendMessage(&senseVoltageFrame);
+        if(error != MCP2515::ERROR_OK) {
+            Serial.print("ERR: ");
+            Serial.println(error, DEC);
+        }
+
+        delay(50);
+
+        struct can_frame millisFrame;
+        double millisValue = millis();
+        unsigned char *millisBytes = (
+            reinterpret_cast<unsigned char *>(&millisValue)
+        );
+        millisFrame.can_id = CAN_MC_MILLIS;
+        millisFrame.can_dlc = sizeof(double);
+        strcpy((char*)millisBytes, (char*)millisFrame.data);
+        error = canbus.sendMessage(&millisFrame);
+        if(error != MCP2515::ERROR_OK) {
+            Serial.print("ERR: ");
+            Serial.println(error, DEC);
+        }
+        delay(50);
 
         lastMessage = millis();
     }
