@@ -17,6 +17,7 @@ See `can_message_ids.h` for a complete list.
 
 # Emitted Messages
 
+* `0x30` (double): Main microcontroller uptime in milliseconds
 * `0x40` (double): Battery voltage
 * `0x41` (double): Dynamo voltage
 * `0x42` (double): Sense resistor voltage
@@ -25,6 +26,14 @@ See `can_message_ids.h` for a complete list.
 
 None yet
 
+
+## Schematics
+
+### Main
+
+![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/maxwell.svg)
+![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/microcontroller-Microcontroller.svg)
+![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/power-Power.svg)
 
 ## Errata
 
