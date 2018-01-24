@@ -1,4 +1,4 @@
-update=Saturday, December 16, 2017 'PMt' 06:16:16 PM
+update=Sunday, January 21, 2018 'PMt' 08:17:59 PM
 version=1
 last_client=kicad
 [general]
@@ -30,3 +30,13 @@ NetIExt=net
 [eeschema]
 version=1
 LibDir=
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=/Users/adam.coddington/Desktop/maxwell__ctrl/
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceAjustPassiveValues=0
+LabSize=60
+ERC_TestSimilarLabels=1
