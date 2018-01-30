@@ -1,15 +1,21 @@
-#include "main.h"
 #include "serial_commands.h"
-
+#include "can_message_ids.h"
 
 SerialCommand commands;
+CANCommand canCommands;
 
+uint8_t testId = 0;
 
 void setupCommands() {
     commands.addCommand("uptime", uptime);
     commands.addCommand("ping", hello);
     commands.addCommand("beep", beep);
+    canCommands.addCommand(CAN_CMD_BEEP, doBeep);
     commands.addCommand("led", led);
+    canCommands.addCommand(CAN_CMD_LED_CYCLE, setLedCycle);
+    canCommands.addCommand(CAN_CMD_LED_COLOR, setLedColor);
+    canCommands.addCommand(CAN_CMD_LED_BRIGHTNESS, setLedBrightness);
+    canCommands.addCommand(CAN_CMD_LED_INTERVAL, setLedInterval);
 
     commands.addCommand("voltage", voltageMeasurement);
     commands.addCommand("charge", charge);
@@ -19,7 +25,12 @@ void setupCommands() {
 
     commands.addCommand("btcmd", bluetooth);
     commands.addCommand("reset", reset);
-    commands.addCommand("flash", programmingMode);
+    canCommands.addCommand(CAN_CMD_MAIN_MC_RESET, reset);
+
+    commands.addCommand("flash", flash);
+
+    commands.addCommand("emit_can", emit_can);
+    canCommands.addCommand(CAN_TEST, emit_can);
 
     commands.setDefaultHandler(unrecognized);
 }
@@ -30,6 +41,43 @@ void commandPrompt() {
 
 void commandLoop() {
     commands.readSerial();
+}
+
+void handleCANCommand(CANCommand::CANMessage* command) {
+    canCommands.processCANMessage(command);
+}
+
+void setLedCycle() {
+    byte cycleType = canCommands.message->Data[0];
+
+    if(cycleType == CAN_CMD_LED_CYCLE_OFF) {
+        ledSetCycle(LED_CYCLE_OFF);
+    } else if(cycleType == CAN_CMD_LED_CYCLE_RANDOM) {
+        ledSetCycle(LED_CYCLE_RANDOM);
+    } else if(cycleType == CAN_CMD_LED_CYCLE_MOTION) {
+        ledSetCycle(LED_CYCLE_MOTION);
+    } else if(cycleType == CAN_CMD_LED_CYCLE_BLINK) {
+        ledSetCycle(LED_CYCLE_BLINK);
+    }
+}
+
+void setLedColor() {
+    byte red = canCommands.message->Data[0];
+    byte green = canCommands.message->Data[1];
+    byte blue = canCommands.message->Data[2];
+    ledSetColor(red, green, blue);
+}
+
+void setLedBrightness() {
+    byte brightness = canCommands.message->Data[0];
+
+    ledSetMaxBrightness(brightness);
+}
+
+void setLedInterval() {
+    int32 interval = reinterpret_cast<int>(canCommands.message->Data);
+
+    ledSetInterval(interval);
 }
 
 void led() {
@@ -141,6 +189,13 @@ void beep() {
     tone(BUZZER, frequency, duration); 
 }
 
+void doBeep() {
+    int32 frequency = reinterpret_cast<int>(canCommands.message->Data);
+    int32 duration = reinterpret_cast<int>(&canCommands.message->Data[3]);
+
+    tone(BUZZER, frequency, duration);
+}
+
 void auxDevicesEnable(){
     int enable = 1;
     char* state = commands.next();
@@ -206,12 +261,19 @@ void uptime() {
     Serial.println(millis());
 }
 
-void programmingMode() {
+void flash() {
+    // CAN_CMD_REQ_SET_WAKE
+    MCP2515 canbus = getCanbus();
+
+    struct can_frame reqSetWakeFrame;
+    reqSetWakeFrame.can_id = CAN_CMD_REQ_SET_WAKE;
+    reqSetWakeFrame.can_dlc = 0;
+    canbus.sendMessage(&reqSetWakeFrame);
+
     Serial.println("Resetting device...");
     Serial.flush();
 
-    sendBluetoothCommand("AT+PIO=6,1");
-    delay(100);
+    delay(250);
 
     // Note that resetting while connected via Bluetooth will
     // cause the device to enter flash mode due to to the BT module's
@@ -252,4 +314,16 @@ void bluetooth() {
     String result = sendBluetoothCommand(btcommand);
 
     Serial.print(result);
+}
+
+void emit_can() {
+    struct can_frame testFrame;
+
+    testFrame.can_id = CAN_TEST;
+    testFrame.can_dlc = 1;
+    testFrame.data[0] = testId;
+
+    testId++;
+
+    sendCanMessage(testFrame);
 }

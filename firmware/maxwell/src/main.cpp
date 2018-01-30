@@ -1,7 +1,5 @@
 #include "main.h"
 
-MCP2515 canbus((const uint8_t)CAN_CS);
-
 unsigned int lastMessage = 0;
 
 void setup() {
@@ -30,6 +28,8 @@ void setup() {
     digitalWrite(BT_KEY, LOW);
 
     Serial.begin(230400, SERIAL_8E1);
+
+    MCP2515 canbus = getCanbus();
     canbus.begin();
 
     setupCommands();
@@ -37,8 +37,13 @@ void setup() {
     Serial.println("[Maxwell 1.0]");
     commandPrompt();
 
+    struct can_frame reqSetWakeFrame;
+    reqSetWakeFrame.can_id = CAN_MAIN_MC_WAKE;
+    reqSetWakeFrame.can_dlc = 0;
+    canbus.sendMessage(&reqSetWakeFrame);
+
     canbus.reset();
-    canbus.setBitrate(CAN_500KBPS);
+    canbus.setBitrate(CAN_1000KBPS);
     canbus.setNormalMode();
 
     ledSetup();
@@ -79,8 +84,13 @@ void loop() {
     ledCycle();
     commandLoop();
 
+    MCP2515 canbus = getCanbus();
     struct can_frame recvFrame;
     if(canbus.readMessage(&recvFrame) == MCP2515::ERROR_OK) {
+        CANCommand::CANMessage command;
+        command.ID = recvFrame.can_id;
+        command.DLC = recvFrame.can_dlc;
+
         Serial.print("Received CAN Message: ");
         Serial.print(recvFrame.can_id, HEX);
         Serial.print(" (");
@@ -90,10 +100,17 @@ void loop() {
         for (uint8_t i = 0; i < recvFrame.can_dlc; i++) {
             Serial.print(recvFrame.data[i], HEX);
             Serial.print(" ");
+
+            command.Data[i] = recvFrame.data[i];
         }
         Serial.println("");
+
+
+
+
     }
 
+    /*
     if(lastMessage == 0 || millis() > lastMessage + 1000) {
         Serial.println(millis());
         MCP2515::ERROR error;
@@ -157,4 +174,5 @@ void loop() {
 
         lastMessage = millis();
     }
+    */
 }
