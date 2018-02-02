@@ -159,7 +159,7 @@ U 1 1 5A3AEBCE
 P 3850 1700
 F 0 "C5" H 3968 1746 50  0000 L CNN
 F 1 "1u" H 3968 1655 50  0000 L CNN
-F 2 "celeritous/KiCad.pretty:CAPACITOR_ELECTROLYTIC_4.3MM" H 3888 1550 50  0001 C CNN
+F 2 "usagi1975/kicad_mod.pretty:Capacitor_Electrolytic_D5.0xP2.0" H 3888 1550 50  0001 C CNN
 F 3 "" H 3850 1700 50  0001 C CNN
 	1    3850 1700
 	1    0    0    -1  
@@ -181,7 +181,7 @@ U 1 1 5A3AF07E
 P 4300 1750
 F 0 "C6" H 4418 1796 50  0000 L CNN
 F 1 "2.2u" H 4418 1705 50  0000 L CNN
-F 2 "celeritous/KiCad.pretty:CAPACITOR_ELECTROLYTIC_4.3MM" H 4338 1600 50  0001 C CNN
+F 2 "usagi1975/kicad_mod.pretty:Capacitor_Electrolytic_D5.0xP2.0" H 4338 1600 50  0001 C CNN
 F 3 "" H 4300 1750 50  0001 C CNN
 	1    4300 1750
 	1    0    0    -1  
@@ -261,7 +261,7 @@ U 1 1 5A3CC7A0
 P 3600 1500
 F 0 "Q2" V 3943 1500 50  0000 C CNN
 F 1 "NDS332P" V 3852 1500 50  0000 C CNN
-F 2 "cuzdaori/KiCad.pretty:SOT23" H 3800 1600 50  0001 C CNN
+F 2 "cvra/kicad-lib/footprints/_std.pretty:SSOT-3" H 3800 1600 50  0001 C CNN
 F 3 "" H 3600 1500 50  0001 C CNN
 	1    3600 1500
 	0    -1   -1   0   
@@ -341,7 +341,7 @@ Text GLabel 7600 1600 2    60   BiDi ~ 0
 CAN+
 Text GLabel 7600 1700 2    60   BiDi ~ 0
 CAN-
-Text GLabel 7500 4900 2    60   BiDi ~ 0
+Text GLabel 7500 5100 2    60   BiDi ~ 0
 WAKE
 $Comp
 L power:+BATT #PWR026
@@ -363,13 +363,13 @@ U 1 1 5A4405D4
 P 9750 2150
 F 0 "Q4" H 9956 2196 50  0000 L CNN
 F 1 "NDS332P" H 9956 2105 50  0000 L CNN
-F 2 "cuzdaori/KiCad.pretty:SOT23" H 9950 2250 50  0001 C CNN
+F 2 "cvra/kicad-lib/footprints/_std.pretty:SSOT-3" H 9950 2250 50  0001 C CNN
 F 3 "" H 9750 2150 50  0001 C CNN
 	1    9750 2150
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	9850 2350 9850 2600
+	9850 2350 9850 2550
 $Comp
 L device:R R8
 U 1 1 5A44C126
@@ -381,21 +381,8 @@ F 3 "" H 9450 2300 50  0001 C CNN
 	1    9450 2300
 	-1   0    0    1   
 $EndComp
-$Comp
-L power:GND #PWR028
-U 1 1 5A44C1CC
-P 9450 2500
-F 0 "#PWR028" H 9450 2250 50  0001 C CNN
-F 1 "GND" H 9455 2327 50  0000 C CNN
-F 2 "" H 9450 2500 50  0001 C CNN
-F 3 "" H 9450 2500 50  0001 C CNN
-	1    9450 2500
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	9450 2150 9550 2150
-Wire Wire Line
-	9450 2450 9450 2500
 Text GLabel 9400 2150 0    60   Input ~ 0
 ENABLE_SCREEN
 Text GLabel 1700 5000 0    60   Output ~ 0
@@ -454,7 +441,7 @@ U 1 1 5A4AA287
 P 8800 3500
 F 0 "Q3" H 9006 3546 50  0000 L CNN
 F 1 "NDS332P" H 9006 3455 50  0000 L CNN
-F 2 "cuzdaori/KiCad.pretty:SOT23" H 9000 3600 50  0001 C CNN
+F 2 "cvra/kicad-lib/footprints/_std.pretty:SSOT-3" H 9000 3600 50  0001 C CNN
 F 3 "" H 8800 3500 50  0001 C CNN
 	1    8800 3500
 	0    1    1    0   
@@ -485,15 +472,6 @@ F 3 "" H 7800 3600 50  0001 C CNN
 	1    7800 3600
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	8600 3600 8150 3600
-Wire Wire Line
-	8250 3300 8150 3300
-Wire Wire Line
-	8150 3300 8150 3600
-Connection ~ 8150 3600
-Wire Wire Line
-	8150 3600 7800 3600
 Wire Wire Line
 	8550 3300 8800 3300
 Text GLabel 8800 3050 0    60   Input ~ 0
@@ -1125,7 +1103,7 @@ U 1 1 5A719247
 P 1450 4400
 F 0 "Y2" V 1404 4566 50  0000 L CNN
 F 1 "Crystal_GND23_Small" V 1495 4566 50  0000 L CNN
-F 2 "" H 1450 4400 50  0001 C CNN
+F 2 "KiCad/Crystals.pretty:Crystal_SMD_SeikoEpson_MC306-4pin_8.0x3.2mm" H 1450 4400 50  0001 C CNN
 F 3 "" H 1450 4400 50  0001 C CNN
 	1    1450 4400
 	0    1    1    0   
@@ -1206,4 +1184,45 @@ Wire Wire Line
 	1650 4400 1700 4400
 Wire Wire Line
 	1450 4550 1650 4550
+$Comp
+L power:GND #PWR022
+U 1 1 5A742B39
+P 8100 3300
+F 0 "#PWR022" H 8100 3050 50  0001 C CNN
+F 1 "GND" H 8105 3127 50  0000 C CNN
+F 2 "" H 8100 3300 50  0001 C CNN
+F 3 "" H 8100 3300 50  0001 C CNN
+	1    8100 3300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8250 3300 8100 3300
+Wire Wire Line
+	7800 3600 8600 3600
+Wire Wire Line
+	9450 2550 9850 2550
+Wire Wire Line
+	9450 2450 9450 2550
+Connection ~ 9850 2550
+Wire Wire Line
+	9850 2550 9850 2600
+Text GLabel 7500 4800 2    60   Output ~ 0
+TX
+Text GLabel 7500 4900 2    60   Input ~ 0
+RX
+$Comp
+L Connector:Conn_01x02 J2
+U 1 1 5A743381
+P 8400 4750
+F 0 "J2" V 8366 4562 50  0000 R CNN
+F 1 "UART" V 8275 4562 50  0000 R CNN
+F 2 "KiCad/Connectors_JST.pretty:JST_PH_B2B-PH-K_02x2.00mm_Straight" H 8400 4750 50  0001 C CNN
+F 3 "~" H 8400 4750 50  0001 C CNN
+	1    8400 4750
+	0    -1   -1   0   
+$EndComp
+Text GLabel 8400 4950 3    60   Output ~ 0
+TX
+Text GLabel 8500 4950 3    60   Input ~ 0
+RX
 $EndSCHEMATC
