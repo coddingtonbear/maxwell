@@ -105,9 +105,7 @@ void loop() {
         }
         Serial.println("");
 
-
-
-
+        handleCANCommand(&command);
     }
 
     /*

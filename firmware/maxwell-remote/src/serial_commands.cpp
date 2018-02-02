@@ -23,41 +23,34 @@ void unrecognized(const char *command) {
 }
 
 void beep() {
-    unsigned char *frequencyBytes;
-    unsigned char *durationBytes;
-
-    Serial.println("B1");
-    Serial.flush();
-
     uint32 frequency = 554;
     uint32 duration = 500;
-    Serial.println("B2");
-    Serial.flush();
-    frequencyBytes = reinterpret_cast<unsigned char*>(frequency);
-    durationBytes = reinterpret_cast<unsigned char*>(duration);
-    Serial.println("B3");
-    Serial.flush();
+    byte* frequencyBytes = reinterpret_cast<byte*>(&frequency);
+    byte* durationBytes = reinterpret_cast<byte*>(&duration);
 
     CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
     message.ID = CAN_CMD_BEEP;
     message.DLC = sizeof(uint32) * 2;
-    Serial.println("B4");
-    Serial.flush();
 
     for(uint8 i = 0; i < sizeof(uint32); i++) {
         message.Data[i] = frequencyBytes[i];
+
+        Serial.print(i);
+        Serial.print(" -> ");
+        Serial.println(frequencyBytes[i], HEX);
     }
-    Serial.println("B5A");
-    Serial.flush();
     for(uint8 i = sizeof(uint32); i < (2* sizeof(uint32)); i++) {
-        message.Data[i - sizeof(uint32)] = durationBytes[i - sizeof(uint32)];
+        message.Data[i] = durationBytes[i - sizeof(uint32)];
+
+        Serial.print(i);
+        Serial.print(" -> ");
+        Serial.println(durationBytes[i - sizeof(uint32)], HEX);
     }
-    Serial.println("B5B");
     Serial.flush();
 
     sendCanMessage(&message);
-    Serial.println("B6");
-    Serial.flush();
 }
 
 void reset() {

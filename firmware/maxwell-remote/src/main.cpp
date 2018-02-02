@@ -1,17 +1,24 @@
 #include "main.h"
 #include <HardwareCAN.h>
 
-Adafruit_SSD1306 display(-1);
+//Adafruit_SSD1306 display(-1);
+
+#define TEST_PIN PB6
 
 void setup() {
-    nvic_irq_disable(NVIC_USB_LP_CAN_RX0);	// Disable interrupts
-    nvic_irq_disable(NVIC_CAN_RX1);
-    nvic_irq_disable(NVIC_USB_HP_CAN_TX);
-
-    delay(1000);
+    pinMode(TEST_PIN, OUTPUT);
+    digitalWrite(TEST_PIN, HIGH);
+    delay(100);
+    digitalWrite(TEST_PIN, LOW);
+    delay(100);
 
     pinMode(DISPLAY_ON, OUTPUT);
     digitalWrite(DISPLAY_ON, LOW);
+
+    digitalWrite(TEST_PIN, HIGH);
+    delay(100);
+    digitalWrite(TEST_PIN, LOW);
+    delay(100);
 
     pinMode(BT_KEY, OUTPUT);
     digitalWrite(BT_KEY, LOW);
@@ -22,14 +29,18 @@ void setup() {
     pinMode(BT_ENABLE_, OUTPUT);
     digitalWrite(BT_ENABLE_, LOW);
 
+    Serial.end();
+
     HardwareCAN canBus = getCanbus();
     canBus.map(CAN_GPIO_PB8_PB9);
     canBus.begin(CAN_SPEED_1000, CAN_MODE_NORMAL);
     canBus.filter(0, 0, 0);
     canBus.set_poll_mode();
 
-    Serial.begin(230400, SERIAL_8E1);
+    //Serial.begin(230400, SERIAL_8E1);
+    //Serial.println("[Maxwell Remote 1.0]");
 
+    /*
     Wire.begin();
 
     display.begin(SSD1306_SWITCHCAPVCC, DISPLAY_ADDRESS);
@@ -42,10 +53,16 @@ void setup() {
     display.setTextWrap(true);
     display.println("[Maxwell Remote 1.0]");
     display.display();
+    */
 
-    Serial.println("[Maxwell Remote 1.0]");
-    delay(1000);
+    digitalWrite(TEST_PIN, HIGH);
 
+    delay(200);
+    digitalWrite(TEST_PIN, LOW);
+    beep();
+    delay(200);
+    digitalWrite(TEST_PIN, HIGH);
+    beep();
     setupCommands();
     commandPrompt();
 }
@@ -56,17 +73,18 @@ void loop() {
     commandLoop();
 
     if (lastShown == 0 || (lastShown + 1000 < millis())) {
-        display.clearDisplay();
-        display.setCursor(0, 0);
-        display.println(String(millis()));
+        //display.clearDisplay();
+        //display.setCursor(0, 0);
+        //display.println(String(millis()));
         lastShown = millis();
-        display.display();
+        //display.display();
     }
 
     HardwareCAN canBus = getCanbus();
     if(canBus.available()) {
         CanMsg *can_message;
         if((can_message = canBus.recv()) != NULL) {
+            /*
             display.setCursor(0, 20);
             display.println(String(can_message->ID, HEX));
             display.setCursor(0, 40);
@@ -74,6 +92,7 @@ void loop() {
                 display.print(String(can_message->Data[i], HEX));
             }
             display.display();
+            */
 
             canBus.free();
 

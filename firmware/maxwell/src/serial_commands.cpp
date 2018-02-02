@@ -190,8 +190,10 @@ void beep() {
 }
 
 void doBeep() {
-    int32 frequency = reinterpret_cast<int>(canCommands.message->Data);
-    int32 duration = reinterpret_cast<int>(&canCommands.message->Data[3]);
+    uint32 frequency = *(reinterpret_cast<uint32*>(canCommands.message->Data));
+    uint32 duration = *(
+        reinterpret_cast<uint32*>(&canCommands.message->Data[4])
+    );
 
     tone(BUZZER, frequency, duration);
 }
