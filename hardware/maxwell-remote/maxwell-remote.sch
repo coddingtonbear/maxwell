@@ -83,7 +83,7 @@ U 1 1 5A3AD6C4
 P 1050 1100
 F 0 "J1" H 970 675 50  0000 C CNN
 F 1 "INPUT" H 970 766 50  0000 C CNN
-F 2 "KiCad/Connectors_JST.pretty:JST_EH_B05B-EH-A_05x2.50mm_Straight" H 1050 1100 50  0001 C CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:JST_EH_B05B-EH-A_05x2.50mm_Straight_LargePads" H 1050 1100 50  0001 C CNN
 F 3 "~" H 1050 1100 50  0001 C CNN
 	1    1050 1100
 	-1   0    0    1   
@@ -384,9 +384,9 @@ $EndComp
 Wire Wire Line
 	9450 2150 9550 2150
 Text GLabel 9400 2150 0    60   Input ~ 0
-ENABLE_SCREEN
+~ENABLE_SCREEN
 Text GLabel 1700 5000 0    60   Output ~ 0
-ENABLE_SCREEN
+~ENABLE_SCREEN
 Wire Wire Line
 	9400 2150 9450 2150
 Connection ~ 9450 2150
@@ -475,7 +475,7 @@ $EndComp
 Wire Wire Line
 	8550 3300 8800 3300
 Text GLabel 8800 3050 0    60   Input ~ 0
-~DISBABLE_BLUETOOTH
+DISBABLE_BLUETOOTH
 Wire Wire Line
 	8800 3050 8800 3300
 Connection ~ 8800 3300
@@ -518,7 +518,7 @@ U 1 1 5A57AA24
 P 8350 1000
 F 0 "J3" V 8316 812 50  0000 R CNN
 F 1 "Left" V 8225 812 50  0000 R CNN
-F 2 "KiCad/Connectors_JST.pretty:JST_EH_B03B-EH-A_03x2.50mm_Straight" H 8350 1000 50  0001 C CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:JST_EH_B03B-EH-A_03x2.50mm_Straight_LargePads" H 8350 1000 50  0001 C CNN
 F 3 "~" H 8350 1000 50  0001 C CNN
 	1    8350 1000
 	0    -1   -1   0   
@@ -529,7 +529,7 @@ U 1 1 5A57AB93
 P 9150 1000
 F 0 "J4" V 9116 812 50  0000 R CNN
 F 1 "Right" V 9025 812 50  0000 R CNN
-F 2 "KiCad/Connectors_JST.pretty:JST_EH_B03B-EH-A_03x2.50mm_Straight" H 9150 1000 50  0001 C CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:JST_EH_B03B-EH-A_03x2.50mm_Straight_LargePads" H 9150 1000 50  0001 C CNN
 F 3 "~" H 9150 1000 50  0001 C CNN
 	1    9150 1000
 	0    -1   -1   0   
@@ -608,7 +608,7 @@ F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/da
 	1    0    0    -1  
 $EndComp
 Text GLabel 1700 5700 0    60   Output ~ 0
-~DISBABLE_BLUETOOTH
+DISBABLE_BLUETOOTH
 Text GLabel 6500 1500 0    60   Input ~ 0
 CAN_TX
 Text GLabel 6500 1600 0    60   Output ~ 0
@@ -638,7 +638,7 @@ U 1 1 5A68EC32
 P 5900 6950
 F 0 "J5" H 5980 6942 50  0000 L CNN
 F 1 "Programmer" H 5980 6851 50  0000 L CNN
-F 2 "KiCad/Pin_Headers.pretty:Pin_Header_Straight_1x04_Pitch2.54mm" H 5900 6950 50  0001 C CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:Pin_Header_Straight_1x04_Pitch2.54mm_LargePads" H 5900 6950 50  0001 C CNN
 F 3 "~" H 5900 6950 50  0001 C CNN
 	1    5900 6950
 	1    0    0    -1  
@@ -736,58 +736,48 @@ F 3 "" H 4550 6600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4400 6500 4500 6500
-Wire Wire Line
-	4500 6500 4550 6500
-Connection ~ 4500 6500
-Wire Wire Line
-	4700 6500 4600 6500
-Connection ~ 4600 6500
-Wire Wire Line
 	4550 6600 4550 6500
 Connection ~ 4550 6500
-Wire Wire Line
-	4550 6500 4600 6500
-Text GLabel 2250 7050 2    60   BiDi ~ 0
+Text GLabel 2500 7050 1    60   BiDi ~ 0
 BOOT0
 Text GLabel 1700 3500 0    60   BiDi ~ 0
 BOOT0
-Text GLabel 2250 7200 2    60   BiDi ~ 0
+Text GLabel 2650 7050 1    60   BiDi ~ 0
 BOOT1
 Text GLabel 1700 4800 0    60   BiDi ~ 0
 BOOT1
 $Comp
 L device:R R1
 U 1 1 5A6B09A1
-P 2100 7050
-F 0 "R1" H 2030 7004 50  0000 R CNN
-F 1 "100k" H 2030 7095 50  0000 R CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 2030 7050 50  0001 C CNN
-F 3 "" H 2100 7050 50  0001 C CNN
-	1    2100 7050
-	0    1    1    0   
+P 2500 7200
+F 0 "R1" H 2430 7154 50  0000 R CNN
+F 1 "100k" H 2430 7245 50  0000 R CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 2430 7200 50  0001 C CNN
+F 3 "" H 2500 7200 50  0001 C CNN
+	1    2500 7200
+	1    0    0    -1  
 $EndComp
 $Comp
 L device:R R5
 U 1 1 5A6B0A45
-P 2100 7200
-F 0 "R5" H 2030 7154 50  0000 R CNN
-F 1 "100k" H 2030 7245 50  0000 R CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 2030 7200 50  0001 C CNN
-F 3 "" H 2100 7200 50  0001 C CNN
-	1    2100 7200
-	0    -1   -1   0   
+P 2650 7200
+F 0 "R5" H 2580 7154 50  0000 R CNN
+F 1 "100k" H 2580 7245 50  0000 R CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 2580 7200 50  0001 C CNN
+F 3 "" H 2650 7200 50  0001 C CNN
+	1    2650 7200
+	-1   0    0    1   
 $EndComp
 $Comp
 L power:GND #PWR011
 U 1 1 5A6B0C29
-P 1950 7200
-F 0 "#PWR011" H 1950 6950 50  0001 C CNN
-F 1 "GND" H 1955 7027 50  0000 C CNN
-F 2 "" H 1950 7200 50  0001 C CNN
-F 3 "" H 1950 7200 50  0001 C CNN
-	1    1950 7200
-	1    0    0    -1  
+P 2650 7350
+F 0 "#PWR011" H 2650 7100 50  0001 C CNN
+F 1 "GND" H 2655 7177 50  0000 C CNN
+F 2 "" H 2650 7350 50  0001 C CNN
+F 3 "" H 2650 7350 50  0001 C CNN
+	1    2650 7350
+	0    -1   -1   0   
 $EndComp
 $Comp
 L device:C C8
@@ -1112,52 +1102,26 @@ Wire Wire Line
 	1450 4500 1450 4550
 Connection ~ 1450 4550
 Wire Wire Line
-	1950 7200 1950 7050
-Connection ~ 1950 7200
-$Comp
-L device:R R17
-U 1 1 5A72F907
-P 2100 6750
-F 0 "R17" H 2030 6704 50  0000 R CNN
-F 1 "JMP" H 2030 6795 50  0000 R CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 2030 6750 50  0001 C CNN
-F 3 "" H 2100 6750 50  0001 C CNN
-	1    2100 6750
-	0    1    1    0   
-$EndComp
-$Comp
-L device:R R18
-U 1 1 5A74471B
-P 2100 7550
-F 0 "R18" H 2030 7504 50  0000 R CNN
-F 1 "JMP" H 2030 7595 50  0000 R CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 2030 7550 50  0001 C CNN
-F 3 "" H 2100 7550 50  0001 C CNN
-	1    2100 7550
-	0    1    1    0   
-$EndComp
+	2650 7350 2500 7350
+Connection ~ 2650 7350
 $Comp
 L power:+3V3 #PWR012
 U 1 1 5A7447A5
-P 1800 6750
-F 0 "#PWR012" H 1800 6600 50  0001 C CNN
-F 1 "+3V3" H 1815 6923 50  0000 C CNN
-F 2 "" H 1800 6750 50  0001 C CNN
-F 3 "" H 1800 6750 50  0001 C CNN
-	1    1800 6750
-	1    0    0    -1  
+P 2200 7500
+F 0 "#PWR012" H 2200 7350 50  0001 C CNN
+F 1 "+3V3" H 2215 7673 50  0000 C CNN
+F 2 "" H 2200 7500 50  0001 C CNN
+F 3 "" H 2200 7500 50  0001 C CNN
+	1    2200 7500
+	0    -1   -1   0   
 $EndComp
 Wire Wire Line
-	1800 6750 1950 6750
+	2200 7050 2500 7050
 Wire Wire Line
-	2250 6750 2250 7050
+	3000 7050 2650 7050
 Wire Wire Line
-	2250 7550 2250 7200
-Wire Wire Line
-	1950 7550 1800 7550
-Wire Wire Line
-	1800 7550 1800 6750
-Connection ~ 1800 6750
+	3000 7500 2200 7500
+Connection ~ 2200 7500
 $Comp
 L device:C C3
 U 1 1 5A6DBB18
@@ -1216,7 +1180,7 @@ U 1 1 5A743381
 P 8400 4750
 F 0 "J2" V 8366 4562 50  0000 R CNN
 F 1 "UART" V 8275 4562 50  0000 R CNN
-F 2 "KiCad/Connectors_JST.pretty:JST_PH_B2B-PH-K_02x2.00mm_Straight" H 8400 4750 50  0001 C CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:JST_EH_B02B-EH-A_02x2.50mm_Straight_LargePads" H 8400 4750 50  0001 C CNN
 F 3 "~" H 8400 4750 50  0001 C CNN
 	1    8400 4750
 	0    -1   -1   0   
@@ -1225,4 +1189,40 @@ Text GLabel 8400 4950 3    60   Output ~ 0
 TX
 Text GLabel 8500 4950 3    60   Input ~ 0
 RX
+$Comp
+L Connector:Conn_01x02 J7
+U 1 1 5A761DF6
+P 3200 7050
+F 0 "J7" H 3280 7042 50  0000 L CNN
+F 1 "B1_JMP" H 3280 6951 50  0000 L CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:Pin_Header_Straight_1x02_Pitch1.27mm_JMP" H 3200 7050 50  0001 C CNN
+F 3 "~" H 3200 7050 50  0001 C CNN
+	1    3200 7050
+	1    0    0    -1  
+$EndComp
+Connection ~ 4600 6500
+Wire Wire Line
+	4550 6500 4600 6500
+Wire Wire Line
+	4700 6500 4600 6500
+Connection ~ 4500 6500
+Wire Wire Line
+	4500 6500 4550 6500
+Wire Wire Line
+	4400 6500 4500 6500
+$Comp
+L Connector:Conn_01x02 J6
+U 1 1 5A77B1E4
+P 2000 7150
+F 0 "J6" H 1920 6825 50  0000 C CNN
+F 1 "B0_JMP" H 1920 6916 50  0000 C CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:Pin_Header_Straight_1x02_Pitch1.27mm_JMP" H 2000 7150 50  0001 C CNN
+F 3 "~" H 2000 7150 50  0001 C CNN
+	1    2000 7150
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	3000 7150 3000 7500
+Wire Wire Line
+	2200 7150 2200 7500
 $EndSCHEMATC
