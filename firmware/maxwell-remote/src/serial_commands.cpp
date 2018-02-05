@@ -1,6 +1,6 @@
 #include "serial_commands.h"
 
-SerialCommand commands;
+SerialCommand commands(&Serial1);
 
 void setupCommands() {
     commands.setDefaultHandler(unrecognized);
@@ -18,8 +18,8 @@ void commandLoop() {
 }
 
 void unrecognized(const char *command) {
-    Serial.print("Unknown command: ");
-    Serial.println(command);
+    Serial1.print("Unknown command: ");
+    Serial1.println(command);
 }
 
 void beep() {
@@ -37,50 +37,50 @@ void beep() {
     for(uint8 i = 0; i < sizeof(uint32); i++) {
         message.Data[i] = frequencyBytes[i];
 
-        Serial.print(i);
-        Serial.print(" -> ");
-        Serial.println(frequencyBytes[i], HEX);
+        Serial1.print(i);
+        Serial1.print(" -> ");
+        Serial1.println(frequencyBytes[i], HEX);
     }
     for(uint8 i = sizeof(uint32); i < (2* sizeof(uint32)); i++) {
         message.Data[i] = durationBytes[i - sizeof(uint32)];
 
-        Serial.print(i);
-        Serial.print(" -> ");
-        Serial.println(durationBytes[i - sizeof(uint32)], HEX);
+        Serial1.print(i);
+        Serial1.print(" -> ");
+        Serial1.println(durationBytes[i - sizeof(uint32)], HEX);
     }
-    Serial.flush();
+    Serial1.flush();
 
     sendCanMessage(&message);
 }
 
 void reset() {
-    Serial.println(
+    Serial1.println(
         "Disconnect within 5 seconds to prevent booting into Flash mode..."
     );
-    Serial.print("5...");
-    Serial.flush();
+    Serial1.print("5...");
+    Serial1.flush();
     delay(1000);
-    Serial.print("4...");
-    Serial.flush();
+    Serial1.print("4...");
+    Serial1.flush();
     delay(1000);
-    Serial.print("3...");
-    Serial.flush();
+    Serial1.print("3...");
+    Serial1.flush();
     delay(1000);
-    Serial.print("2...");
-    Serial.flush();
+    Serial1.print("2...");
+    Serial1.flush();
     delay(1000);
-    Serial.println("1...");
-    Serial.flush();
+    Serial1.println("1...");
+    Serial1.flush();
     delay(1000);
-    Serial.println("Resetting device...");
-    Serial.flush();
+    Serial1.println("Resetting device...");
+    Serial1.flush();
 
     nvic_sys_reset();
 }
 
 void flash() {
-    Serial.println("Resetting device...");
-    Serial.flush();
+    Serial1.println("Resetting device...");
+    Serial1.flush();
 
     delay(100);
 

@@ -3,42 +3,27 @@
 
 //Adafruit_SSD1306 display(-1);
 
-#define TEST_PIN PB6
-
 void setup() {
-    pinMode(TEST_PIN, OUTPUT);
-    digitalWrite(TEST_PIN, HIGH);
-    delay(100);
-    digitalWrite(TEST_PIN, LOW);
-    delay(100);
+    Serial1.begin(230400, SERIAL_8E1);
+    Serial1.println("[Maxwell Remote 1.0]");
 
     pinMode(DISPLAY_ON, OUTPUT);
     digitalWrite(DISPLAY_ON, LOW);
 
-    digitalWrite(TEST_PIN, HIGH);
-    delay(100);
-    digitalWrite(TEST_PIN, LOW);
-    delay(100);
-
     pinMode(BT_KEY, OUTPUT);
     digitalWrite(BT_KEY, LOW);
 
-    pinMode(WAKE, OUTPUT);
-    digitalWrite(WAKE, LOW);
+    //pinMode(WAKE, OUTPUT);
+    //digitalWrite(WAKE, LOW);
 
     pinMode(BT_ENABLE_, OUTPUT);
     digitalWrite(BT_ENABLE_, LOW);
 
-    Serial.end();
-
-    HardwareCAN canBus = getCanbus();
+    HardwareCAN& canBus = getCanbus();
     canBus.map(CAN_GPIO_PB8_PB9);
     canBus.begin(CAN_SPEED_1000, CAN_MODE_NORMAL);
     canBus.filter(0, 0, 0);
     canBus.set_poll_mode();
-
-    //Serial.begin(230400, SERIAL_8E1);
-    //Serial.println("[Maxwell Remote 1.0]");
 
     /*
     Wire.begin();
@@ -55,21 +40,17 @@ void setup() {
     display.display();
     */
 
-    digitalWrite(TEST_PIN, HIGH);
-
-    delay(200);
-    digitalWrite(TEST_PIN, LOW);
-    beep();
-    delay(200);
-    digitalWrite(TEST_PIN, HIGH);
-    beep();
     setupCommands();
+
+    //beep();
+
     commandPrompt();
 }
 
 uint32 lastShown = 0;
 
 void loop() {
+    HardwareCAN& canBus = getCanbus();
     commandLoop();
 
     if (lastShown == 0 || (lastShown + 1000 < millis())) {
@@ -78,9 +59,9 @@ void loop() {
         //display.println(String(millis()));
         lastShown = millis();
         //display.display();
+        //Serial1.println(millis());
     }
 
-    HardwareCAN canBus = getCanbus();
     if(canBus.available()) {
         CanMsg *can_message;
         if((can_message = canBus.recv()) != NULL) {
@@ -94,15 +75,18 @@ void loop() {
             display.display();
             */
 
+            Serial1.print("RECEIVED CAN MESSAGE: [");
+            Serial1.flush();
+            Serial1.print(String(can_message->ID, HEX));
+            Serial1.print("]");
+            for(int i = 0; i < can_message->DLC; i++) {
+                Serial1.print(String(can_message->Data[i], HEX));
+            }
+            Serial1.println();
+
             canBus.free();
 
-            Serial.print("RECEIVED CAN MESSAGE: [");
-            Serial.print(String(can_message->ID, HEX));
-            Serial.print("]");
-            for(int i = 0; i < can_message->DLC; i++) {
-                Serial.print(String(can_message->Data[i], HEX));
-            }
-            Serial.println();
+            beep();
         }
     }
 }
