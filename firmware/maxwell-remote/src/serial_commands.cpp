@@ -7,6 +7,9 @@ void setupCommands() {
     commands.addCommand("reset", reset);
     commands.addCommand("flash", flash);
     commands.addCommand("beep", beep);
+    commands.addCommand("wake", wake);
+    commands.addCommand("unWake", wake);
+    commands.addCommand("uptime", uptime);
 }
 
 void commandPrompt() {
@@ -20,6 +23,19 @@ void commandLoop() {
 void unrecognized(const char *command) {
     Serial1.print("Unknown command: ");
     Serial1.println(command);
+}
+
+void uptime() {
+    Serial1.println(millis());
+}
+
+void wake() {
+    pinMode(WAKE, OUTPUT);
+    digitalWrite(WAKE, HIGH);
+}
+
+void unWake() {
+    pinMode(WAKE, INPUT);
 }
 
 void beep() {

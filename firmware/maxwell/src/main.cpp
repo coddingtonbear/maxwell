@@ -37,14 +37,14 @@ void setup() {
     Serial.println("[Maxwell 1.0]");
     commandPrompt();
 
+    canbus.reset();
+    canbus.setBitrate(CAN_1000KBPS);
+    canbus.setNormalMode();
+
     struct can_frame reqSetWakeFrame;
     reqSetWakeFrame.can_id = CAN_MAIN_MC_WAKE;
     reqSetWakeFrame.can_dlc = 0;
     canbus.sendMessage(&reqSetWakeFrame);
-
-    canbus.reset();
-    canbus.setBitrate(CAN_1000KBPS);
-    canbus.setNormalMode();
 
     ledSetup();
 
