@@ -250,10 +250,6 @@ SCL
 Text GLabel 10150 1450 3    60   BiDi ~ 0
 SDA
 Wire Wire Line
-	10050 1350 10050 1450
-Wire Wire Line
-	10150 1450 10150 1350
-Wire Wire Line
 	1250 1000 3400 1000
 $Comp
 L device:Q_PMOS_GSD Q2
@@ -1225,4 +1221,8 @@ Wire Wire Line
 	3000 7150 3000 7500
 Wire Wire Line
 	2200 7150 2200 7500
+Wire Wire Line
+	10050 1350 10050 1450
+Wire Wire Line
+	10150 1450 10150 1350
 $EndSCHEMATC
