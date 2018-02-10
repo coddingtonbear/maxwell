@@ -35,6 +35,10 @@ None yet
 ![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/microcontroller-Microcontroller.svg)
 ![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/power-Power.svg)
 
+### Head Unit (Remote)
+
+![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/maxwell-remote.svg)
+
 ## Errata
 
 ### Maxwell
