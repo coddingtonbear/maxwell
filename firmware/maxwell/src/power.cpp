@@ -1,17 +1,75 @@
+#include <Arduino.h>
+#include "main.h"
+#include "pin_map.h"
 #include "power.h"
+
+long int lastUpdated = 0;
+
+double dynamoVoltage = 0;
+double batteryVoltage = 0;
+double senseVoltage = 0;
+
+void updateVoltages() {
+    double tempVoltage = getInstantaneousVoltage(VOLTAGE_DYNAMO);
+    if(dynamoVoltage == 0) {
+        dynamoVoltage = tempVoltage;
+    } else {
+        dynamoVoltage = (
+            dynamoVoltage * (VOLTAGE_SAMPLE_COUNT - 1)
+            + tempVoltage
+        ) / VOLTAGE_SAMPLE_COUNT;
+    }
+
+    tempVoltage = getInstantaneousVoltage(VOLTAGE_BATTERY);
+    if(batteryVoltage == 0) {
+        batteryVoltage = tempVoltage;
+    } else {
+        batteryVoltage = (
+            batteryVoltage * (VOLTAGE_SAMPLE_COUNT - 1)
+            + tempVoltage
+        ) / VOLTAGE_SAMPLE_COUNT;
+    }
+
+    tempVoltage = getInstantaneousVoltage(VOLTAGE_SENSE);
+    if(senseVoltage == 0) {
+        senseVoltage = tempVoltage;
+    } else {
+        senseVoltage = (
+            senseVoltage * (VOLTAGE_SAMPLE_COUNT - 1)
+            + tempVoltage
+        ) / VOLTAGE_SAMPLE_COUNT;
+    }
+
+
+}
+
+void voltageLoop() {
+    if (
+        lastUpdated == 0 || (
+            (lastUpdated + VOLTAGE_UPDATE_INTERVAL) < millis()
+        )
+    ) {
+        updateVoltages();
+    }
+
+    if (batteryVoltage < 2.9) {
+        Output.println("Low voltage: Shutdown initiated.");
+        sleep();
+    }
+}
 
 int getRawVoltageAdcValue(uint source) {
     int result = -1;
 
     switch(source) {
         case VOLTAGE_DYNAMO:
-            result = analogRead(I_DYNAMO_VOLTAGE);
+            result = analogRead(PIN_I_DYNAMO_VOLTAGE);
             break;
         case VOLTAGE_BATTERY:
-            result = analogRead(I_BATTERY_VOLTAGE);
+            result = analogRead(PIN_I_BATT_VOLTAGE);
             break;
         case VOLTAGE_SENSE:
-            result = analogRead(I_CURRENT_SENSE);
+            result = analogRead(PIN_I_CURRENT_SENSE);
             break;
     }
 
@@ -19,6 +77,24 @@ int getRawVoltageAdcValue(uint source) {
 }
 
 double getVoltage(uint source) {
+    double result = 0;
+
+    switch(source) {
+        case VOLTAGE_DYNAMO:
+            result = dynamoVoltage;
+            break;
+        case VOLTAGE_BATTERY:
+            result = batteryVoltage;
+            break;
+        case VOLTAGE_SENSE:
+            result = senseVoltage;
+            break;
+    }
+
+    return result;
+}
+
+double getInstantaneousVoltage(uint source) {
     double adcValue = getRawVoltageAdcValue(source);
     double result = -1;
 
@@ -32,8 +108,7 @@ double getVoltage(uint source) {
         case VOLTAGE_BATTERY:
         case VOLTAGE_SENSE:
             result = (
-                (10 * adcValue + 4.7 * adcValue)
-                / 10 / 4096 * 3.3
+                adcValue * 2.5 * 2 / 4096
             );
             break;
     }
@@ -51,17 +126,8 @@ double getCurrentUsage() {
 
 void enableBatteryCharging(bool enable) {
     if(enable) {
-        digitalWrite(ENABLE_BATT_CHARGE_, HIGH);
+        digitalWrite(PIN_ENABLE_BATT_CHARGE_, HIGH);
     } else {
-        digitalWrite(ENABLE_BATT_CHARGE_, LOW);
-    }
-}
-
-
-void enableAuxDevices(bool enable) {
-    if(enable) {
-        digitalWrite(ENABLE_AUX_DEVICES, HIGH);
-    } else {
-        digitalWrite(ENABLE_AUX_DEVICES, LOW);
+        digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
     }
 }

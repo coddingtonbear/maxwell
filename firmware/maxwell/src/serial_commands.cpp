@@ -1,36 +1,53 @@
+#include <Arduino.h>
+#include <SerialCommand.h>
+#include <CANCommand.h>
+
+#include "can.h"
+#include "gps.h"
+#include "main.h"
 #include "serial_commands.h"
 #include "can_message_ids.h"
+#include "pin_map.h"
+#include "neopixel.h"
+#include "power.h"
 
-SerialCommand commands;
-CANCommand canCommands;
+SerialCommand commands(&Output);
+//CANCommand canCommands;
 
 uint8_t testId = 0;
 
 void setupCommands() {
     commands.addCommand("uptime", uptime);
     commands.addCommand("ping", hello);
-    commands.addCommand("beep", beep);
-    canCommands.addCommand(CAN_CMD_BEEP, doBeep);
+    commands.addCommand("beep", doBeep);
+    //canCommands.addCommand(CAN_CMD_BEEP, doBeep);
     commands.addCommand("led", led);
-    canCommands.addCommand(CAN_CMD_LED_CYCLE, setLedCycle);
-    canCommands.addCommand(CAN_CMD_LED_COLOR, setLedColor);
-    canCommands.addCommand(CAN_CMD_LED_BRIGHTNESS, setLedBrightness);
-    canCommands.addCommand(CAN_CMD_LED_INTERVAL, setLedInterval);
+    //canCommands.addCommand(CAN_CMD_LED_CYCLE, setLedCycle);
+    //canCommands.addCommand(CAN_CMD_LED_COLOR, setLedColor);
+    //canCommands.addCommand(CAN_CMD_LED_BRIGHTNESS, setLedBrightness);
+    //canCommands.addCommand(CAN_CMD_LED_INTERVAL, setLedInterval);
+    commands.addCommand("bridge_uart", doBridgeUART);
 
     commands.addCommand("voltage", voltageMeasurement);
     commands.addCommand("charge", charge);
     commands.addCommand("is_charging", isChargingNow);
     commands.addCommand("current", currentUsage);
-    commands.addCommand("aux", auxDevicesEnable);
 
+    commands.addCommand("sleep", doSleep);
     commands.addCommand("btcmd", bluetooth);
     commands.addCommand("reset", reset);
-    canCommands.addCommand(CAN_CMD_MAIN_MC_RESET, reset);
+    //canCommands.addCommand(CAN_CMD_MAIN_MC_RESET, reset);
 
     commands.addCommand("flash", flash);
+    //canCommands.addCommand(CAN_CMD_MAIN_MC_FLASH, flash);
+    commands.addCommand("flash_esp", flashEsp32);
+    commands.addCommand("enable_esp", enableEsp32);
+    commands.addCommand("disable_esp", disableEsp32);
 
-    commands.addCommand("emit_can", emit_can);
-    canCommands.addCommand(CAN_TEST, emit_can);
+    commands.addCommand("coordinates", coordinates);
+
+    //commands.addCommand("emit_can", emit_can);
+    //canCommands.addCommand(CAN_TEST, emit_can);
 
     commands.setDefaultHandler(unrecognized);
 }
@@ -43,6 +60,7 @@ void commandLoop() {
     commands.readSerial();
 }
 
+/*
 void handleCANCommand(CANCommand::CANMessage* command) {
     canCommands.processCANMessage(command);
 }
@@ -79,11 +97,12 @@ void setLedInterval() {
 
     ledSetInterval(interval);
 }
+*/
 
 void led() {
     char* subcommandBytes = commands.next();
     if(subcommandBytes == NULL) {
-        Serial.println(
+        Output.println(
             "Subcommand required: cycle, color, interval"
         );
         return;
@@ -94,8 +113,8 @@ void led() {
     if(subcommand == "cycle") {
         char* cycleNameBytes = commands.next();
         if(cycleNameBytes == NULL) {
-            Serial.println(
-                "Valid cycles required: off, brightness, random, motion, blink"
+            Output.println(
+                "Cycle name required."
             );
             return;
         }
@@ -103,19 +122,27 @@ void led() {
 
         if (cycleName == "off") {
             ledSetCycle(LED_CYCLE_OFF);
+        } else if (cycleName == "on") {
+            ledSetCycle(LED_CYCLE_ON);
         } else if(cycleName == "random") {
             ledSetCycle(LED_CYCLE_RANDOM);
         } else if(cycleName == "motion") {
             ledSetCycle(LED_CYCLE_MOTION);
         } else if(cycleName == "blink") {
             ledSetCycle(LED_CYCLE_BLINK);
+        } else if(cycleName == "twinkle") {
+            ledSetCycle(LED_CYCLE_TWINKLE);
+        } else if(cycleName == "rainbow") {
+            ledSetCycle(LED_CYCLE_RAINBOW);
+        } else {
+            Output.println("Unkonwn cycle name");
         }
     } else if (subcommand == "color") {
         char* redBytes = commands.next();
         char* greenBytes = commands.next();
         char* blueBytes = commands.next();
         if(redBytes == NULL || greenBytes == NULL || blueBytes == NULL) {
-            Serial.println(
+            Output.println(
                 "Required three 8-bit decimal colors in RGB order."
             );
             return;
@@ -125,10 +152,14 @@ void led() {
             atoi(greenBytes),
             atoi(blueBytes)
         );
+    } else if (subcommand == "segment") {
+        char* segmentBytes = commands.next();
+
+        ledSetSegmentSize(atoi(segmentBytes));
     } else if (subcommand == "interval") {
         char* intervalBytes = commands.next();
         if(intervalBytes == NULL) {
-            Serial.println(
+            Output.println(
                 "Required interval in milliseconds"
             );
             return;
@@ -138,42 +169,62 @@ void led() {
     } else if (subcommand == "brightness") {
         char* brightnessBytes = commands.next();
         if(brightnessBytes == NULL) {
-            Serial.println(
+            Output.println(
                 "Required 8-bit brightness value."
             );
             return;
         }
 
         ledSetMaxBrightness(atoi(brightnessBytes));
+    } else if (subcommand == "preset") {
+        char* presetNameBytes = commands.next();
+        if(presetNameBytes == NULL) {
+            Output.println(
+                "Preset name required."
+            );
+            return;
+        }
+        String presetName = String(presetNameBytes);
+
+        if(presetName == "safety") {
+            ledSetCycle(LED_CYCLE_MOTION);
+            ledSetColor(255, 100, 0);
+        } else {
+            Output.println("Unknown preset.");
+        }
+    } else if (subcommand == "disable") {
+        ledEnable(false);
+    } else if (subcommand == "ensable") {
+        ledEnable(true);
     }
 }
 
 void reset() {
-    Serial.println(
+    Output.println(
         "Disconnect within 5 seconds to prevent booting into Flash mode..."
     );
-    Serial.print("5...");
-    Serial.flush();
+    Output.print("5...");
+    Output.flush();
     delay(1000);
-    Serial.print("4...");
-    Serial.flush();
+    Output.print("4...");
+    Output.flush();
     delay(1000);
-    Serial.print("3...");
-    Serial.flush();
+    Output.print("3...");
+    Output.flush();
     delay(1000);
-    Serial.print("2...");
-    Serial.flush();
+    Output.print("2...");
+    Output.flush();
     delay(1000);
-    Serial.println("1...");
-    Serial.flush();
+    Output.println("1...");
+    Output.flush();
     delay(1000);
-    Serial.println("Resetting device...");
-    Serial.flush();
+    Output.println("Resetting device...");
+    Output.flush();
 
     nvic_sys_reset();
 }
 
-void beep() {
+void doBeep() {
     int frequency = 554;
     int duration = 100;
     
@@ -186,32 +237,19 @@ void beep() {
         duration = atoi(durationString);
     }
 
-    tone(BUZZER, frequency, duration); 
+    beep(frequency, duration);
 }
 
+/*
 void doBeep() {
     uint32 frequency = *(reinterpret_cast<uint32*>(canCommands.message->Data));
     uint32 duration = *(
         reinterpret_cast<uint32*>(&canCommands.message->Data[4])
     );
 
-    tone(BUZZER, frequency, duration);
+    tone(PIN_BUZZER, frequency, duration);
 }
-
-void auxDevicesEnable(){
-    int enable = 1;
-    char* state = commands.next();
-    if(state != NULL) {
-        enable = atoi(state);
-    }
-
-    enableAuxDevices(enable);
-    if(enable) {
-        Serial.println("Auxiliary devices enabled.");
-    } else {
-        Serial.println("Auxiliary devices disabled.");
-    }
-}
+*/
 
 void charge() {
     int enable = 1;
@@ -222,58 +260,59 @@ void charge() {
 
     enableBatteryCharging(enable);
     if(enable) {
-        Serial.println("Battery charging enabled.");
+        Output.println("Battery charging enabled.");
     } else {
-        Serial.println("Battery charging disabled.");
+        Output.println("Battery charging disabled.");
     }
 }
 
 void isChargingNow() {
-    if(!digitalRead(I_BATTERY_CHARGING_)) {
-        Serial.println("Yes");
+    if(!digitalRead(PIN_I_BATT_CHARGING_)) {
+        Output.println("Yes");
     } else {
-        Serial.println("No");
+        Output.println("No");
     }
 }
 
 void currentUsage() {
-    Serial.println(getCurrentUsage());
+    Output.println(getCurrentUsage(), 6);
 }
 
 void voltageMeasurement() {
     String source = String((char*)commands.next());
 
     if(source == "dynamo") {
-        Serial.println(getVoltage(VOLTAGE_DYNAMO));
+        Output.println(getVoltage(VOLTAGE_DYNAMO), 6);
     } else if(source == "battery") {
-        Serial.println(getVoltage(VOLTAGE_BATTERY));
+        Output.println(getVoltage(VOLTAGE_BATTERY), 6);
     } else if(source == "sense") {
-        Serial.println(getVoltage(VOLTAGE_SENSE));
+        Output.println(getVoltage(VOLTAGE_SENSE), 6);
     } else {
-        Serial.println("Unknown source: " + source);
+        Output.println("Unknown source: " + source);
     }
 }
 
 void unrecognized(const char *command) {
-    Serial.print("Unknown command: ");
-    Serial.println(command);
+    Output.print("Unknown command: ");
+    Output.println(command);
 }
 
 void uptime() {
-    Serial.println(millis());
+    Output.println(millis());
 }
 
 void flash() {
-    // CAN_CMD_REQ_SET_WAKE
-    MCP2515 canbus = getCanbus();
+    /*
+    CanMsg flashNoticeMsg;
+    flashNoticeMsg.IDE = CAN_ID_STD;
+    flashNoticeMsg.RTR = CAN_RTR_DATA;
+    flashNoticeMsg.ID = CAN_MAIN_MC_FLASH_BEGIN;
+    flashNoticeMsg.DLC = 0;
+    sendCanMessage(&flashNoticeMsg);
+    */
 
-    struct can_frame reqSetWakeFrame;
-    reqSetWakeFrame.can_id = CAN_CMD_REQ_SET_WAKE;
-    reqSetWakeFrame.can_dlc = 0;
-    canbus.sendMessage(&reqSetWakeFrame);
-
-    Serial.println("Resetting device...");
-    Serial.flush();
+    Output.println("Resetting device...");
+    Output.flush();
 
     delay(250);
 
@@ -287,12 +326,12 @@ void hello() {
     char *arg;
     arg = commands.next();
 
-    Serial.print("pong");
+    Output.print("pong");
     if (arg != NULL) {
-        Serial.print(' ');
-        Serial.print(String(arg));
+        Output.print(' ');
+        Output.print(String(arg));
     }
-    Serial.println();
+    Output.println();
 }
 
 void bluetooth() {
@@ -315,17 +354,130 @@ void bluetooth() {
 
     String result = sendBluetoothCommand(btcommand);
 
-    Serial.print(result);
+    Output.print(result);
 }
 
+/*
 void emit_can() {
-    struct can_frame testFrame;
+    byte* canIdBytes = reinterpret_cast<byte*>(&testId);
 
-    testFrame.can_id = CAN_TEST;
-    testFrame.can_dlc = 1;
-    testFrame.data[0] = testId;
+    CanMsg testMsg;
+    testMsg.IDE = CAN_ID_STD;
+    testMsg.RTR = CAN_RTR_DATA;
+    testMsg.ID = CAN_TEST;
+    testMsg.DLC = 0;
+
+    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
+        testMsg.Data[i] = canIdBytes[i];
+    }
 
     testId++;
+    sendCanMessage(&testMsg);
+}*/
 
-    sendCanMessage(testFrame);
+
+void flashEsp32() {
+    Output.println("Resetting ESP32...");
+
+    digitalWrite(PIN_ESP_BOOT_FLASH_, LOW);
+    digitalWrite(PIN_DISABLE_ESP_, LOW);
+    delay(1000);
+    digitalWrite(PIN_DISABLE_ESP_, HIGH);
+
+    ESPSerial.begin(115200);
+    UART5.begin(115200);
+
+    BTSerial.println("Ready to flash ESP32 via UART5 (115200); press ENTER to finish.");
+
+    while(true) {
+        if(BTSerial.read() == '\n') {
+            break;
+        }
+        if(UART5.available()) {
+            uint8_t value = UART5.read();
+            ESPSerial.write(value);
+            //BTSerial.print("-> ");
+            //BTSerial.println(value);
+        }
+        if(ESPSerial.available()) {
+            uint8_t value = ESPSerial.read();
+            UART5.write(value);
+            //BTSerial.print("<- ");
+            //BTSerial.println(value);
+        }
+    }
+
+    Output.begin();
+
+    Output.println("Re-enabling ESP32.");
+    enableEsp(true);
+    Output.println("Finished.");
+}
+
+void enableEsp32() {
+    enableEsp(true);
+    Output.println("ESP32 Enabled.");
+}
+
+void disableEsp32() {
+    enableEsp(false);
+    Output.println("ESP32 Disabled.");
+}
+
+void doSleep() {
+    sleep();
+}
+
+void coordinates() {
+    gps_fix fix = gps.read();
+
+    Output.print(fix.latitude(), 6);
+    Output.print(", ");
+    Output.print(fix.longitude(), 6);
+    Output.print("; Altitude: ");
+    Output.print(fix.altitude(), 6);
+    Output.println();
+}
+
+void doBridgeUART() {
+    char* uartNumberString = commands.next();
+    uint8_t uartNumber;
+    uint baud;
+
+    if(uartNumberString != NULL) {
+        uartNumber = atoi(uartNumberString);
+    } else {
+        Output.println("UART number required.");
+        return;
+    }
+    char* baudString = commands.next();
+    if(baudString != NULL) {
+        baud = atoi(baudString);
+    } else {
+        Output.println("Baud rate required.");
+        return;
+    }
+
+    HardwareSerial* uart;
+    if(uartNumber == 3) {
+        uart = &GPSSerial;
+    } else if (uartNumber == 4) {
+        uart = &UART4;
+    } else if (uartNumber == 5) {
+        uart = &UART5;
+    } else {
+        Output.println("Invalid UART number");
+        return;
+    }
+
+    Output.print("Bridging with UART ");
+    Output.print(uartNumber);
+    Output.print(" at ");
+    Output.print(baud);
+    Output.println(" bps");
+    Output.println("==========");
+    bridgeUART(uart, baud);
+    Output.println();
+    Output.println("==========");
+    Output.println("Bridge teardown completed");
 }

@@ -1,11 +1,13 @@
 #include "can.h"
 
-MCP2515 canbus((const uint8_t)CAN_CS);
+/*
+HardwareCAN canBus(CAN1_BASE);
 
-MCP2515& getCanbus() {
-    return canbus;
+HardwareCAN& getCanbus() {
+    return canBus;
 }
 
-MCP2515::ERROR sendCanMessage(can_frame frame) {
-    return canbus.sendMessage(&frame);
+CAN_TX_MBX sendCanMessage(CanMsg* msg) {
+    return canBus.send(msg);
 }
+*/

@@ -1,116 +1,220 @@
+
+#include <CANCommand.h>
+#include <STM32Sleep.h>
+#include <Arduino.h>
+#include <TimerFreeTone.h>
+//#include <HardwareCAN.h>
+
+#include "multiserial.h"
+#include "can_message_ids.h"
+#include "power.h"
+#include "neopixel.h"
+#include "serial_commands.h"
+#include "can.h"
+#include "gps.h"
+#include "pin_map.h"
 #include "main.h"
 
-unsigned int lastMessage = 0;
+uint32 lastMessage = 0;
+uint32 speedCounter = 0;
+uint32 lastChirp = 0;
+
+MultiSerial Output;
 
 void setup() {
-    pinMode(I_CAN_INT, INPUT);
-    pinMode(CAN_CS, OUTPUT);
-    digitalWrite(CAN_CS, HIGH);
+    afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
 
-    pinMode(POWER_ON, OUTPUT);
-    pinMode(ENABLE_AUX_DEVICES, OUTPUT);
-    pinMode(ENABLE_BATT_CHARGE_, OUTPUT);
-    digitalWrite(POWER_ON, HIGH);
-    digitalWrite(ENABLE_AUX_DEVICES, HIGH);
-    digitalWrite(ENABLE_BATT_CHARGE_, LOW);
+    pinMode(PIN_BUZZER, OUTPUT);
+    digitalWrite(PIN_BUZZER, LOW);
 
-    pinMode(I_BATTERY_CHARGING_, INPUT_PULLUP);
-    pinMode(I_DYNAMO_VOLTAGE, INPUT_ANALOG);
-    pinMode(I_BATTERY_VOLTAGE, INPUT_ANALOG);
-    pinMode(I_CURRENT_SENSE, INPUT_ANALOG);
+    pinMode(PIN_ESP_BOOT_FLASH_, OUTPUT);
+    digitalWrite(PIN_ESP_BOOT_FLASH_, HIGH);
+    pinMode(PIN_DISABLE_ESP_, OUTPUT);
+    digitalWrite(PIN_DISABLE_ESP_, LOW);
 
-    pinMode(USB_ENABLE_, OUTPUT);
-    pinMode(BUZZER, OUTPUT);
-    pinMode(I_SPEED, INPUT);
-    pinMode(NEOPIXEL, OUTPUT);
-    pinMode(BT_KEY, OUTPUT);
-    digitalWrite(USB_ENABLE_, LOW);
-    digitalWrite(BT_KEY, LOW);
+    pinMode(PIN_BT_KEY, OUTPUT);
+    digitalWrite(PIN_BT_KEY, LOW);
 
-    Serial.begin(230400, SERIAL_8E1);
+    pinMode(PIN_I_POWER_ON, INPUT_PULLDOWN);
+    pinMode(PIN_I_BATT_CHARGING_, INPUT);
+    pinMode(PIN_I_BATT_VOLTAGE, INPUT_ANALOG);
+    pinMode(PIN_I_CURRENT_SENSE, INPUT_ANALOG);
+    pinMode(PIN_I_DYNAMO_VOLTAGE, INPUT_ANALOG);
+    pinMode(PIN_ENABLE_BATT_POWER, OUTPUT);
+    digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
+    pinMode(PIN_ENABLE_BATT_CHARGE_, OUTPUT);
+    digitalWrite(PIN_ENABLE_BATT_CHARGE_, HIGH);
 
-    MCP2515 canbus = getCanbus();
-    canbus.begin();
+    pinMode(PIN_I_SPEED, INPUT);
+
+    Output.addInterface(&ESPSerial);
+    Output.addInterface(&BTSerial);
+    Output.begin(230400, SERIAL_8E1);
+    Output.println("[Maxwell 2.0]");
+    //UART4.println("Connected via UART4");
+    //BTSerial.println("Connected via Bluetooth");
+    //ESPSerial.println("Connected via BLE");
+    Output.flush();
+
+    GPSSerial.begin(9600);
+    gpsWake();
+
+    /*
+    HardwareCAN& canBus = getCanbus();
+    canBus.map(CAN_GPIO_PB8_PB9);
+    canBus.begin(CAN_SPEED_1000, CAN_MODE_NORMAL);
+    canBus.filter(0, 0, 0);
+    canBus.set_poll_mode();
+    */
 
     setupCommands();
 
-    Serial.println("[Maxwell 1.0]");
     commandPrompt();
 
-    canbus.reset();
-    canbus.setBitrate(CAN_1000KBPS);
-    canbus.setNormalMode();
-
-    struct can_frame reqSetWakeFrame;
-    reqSetWakeFrame.can_id = CAN_MAIN_MC_WAKE;
-    reqSetWakeFrame.can_dlc = 0;
-    canbus.sendMessage(&reqSetWakeFrame);
+    /*
+    CanMsg wakeMessage;
+    wakeMessage.IDE = CAN_ID_STD;
+    wakeMessage.RTR = CAN_RTR_DATA;
+    wakeMessage.ID = CAN_MAIN_MC_WAKE;
+    wakeMessage.DLC = 0;
+    sendCanMessage(&wakeMessage);
+    */
 
     ledSetup();
 
+    //enableEsp(true);
+    /*
+    ledSetMaxBrightness(255);
+    ledSetCycle(LED_CYCLE_RAINBOW);
+    */
+
+    //ledSetCycle(LED_CYCLE_MOTION);
+    //ledSetColor(255, 255, 0);
+    //ledWalk(true);
+    
     // Lower the BOOT0 pin if we previously had it high
     //sendBluetoothCommand("AT+PIO=6,0");
+}
+
+void handleCounter() {
+    if(digitalRead(PIN_I_SPEED)) {
+        speedCounter++;
+    }
 }
 
 String sendBluetoothCommand(String command) {
     String result;
 
-    Serial.flush();
+    Output.flush();
 
     delay(250);
-    digitalWrite(BT_KEY, HIGH);
+    digitalWrite(PIN_BT_KEY, HIGH);
     delay(250);
-    Serial.println(command);
-    Serial.flush();
+    Output.println(command);
+    Output.flush();
     delay(250);
-    digitalWrite(BT_KEY, LOW);
+    digitalWrite(PIN_BT_KEY, LOW);
     delay(250);
 
     uint32 started = millis();
 
-    Serial.flush();
+    Output.flush();
     while(millis() < started + 1000) {
-        while(Serial.available() > 0) {
-            result += (char)Serial.read();
+        while(Output.available() > 0) {
+            result += (char)Output.read();
         }
     }
-    Serial.flush();
+    Output.flush();
     delay(100);
 
     return result;
 }
 
+void bridgeUART(HardwareSerial* bridged, uint baud) {
+    bridged->begin(baud);
+
+    while(true) {
+        if (Output.available()) {
+            uint8_t value = Output.read();
+
+            if (value == 4) {
+                break;
+            }
+            bridged->write(value);
+        }
+        if (bridged->available()) {
+            Output.write(bridged->read());
+        }
+    }
+
+    Output.begin();
+}
+
+void beep(uint frequency, uint duration) {
+    TimerFreeTone(PIN_BUZZER, frequency, duration);
+}
+
 void loop() {
     ledCycle();
     commandLoop();
+    voltageLoop();
+    /*
+    HardwareCAN& canBus = getCanbus();
+    if(canBus.available()) {
+        CanMsg* canMsg;
+        if((canMsg = canBus.recv()) != NULL) {
+            CANCommand::CANMessage command;
+            command.ID = canMsg->ID;
+            command.DLC = canMsg->DLC;
 
-    MCP2515 canbus = getCanbus();
-    struct can_frame recvFrame;
-    if(canbus.readMessage(&recvFrame) == MCP2515::ERROR_OK) {
-        CANCommand::CANMessage command;
-        command.ID = recvFrame.can_id;
-        command.DLC = recvFrame.can_dlc;
+            Output.print("Received CAN Message: ");
+            Output.print(canMsg->ID, HEX);
+            Output.print(" (");
+            Output.print(canMsg->DLC);
+            Output.print(")");
 
-        Serial.print("Received CAN Message: ");
-        Serial.print(recvFrame.can_id, HEX);
-        Serial.print(" (");
-        Serial.print(recvFrame.can_dlc);
-        Serial.print(")");
+            for (uint8_t i = 0; i < canMsg->DLC; i++) {
+                Output.print(canMsg->Data[i], HEX);
+                Output.print(" ");
 
-        for (uint8_t i = 0; i < recvFrame.can_dlc; i++) {
-            Serial.print(recvFrame.data[i], HEX);
-            Serial.print(" ");
+                command.Data[i] = canMsg->Data[i];
+            }
+            Output.println("");
 
-            command.Data[i] = recvFrame.data[i];
+            handleCANCommand(&command);
         }
-        Serial.println("");
+    }
+    */
 
-        handleCANCommand(&command);
+    gps.available(GPSSerial);
+
+    if (lastChirp == 0 || millis() > lastChirp + CHIRP_INTERVAL) {
+        for(uint8_t i = 0; i < CHIRP_COUNT; i++) {
+            beep(CHIRP_FREQUENCY, CHIRP_DURATION);
+            delay(CHIRP_INTRANOTE_INTERVAL);
+        }
+
+        lastChirp = millis();
     }
 
-    /*
     if(lastMessage == 0 || millis() > lastMessage + 1000) {
-        Serial.println(millis());
+        //Output.println(millis());
+        /*
+        MCP2515::ERROR error;
+        struct can_frame speedFrame;
+        unsigned char *speedBytes = reinterpret_cast<unsigned char*>(&speedCounter);
+        speedFrame.can_id = CAN_VELOCITY;
+        speedFrame.can_dlc = sizeof(uint32);
+        strcpy((char*)speedBytes, (char*)speedFrame.data);
+        error = canbus.sendMessage(&speedFrame);
+        if(error != MCP2515::ERROR_OK) {
+            Output.print("ERR: ");
+            Output.println(error, DEC);
+        }
+        */
+
+        /*
+        Output.println(millis());
         MCP2515::ERROR error;
         double voltage;
         unsigned char *voltageBytes;
@@ -123,8 +227,8 @@ void loop() {
         strcpy((char*)voltageBytes, (char*)batteryVoltageFrame.data);
         error = canbus.sendMessage(&batteryVoltageFrame);
         if(error != MCP2515::ERROR_OK) {
-            Serial.print("ERR: ");
-            Serial.println(error, DEC);
+            Output.print("ERR: ");
+            Output.println(error, DEC);
         }
         delay(50);
 
@@ -136,8 +240,8 @@ void loop() {
         strcpy((char*)voltageBytes, (char*)dynamoVoltageFrame.data);
         error = canbus.sendMessage(&dynamoVoltageFrame);
         if(error != MCP2515::ERROR_OK) {
-            Serial.print("ERR: ");
-            Serial.println(error, DEC);
+            Output.print("ERR: ");
+            Output.println(error, DEC);
         }
         delay(50);
 
@@ -149,8 +253,8 @@ void loop() {
         strcpy((char*)voltageBytes, (char*)senseVoltageFrame.data);
         error = canbus.sendMessage(&senseVoltageFrame);
         if(error != MCP2515::ERROR_OK) {
-            Serial.print("ERR: ");
-            Serial.println(error, DEC);
+            Output.print("ERR: ");
+            Output.println(error, DEC);
         }
 
         delay(50);
@@ -165,12 +269,38 @@ void loop() {
         strcpy((char*)millisBytes, (char*)millisFrame.data);
         error = canbus.sendMessage(&millisFrame);
         if(error != MCP2515::ERROR_OK) {
-            Serial.print("ERR: ");
-            Serial.println(error, DEC);
+            Output.print("ERR: ");
+            Output.println(error, DEC);
         }
         delay(50);
+        */
 
         lastMessage = millis();
     }
-    */
+}
+
+void enableEsp(bool enabled) {
+    if(enabled) {
+        digitalWrite(PIN_ESP_BOOT_FLASH_, HIGH);
+        digitalWrite(PIN_DISABLE_ESP_, LOW);
+        delay(500);
+        digitalWrite(PIN_DISABLE_ESP_, HIGH);
+        delay(500);
+        while(ESPSerial.available()) {
+            ESPSerial.read();
+        }
+    } else {
+        digitalWrite(PIN_DISABLE_ESP_, LOW);
+    }
+}
+
+void sleep() {
+    enableEsp(false);
+    ledEnable(false);
+    gpsPMTK(161, ",0");
+    systick_disable();
+
+    attachInterrupt(PIN_I_WAKE, nvic_sys_reset, RISING);
+
+    goToSleep(STANDBY);
 }

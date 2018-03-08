@@ -1,6 +1,9 @@
 #pragma once
 
+//#include <HardwareCAN.h>
 #include "main.h"
 
-MCP2515& getCanbus();
-MCP2515::ERROR sendCanMessage(can_frame);
+/*
+HardwareCAN& getCanbus();
+CAN_TX_MBX sendCanMessage(CanMsg* msg);
+*/

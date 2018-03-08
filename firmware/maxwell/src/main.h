@@ -1,30 +1,27 @@
 #pragma once
 
 #include <Arduino.h>
-#include <mcp2515.h>
-#include <CANCommand.h>
 
-#include "can_message_ids.h"
-#include "power.h"
-#include "neopixel.h"
-#include "serial_commands.h"
-#include "can.h"
+#include "multiserial.h"
 
-// CAN
-#define I_CAN_INT PA0
-#define CAN_CS PA1
-
-// Sound
-#define BUZZER PB6
-
-// Bluetooth
-#define BT_KEY PB7
-
-// Speed
-#define I_SPEED PB13
-
+#define CHIRP_INTERVAL 300000
+#define CHIRP_FREQUENCY 2500
+#define CHIRP_DURATION 50
+#define CHIRP_COUNT 3
+#define CHIRP_INTRANOTE_INTERVAL 50
 
 void setup();
 void loop();
 
+void handleCounter();
+
 String sendBluetoothCommand(String);
+void enableEsp(bool);
+void enableBatteryPower(bool);
+
+void beep(uint, uint);
+
+void bridgeUART(HardwareSerial*, uint);
+void sleep();
+
+extern MultiSerial Output;

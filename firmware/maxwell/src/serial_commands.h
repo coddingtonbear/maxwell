@@ -1,34 +1,32 @@
 #pragma once
 
-#include <Arduino.h>
-#include <SerialCommand.h>
-#include <CANCommand.h>
-#include <mcp2515.h>
-
-#include "can.h"
-#include "main.h"
-
 void setupCommands();
 void commandPrompt();
 void commandLoop();
-void handleCANCommand(CANCommand::CANMessage* command);
+//void handleCANCommand(CANCommand::CANMessage* command);
 
 void unrecognized(const char *command);
 void uptime();
 void reset();
 void flash();
+void doSleep();
 void hello();
 void bluetooth();
 void voltageMeasurement();
 void isChargingNow();
 void currentUsage();
-void beep();
 void doBeep();
-void auxDevicesEnable();
+void doBridgeUART();
+//void doBeep();
 void charge();
 void led();
-void setLedCycle();
-void setLedColor();
-void setLedBrightness();
-void setLedInterval();
-void emit_can();
+//void setLedCycle();
+//void setLedColor();
+//void setLedBrightness();
+//void setLedInterval();
+//void emit_can();
+void getGpsCoordinates();
+void flashEsp32();
+void enableEsp32();
+void disableEsp32();
+void coordinates();
