@@ -1,9 +1,7 @@
 #pragma once
 
-//#include <HardwareCAN.h>
-#include "main.h"
+#include <HardwareCAN.h>
 
-/*
-HardwareCAN& getCanbus();
 CAN_TX_MBX sendCanMessage(CanMsg* msg);
-*/
+
+extern HardwareCAN canBus;

@@ -3,7 +3,7 @@
 #include <STM32Sleep.h>
 #include <Arduino.h>
 #include <TimerFreeTone.h>
-//#include <HardwareCAN.h>
+#include <HardwareCAN.h>
 
 #include "multiserial.h"
 #include "can_message_ids.h"
@@ -56,26 +56,21 @@ void setup() {
     GPSSerial.begin(9600);
     gpsWake();
 
-    /*
-    HardwareCAN& canBus = getCanbus();
     canBus.map(CAN_GPIO_PB8_PB9);
     canBus.begin(CAN_SPEED_1000, CAN_MODE_NORMAL);
     canBus.filter(0, 0, 0);
     canBus.set_poll_mode();
-    */
 
     setupCommands();
 
     commandPrompt();
 
-    /*
     CanMsg wakeMessage;
     wakeMessage.IDE = CAN_ID_STD;
     wakeMessage.RTR = CAN_RTR_DATA;
     wakeMessage.ID = CAN_MAIN_MC_WAKE;
     wakeMessage.DLC = 0;
     sendCanMessage(&wakeMessage);
-    */
 
     ledSetup();
 
@@ -144,8 +139,7 @@ void loop() {
     ledCycle();
     commandLoop();
     voltageLoop();
-    /*
-    HardwareCAN& canBus = getCanbus();
+
     if(canBus.available()) {
         CanMsg* canMsg;
         if((canMsg = canBus.recv()) != NULL) {
@@ -170,7 +164,6 @@ void loop() {
             handleCANCommand(&command);
         }
     }
-    */
 
     gps.available(GPSSerial);
 
