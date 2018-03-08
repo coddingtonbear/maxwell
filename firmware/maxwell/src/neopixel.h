@@ -21,6 +21,7 @@ void ledSetCycle(uint32 _cycle);
 void ledSetInterval(uint32 _interval);
 void ledSetSegmentSize(uint32 _size);
 void ledSetColor(uint8_t _red, uint8_t _green, uint8_t blue);
+void ledSetSecondaryColor(uint8_t _red, uint8_t _green, uint8_t blue);
 void ledSetMaxBrightness(uint8_t);
 
 void ledEnable(bool);

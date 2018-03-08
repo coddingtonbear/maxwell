@@ -51,9 +51,6 @@ void setup() {
     Output.addInterface(&BTSerial);
     Output.begin(230400, SERIAL_8E1);
     Output.println("[Maxwell 2.0]");
-    //UART4.println("Connected via UART4");
-    //BTSerial.println("Connected via Bluetooth");
-    //ESPSerial.println("Connected via BLE");
     Output.flush();
 
     GPSSerial.begin(9600);
@@ -82,18 +79,7 @@ void setup() {
 
     ledSetup();
 
-    //enableEsp(true);
-    /*
-    ledSetMaxBrightness(255);
-    ledSetCycle(LED_CYCLE_RAINBOW);
-    */
-
-    //ledSetCycle(LED_CYCLE_MOTION);
-    //ledSetColor(255, 255, 0);
-    //ledWalk(true);
-    
-    // Lower the BOOT0 pin if we previously had it high
-    //sendBluetoothCommand("AT+PIO=6,0");
+    enableEsp(true);
 }
 
 void handleCounter() {

@@ -7,8 +7,16 @@ uint32 colorRed = 255;
 uint32 colorGreen = 255;
 uint32 colorBlue = 255;
 uint32 color = pixels.Color(colorRed, colorGreen, colorBlue);
-uint32 interval = 500;
-uint8_t maxBrightness = 20;
+uint32 secondaryColorRed = 255;
+uint32 secondaryColorGreen = 255;
+uint32 secondaryColorBlue = 255;
+uint32 secondaryColor = pixels.Color(
+    secondaryColorRed,
+    secondaryColorGreen,
+    secondaryColorBlue
+);
+uint32 interval = 100;
+uint8_t maxBrightness = 100;
 
 bool enabled = false;
 
@@ -56,6 +64,13 @@ void ledSetColor(uint8_t _red, uint8_t _green, uint8_t _blue) {
     color = pixels.Color(_red, _green, _blue);
 }
 
+void ledSetSecondaryColor(uint8_t _red, uint8_t _green, uint8_t _blue) {
+    secondaryColorRed = _red;
+    secondaryColorGreen = _green;
+    secondaryColorBlue = _blue;
+    secondaryColor = pixels.Color(_red, _green, _blue);
+}
+
 void ledSetMaxBrightness(uint8_t _brightness) {
     maxBrightness = _brightness;
 }
@@ -92,7 +107,11 @@ void ledCycle() {
     } else if(cycle == LED_CYCLE_MOTION) {
         int colors[6] = {
             adjustedColor(colorRed, colorGreen, colorBlue),
-            adjustedColor(0, 0, 0)
+            adjustedColor(
+                secondaryColorRed,
+                secondaryColorGreen,
+                secondaryColorBlue
+            )
         };
         for(int i = 0; i < NUM_LEDS; i++) {
             int effectiveI = i + offset;
@@ -160,7 +179,7 @@ void ledCycle() {
     pixels.show();
     lastCycle = millis();
 
-    delay(20);
+    delay(5);
 }
 
 

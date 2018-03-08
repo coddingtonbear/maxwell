@@ -152,6 +152,21 @@ void led() {
             atoi(greenBytes),
             atoi(blueBytes)
         );
+    } else if (subcommand == "color2") {
+        char* redBytes = commands.next();
+        char* greenBytes = commands.next();
+        char* blueBytes = commands.next();
+        if(redBytes == NULL || greenBytes == NULL || blueBytes == NULL) {
+            Output.println(
+                "Required three 8-bit decimal colors in RGB order."
+            );
+            return;
+        }
+        ledSetSecondaryColor(
+            atoi(redBytes),
+            atoi(greenBytes),
+            atoi(blueBytes)
+        );
     } else if (subcommand == "segment") {
         char* segmentBytes = commands.next();
 
@@ -189,6 +204,11 @@ void led() {
         if(presetName == "safety") {
             ledSetCycle(LED_CYCLE_MOTION);
             ledSetColor(255, 100, 0);
+            ledSetSecondaryColor(255, 255, 255);
+        } else if(presetName == "tron") {
+            ledSetCycle(LED_CYCLE_MOTION);
+            ledSetColor(0, 100, 255);
+            ledSetSecondaryColor(255, 50, 50);
         } else {
             Output.println("Unknown preset.");
         }

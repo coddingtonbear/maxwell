@@ -4,7 +4,7 @@
 
 #include "multiserial.h"
 
-#define CHIRP_INTERVAL 300000
+#define CHIRP_INTERVAL 900000
 #define CHIRP_FREQUENCY 2500
 #define CHIRP_DURATION 50
 #define CHIRP_COUNT 3
