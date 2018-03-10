@@ -1,7 +1,7 @@
 // Status Messages
 #define CAN_TEST 0x10
 
-#define CAN_MC_MILLIS 0x30
+#define CAN_MAIN_MC_SLEEP 0x30
 #define CAN_MAIN_MC_WAKE 0x31
 #define CAN_MAIN_MC_FLASH_BEGIN 0x32
 
@@ -9,6 +9,8 @@
 #define CAN_VOLTAGE_DYNAMO 0x041
 #define CAN_VOLTAGE_SENSE 0x042
 #define CAN_VELOCITY 0x43
+#define CAN_AMPS_CURRENT 0x44
+#define CAN_CHARGING_STATUS 0x45
 
 // Commands
 #define CAN_CMD_MAIN_MC_RESET 0xA0

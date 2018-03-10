@@ -1,6 +1,14 @@
-#include "serial_commands.h"
+#include <HardwareCAN.h>
+#include <SerialCommand.h>
 
-SerialCommand commands(&Serial1);
+#include "serial_commands.h"
+#include "can.h"
+#include "can_message_ids.h"
+#include "main.h"
+
+
+SerialCommand commands(&Serial);
+CANCommand canCommands;
 
 void setupCommands() {
     commands.setDefaultHandler(unrecognized);
@@ -10,6 +18,64 @@ void setupCommands() {
     commands.addCommand("wake", wake);
     commands.addCommand("unWake", wake);
     commands.addCommand("uptime", uptime);
+    commands.addCommand("btcmd", bluetooth);
+
+    canCommands.addCommand(CAN_VELOCITY, receiveSpeed);
+}
+
+void bluetooth() {
+    String btcommand;
+
+    char *arg;
+    bool firstArg = true;
+    while (true) {
+        arg = commands.next();
+        if(arg == NULL) {
+            break;
+        }
+
+        if (!firstArg) {
+            btcommand += " ";
+        }
+        firstArg = false;
+        btcommand += String(arg);
+    }
+
+    String result = sendBluetoothCommand(btcommand);
+
+    Serial.print(result);
+}
+
+String sendBluetoothCommand(String command) {
+    String result;
+
+    Serial.flush();
+
+    delay(250);
+    digitalWrite(BT_KEY, HIGH);
+    delay(250);
+    Serial.println(command);
+    Serial.flush();
+    delay(250);
+    digitalWrite(BT_KEY, LOW);
+    delay(250);
+
+    uint32 started = millis();
+
+    Serial.flush();
+    while(millis() < started + 1000) {
+        while(Serial.available() > 0) {
+            result += (char)Serial.read();
+        }
+    }
+    Serial.flush();
+    delay(100);
+
+    return result;
+}
+
+void handleCANCommand(CANCommand::CANMessage* command) {
+    canCommands.processCANMessage(command);
 }
 
 void commandPrompt() {
@@ -21,20 +87,18 @@ void commandLoop() {
 }
 
 void unrecognized(const char *command) {
-    Serial1.print("Unknown command: ");
-    Serial1.println(command);
+    Serial.print("Unknown command: ");
+    Serial.println(command);
 }
 
 void uptime() {
-    Serial1.println(millis());
+    Serial.println(millis());
 }
 
 void wake() {
     pinMode(WAKE, OUTPUT);
     digitalWrite(WAKE, HIGH);
-}
-
-void unWake() {
+    delay(1000);
     pinMode(WAKE, INPUT);
 }
 
@@ -53,50 +117,50 @@ void beep() {
     for(uint8 i = 0; i < sizeof(uint32); i++) {
         message.Data[i] = frequencyBytes[i];
 
-        Serial1.print(i);
-        Serial1.print(" -> ");
-        Serial1.println(frequencyBytes[i], HEX);
+        Serial.print(i);
+        Serial.print(" -> ");
+        Serial.println(frequencyBytes[i], HEX);
     }
     for(uint8 i = sizeof(uint32); i < (2* sizeof(uint32)); i++) {
         message.Data[i] = durationBytes[i - sizeof(uint32)];
 
-        Serial1.print(i);
-        Serial1.print(" -> ");
-        Serial1.println(durationBytes[i - sizeof(uint32)], HEX);
+        Serial.print(i);
+        Serial.print(" -> ");
+        Serial.println(durationBytes[i - sizeof(uint32)], HEX);
     }
-    Serial1.flush();
+    Serial.flush();
 
-    sendCanMessage(&message);
+    CanBus.send(&message);
 }
 
 void reset() {
-    Serial1.println(
+    Serial.println(
         "Disconnect within 5 seconds to prevent booting into Flash mode..."
     );
-    Serial1.print("5...");
-    Serial1.flush();
+    Serial.print("5...");
+    Serial.flush();
     delay(1000);
-    Serial1.print("4...");
-    Serial1.flush();
+    Serial.print("4...");
+    Serial.flush();
     delay(1000);
-    Serial1.print("3...");
-    Serial1.flush();
+    Serial.print("3...");
+    Serial.flush();
     delay(1000);
-    Serial1.print("2...");
-    Serial1.flush();
+    Serial.print("2...");
+    Serial.flush();
     delay(1000);
-    Serial1.println("1...");
-    Serial1.flush();
+    Serial.println("1...");
+    Serial.flush();
     delay(1000);
-    Serial1.println("Resetting device...");
-    Serial1.flush();
+    Serial.println("Resetting device...");
+    Serial.flush();
 
     nvic_sys_reset();
 }
 
 void flash() {
-    Serial1.println("Resetting device...");
-    Serial1.flush();
+    Serial.println("Resetting device...");
+    Serial.flush();
 
     delay(100);
 
@@ -104,4 +168,10 @@ void flash() {
     // cause the device to enter flash mode due to to the BT module's
     // 'connected device' line being connected to the BOOT0 net.
     nvic_sys_reset();
+}
+
+void receiveSpeed() {
+    uint32 speed = *(reinterpret_cast<uint32*>(canCommands.message->Data));
+
+    handleSpeedReceived(speed);
 }

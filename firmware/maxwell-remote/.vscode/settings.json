@@ -1,6 +1,6 @@
 {
     "terminal.integrated.env.osx": {
-        "PATH": "/Users/adam.coddington/.platformio/penv/bin:/Users/adam.coddington/.platformio/penv:/usr/local/opt/node@6/bin:/Users/adam.coddington/Downloads/google-cloud-sdk/bin:/Users/adam.coddington/bin:/usr/local/opt/python/libexec/bin:/usr/local/Cellar/node/5.5.0/libexec/npm/bin/:/usr/local/share/npm/bin:/usr/local/bin:/usr/local/Cellar/ruby/1.9.3-p194/bin:/usr/local/texlive/2011/bin/x86_64-darwin:/usr/local/Cellar/python/2.7.10_2/Frameworks/Python.framework/Versions/2.7/bin:/Users/adam.coddington/.local/bin:/Users/adam.coddington/Library/Python/3.5/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin::/Users/adam.coddington/n/bin",
+        "PATH": "/Users/adam.coddington/.platformio/penv/bin:/Users/adam.coddington/.platformio/penv:/usr/local/opt/node@6/bin:/Users/adam.coddington/Downloads/google-cloud-sdk/bin:/Users/adam.coddington/bin:/usr/local/opt/python/libexec/bin:/usr/local/Cellar/node/5.5.0/libexec/npm/bin/:/usr/local/share/npm/bin:/usr/local/bin:/usr/local/Cellar/ruby/1.9.3-p194/bin:/usr/local/texlive/2011/bin/x86_64-darwin:/usr/local/Cellar/python/2.7.10_2/Frameworks/Python.framework/Versions/2.7/bin:/Users/adam.coddington/.local/bin:/Users/adam.coddington/Library/Python/3.5/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/opt/X11/bin::/Users/adam.coddington/n/bin",
         "PLATFORMIO_CALLER": "vscode"
     }
 }

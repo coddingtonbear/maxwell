@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <TimerFreeTone.h>
 #include <HardwareCAN.h>
+#include <TaskScheduler.h>
 
 #include "multiserial.h"
 #include "can_message_ids.h"
@@ -15,9 +16,36 @@
 #include "pin_map.h"
 #include "main.h"
 
-uint32 lastMessage = 0;
 uint32 speedCounter = 0;
-uint32 lastChirp = 0;
+
+Task taskChirp(CHIRP_INTERVAL, TASK_FOREVER, &taskChirpCallback);
+Task taskVoltage(VOLTAGE_UPDATE_INTERVAL, TASK_FOREVER, &taskVoltageCallback);
+Task taskVoltageWarning(
+    VOLTAGE_WARNING_INTERVAL,
+    TASK_FOREVER,
+    &taskVoltageWarningCallback
+);
+Task taskCanbusVoltageBatteryAnnounce(
+    CANBUS_VOLTAGE_BATTERY_ANNOUNCE_INTERVAL,
+    TASK_FOREVER,
+    &taskCanbusVoltageBatteryAnnounceCallback
+);
+Task taskCanbusVoltageDynamoAnnounce(
+    CANBUS_VOLTAGE_DYNAMO_ANNOUNCE_INTERVAL,
+    TASK_FOREVER,
+    &taskCanbusVoltageDynamoAnnounceCallback
+);
+Task taskCanbusCurrentAnnounce(
+    CANBUS_CURRENT_ANNOUNCE_INTERVAL,
+    TASK_FOREVER,
+    &taskCanbusCurrentAnnounceCallback
+);
+Task taskCanbusChargingStatusAnnounce(
+    CANBUS_CHARGING_STATUS_ANNOUNCE_INTERVAL,
+    TASK_FOREVER,
+    &taskCanbusChargingStatusAnnounceCallback
+);
+Scheduler taskRunner;
 
 MultiSerial Output;
 
@@ -35,8 +63,9 @@ void setup() {
     pinMode(PIN_BT_KEY, OUTPUT);
     digitalWrite(PIN_BT_KEY, LOW);
 
+    pinMode(PIN_I_WAKE, INPUT_PULLUP);
     pinMode(PIN_I_POWER_ON, INPUT_PULLDOWN);
-    pinMode(PIN_I_BATT_CHARGING_, INPUT);
+    pinMode(PIN_I_BATT_CHARGING_, INPUT_ANALOG);
     pinMode(PIN_I_BATT_VOLTAGE, INPUT_ANALOG);
     pinMode(PIN_I_CURRENT_SENSE, INPUT_ANALOG);
     pinMode(PIN_I_DYNAMO_VOLTAGE, INPUT_ANALOG);
@@ -56,10 +85,10 @@ void setup() {
     GPSSerial.begin(9600);
     gpsWake();
 
-    canBus.map(CAN_GPIO_PB8_PB9);
-    canBus.begin(CAN_SPEED_1000, CAN_MODE_NORMAL);
-    canBus.filter(0, 0, 0);
-    canBus.set_poll_mode();
+    CanBus.map(CAN_GPIO_PB8_PB9);
+    CanBus.begin(CAN_SPEED_1000, CAN_MODE_NORMAL);
+    CanBus.filter(0, 0, 0);
+    CanBus.set_poll_mode();
 
     setupCommands();
 
@@ -70,11 +99,20 @@ void setup() {
     wakeMessage.RTR = CAN_RTR_DATA;
     wakeMessage.ID = CAN_MAIN_MC_WAKE;
     wakeMessage.DLC = 0;
-    sendCanMessage(&wakeMessage);
+    CanBus.send(&wakeMessage);
 
     ledSetup();
-
     enableEsp(true);
+
+    taskRunner.init();
+    taskRunner.addTask(taskChirp);
+    taskRunner.addTask(taskVoltage);
+    taskRunner.addTask(taskVoltageWarning);
+    taskRunner.addTask(taskCanbusVoltageBatteryAnnounce);
+    taskRunner.addTask(taskCanbusVoltageDynamoAnnounce);
+    taskRunner.addTask(taskCanbusCurrentAnnounce);
+    taskRunner.addTask(taskCanbusChargingStatusAnnounce);
+    taskRunner.enableAll();
 }
 
 void handleCounter() {
@@ -135,126 +173,127 @@ void beep(uint frequency, uint duration) {
     TimerFreeTone(PIN_BUZZER, frequency, duration);
 }
 
-void loop() {
-    ledCycle();
-    commandLoop();
-    voltageLoop();
+void taskChirpCallback() {
+    for(uint8_t i = 0; i < CHIRP_COUNT; i++) {
+        beep(CHIRP_FREQUENCY, CHIRP_DURATION);
+        delay(CHIRP_INTRANOTE_INTERVAL);
+    }
+}
 
-    if(canBus.available()) {
+void taskVoltageCallback() {
+    updateVoltages();
+
+    double voltage = getVoltage(VOLTAGE_BATTERY);
+    if(voltage < 2.9) {
+        Output.println("Low voltage; Shutdown initiated!");
+        sleep();
+    }
+}
+
+void taskVoltageWarningCallback() {
+    double voltage = getVoltage(VOLTAGE_BATTERY);
+    if(voltage < 3.2) {
+        Output.print("Warning: low voltage (");
+        Output.print(voltage, 2);
+        Output.println(")");
+    }
+}
+
+void taskCanbusVoltageBatteryAnnounceCallback() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_VOLTAGE_BATTERY;
+    message.DLC = sizeof(double);
+
+    double voltage = getVoltage(VOLTAGE_BATTERY);
+    unsigned char *voltageBytes = reinterpret_cast<byte*>(&voltage);
+    for(uint8 i = 0; i < sizeof(double); i++) {
+        message.Data[i] = voltageBytes[i];
+    }
+
+    CanBus.send(&message);
+
+    delay(50);
+}
+
+void taskCanbusVoltageDynamoAnnounceCallback() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_VOLTAGE_DYNAMO;
+    message.DLC = sizeof(double);
+
+    double voltage = getVoltage(VOLTAGE_DYNAMO);
+    unsigned char *voltageBytes = reinterpret_cast<byte*>(&voltage);
+    for(uint8 i = 0; i < sizeof(double); i++) {
+        message.Data[i] = voltageBytes[i];
+    }
+
+    CanBus.send(&message);
+
+    delay(50);
+}
+
+void taskCanbusCurrentAnnounceCallback() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_AMPS_CURRENT;
+    message.DLC = sizeof(double);
+
+    double current = getCurrentUsage();
+    unsigned char *currentBytes = reinterpret_cast<byte*>(&current);
+    for(uint8 i = 0; i < sizeof(double); i++) {
+        message.Data[i] = currentBytes[i];
+    }
+
+    CanBus.send(&message);
+
+    delay(50);
+}
+
+void taskCanbusChargingStatusAnnounceCallback() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CHARGING_STATUS;
+    message.DLC = sizeof(uint8_t);
+
+    uint8_t status = getChargingStatus();
+    unsigned char *statusBytes = reinterpret_cast<byte*>(&status);
+    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
+        message.Data[i] = statusBytes[i];
+    }
+
+    CanBus.send(&message);
+
+    delay(50);
+}
+
+void loop() {
+    commandLoop();
+
+    ledCycle();
+    gps.available(GPSSerial);  // Update GPS with serial data
+
+    // Misc. periodic tasks
+    taskRunner.execute();
+
+    if(CanBus.available()) {
         CanMsg* canMsg;
-        if((canMsg = canBus.recv()) != NULL) {
+        if((canMsg = CanBus.recv()) != NULL) {
             CANCommand::CANMessage command;
             command.ID = canMsg->ID;
             command.DLC = canMsg->DLC;
 
-            Output.print("Received CAN Message: ");
-            Output.print(canMsg->ID, HEX);
-            Output.print(" (");
-            Output.print(canMsg->DLC);
-            Output.print(")");
-
             for (uint8_t i = 0; i < canMsg->DLC; i++) {
-                Output.print(canMsg->Data[i], HEX);
-                Output.print(" ");
-
                 command.Data[i] = canMsg->Data[i];
             }
             Output.println("");
 
             handleCANCommand(&command);
         }
-    }
-
-    gps.available(GPSSerial);
-
-    if (lastChirp == 0 || millis() > lastChirp + CHIRP_INTERVAL) {
-        for(uint8_t i = 0; i < CHIRP_COUNT; i++) {
-            beep(CHIRP_FREQUENCY, CHIRP_DURATION);
-            delay(CHIRP_INTRANOTE_INTERVAL);
-        }
-
-        lastChirp = millis();
-    }
-
-    if(lastMessage == 0 || millis() > lastMessage + 1000) {
-        //Output.println(millis());
-        /*
-        MCP2515::ERROR error;
-        struct can_frame speedFrame;
-        unsigned char *speedBytes = reinterpret_cast<unsigned char*>(&speedCounter);
-        speedFrame.can_id = CAN_VELOCITY;
-        speedFrame.can_dlc = sizeof(uint32);
-        strcpy((char*)speedBytes, (char*)speedFrame.data);
-        error = canbus.sendMessage(&speedFrame);
-        if(error != MCP2515::ERROR_OK) {
-            Output.print("ERR: ");
-            Output.println(error, DEC);
-        }
-        */
-
-        /*
-        Output.println(millis());
-        MCP2515::ERROR error;
-        double voltage;
-        unsigned char *voltageBytes;
-
-        struct can_frame batteryVoltageFrame;
-        voltage = getVoltage(VOLTAGE_BATTERY);
-        voltageBytes = reinterpret_cast<unsigned char *>(&voltage);
-        batteryVoltageFrame.can_id = CAN_VOLTAGE_BATTERY;
-        batteryVoltageFrame.can_dlc = sizeof(double);
-        strcpy((char*)voltageBytes, (char*)batteryVoltageFrame.data);
-        error = canbus.sendMessage(&batteryVoltageFrame);
-        if(error != MCP2515::ERROR_OK) {
-            Output.print("ERR: ");
-            Output.println(error, DEC);
-        }
-        delay(50);
-
-        struct can_frame dynamoVoltageFrame;
-        voltage = getVoltage(VOLTAGE_DYNAMO);
-        voltageBytes = reinterpret_cast<unsigned char *>(&voltage);
-        dynamoVoltageFrame.can_id = CAN_VOLTAGE_DYNAMO;
-        dynamoVoltageFrame.can_dlc = sizeof(double);
-        strcpy((char*)voltageBytes, (char*)dynamoVoltageFrame.data);
-        error = canbus.sendMessage(&dynamoVoltageFrame);
-        if(error != MCP2515::ERROR_OK) {
-            Output.print("ERR: ");
-            Output.println(error, DEC);
-        }
-        delay(50);
-
-        struct can_frame senseVoltageFrame;
-        voltage = getVoltage(VOLTAGE_SENSE);
-        voltageBytes = reinterpret_cast<unsigned char *>(&voltage);
-        senseVoltageFrame.can_id = CAN_VOLTAGE_SENSE;
-        senseVoltageFrame.can_dlc = sizeof(double);
-        strcpy((char*)voltageBytes, (char*)senseVoltageFrame.data);
-        error = canbus.sendMessage(&senseVoltageFrame);
-        if(error != MCP2515::ERROR_OK) {
-            Output.print("ERR: ");
-            Output.println(error, DEC);
-        }
-
-        delay(50);
-
-        struct can_frame millisFrame;
-        double millisValue = millis();
-        unsigned char *millisBytes = (
-            reinterpret_cast<unsigned char *>(&millisValue)
-        );
-        millisFrame.can_id = CAN_MC_MILLIS;
-        millisFrame.can_dlc = sizeof(double);
-        strcpy((char*)millisBytes, (char*)millisFrame.data);
-        error = canbus.sendMessage(&millisFrame);
-        if(error != MCP2515::ERROR_OK) {
-            Output.print("ERR: ");
-            Output.println(error, DEC);
-        }
-        delay(50);
-        */
-
-        lastMessage = millis();
     }
 }
 
@@ -274,12 +313,23 @@ void enableEsp(bool enabled) {
 }
 
 void sleep() {
+    CanMsg sleepMsg;
+    sleepMsg.IDE = CAN_ID_STD;
+    sleepMsg.RTR = CAN_RTR_DATA;
+    sleepMsg.ID = CAN_MAIN_MC_SLEEP;
+    sleepMsg.DLC = 0;
+    CanBus.send(&sleepMsg);
+    delay(20);
+
     enableEsp(false);
     ledEnable(false);
     gpsPMTK(161, ",0");
     systick_disable();
 
+    pinMode(PIN_I_WAKE, INPUT_PULLDOWN);
     attachInterrupt(PIN_I_WAKE, nvic_sys_reset, RISING);
+    pinMode(PIN_I_SPEED, INPUT);
+    attachInterrupt(PIN_I_SPEED, nvic_sys_reset, RISING);
 
     goToSleep(STANDBY);
 }

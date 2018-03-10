@@ -16,3 +16,4 @@ hardware/*_autosave*
 *.drl
 _saved_*
 *.gcode
+.vscode

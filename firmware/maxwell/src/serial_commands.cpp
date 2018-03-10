@@ -30,7 +30,7 @@ void setupCommands() {
 
     commands.addCommand("voltage", voltageMeasurement);
     commands.addCommand("charge", charge);
-    commands.addCommand("is_charging", isChargingNow);
+    commands.addCommand("charging_status", isChargingNow);
     commands.addCommand("current", currentUsage);
 
     commands.addCommand("sleep", doSleep);
@@ -46,6 +46,7 @@ void setupCommands() {
 
     commands.addCommand("coordinates", coordinates);
 
+    commands.addCommand("send_can", send_can);
     commands.addCommand("emit_can", emit_can);
     canCommands.addCommand(CAN_TEST, emit_can);
 
@@ -283,10 +284,18 @@ void charge() {
 }
 
 void isChargingNow() {
-    if(!digitalRead(PIN_I_BATT_CHARGING_)) {
-        Output.println("Yes");
-    } else {
-        Output.println("No");
+    uint8_t chargingStatus = getChargingStatus();
+
+    switch (chargingStatus) {
+        case CHARGING_STATUS_CHARGING_NOW:
+            Output.println("Charging");
+            break;
+        case CHARGING_STATUS_FULLY_CHARGED:
+            Output.println("Fully Charged");
+            break;
+        case CHARGING_STATUS_SHUTDOWN:
+            Output.println("Shutdown");
+            break;
     }
 }
 
@@ -323,7 +332,7 @@ void flash() {
     flashNoticeMsg.RTR = CAN_RTR_DATA;
     flashNoticeMsg.ID = CAN_MAIN_MC_FLASH_BEGIN;
     flashNoticeMsg.DLC = 0;
-    sendCanMessage(&flashNoticeMsg);
+    CanBus.send(&flashNoticeMsg);
 
     Output.println("Resetting device...");
     Output.flush();
@@ -385,7 +394,32 @@ void emit_can() {
     }
 
     testId++;
-    sendCanMessage(&testMsg);
+    CanBus.send(&testMsg);
+}
+
+void send_can() {
+    CanMsg testMsg;
+    testMsg.IDE = CAN_ID_STD;
+    testMsg.RTR = CAN_RTR_DATA;
+
+    char* id = commands.next();
+    if(id == NULL) {
+        Output.println("Message ID required");
+        return;
+    }
+    testMsg.ID = strtol(id, NULL, 16);
+    testMsg.DLC = 0;
+
+    while(true) {
+        char* argument = commands.next();
+        if(argument == NULL) {
+            break;
+        }
+        testMsg.Data[testMsg.DLC] = strtol(argument, NULL, 16);
+        testMsg.DLC++;
+    }
+
+    CanBus.send(&testMsg);
 }
 
 

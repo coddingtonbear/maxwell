@@ -43,21 +43,6 @@ void updateVoltages() {
 
 }
 
-void voltageLoop() {
-    if (
-        lastUpdated == 0 || (
-            (lastUpdated + VOLTAGE_UPDATE_INTERVAL) < millis()
-        )
-    ) {
-        updateVoltages();
-    }
-
-    if (batteryVoltage < 2.9) {
-        Output.println("Low voltage: Shutdown initiated.");
-        sleep();
-    }
-}
-
 int getRawVoltageAdcValue(uint source) {
     int result = -1;
 
@@ -129,5 +114,17 @@ void enableBatteryCharging(bool enable) {
         digitalWrite(PIN_ENABLE_BATT_CHARGE_, HIGH);
     } else {
         digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
+    }
+}
+
+uint8_t getChargingStatus() {
+    int value = analogRead(PIN_I_BATT_CHARGING_);
+
+    if(value < 500) {
+        return CHARGING_STATUS_CHARGING_NOW;
+    } else if(value > 3500) {
+        return CHARGING_STATUS_FULLY_CHARGED;
+    } else {
+        return CHARGING_STATUS_SHUTDOWN;
     }
 }
