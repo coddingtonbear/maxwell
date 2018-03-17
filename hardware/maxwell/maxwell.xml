@@ -1,0 +1,1929 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/Users/adam.coddington/Documents/Projects/maxwell/hardware/maxwell/maxwell.sch</source>
+    <date>Thursday, March 01, 2018 'PMt' 10:14:26 PM</date>
+    <tool>Eeschema (2017-12-14 revision 75b21d0)-master</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>maxwell.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="2" name="/Microcontroller/" tstamps="/5A1FA1FC/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>microcontroller.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="3" name="/Power/" tstamps="/5A1FEBCF/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>power.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="J6">
+      <value>Programmer</value>
+      <footprint>KiCad/Pin_Headers.pretty:Pin_Header_Straight_1x04_Pitch2.54mm</footprint>
+      <libsource lib="maxwell-rescue" part="Conn_01x04-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A178B78</tstamp>
+    </comp>
+    <comp ref="R8">
+      <value>10k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A179266</tstamp>
+    </comp>
+    <comp ref="R7">
+      <value>10k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A179C62</tstamp>
+    </comp>
+    <comp ref="U2">
+      <value>SN65HVD233</value>
+      <footprint>adamgreig/agg-kicad/agg.pretty:SOIC-8</footprint>
+      <libsource lib="maxwell-rescue" part="SN65HVD233-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A227BE3</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>10k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A2285B9</tstamp>
+    </comp>
+    <comp ref="C4">
+      <value>0.1u</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="C-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A22B0AC</tstamp>
+    </comp>
+    <comp ref="U3">
+      <value>ITEAD_HC-05</value>
+      <footprint>pelrun/libKiCad/footprint/w_rf_modules.pretty:ITEAD_HC-05</footprint>
+      <libsource lib="maxwell-rescue" part="ITEAD_HC-05-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A239B9C</tstamp>
+    </comp>
+    <comp ref="BZ1">
+      <value>Buzzer</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:12mm_buzzer</footprint>
+      <libsource lib="maxwell-rescue" part="Buzzer-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A249244</tstamp>
+    </comp>
+    <comp ref="Q1">
+      <value>BSS138</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:SOT-23_LargePads</footprint>
+      <libsource lib="maxwell-rescue" part="BSS138-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A249471</tstamp>
+    </comp>
+    <comp ref="J3">
+      <value>Neopixel</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:JST_XH_B03B-XH-A_03x2.50mm_Straight_LargePads</footprint>
+      <libsource lib="maxwell-rescue" part="Conn_01x03-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A24A6D8</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>330</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A24C6B7</tstamp>
+    </comp>
+    <comp ref="J1">
+      <value>Canbus 1</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:JST_XH_B05B-XH-A_05x2.50mm_Straight_LargePads</footprint>
+      <libsource lib="maxwell-rescue" part="Conn_01x05-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A25E0A2</tstamp>
+    </comp>
+    <comp ref="J2">
+      <value>Canbus 2</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:JST_XH_B05B-XH-A_05x2.50mm_Straight_LargePads</footprint>
+      <libsource lib="maxwell-rescue" part="Conn_01x05-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A25E262</tstamp>
+    </comp>
+    <comp ref="R28">
+      <value>10k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A265BD2</tstamp>
+    </comp>
+    <comp ref="R29">
+      <value>330</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A266BEB</tstamp>
+    </comp>
+    <comp ref="R31">
+      <value>330</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A271748</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>&gt;35</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A2AAAD0</tstamp>
+    </comp>
+    <comp ref="R37">
+      <value>120</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A2B653B</tstamp>
+    </comp>
+    <comp ref="J4">
+      <value>BOOT0</value>
+      <footprint>coddingtonbear:Pin_Header_Straight_1x02_Pitch1.27mm_JMP</footprint>
+      <libsource lib="conn" part="Conn_01x02"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A8A1BD4</tstamp>
+    </comp>
+    <comp ref="J8">
+      <value>BOOT1</value>
+      <footprint>coddingtonbear:Pin_Header_Straight_1x02_Pitch1.27mm_JMP</footprint>
+      <libsource lib="conn" part="Conn_01x02"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A8A1C87</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>100k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A8A1E56</tstamp>
+    </comp>
+    <comp ref="R9">
+      <value>100k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A8A1F0C</tstamp>
+    </comp>
+    <comp ref="J5">
+      <value>SPI2_A</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:JST_XH_B06B-XH-A_06x2.50mm_Straight_LargePads</footprint>
+      <libsource lib="conn" part="Conn_01x06"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A872F71</tstamp>
+    </comp>
+    <comp ref="J10">
+      <value>SPI2_B</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:JST_XH_B06B-XH-A_06x2.50mm_Straight_LargePads</footprint>
+      <libsource lib="conn" part="Conn_01x06"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A87305D</tstamp>
+    </comp>
+    <comp ref="U5">
+      <value>ESP-32S</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:ESP-32S</footprint>
+      <libsource lib="esp32" part="ESP-32S"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A881CB5</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>10k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A885158</tstamp>
+    </comp>
+    <comp ref="U6">
+      <value>FGPMMOPA6C</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:FGPMMOPA6C</footprint>
+      <libsource lib="coddingtonbear-gps" part="FGPMMOPA6C"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A8A3EDD</tstamp>
+    </comp>
+    <comp ref="C5">
+      <value>0.1u</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="C-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A8A6F7E</tstamp>
+    </comp>
+    <comp ref="J11">
+      <value>BACKUP</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:JST_XH_B02B-XH-A_02x2.50mm_Straight_LargePads</footprint>
+      <libsource lib="conn" part="Conn_01x02"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A8ACC4B</tstamp>
+    </comp>
+    <comp ref="J12">
+      <value>UART4</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:JST_XH_B04B-XH-A_04x2.50mm_Straight_LargePads</footprint>
+      <libsource lib="conn" part="Conn_01x04"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A8B4267</tstamp>
+    </comp>
+    <comp ref="J13">
+      <value>UART5</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:JST_XH_B04B-XH-A_04x2.50mm_Straight_LargePads</footprint>
+      <libsource lib="conn" part="Conn_01x04"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A8B42C9</tstamp>
+    </comp>
+    <comp ref="J14">
+      <value>I2C1</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:JST_XH_B04B-XH-A_04x2.50mm_Straight_LargePads</footprint>
+      <libsource lib="conn" part="Conn_01x04"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A8B5837</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>2.2k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A8B5F63</tstamp>
+    </comp>
+    <comp ref="R16">
+      <value>2.2k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A8B5FC6</tstamp>
+    </comp>
+    <comp ref="U7">
+      <value>STM32F103RETx</value>
+      <footprint>kicad-castellated-breakouts:QFP64-1.27MM-CASTELLATED</footprint>
+      <libsource lib="maxwell-rescue" part="STM32F103RETx-RESCUE-maxwell"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A1FCF5C</tstamp>
+    </comp>
+    <comp ref="Y2">
+      <value>8M</value>
+      <footprint>nqbit/NQBit.pretty:HC-49USX_SMD</footprint>
+      <libsource lib="maxwell-rescue" part="Crystal-RESCUE-maxwell"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A1FCF85</tstamp>
+    </comp>
+    <comp ref="C6">
+      <value>22p</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="C-RESCUE-maxwell"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A1FCF8C</tstamp>
+    </comp>
+    <comp ref="C7">
+      <value>22p</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="C-RESCUE-maxwell"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A1FCF93</tstamp>
+    </comp>
+    <comp ref="C8">
+      <value>22p</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="C-RESCUE-maxwell"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A1FCFB1</tstamp>
+    </comp>
+    <comp ref="C9">
+      <value>22p</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="C-RESCUE-maxwell"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A1FCFB8</tstamp>
+    </comp>
+    <comp ref="R10">
+      <value>10k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A1FCFDF</tstamp>
+    </comp>
+    <comp ref="C10">
+      <value>100n</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="C-RESCUE-maxwell"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A1FCFEE</tstamp>
+    </comp>
+    <comp ref="C11">
+      <value>100n</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="C-RESCUE-maxwell"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A1FCFF5</tstamp>
+    </comp>
+    <comp ref="C12">
+      <value>100n</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="C-RESCUE-maxwell"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A1FCFFC</tstamp>
+    </comp>
+    <comp ref="C13">
+      <value>100n</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="C-RESCUE-maxwell"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A1FD003</tstamp>
+    </comp>
+    <comp ref="R33">
+      <value>1M</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A2732F7</tstamp>
+    </comp>
+    <comp ref="U1">
+      <value>MCP1501</value>
+      <footprint>adamgreig/agg-kicad/agg.pretty:SOT-23-6</footprint>
+      <libsource lib="coddingtonbear" part="MCP1501"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A83FFBF</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>2.2u</value>
+      <footprint>coddingtonbear:CP_Tantalum_Case-C_EIA-6032-28_Milling</footprint>
+      <libsource lib="device" part="CP"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A8463F3</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>2.2u</value>
+      <footprint>coddingtonbear:CP_Tantalum_Case-C_EIA-6032-28_Milling</footprint>
+      <libsource lib="device" part="CP"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A848A15</tstamp>
+    </comp>
+    <comp ref="R11">
+      <value>50</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A848A7F</tstamp>
+    </comp>
+    <comp ref="Y1">
+      <value>32.768k</value>
+      <footprint>KiCad/Crystals.pretty:Crystal_SMD_SeikoEpson_MC306-4pin_8.0x3.2mm</footprint>
+      <libsource lib="device" part="Crystal_GND23_Small"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A8C64C3</tstamp>
+    </comp>
+    <comp ref="J15">
+      <value>GPIO</value>
+      <footprint>KiCad/Pin_Headers.pretty:Pin_Header_Straight_1x03_Pitch2.54mm</footprint>
+      <libsource lib="conn" part="Conn_01x03"/>
+      <sheetpath names="/Microcontroller/" tstamps="/5A1FA1FC/"/>
+      <tstamp>5A8B48F3</tstamp>
+    </comp>
+    <comp ref="J7">
+      <value>Dynamo Input</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:JST_XH_B02B-XH-A_02x2.50mm_Straight_LargePads</footprint>
+      <libsource lib="maxwell-rescue" part="Conn_01x02-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A1FF249</tstamp>
+    </comp>
+    <comp ref="U8">
+      <value>TLP188</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:SO-4_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="TLP185(SE-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A1FF25C</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>GS1M-LTP</value>
+      <footprint>mcous/kicad-lib/footprints/diode.pretty:DO-214AC</footprint>
+      <libsource lib="maxwell-rescue" part="D-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A1FF263</tstamp>
+    </comp>
+    <comp ref="D4">
+      <value>MB24S</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:SO-4_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="D_Bridge_+-AA-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A1FF27E</tstamp>
+    </comp>
+    <comp ref="R14">
+      <value>200</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A1FF297</tstamp>
+    </comp>
+    <comp ref="D2">
+      <value>18</value>
+      <footprint>adamgreig/agg-kicad/agg.pretty:DO-214AA-SMB</footprint>
+      <libsource lib="maxwell-rescue" part="D_Zener-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A1FF2A4</tstamp>
+    </comp>
+    <comp ref="D3">
+      <value>18</value>
+      <footprint>adamgreig/agg-kicad/agg.pretty:DO-214AA-SMB</footprint>
+      <libsource lib="maxwell-rescue" part="D_Zener-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A1FF2AB</tstamp>
+    </comp>
+    <comp ref="U9">
+      <value>Buck Regulator</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:BOOST_LM2596_3A</footprint>
+      <libsource lib="maxwell-rescue" part="BOOST_BOARD-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A1FFDEF</tstamp>
+    </comp>
+    <comp ref="C15">
+      <value>100u</value>
+      <footprint>coddingtonbear:CP_Tantalum_Case-D_EIA-7343-31_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="CP-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A20260D</tstamp>
+    </comp>
+    <comp ref="U*1">
+      <value>MCP73831T</value>
+      <footprint>apexelectrix/apex-smd.pretty:SOT-23-5</footprint>
+      <libsource lib="maxwell-rescue" part="MCP73831T-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A2102FA</tstamp>
+    </comp>
+    <comp ref="J9">
+      <value>Battery</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:JST_XH_B02B-XH-A_02x2.50mm_Straight_LargePads</footprint>
+      <libsource lib="maxwell-rescue" part="Conn_01x02-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A21040E</tstamp>
+    </comp>
+    <comp ref="R19">
+      <value>2k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A210718</tstamp>
+    </comp>
+    <comp ref="C18">
+      <value>100nF</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="C-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A22422F</tstamp>
+    </comp>
+    <comp ref="R20">
+      <value>ANY</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A245A23</tstamp>
+    </comp>
+    <comp ref="R21">
+      <value>ANY</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A245A89</tstamp>
+    </comp>
+    <comp ref="R23">
+      <value>ANY</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A245B4A</tstamp>
+    </comp>
+    <comp ref="R24">
+      <value>ANY</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A245B93</tstamp>
+    </comp>
+    <comp ref="R22">
+      <value>0.02</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A246038</tstamp>
+    </comp>
+    <comp ref="C17">
+      <value>0.1</value>
+      <footprint>fruchti/fruchtilib/mod/rcl.pretty:CP_13mm_200</footprint>
+      <libsource lib="maxwell-rescue" part="CP-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A24B0B8</tstamp>
+    </comp>
+    <comp ref="R34">
+      <value>110k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A27817C</tstamp>
+    </comp>
+    <comp ref="R35">
+      <value>10k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A2781E1</tstamp>
+    </comp>
+    <comp ref="Q4">
+      <value>NTR1P02T1</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:SOT-23_LargePads</footprint>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A85109E</tstamp>
+    </comp>
+    <comp ref="Q3">
+      <value>NTR1P02T1</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:SOT-23_LargePads</footprint>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A876381</tstamp>
+    </comp>
+    <comp ref="Q2">
+      <value>PSMN5R4-25YLD</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:PSMN5R4-25YLD</footprint>
+      <libsource lib="device" part="Q_NMOS_SGD"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A87E051</tstamp>
+    </comp>
+    <comp ref="U10">
+      <value>MIC39102</value>
+      <footprint>adamgreig/agg-kicad/agg.pretty:SOIC-8</footprint>
+      <libsource lib="coddingtonbear" part="MIC39102"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A881E0A</tstamp>
+    </comp>
+    <comp ref="C3">
+      <value>2.2u</value>
+      <footprint>coddingtonbear:CP_Tantalum_Case-C_EIA-6032-28_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="CP-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A884C9A</tstamp>
+    </comp>
+    <comp ref="C14">
+      <value>220u</value>
+      <footprint>coddingtonbear:CP_Tantalum_Case-C_EIA-6032-28_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="CP-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A8876EB</tstamp>
+    </comp>
+    <comp ref="R12">
+      <value>16-17k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A89570C</tstamp>
+    </comp>
+    <comp ref="R13">
+      <value>10k</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:0805_Milling</footprint>
+      <libsource lib="maxwell-rescue" part="R-RESCUE-maxwell"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A8957A6</tstamp>
+    </comp>
+    <comp ref="Q5">
+      <value>NTR1P02T1</value>
+      <footprint>coddingtonbear/coddingtonbear.pretty:SOT-23_LargePads</footprint>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/Power/" tstamps="/5A1FEBCF/"/>
+      <tstamp>5A851232</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="maxwell-rescue" part="BOOST_BOARD-RESCUE-maxwell">
+      <footprints>
+        <fp>BOOST_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">BOOST_BOARD-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="IN+" type="power_in"/>
+        <pin num="2" name="IN-" type="power_in"/>
+        <pin num="3" name="OUT+" type="power_out"/>
+        <pin num="4" name="OUT-" type="power_out"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="BSS138-RESCUE-maxwell">
+      <footprints>
+        <fp>SOT?23*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">BSS138-RESCUE-maxwell</field>
+        <field name="Footprint">TO_SOT_Packages_SMD:SOT-23</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G" type="input"/>
+        <pin num="2" name="S" type="passive"/>
+        <pin num="3" name="D" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="Buzzer-RESCUE-maxwell">
+      <footprints>
+        <fp>*Buzzer*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">BZ</field>
+        <field name="Value">Buzzer-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="-" type="passive"/>
+        <pin num="2" name="+" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="C-RESCUE-maxwell">
+      <footprints>
+        <fp>C_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="CP">
+      <description>Polarised capacitor</description>
+      <footprints>
+        <fp>CP_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">CP</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="CP-RESCUE-maxwell">
+      <footprints>
+        <fp>CP_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">CP-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="Conn_01x02">
+      <description>Generic connector, single row, 01x02</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_??x*mm*</fp>
+        <fp>Connector*:*1x??x*mm*</fp>
+        <fp>Pin?Header?Straight?1X*</fp>
+        <fp>Pin?Header?Angled?1X*</fp>
+        <fp>Socket?Strip?Straight?1X*</fp>
+        <fp>Socket?Strip?Angled?1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x02</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="Conn_01x02-RESCUE-maxwell">
+      <footprints>
+        <fp>Connector*:*_??x*mm*</fp>
+        <fp>Connector*:*1x??x*mm*</fp>
+        <fp>Pin?Header?Straight?1X*</fp>
+        <fp>Pin?Header?Angled?1X*</fp>
+        <fp>Socket?Strip?Straight?1X*</fp>
+        <fp>Socket?Strip?Angled?1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x02-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="Conn_01x03">
+      <description>Generic connector, single row, 01x03</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_??x*mm*</fp>
+        <fp>Connector*:*1x??x*mm*</fp>
+        <fp>Pin?Header?Straight?1X*</fp>
+        <fp>Pin?Header?Angled?1X*</fp>
+        <fp>Socket?Strip?Straight?1X*</fp>
+        <fp>Socket?Strip?Angled?1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x03</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="Conn_01x03-RESCUE-maxwell">
+      <footprints>
+        <fp>Connector*:*_??x*mm*</fp>
+        <fp>Connector*:*1x??x*mm*</fp>
+        <fp>Pin?Header?Straight?1X*</fp>
+        <fp>Pin?Header?Angled?1X*</fp>
+        <fp>Socket?Strip?Straight?1X*</fp>
+        <fp>Socket?Strip?Angled?1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x03-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="Conn_01x04">
+      <description>Generic connector, single row, 01x04</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_??x*mm*</fp>
+        <fp>Connector*:*1x??x*mm*</fp>
+        <fp>Pin?Header?Straight?1X*</fp>
+        <fp>Pin?Header?Angled?1X*</fp>
+        <fp>Socket?Strip?Straight?1X*</fp>
+        <fp>Socket?Strip?Angled?1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x04</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+        <pin num="4" name="Pin_4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="Conn_01x04-RESCUE-maxwell">
+      <footprints>
+        <fp>Connector*:*_??x*mm*</fp>
+        <fp>Connector*:*1x??x*mm*</fp>
+        <fp>Pin?Header?Straight?1X*</fp>
+        <fp>Pin?Header?Angled?1X*</fp>
+        <fp>Socket?Strip?Straight?1X*</fp>
+        <fp>Socket?Strip?Angled?1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x04-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+        <pin num="4" name="Pin_4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="Conn_01x05-RESCUE-maxwell">
+      <footprints>
+        <fp>Connector*:*_??x*mm*</fp>
+        <fp>Connector*:*1x??x*mm*</fp>
+        <fp>Pin?Header?Straight?1X*</fp>
+        <fp>Pin?Header?Angled?1X*</fp>
+        <fp>Socket?Strip?Straight?1X*</fp>
+        <fp>Socket?Strip?Angled?1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x05-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+        <pin num="4" name="Pin_4" type="passive"/>
+        <pin num="5" name="Pin_5" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="Conn_01x06">
+      <description>Generic connector, single row, 01x06</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_??x*mm*</fp>
+        <fp>Connector*:*1x??x*mm*</fp>
+        <fp>Pin?Header?Straight?1X*</fp>
+        <fp>Pin?Header?Angled?1X*</fp>
+        <fp>Socket?Strip?Straight?1X*</fp>
+        <fp>Socket?Strip?Angled?1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x06</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+        <pin num="4" name="Pin_4" type="passive"/>
+        <pin num="5" name="Pin_5" type="passive"/>
+        <pin num="6" name="Pin_6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="Crystal-RESCUE-maxwell">
+      <footprints>
+        <fp>Crystal*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">Y</field>
+        <field name="Value">Crystal-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="Crystal_GND23_Small">
+      <description>Four pin crystal, two ground/package pins (pin2 and 3) small symbol</description>
+      <footprints>
+        <fp>Crystal*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">Y</field>
+        <field name="Value">Crystal_GND23_Small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="D-RESCUE-maxwell">
+      <footprints>
+        <fp>TO-???*</fp>
+        <fp>*SingleDiode</fp>
+        <fp>*_Diode_*</fp>
+        <fp>*SingleDiode*</fp>
+        <fp>D_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">D-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="D_Bridge_+-AA-RESCUE-maxwell">
+      <footprints>
+        <fp>D?Bridge*</fp>
+        <fp>D?Rectifier*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">D_Bridge_+-AA-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+" type="input"/>
+        <pin num="2" name="-" type="input"/>
+        <pin num="3" name="~" type="input"/>
+        <pin num="4" name="~" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="D_Zener-RESCUE-maxwell">
+      <footprints>
+        <fp>TO-???*</fp>
+        <fp>*SingleDiode</fp>
+        <fp>*_Diode_*</fp>
+        <fp>*SingleDiode*</fp>
+        <fp>D_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">D_Zener-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="esp32" part="ESP-32S">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">ESP-32S</field>
+        <field name="Footprint">ESP32-footprints-Lib:ESP-32S</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="power_out"/>
+        <pin num="2" name="3V3" type="power_in"/>
+        <pin num="3" name="EN" type="input"/>
+        <pin num="4" name="SENSOR_VP" type="input"/>
+        <pin num="5" name="SENSOR_VN" type="input"/>
+        <pin num="6" name="IO34" type="BiDi"/>
+        <pin num="7" name="IO35" type="BiDi"/>
+        <pin num="8" name="IO32" type="BiDi"/>
+        <pin num="9" name="IO33" type="BiDi"/>
+        <pin num="10" name="IO25" type="BiDi"/>
+        <pin num="11" name="IO26" type="BiDi"/>
+        <pin num="12" name="IO27" type="BiDi"/>
+        <pin num="13" name="IO14" type="BiDi"/>
+        <pin num="14" name="IO12" type="BiDi"/>
+        <pin num="15" name="GND" type="power_in"/>
+        <pin num="16" name="IO13" type="BiDi"/>
+        <pin num="17" name="SD2" type="BiDi"/>
+        <pin num="18" name="SD3" type="BiDi"/>
+        <pin num="19" name="CMD" type="BiDi"/>
+        <pin num="20" name="CLK" type="input"/>
+        <pin num="21" name="SDO" type="BiDi"/>
+        <pin num="22" name="SD1" type="BiDi"/>
+        <pin num="23" name="IO15" type="BiDi"/>
+        <pin num="24" name="IO2" type="BiDi"/>
+        <pin num="25" name="IO0" type="BiDi"/>
+        <pin num="26" name="IO4" type="input"/>
+        <pin num="27" name="IO16" type="BiDi"/>
+        <pin num="28" name="IO17" type="BiDi"/>
+        <pin num="29" name="IO5" type="BiDi"/>
+        <pin num="30" name="IO18" type="input"/>
+        <pin num="31" name="IO19" type="BiDi"/>
+        <pin num="32" name="NC" type="NotConnected"/>
+        <pin num="33" name="IO21" type="BiDi"/>
+        <pin num="34" name="RXD0" type="BiDi"/>
+        <pin num="35" name="TXD0" type="BiDi"/>
+        <pin num="36" name="IO22" type="BiDi"/>
+        <pin num="37" name="IO23" type="BiDi"/>
+        <pin num="38" name="GND" type="power_in"/>
+        <pin num="39" name="GND-PAD" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="coddingtonbear-gps" part="FGPMMOPA6C">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">FGPMMOPA6C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC" type="input"/>
+        <pin num="2" name="NC" type="input"/>
+        <pin num="3" name="GND" type="input"/>
+        <pin num="4" name="VBACKUP" type="input"/>
+        <pin num="5" name="3D-FIX" type="input"/>
+        <pin num="6" name="1PPS" type="input"/>
+        <pin num="7" name="NC" type="input"/>
+        <pin num="8" name="GND" type="input"/>
+        <pin num="9" name="TX" type="input"/>
+        <pin num="10" name="RX" type="input"/>
+        <pin num="11" name="GND" type="input"/>
+        <pin num="12" name="GND" type="input"/>
+        <pin num="13" name="GND" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="ITEAD_HC-05-RESCUE-maxwell">
+      <footprints>
+        <fp>ITEAD_HC-05</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">ITEAD_HC-05-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="UART_TX" type="passive"/>
+        <pin num="2" name="UART_RX" type="passive"/>
+        <pin num="3" name="~UART_CTS" type="passive"/>
+        <pin num="4" name="~UART_RTS" type="passive"/>
+        <pin num="5" name="PCM_CLK" type="passive"/>
+        <pin num="6" name="PCM_OUT" type="passive"/>
+        <pin num="7" name="PCM_IN" type="passive"/>
+        <pin num="8" name="PCM_SYNC" type="passive"/>
+        <pin num="9" name="AIO0" type="passive"/>
+        <pin num="10" name="AIO1" type="passive"/>
+        <pin num="11" name="~RESET" type="passive"/>
+        <pin num="12" name="VCC" type="passive"/>
+        <pin num="13" name="GND" type="passive"/>
+        <pin num="15" name="USB_D-" type="passive"/>
+        <pin num="16" name="~SPI_CS" type="passive"/>
+        <pin num="17" name="SPI_MOSI" type="passive"/>
+        <pin num="18" name="SPI_MISO" type="passive"/>
+        <pin num="19" name="SPI_CLK" type="passive"/>
+        <pin num="20" name="USB_D+" type="passive"/>
+        <pin num="21" name="GND" type="passive"/>
+        <pin num="22" name="GND" type="passive"/>
+        <pin num="23" name="PIO0" type="passive"/>
+        <pin num="24" name="PIO1" type="passive"/>
+        <pin num="25" name="PIO2" type="passive"/>
+        <pin num="26" name="PIO3" type="passive"/>
+        <pin num="27" name="PIO4" type="passive"/>
+        <pin num="28" name="PIO5" type="passive"/>
+        <pin num="29" name="PIO6" type="passive"/>
+        <pin num="30" name="PIO7" type="passive"/>
+        <pin num="31" name="PIO8" type="passive"/>
+        <pin num="32" name="PIO9" type="passive"/>
+        <pin num="33" name="PIO10" type="passive"/>
+        <pin num="34" name="PIO11" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="coddingtonbear" part="MCP1501">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">MCP1501</field>
+      </fields>
+      <pins>
+        <pin num="1" name="OUT" type="input"/>
+        <pin num="2" name="GND" type="input"/>
+        <pin num="3" name="GND" type="input"/>
+        <pin num="4" name="~SHDN" type="input"/>
+        <pin num="5" name="GND" type="input"/>
+        <pin num="6" name="VDD" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="MCP73831T-RESCUE-maxwell">
+      <fields>
+        <field name="Reference">U*</field>
+        <field name="Value">MCP73831T-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="STAT" type="input"/>
+        <pin num="2" name="GND" type="input"/>
+        <pin num="3" name="VBAT" type="input"/>
+        <pin num="4" name="VDD" type="input"/>
+        <pin num="5" name="PROG" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="coddingtonbear" part="MIC39102">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">MIC39102</field>
+      </fields>
+      <pins>
+        <pin num="1" name="EN" type="input"/>
+        <pin num="2" name="IN" type="power_in"/>
+        <pin num="3" name="OUT" type="power_out"/>
+        <pin num="4" name="ADJ" type="input"/>
+        <pin num="5" name="GND" type="power_in"/>
+        <pin num="6" name="GND" type="power_in"/>
+        <pin num="7" name="GND" type="power_in"/>
+        <pin num="8" name="GND" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="Q_NMOS_SGD">
+      <description>Transistor N-MOSFETwith substrate diode (general)</description>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">Q_NMOS_SGD</field>
+      </fields>
+      <pins>
+        <pin num="1" name="S" type="passive"/>
+        <pin num="2" name="G" type="input"/>
+        <pin num="3" name="D" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="Q_PMOS_GSD">
+      <description>Transistor P-MOSFET with substrate diode (general)</description>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">Q_PMOS_GSD</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G" type="input"/>
+        <pin num="2" name="S" type="passive"/>
+        <pin num="3" name="D" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="R-RESCUE-maxwell">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R-RESCUE-maxwell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="SN65HVD233-RESCUE-maxwell">
+      <footprints>
+        <fp>SOIC*3.9x4.9mm*Pitch1.27mm*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">SN65HVD233-RESCUE-maxwell</field>
+        <field name="Footprint">Housings_SOIC:SOIC-8_3.9x4.9mm_Pitch1.27mm</field>
+      </fields>
+      <pins>
+        <pin num="1" name="D" type="input"/>
+        <pin num="2" name="GND" type="power_in"/>
+        <pin num="3" name="VCC" type="power_in"/>
+        <pin num="4" name="R" type="output"/>
+        <pin num="5" name="LBK" type="input"/>
+        <pin num="6" name="CANL" type="BiDi"/>
+        <pin num="7" name="CANH" type="BiDi"/>
+        <pin num="8" name="Rs" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="STM32F103RETx-RESCUE-maxwell">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">STM32F103RETx-RESCUE-maxwell</field>
+        <field name="Footprint">LQFP64</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VBAT" type="power_in"/>
+        <pin num="2" name="PC13/RTC_OUT/RTC_TAMPER" type="BiDi"/>
+        <pin num="3" name="PC14/RCC_OSC32_IN" type="BiDi"/>
+        <pin num="4" name="PC15/ADC1_EXTI15/ADC2_EXTI15/RCC_OSC32_OUT" type="BiDi"/>
+        <pin num="5" name="PD0/RCC_OSC_IN" type="input"/>
+        <pin num="6" name="PD1/RCC_OSC_OUT" type="input"/>
+        <pin num="7" name="NRST" type="input"/>
+        <pin num="8" name="PC0/ADC1_IN10/ADC2_IN10/ADC3_IN10" type="BiDi"/>
+        <pin num="9" name="PC1/ADC1_IN11/ADC2_IN11/ADC3_IN11" type="BiDi"/>
+        <pin num="10" name="PC2/ADC1_IN12/ADC2_IN12/ADC3_IN12" type="BiDi"/>
+        <pin num="11" name="PC3/ADC1_IN13/ADC2_IN13/ADC3_IN13" type="BiDi"/>
+        <pin num="12" name="VSSA" type="power_in"/>
+        <pin num="13" name="VDDA" type="power_in"/>
+        <pin num="14" name="ADC1_IN0/ADC2_IN0/ADC3_IN0/SYS_WKUP/TIM2_CH1/TIM2_ETR/TIM5_CH1/TIM8_ETR/USART2_CTS/PA0" type="BiDi"/>
+        <pin num="15" name="ADC1_IN1/ADC2_IN1/ADC3_IN1/TIM2_CH2/TIM5_CH2/USART2_RTS/PA1" type="BiDi"/>
+        <pin num="16" name="ADC1_IN2/ADC2_IN2/ADC3_IN2/TIM2_CH3/TIM5_CH3/USART2_TX/PA2" type="BiDi"/>
+        <pin num="17" name="ADC1_IN3/ADC2_IN3/ADC3_IN3/TIM2_CH4/TIM5_CH4/USART2_RX/PA3" type="BiDi"/>
+        <pin num="18" name="VSS" type="power_in"/>
+        <pin num="19" name="VDD" type="power_in"/>
+        <pin num="20" name="ADC1_IN4/ADC2_IN4/DAC_OUT1/SPI1_NSS/USART2_CK/PA4" type="BiDi"/>
+        <pin num="21" name="ADC1_IN5/ADC2_IN5/DAC_OUT2/SPI1_SCK/PA5" type="BiDi"/>
+        <pin num="22" name="ADC1_IN6/ADC2_IN6/SPI1_MISO/TIM1_BKIN/TIM3_CH1/TIM8_BKIN/PA6" type="BiDi"/>
+        <pin num="23" name="ADC1_IN7/ADC2_IN7/SPI1_MOSI/TIM1_CH1N/TIM3_CH2/TIM8_CH1N/PA7" type="BiDi"/>
+        <pin num="24" name="PC4/ADC1_IN14/ADC2_IN14" type="BiDi"/>
+        <pin num="25" name="PC5/ADC1_IN15/ADC2_IN15" type="BiDi"/>
+        <pin num="26" name="ADC1_IN8/ADC2_IN8/TIM1_CH2N/TIM3_CH3/TIM8_CH2N/PB0" type="BiDi"/>
+        <pin num="27" name="ADC1_IN9/ADC2_IN9/TIM1_CH3N/TIM3_CH4/TIM8_CH3N/PB1" type="BiDi"/>
+        <pin num="28" name="BOOT1/PB2" type="BiDi"/>
+        <pin num="29" name="I2C2_SCL/TIM2_CH3/USART3_TX/PB10" type="BiDi"/>
+        <pin num="30" name="ADC1_EXTI11/ADC2_EXTI11/I2C2_SDA/TIM2_CH4/USART3_RX/PB11" type="BiDi"/>
+        <pin num="31" name="VSS" type="power_in"/>
+        <pin num="32" name="VDD" type="power_in"/>
+        <pin num="33" name="I2C2_SMBA/I2S2_WS/SPI2_NSS/TIM1_BKIN/USART3_CK/PB12" type="BiDi"/>
+        <pin num="34" name="I2S2_CK/SPI2_SCK/TIM1_CH1N/USART3_CTS/PB13" type="BiDi"/>
+        <pin num="35" name="SPI2_MISO/TIM1_CH2N/USART3_RTS/PB14" type="BiDi"/>
+        <pin num="36" name="ADC1_EXTI15/ADC2_EXTI15/I2S2_SD/SPI2_MOSI/TIM1_CH3N/PB15" type="BiDi"/>
+        <pin num="37" name="PC6/I2S2_MCK/SDIO_D6/TIM3_CH1/TIM8_CH1" type="BiDi"/>
+        <pin num="38" name="PC7/I2S3_MCK/SDIO_D7/TIM3_CH2/TIM8_CH2" type="BiDi"/>
+        <pin num="39" name="PC8/SDIO_D0/TIM3_CH3/TIM8_CH3" type="BiDi"/>
+        <pin num="40" name="PC9/DAC_EXTI9/SDIO_D1/TIM3_CH4/TIM8_CH4" type="BiDi"/>
+        <pin num="41" name="RCC_MCO/TIM1_CH1/USART1_CK/PA8" type="BiDi"/>
+        <pin num="42" name="DAC_EXTI9/TIM1_CH2/USART1_TX/PA9" type="BiDi"/>
+        <pin num="43" name="TIM1_CH3/USART1_RX/PA10" type="BiDi"/>
+        <pin num="44" name="ADC1_EXTI11/ADC2_EXTI11/CAN_RX/TIM1_CH4/USART1_CTS/USB_DM/PA11" type="BiDi"/>
+        <pin num="45" name="CAN_TX/TIM1_ETR/USART1_RTS/USB_DP/PA12" type="BiDi"/>
+        <pin num="46" name="SYS_JTMS-SWDIO/PA13" type="BiDi"/>
+        <pin num="47" name="VSS" type="power_in"/>
+        <pin num="48" name="VDD" type="power_in"/>
+        <pin num="49" name="SYS_JTCK-SWCLK/PA14" type="BiDi"/>
+        <pin num="50" name="ADC1_EXTI15/ADC2_EXTI15/I2S3_WS/SPI1_NSS/SPI3_NSS/SYS_JTDI/TIM2_CH1/TIM2_ETR/PA15" type="BiDi"/>
+        <pin num="51" name="PC10/SDIO_D2/UART4_TX/USART3_TX" type="BiDi"/>
+        <pin num="52" name="PC11/ADC1_EXTI11/ADC2_EXTI11/SDIO_D3/UART4_RX/USART3_RX" type="BiDi"/>
+        <pin num="53" name="PC12/SDIO_CK/UART5_TX/USART3_CK" type="BiDi"/>
+        <pin num="54" name="PD2/SDIO_CMD/TIM3_ETR/UART5_RX" type="BiDi"/>
+        <pin num="55" name="I2S3_CK/SPI1_SCK/SPI3_SCK/SYS_JTDO-TRACESWO/TIM2_CH2/PB3" type="BiDi"/>
+        <pin num="56" name="SPI1_MISO/SPI3_MISO/SYS_NJTRST/TIM3_CH1/PB4" type="BiDi"/>
+        <pin num="57" name="I2C1_SMBA/I2S3_SD/SPI1_MOSI/SPI3_MOSI/TIM3_CH2/PB5" type="BiDi"/>
+        <pin num="58" name="I2C1_SCL/TIM4_CH1/USART1_TX/PB6" type="BiDi"/>
+        <pin num="59" name="I2C1_SDA/TIM4_CH2/USART1_RX/PB7" type="BiDi"/>
+        <pin num="60" name="BOOT0" type="input"/>
+        <pin num="61" name="CAN_RX/I2C1_SCL/SDIO_D4/TIM4_CH3/PB8" type="BiDi"/>
+        <pin num="62" name="CAN_TX/DAC_EXTI9/I2C1_SDA/SDIO_D5/TIM4_CH4/PB9" type="BiDi"/>
+        <pin num="63" name="VSS" type="power_in"/>
+        <pin num="64" name="VDD" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="maxwell-rescue" part="TLP185(SE-RESCUE-maxwell">
+      <footprints>
+        <fp>MFSOP6*4.4x3.6mm*Pitch1.27mm*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">TLP185(SE-RESCUE-maxwell</field>
+        <field name="Footprint">Housings_SSOP:MFSOP6-4_4.4x3.6mm_Pitch1.27mm</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="3" name="~" type="passive"/>
+        <pin num="4" name="~" type="passive"/>
+        <pin num="6" name="~" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="coddingtonbear">
+      <uri>/Users/adam.coddington/Documents/Projects/kicad_footprints/coddingtonbear/coddingtonbear.lib</uri>
+    </library>
+    <library logical="coddingtonbear-gps">
+      <uri>/Users/adam.coddington/Documents/Projects/kicad_footprints/coddingtonbear/FPGMMOPA6H.lib</uri>
+    </library>
+    <library logical="conn">
+      <uri>/Library/Application Support/kicad/library//conn.lib</uri>
+    </library>
+    <library logical="device">
+      <uri>/Library/Application Support/kicad/library//device.lib</uri>
+    </library>
+    <library logical="esp32">
+      <uri>/Users/adam.coddington/Documents/Projects/kicad_footprints/ESP32-kiCAD-Footprints/ESP32-Footprints/ESP32-footprints-Shem-Lib.lib</uri>
+    </library>
+    <library logical="maxwell-rescue">
+      <uri>/Users/adam.coddington/Documents/Projects/maxwell/hardware/maxwell/maxwell-rescue.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="GND">
+      <node ref="U7" pin="31"/>
+      <node ref="C12" pin="2"/>
+      <node ref="C11" pin="2"/>
+      <node ref="C10" pin="2"/>
+      <node ref="J6" pin="4"/>
+      <node ref="R8" pin="1"/>
+      <node ref="U2" pin="2"/>
+      <node ref="C9" pin="2"/>
+      <node ref="C8" pin="2"/>
+      <node ref="R1" pin="2"/>
+      <node ref="C7" pin="2"/>
+      <node ref="C6" pin="2"/>
+      <node ref="U7" pin="63"/>
+      <node ref="U7" pin="47"/>
+      <node ref="C4" pin="1"/>
+      <node ref="U3" pin="13"/>
+      <node ref="U1" pin="2"/>
+      <node ref="U1" pin="3"/>
+      <node ref="U1" pin="5"/>
+      <node ref="U7" pin="18"/>
+      <node ref="U7" pin="12"/>
+      <node ref="U3" pin="21"/>
+      <node ref="U3" pin="22"/>
+      <node ref="C2" pin="2"/>
+      <node ref="R11" pin="2"/>
+      <node ref="D4" pin="2"/>
+      <node ref="U9" pin="2"/>
+      <node ref="U9" pin="4"/>
+      <node ref="C15" pin="2"/>
+      <node ref="U*1" pin="2"/>
+      <node ref="U*1" pin="2"/>
+      <node ref="J9" pin="1"/>
+      <node ref="R19" pin="2"/>
+      <node ref="C18" pin="1"/>
+      <node ref="R21" pin="2"/>
+      <node ref="J14" pin="1"/>
+      <node ref="R24" pin="2"/>
+      <node ref="C17" pin="2"/>
+      <node ref="R35" pin="2"/>
+      <node ref="J1" pin="5"/>
+      <node ref="J13" pin="1"/>
+      <node ref="J12" pin="1"/>
+      <node ref="J2" pin="5"/>
+      <node ref="R28" pin="1"/>
+      <node ref="R4" pin="1"/>
+      <node ref="J11" pin="1"/>
+      <node ref="C5" pin="2"/>
+      <node ref="U6" pin="8"/>
+      <node ref="U6" pin="3"/>
+      <node ref="U6" pin="13"/>
+      <node ref="U6" pin="12"/>
+      <node ref="U6" pin="11"/>
+      <node ref="Q4" pin="1"/>
+      <node ref="R5" pin="2"/>
+      <node ref="Q5" pin="1"/>
+      <node ref="R9" pin="2"/>
+      <node ref="C13" pin="2"/>
+      <node ref="U5" pin="39"/>
+      <node ref="U5" pin="38"/>
+      <node ref="Q2" pin="1"/>
+      <node ref="U10" pin="5"/>
+      <node ref="U5" pin="15"/>
+      <node ref="U10" pin="6"/>
+      <node ref="U10" pin="7"/>
+      <node ref="U10" pin="8"/>
+      <node ref="C3" pin="2"/>
+      <node ref="R13" pin="2"/>
+      <node ref="C14" pin="2"/>
+      <node ref="J5" pin="6"/>
+      <node ref="J10" pin="6"/>
+      <node ref="U5" pin="1"/>
+    </net>
+    <net code="2" name="SWDIO">
+      <node ref="U7" pin="46"/>
+      <node ref="R8" pin="2"/>
+      <node ref="J6" pin="2"/>
+    </net>
+    <net code="3" name="+3V3">
+      <node ref="C12" pin="1"/>
+      <node ref="R12" pin="1"/>
+      <node ref="C14" pin="1"/>
+      <node ref="C11" pin="1"/>
+      <node ref="C10" pin="1"/>
+      <node ref="R10" pin="2"/>
+      <node ref="U10" pin="3"/>
+      <node ref="U5" pin="2"/>
+      <node ref="J6" pin="1"/>
+      <node ref="R7" pin="1"/>
+      <node ref="U8" pin="6"/>
+      <node ref="R2" pin="1"/>
+      <node ref="C2" pin="1"/>
+      <node ref="U2" pin="3"/>
+      <node ref="R6" pin="2"/>
+      <node ref="R16" pin="1"/>
+      <node ref="J8" pin="1"/>
+      <node ref="J4" pin="1"/>
+      <node ref="U7" pin="64"/>
+      <node ref="C13" pin="1"/>
+      <node ref="U1" pin="6"/>
+      <node ref="U7" pin="48"/>
+      <node ref="U7" pin="19"/>
+      <node ref="C4" pin="2"/>
+      <node ref="U1" pin="4"/>
+      <node ref="U3" pin="12"/>
+      <node ref="U7" pin="32"/>
+    </net>
+    <net code="4" name="SWCLK">
+      <node ref="J6" pin="3"/>
+      <node ref="R7" pin="2"/>
+      <node ref="U7" pin="49"/>
+    </net>
+    <net code="5" name="CAN_TX">
+      <node ref="U7" pin="62"/>
+      <node ref="U2" pin="1"/>
+    </net>
+    <net code="6" name="CAN_RX">
+      <node ref="U7" pin="61"/>
+      <node ref="U2" pin="4"/>
+    </net>
+    <net code="7" name="Net-(U2-Pad5)">
+      <node ref="U2" pin="5"/>
+    </net>
+    <net code="8" name="Net-(R1-Pad1)">
+      <node ref="R1" pin="1"/>
+      <node ref="U2" pin="8"/>
+    </net>
+    <net code="9" name="BT_DO">
+      <node ref="U3" pin="1"/>
+      <node ref="U7" pin="43"/>
+    </net>
+    <net code="10" name="Net-(U3-Pad10)">
+      <node ref="U3" pin="10"/>
+    </net>
+    <net code="11" name="Net-(U3-Pad11)">
+      <node ref="U3" pin="11"/>
+    </net>
+    <net code="12" name="Net-(U3-Pad15)">
+      <node ref="U3" pin="15"/>
+    </net>
+    <net code="13" name="Net-(U3-Pad16)">
+      <node ref="U3" pin="16"/>
+    </net>
+    <net code="14" name="Net-(U3-Pad17)">
+      <node ref="U3" pin="17"/>
+    </net>
+    <net code="15" name="Net-(U3-Pad18)">
+      <node ref="U3" pin="18"/>
+    </net>
+    <net code="16" name="Net-(U3-Pad19)">
+      <node ref="U3" pin="19"/>
+    </net>
+    <net code="17" name="BT_DI">
+      <node ref="U7" pin="42"/>
+      <node ref="U3" pin="2"/>
+    </net>
+    <net code="18" name="Net-(U3-Pad20)">
+      <node ref="U3" pin="20"/>
+    </net>
+    <net code="19" name="Net-(U3-Pad23)">
+      <node ref="U3" pin="23"/>
+    </net>
+    <net code="20" name="Net-(U3-Pad24)">
+      <node ref="U3" pin="24"/>
+    </net>
+    <net code="21" name="Net-(U3-Pad25)">
+      <node ref="U3" pin="25"/>
+    </net>
+    <net code="22" name="Net-(U3-Pad26)">
+      <node ref="U3" pin="26"/>
+    </net>
+    <net code="23" name="Net-(U3-Pad27)">
+      <node ref="U3" pin="27"/>
+    </net>
+    <net code="24" name="Net-(U3-Pad28)">
+      <node ref="U3" pin="28"/>
+    </net>
+    <net code="25" name="Net-(U3-Pad29)">
+      <node ref="U3" pin="29"/>
+    </net>
+    <net code="26" name="Net-(U3-Pad3)">
+      <node ref="U3" pin="3"/>
+    </net>
+    <net code="27" name="Net-(U3-Pad30)">
+      <node ref="U3" pin="30"/>
+    </net>
+    <net code="28" name="Net-(U3-Pad31)">
+      <node ref="U3" pin="31"/>
+    </net>
+    <net code="29" name="Net-(U3-Pad33)">
+      <node ref="U3" pin="33"/>
+    </net>
+    <net code="30" name="Net-(U3-Pad4)">
+      <node ref="U3" pin="4"/>
+    </net>
+    <net code="31" name="Net-(U3-Pad5)">
+      <node ref="U3" pin="5"/>
+    </net>
+    <net code="32" name="Net-(U3-Pad6)">
+      <node ref="U3" pin="6"/>
+    </net>
+    <net code="33" name="Net-(U3-Pad7)">
+      <node ref="U3" pin="7"/>
+    </net>
+    <net code="34" name="Net-(U3-Pad8)">
+      <node ref="U3" pin="8"/>
+    </net>
+    <net code="35" name="Net-(U3-Pad9)">
+      <node ref="U3" pin="9"/>
+    </net>
+    <net code="36" name="+BATT">
+      <node ref="BZ1" pin="1"/>
+      <node ref="J10" pin="2"/>
+      <node ref="J3" pin="3"/>
+      <node ref="J14" pin="2"/>
+      <node ref="J5" pin="2"/>
+      <node ref="C3" pin="1"/>
+      <node ref="R23" pin="1"/>
+      <node ref="R22" pin="1"/>
+      <node ref="J1" pin="2"/>
+      <node ref="J13" pin="2"/>
+      <node ref="U10" pin="2"/>
+      <node ref="J2" pin="2"/>
+      <node ref="J12" pin="2"/>
+      <node ref="U10" pin="1"/>
+      <node ref="U6" pin="1"/>
+      <node ref="C5" pin="1"/>
+    </net>
+    <net code="37" name="Net-(BZ1-Pad2)">
+      <node ref="BZ1" pin="2"/>
+      <node ref="Q1" pin="3"/>
+    </net>
+    <net code="38" name="BUZZER">
+      <node ref="Q1" pin="1"/>
+      <node ref="U7" pin="45"/>
+    </net>
+    <net code="39" name="GNDPWR">
+      <node ref="J3" pin="1"/>
+      <node ref="Q2" pin="3"/>
+    </net>
+    <net code="40" name="BOOT0">
+      <node ref="R3" pin="1"/>
+      <node ref="J4" pin="2"/>
+      <node ref="R5" pin="1"/>
+      <node ref="U7" pin="60"/>
+    </net>
+    <net code="41" name="Net-(R3-Pad2)">
+      <node ref="U3" pin="32"/>
+      <node ref="R3" pin="2"/>
+    </net>
+    <net code="42" name="POWER_ON">
+      <node ref="J2" pin="1"/>
+      <node ref="U7" pin="50"/>
+      <node ref="J1" pin="1"/>
+    </net>
+    <net code="43" name="/CAN+">
+      <node ref="J2" pin="3"/>
+      <node ref="J1" pin="3"/>
+      <node ref="R37" pin="2"/>
+      <node ref="U2" pin="7"/>
+    </net>
+    <net code="44" name="BT_KEY">
+      <node ref="U7" pin="44"/>
+      <node ref="R29" pin="1"/>
+    </net>
+    <net code="45" name="Net-(R28-Pad2)">
+      <node ref="U3" pin="34"/>
+      <node ref="R28" pin="2"/>
+      <node ref="R29" pin="2"/>
+    </net>
+    <net code="46" name="Net-(J3-Pad2)">
+      <node ref="J3" pin="2"/>
+      <node ref="R31" pin="1"/>
+    </net>
+    <net code="47" name="NEOPIXEL">
+      <node ref="U7" pin="23"/>
+      <node ref="R31" pin="2"/>
+    </net>
+    <net code="48" name="Net-(Q1-Pad2)">
+      <node ref="Q1" pin="2"/>
+      <node ref="R4" pin="2"/>
+    </net>
+    <net code="49" name="/CAN-">
+      <node ref="J1" pin="4"/>
+      <node ref="J2" pin="4"/>
+      <node ref="R37" pin="1"/>
+      <node ref="U2" pin="6"/>
+    </net>
+    <net code="50" name="BOOT1">
+      <node ref="U7" pin="28"/>
+      <node ref="J8" pin="2"/>
+      <node ref="R9" pin="1"/>
+    </net>
+    <net code="51" name="SPI2_CS_A">
+      <node ref="U7" pin="38"/>
+      <node ref="J5" pin="1"/>
+    </net>
+    <net code="52" name="SPI2_MOSI">
+      <node ref="J10" pin="3"/>
+      <node ref="U7" pin="34"/>
+      <node ref="J5" pin="3"/>
+    </net>
+    <net code="53" name="SPI2_MISO">
+      <node ref="J10" pin="4"/>
+      <node ref="U7" pin="35"/>
+      <node ref="J5" pin="4"/>
+    </net>
+    <net code="54" name="SPI2_SCK">
+      <node ref="J5" pin="5"/>
+      <node ref="J10" pin="5"/>
+      <node ref="U7" pin="36"/>
+    </net>
+    <net code="55" name="SPI2_CS_B">
+      <node ref="U7" pin="37"/>
+      <node ref="J10" pin="1"/>
+    </net>
+    <net code="56" name="Net-(U5-Pad4)">
+      <node ref="U5" pin="4"/>
+    </net>
+    <net code="57" name="Net-(U5-Pad5)">
+      <node ref="U5" pin="5"/>
+    </net>
+    <net code="58" name="Net-(U5-Pad6)">
+      <node ref="U5" pin="6"/>
+    </net>
+    <net code="59" name="Net-(U5-Pad7)">
+      <node ref="U5" pin="7"/>
+    </net>
+    <net code="60" name="Net-(U5-Pad8)">
+      <node ref="U5" pin="8"/>
+    </net>
+    <net code="61" name="Net-(U5-Pad9)">
+      <node ref="U5" pin="9"/>
+    </net>
+    <net code="62" name="Net-(U5-Pad10)">
+      <node ref="U5" pin="10"/>
+    </net>
+    <net code="63" name="Net-(U5-Pad20)">
+      <node ref="U5" pin="20"/>
+    </net>
+    <net code="64" name="Net-(U5-Pad30)">
+      <node ref="U5" pin="30"/>
+    </net>
+    <net code="65" name="Net-(U5-Pad11)">
+      <node ref="U5" pin="11"/>
+    </net>
+    <net code="66" name="Net-(U5-Pad21)">
+      <node ref="U5" pin="21"/>
+    </net>
+    <net code="67" name="Net-(U5-Pad31)">
+      <node ref="U5" pin="31"/>
+    </net>
+    <net code="68" name="Net-(U5-Pad12)">
+      <node ref="U5" pin="12"/>
+    </net>
+    <net code="69" name="Net-(U5-Pad22)">
+      <node ref="U5" pin="22"/>
+    </net>
+    <net code="70" name="Net-(U5-Pad32)">
+      <node ref="U5" pin="32"/>
+    </net>
+    <net code="71" name="Net-(U5-Pad13)">
+      <node ref="U5" pin="13"/>
+    </net>
+    <net code="72" name="Net-(U5-Pad23)">
+      <node ref="U5" pin="23"/>
+    </net>
+    <net code="73" name="Net-(U5-Pad33)">
+      <node ref="U5" pin="33"/>
+    </net>
+    <net code="74" name="Net-(U5-Pad14)">
+      <node ref="U5" pin="14"/>
+    </net>
+    <net code="75" name="Net-(U5-Pad24)">
+      <node ref="U5" pin="24"/>
+    </net>
+    <net code="76" name="ESP_DI">
+      <node ref="U7" pin="16"/>
+      <node ref="U5" pin="34"/>
+    </net>
+    <net code="77" name="ESP_DO">
+      <node ref="U7" pin="17"/>
+      <node ref="U5" pin="35"/>
+    </net>
+    <net code="78" name="Net-(U5-Pad16)">
+      <node ref="U5" pin="16"/>
+    </net>
+    <net code="79" name="Net-(U5-Pad26)">
+      <node ref="U5" pin="26"/>
+    </net>
+    <net code="80" name="Net-(U5-Pad36)">
+      <node ref="U5" pin="36"/>
+    </net>
+    <net code="81" name="Net-(U5-Pad17)">
+      <node ref="U5" pin="17"/>
+    </net>
+    <net code="82" name="Net-(U5-Pad27)">
+      <node ref="U5" pin="27"/>
+    </net>
+    <net code="83" name="Net-(U5-Pad37)">
+      <node ref="U5" pin="37"/>
+    </net>
+    <net code="84" name="Net-(U5-Pad18)">
+      <node ref="U5" pin="18"/>
+    </net>
+    <net code="85" name="Net-(U5-Pad28)">
+      <node ref="U5" pin="28"/>
+    </net>
+    <net code="86" name="Net-(U5-Pad19)">
+      <node ref="U5" pin="19"/>
+    </net>
+    <net code="87" name="Net-(U5-Pad29)">
+      <node ref="U5" pin="29"/>
+    </net>
+    <net code="88" name="~DISABLE_ESP">
+      <node ref="U7" pin="27"/>
+      <node ref="R6" pin="1"/>
+      <node ref="U5" pin="3"/>
+    </net>
+    <net code="89" name="ESP_BOOT_MODE">
+      <node ref="U5" pin="25"/>
+      <node ref="U7" pin="15"/>
+    </net>
+    <net code="90" name="+BACKUP">
+      <node ref="J11" pin="2"/>
+      <node ref="U6" pin="4"/>
+      <node ref="U7" pin="1"/>
+    </net>
+    <net code="91" name="GPS_DI">
+      <node ref="U6" pin="10"/>
+      <node ref="U7" pin="29"/>
+    </net>
+    <net code="92" name="Net-(U6-Pad2)">
+      <node ref="U6" pin="2"/>
+    </net>
+    <net code="93" name="Net-(U6-Pad5)">
+      <node ref="U6" pin="5"/>
+    </net>
+    <net code="94" name="Net-(U6-Pad6)">
+      <node ref="U6" pin="6"/>
+    </net>
+    <net code="95" name="Net-(U6-Pad7)">
+      <node ref="U6" pin="7"/>
+    </net>
+    <net code="96" name="GPS_DO">
+      <node ref="U7" pin="30"/>
+      <node ref="U6" pin="9"/>
+    </net>
+    <net code="97" name="UART4_RX">
+      <node ref="J12" pin="3"/>
+      <node ref="U7" pin="52"/>
+    </net>
+    <net code="98" name="UART4_TX">
+      <node ref="U7" pin="51"/>
+      <node ref="J12" pin="4"/>
+    </net>
+    <net code="99" name="UART5_RX">
+      <node ref="J13" pin="3"/>
+      <node ref="U7" pin="54"/>
+    </net>
+    <net code="100" name="UART5_TX">
+      <node ref="U7" pin="53"/>
+      <node ref="J13" pin="4"/>
+    </net>
+    <net code="101" name="I2C1_SCL">
+      <node ref="U7" pin="58"/>
+      <node ref="R2" pin="2"/>
+      <node ref="J14" pin="3"/>
+    </net>
+    <net code="102" name="I2C1_SDA">
+      <node ref="J14" pin="4"/>
+      <node ref="R16" pin="2"/>
+      <node ref="U7" pin="59"/>
+    </net>
+    <net code="103" name="~BATT_CHARGING">
+      <node ref="U*1" pin="1"/>
+      <node ref="U*1" pin="1"/>
+      <node ref="U7" pin="10"/>
+    </net>
+    <net code="104" name="DYNAMO_VOLTAGE">
+      <node ref="R34" pin="2"/>
+      <node ref="R35" pin="1"/>
+      <node ref="U7" pin="11"/>
+    </net>
+    <net code="105" name="Net-(C1-Pad1)">
+      <node ref="U7" pin="13"/>
+      <node ref="C1" pin="1"/>
+      <node ref="U1" pin="1"/>
+    </net>
+    <net code="106" name="SPEED">
+      <node ref="U7" pin="14"/>
+      <node ref="U8" pin="4"/>
+    </net>
+    <net code="107" name="~BATT_CHARGE_ENABLE">
+      <node ref="Q3" pin="1"/>
+      <node ref="U7" pin="2"/>
+    </net>
+    <net code="108" name="Net-(U7-Pad20)">
+      <node ref="U7" pin="20"/>
+    </net>
+    <net code="109" name="Net-(U7-Pad21)">
+      <node ref="U7" pin="21"/>
+    </net>
+    <net code="110" name="Net-(U7-Pad22)">
+      <node ref="U7" pin="22"/>
+    </net>
+    <net code="111" name="Net-(U7-Pad24)">
+      <node ref="U7" pin="24"/>
+    </net>
+    <net code="112" name="Net-(U7-Pad25)">
+      <node ref="U7" pin="25"/>
+    </net>
+    <net code="113" name="ENABLE_BATT_POWER">
+      <node ref="Q2" pin="2"/>
+      <node ref="U7" pin="26"/>
+    </net>
+    <net code="114" name="Net-(U7-Pad33)">
+      <node ref="U7" pin="33"/>
+    </net>
+    <net code="115" name="Net-(U7-Pad39)">
+      <node ref="U7" pin="39"/>
+    </net>
+    <net code="116" name="Net-(U7-Pad40)">
+      <node ref="U7" pin="40"/>
+    </net>
+    <net code="117" name="Net-(U7-Pad41)">
+      <node ref="U7" pin="41"/>
+    </net>
+    <net code="118" name="BATT_VOLTAGE">
+      <node ref="U7" pin="8"/>
+      <node ref="R20" pin="2"/>
+      <node ref="R21" pin="1"/>
+    </net>
+    <net code="119" name="CURRENT_SENSE">
+      <node ref="R24" pin="1"/>
+      <node ref="U7" pin="9"/>
+      <node ref="R23" pin="2"/>
+    </net>
+    <net code="120" name="N_RST">
+      <node ref="U7" pin="7"/>
+      <node ref="R10" pin="1"/>
+    </net>
+    <net code="121" name="Net-(C6-Pad1)">
+      <node ref="R33" pin="2"/>
+      <node ref="Y2" pin="1"/>
+      <node ref="C6" pin="1"/>
+      <node ref="U7" pin="5"/>
+    </net>
+    <net code="122" name="Net-(C7-Pad1)">
+      <node ref="U7" pin="6"/>
+      <node ref="C7" pin="1"/>
+      <node ref="Y2" pin="2"/>
+      <node ref="R33" pin="1"/>
+    </net>
+    <net code="123" name="Net-(C1-Pad2)">
+      <node ref="R11" pin="1"/>
+      <node ref="C1" pin="2"/>
+    </net>
+    <net code="124" name="Net-(C8-Pad1)">
+      <node ref="U7" pin="3"/>
+      <node ref="C8" pin="1"/>
+      <node ref="Y1" pin="1"/>
+    </net>
+    <net code="125" name="Net-(Y1-Pad2)">
+      <node ref="Y1" pin="2"/>
+    </net>
+    <net code="126" name="Net-(Y1-Pad3)">
+      <node ref="Y1" pin="3"/>
+    </net>
+    <net code="127" name="Net-(C9-Pad1)">
+      <node ref="C9" pin="1"/>
+      <node ref="Y1" pin="4"/>
+      <node ref="U7" pin="4"/>
+    </net>
+    <net code="128" name="Net-(J15-Pad1)">
+      <node ref="U7" pin="55"/>
+      <node ref="J15" pin="1"/>
+    </net>
+    <net code="129" name="Net-(J15-Pad2)">
+      <node ref="U7" pin="56"/>
+      <node ref="J15" pin="2"/>
+    </net>
+    <net code="130" name="Net-(J15-Pad3)">
+      <node ref="J15" pin="3"/>
+      <node ref="U7" pin="57"/>
+    </net>
+    <net code="133" name="Net-(R14-Pad1)">
+      <node ref="R14" pin="1"/>
+      <node ref="U8" pin="3"/>
+    </net>
+    <net code="134" name="Net-(D1-Pad2)">
+      <node ref="R14" pin="2"/>
+      <node ref="D1" pin="2"/>
+    </net>
+    <net code="135" name="DYNAMO_AC">
+      <node ref="D2" pin="1"/>
+      <node ref="U8" pin="1"/>
+      <node ref="J7" pin="1"/>
+      <node ref="D4" pin="3"/>
+    </net>
+    <net code="136" name="DYNAMO_NEUTRAL">
+      <node ref="D1" pin="1"/>
+      <node ref="D4" pin="4"/>
+      <node ref="D3" pin="1"/>
+      <node ref="J7" pin="2"/>
+    </net>
+    <net code="137" name="Net-(D2-Pad2)">
+      <node ref="D2" pin="2"/>
+      <node ref="D3" pin="2"/>
+    </net>
+    <net code="138" name="Net-(Q3-Pad2)">
+      <node ref="Q3" pin="2"/>
+      <node ref="U9" pin="3"/>
+    </net>
+    <net code="139" name="Net-(R19-Pad1)">
+      <node ref="R19" pin="1"/>
+      <node ref="U*1" pin="5"/>
+      <node ref="U*1" pin="5"/>
+    </net>
+    <net code="140" name="Net-(Q5-Pad2)">
+      <node ref="Q5" pin="2"/>
+      <node ref="R22" pin="2"/>
+      <node ref="R20" pin="1"/>
+    </net>
+    <net code="141" name="Net-(C15-Pad1)">
+      <node ref="C15" pin="1"/>
+      <node ref="R34" pin="1"/>
+      <node ref="D4" pin="1"/>
+      <node ref="U9" pin="1"/>
+    </net>
+    <net code="142" name="/Power/+Dynamo">
+      <node ref="U*1" pin="4"/>
+      <node ref="U*1" pin="4"/>
+      <node ref="C18" pin="2"/>
+      <node ref="C17" pin="1"/>
+      <node ref="Q3" pin="3"/>
+    </net>
+    <net code="143" name="Net-(J9-Pad2)">
+      <node ref="Q4" pin="2"/>
+      <node ref="Q5" pin="3"/>
+      <node ref="J9" pin="2"/>
+    </net>
+    <net code="144" name="Net-(Q4-Pad3)">
+      <node ref="Q4" pin="3"/>
+      <node ref="U*1" pin="3"/>
+      <node ref="U*1" pin="3"/>
+    </net>
+    <net code="145" name="Net-(R12-Pad2)">
+      <node ref="R13" pin="1"/>
+      <node ref="R12" pin="2"/>
+      <node ref="U10" pin="4"/>
+    </net>
+  </nets>
+</export>
