@@ -83,7 +83,7 @@ U 1 1 5A3AD6C4
 P 1050 1100
 F 0 "J1" H 970 675 50  0000 C CNN
 F 1 "INPUT" H 970 766 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:JST_EH_B05B-EH-A_05x2.50mm_Straight_LargePads" H 1050 1100 50  0001 C CNN
+F 2 "coddingtonbear:JST_XH_B05B-XH-A_05x2.50mm_Straight_LargePads" H 1050 1100 50  0001 C CNN
 F 3 "~" H 1050 1100 50  0001 C CNN
 	1    1050 1100
 	-1   0    0    1   
@@ -245,9 +245,9 @@ Wire Wire Line
 Wire Wire Line
 	4750 1950 4750 1600
 Connection ~ 4600 1950
-Text GLabel 10050 1450 3    60   BiDi ~ 0
+Text GLabel 10050 1600 3    60   BiDi ~ 0
 SCL
-Text GLabel 10150 1450 3    60   BiDi ~ 0
+Text GLabel 10450 1600 3    60   BiDi ~ 0
 SDA
 Wire Wire Line
 	1250 1000 3400 1000
@@ -429,7 +429,7 @@ U 1 1 5A57AA24
 P 8350 1000
 F 0 "J3" V 8316 812 50  0000 R CNN
 F 1 "Left" V 8225 812 50  0000 R CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:JST_EH_B03B-EH-A_03x2.50mm_Straight_LargePads" H 8350 1000 50  0001 C CNN
+F 2 "coddingtonbear:JST_XH_B03B-XH-A_03x2.50mm_Straight_LargePads" H 8350 1000 50  0001 C CNN
 F 3 "~" H 8350 1000 50  0001 C CNN
 	1    8350 1000
 	0    -1   -1   0   
@@ -440,7 +440,7 @@ U 1 1 5A57AB93
 P 9150 1000
 F 0 "J4" V 9116 812 50  0000 R CNN
 F 1 "Right" V 9025 812 50  0000 R CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:JST_EH_B03B-EH-A_03x2.50mm_Straight_LargePads" H 9150 1000 50  0001 C CNN
+F 2 "coddingtonbear:JST_XH_B03B-XH-A_03x2.50mm_Straight_LargePads" H 9150 1000 50  0001 C CNN
 F 3 "~" H 9150 1000 50  0001 C CNN
 	1    9150 1000
 	0    -1   -1   0   
@@ -846,7 +846,7 @@ U 1 1 5A6DB766
 P 1450 3950
 F 0 "Y1" V 1404 4081 50  0000 L CNN
 F 1 "Crystal" V 1495 4081 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:ASFL1" H 1450 3950 50  0001 C CNN
+F 2 "cpavlina/kicad-pcblib/smd-non-ipc.pretty:Abracon-ABM2" H 1450 3950 50  0001 C CNN
 F 3 "" H 1450 3950 50  0001 C CNN
 	1    1450 3950
 	0    -1   -1   0   
@@ -983,8 +983,6 @@ Wire Wire Line
 	3000 7150 3000 7500
 Wire Wire Line
 	2200 7150 2200 7500
-Wire Wire Line
-	10050 1350 10050 1450
 Wire Wire Line
 	10150 1450 10150 1350
 $Comp
@@ -1195,63 +1193,6 @@ Wire Wire Line
 Wire Wire Line
 	1100 3800 1100 4100
 Connection ~ 1100 4100
-$Comp
-L device:Crystal_GND23_Small Y2
-U 1 1 5ABD0940
-P 1350 4450
-F 0 "Y2" V 1304 4616 50  0000 L CNN
-F 1 "Crystal_GND23_Small" V 1395 4616 50  0000 L CNN
-F 2 "coddingtonbear:SM-CRYSTAL-ABS25_LargePads" H 1350 4450 50  0001 C CNN
-F 3 "" H 1350 4450 50  0001 C CNN
-	1    1350 4450
-	0    1    1    0   
-$EndComp
-$Comp
-L device:C C4
-U 1 1 5ABD0A3F
-P 1050 4550
-F 0 "C4" V 798 4550 50  0000 C CNN
-F 1 "22p" V 889 4550 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" H 1088 4400 50  0001 C CNN
-F 3 "" H 1050 4550 50  0001 C CNN
-	1    1050 4550
-	0    1    1    0   
-$EndComp
-$Comp
-L device:C C3
-U 1 1 5ABD0AAC
-P 1050 4350
-F 0 "C3" V 798 4350 50  0000 C CNN
-F 1 "22p" V 889 4350 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" H 1088 4200 50  0001 C CNN
-F 3 "" H 1050 4350 50  0001 C CNN
-	1    1050 4350
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	1700 4300 1350 4300
-Wire Wire Line
-	1350 4300 1350 4350
-Wire Wire Line
-	1700 4400 1500 4400
-Wire Wire Line
-	1500 4400 1500 4550
-Wire Wire Line
-	1500 4550 1350 4550
-Wire Wire Line
-	1350 4550 1200 4550
-Connection ~ 1350 4550
-Wire Wire Line
-	1200 4350 1200 4300
-Wire Wire Line
-	1200 4300 1350 4300
-Connection ~ 1350 4300
-Wire Wire Line
-	900  4550 900  4350
-Wire Wire Line
-	900  4350 900  4100
-Connection ~ 900  4350
-Connection ~ 900  4100
 Wire Wire Line
 	900  4100 1100 4100
 $Comp
@@ -1276,4 +1217,58 @@ F 3 "" H 6750 2650 50  0001 C CNN
 	1    6750 2650
 	1    0    0    -1  
 $EndComp
+$Comp
+L device:R R13
+U 1 1 5AD2D96A
+P 10150 1750
+F 0 "R13" H 10080 1704 50  0000 R CNN
+F 1 "2.2k" H 10080 1795 50  0000 R CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 10080 1750 50  0001 C CNN
+F 3 "" H 10150 1750 50  0001 C CNN
+	1    10150 1750
+	-1   0    0    1   
+$EndComp
+$Comp
+L device:R R17
+U 1 1 5AD2D9E4
+P 10550 1750
+F 0 "R17" H 10480 1704 50  0000 R CNN
+F 1 "2.2k" H 10480 1795 50  0000 R CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 10480 1750 50  0001 C CNN
+F 3 "" H 10550 1750 50  0001 C CNN
+	1    10550 1750
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	10050 1350 10050 1500
+Wire Wire Line
+	10150 1450 10450 1450
+Wire Wire Line
+	10450 1450 10450 1600
+Wire Wire Line
+	10450 1450 10550 1450
+Wire Wire Line
+	10550 1450 10550 1600
+Connection ~ 10450 1450
+Wire Wire Line
+	10150 1600 10150 1500
+Wire Wire Line
+	10150 1500 10050 1500
+Connection ~ 10050 1500
+Wire Wire Line
+	10050 1500 10050 1600
+$Comp
+L power:+3V3 #PWR030
+U 1 1 5AD557AF
+P 10150 1900
+F 0 "#PWR030" H 10150 1750 50  0001 C CNN
+F 1 "+3V3" H 10165 2073 50  0000 C CNN
+F 2 "" H 10150 1900 50  0001 C CNN
+F 3 "" H 10150 1900 50  0001 C CNN
+	1    10150 1900
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	10150 1900 10550 1900
+Connection ~ 10150 1900
 $EndSCHEMATC
