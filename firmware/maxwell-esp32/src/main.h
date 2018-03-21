@@ -1,0 +1,1 @@
+#define MAX_SEND_WAIT 1000

@@ -1,9 +1,55 @@
 #include <Adafruit_SSD1306.h>
 #include "display.h"
+#include "status.h"
+#include "can_message_ids.h"
+#include "menu.h"
+
+#include "main.h"
 
 extern Adafruit_SSD1306 display(-1);
 
-DisplayManager::DisplayManager() {
+DisplayManager::DisplayManager(MenuList* menuList) {
+    mainMenu = menuList;
+}
+
+void DisplayManager::up() {
+    MenuList* currentMenu = getCurrentMenu();
+
+    if(menuPosition[menuDepth] > 0) {
+        menuPosition[menuDepth]--;
+    } else {
+        menuPosition[menuDepth] = currentMenu->length - 1;
+    }
+}
+
+void DisplayManager::down() {
+    MenuList* currentMenu = getCurrentMenu();
+
+    menuPosition[menuDepth]++;
+    if(menuPosition[menuDepth] >= currentMenu->length) {
+        menuPosition[menuDepth] = 0;
+    }
+}
+
+void DisplayManager::in() {
+    MenuList* currentMenu = getCurrentMenu();
+    MenuItem selectedItem = currentMenu->items[menuPosition[menuDepth]];
+
+    if(selectedItem.function != NULL) {
+        (*selectedItem.function)();
+    } else {
+        menuDepth++;
+    }
+}
+
+void DisplayManager::out() {
+    MenuList* currentMenu = getCurrentMenu();
+
+    if(menuDepth > 0) {
+        menuDepth--;
+    } else {
+        menuDepth = 0;
+    }
 }
 
 void DisplayManager::begin() {

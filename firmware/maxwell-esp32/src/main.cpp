@@ -22,6 +22,8 @@
 #include <BLE2902.h>
 #include <Arduino.h>
 
+#include "main.h"
+
 BLECharacteristic *pCharacteristic;
 bool deviceConnected = false;
 uint8_t txValue = 0;
@@ -95,12 +97,28 @@ void setup() {
   pServer->getAdvertising()->start();
 }
 
+String sendValue = "";
+unsigned long lastSend = 0;
+
+void sendNow() {
+    pCharacteristic->setValue((std::string)sendValue.c_str());
+    pCharacteristic->notify();
+    sendValue = "";
+    lastSend = millis();
+}
+
 void loop() {
     while(Output.available()) {
-        uint8_t byte = Output.read();
+        char byte = Output.read();
         if(deviceConnected) {
-            pCharacteristic->setValue(&byte, 1);
-            pCharacteristic->notify();
+            sendValue += String(byte);
+
+            if(byte == '\n') {
+                sendNow();
+            }
         }
+    }
+    if(sendValue.length() > 0 && lastSend + MAX_SEND_WAIT < millis()) {
+        sendNow();
     }
 }
