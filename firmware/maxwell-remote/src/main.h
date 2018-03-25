@@ -18,3 +18,5 @@ void loop();
 void taskUpdateDisplayCallback();
 void handleSpeedReceived(uint);
 void handleControl();
+
+#define Output Serial
