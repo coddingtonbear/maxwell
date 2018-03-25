@@ -1,0 +1,11 @@
+HashMap	KEYWORD1
+
+put	KEYWORD2
+getValue	KEYWORD2
+containsKey	KEYWORD2
+remove	KEYWORD2
+moveToFirst	KEYWORD2
+moveToLast	KEYWORD2
+moveToNext	KEYWORD2
+moveToPrev	KEYWORD2
+length	KEYWORD2
