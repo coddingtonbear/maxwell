@@ -14,8 +14,9 @@
 #define PIN_ENABLE_BATT_CHARGE_ PC13
 #define PIN_I_WAKE PA15
 
-#define PIN_I_SPEED PA0
+#define PIN_UART_WAKE PA10
 
+#define PIN_I_SPEED PA0
 
 #define BTSerial Serial
 #define ESPSerial Serial1

@@ -2,7 +2,7 @@
 #define VOLTAGE_BATTERY 2
 #define VOLTAGE_SENSE 3
 
-#define VOLTAGE_SAMPLE_COUNT 100
+#define POWER_SAMPLE_COUNT 500
 
 #define SENSE_RESISTOR_VALUE 0.02
 
@@ -17,4 +17,4 @@ double getCurrentUsage();
 uint8_t getChargingStatus();
 void enableBatteryCharging(bool);
 
-void updateVoltages();
+void updatePowerMeasurements();

@@ -23,9 +23,11 @@ void gpsPMTK(uint cmd, String data) {
     GPSSerial.print("\r\n");
 
     GPSSerial.flush();
+    delay(100);
 }
 
 
 void gpsWake() {
     GPSSerial.println();
+    delay(100);
 }

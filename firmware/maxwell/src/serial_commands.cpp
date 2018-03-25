@@ -20,13 +20,17 @@ void setupCommands() {
     commands.addCommand("uptime", uptime);
     commands.addCommand("ping", hello);
     commands.addCommand("beep", doBeep);
-    canCommands.addCommand(CAN_CMD_BEEP, doCanBeep);
+    canCommands.addCommand(CAN_CMD_BEEP, canBeep);
     commands.addCommand("led", led);
-    canCommands.addCommand(CAN_CMD_LED_CYCLE, setLedCycle);
-    canCommands.addCommand(CAN_CMD_LED_COLOR, setLedColor);
-    canCommands.addCommand(CAN_CMD_LED_BRIGHTNESS, setLedBrightness);
-    canCommands.addCommand(CAN_CMD_LED_INTERVAL, setLedInterval);
+    canCommands.addCommand(CAN_CMD_LED_CYCLE, canSetLedCycle);
+    canCommands.addCommand(CAN_CMD_LED_COLOR, canSetLedColor);
+    canCommands.addCommand(CAN_CMD_LED_BRIGHTNESS, canSetLedBrightness);
+    canCommands.addCommand(CAN_CMD_LED_INTERVAL, canSetLedInterval);
+    canCommands.addCommand(CAN_CMD_LED_ENABLE, canLedEnable);
+    canCommands.addCommand(CAN_CMD_LED_PRESET, canLedPreset);
+    canCommands.addCommand(CAN_CMD_LED_COLOR2, canSetLedColor2);
     commands.addCommand("bridge_uart", doBridgeUART);
+    commands.addCommand("stats", printStatistics);
 
     commands.addCommand("voltage", voltageMeasurement);
     commands.addCommand("charge", charge);
@@ -37,15 +41,18 @@ void setupCommands() {
     commands.addCommand("btcmd", bluetooth);
     commands.addCommand("reset", reset);
     canCommands.addCommand(CAN_CMD_MAIN_MC_RESET, reset);
+    canCommands.addCommand(CAN_CMD_MAIN_MC_SLEEP, doSleep);
 
     commands.addCommand("flash", flash);
     canCommands.addCommand(CAN_CMD_MAIN_MC_FLASH, flash);
     commands.addCommand("flash_esp", flashEsp32);
     commands.addCommand("enable_esp", enableEsp32);
     commands.addCommand("disable_esp", disableEsp32);
+    canCommands.addCommand(CAN_CMD_ESP_ENABLE, canEnableEsp);
 
     commands.addCommand("coordinates", coordinates);
 
+    commands.addCommand("debug_can", debug_can);
     commands.addCommand("send_can", send_can);
     commands.addCommand("emit_can", emit_can);
     canCommands.addCommand(CAN_TEST, emit_can);
@@ -65,37 +72,60 @@ void handleCANCommand(CANCommand::CANMessage* command) {
     canCommands.processCANMessage(command);
 }
 
-void setLedCycle() {
-    byte cycleType = canCommands.message->Data[0];
+void canSetLedCycle() {
+    uint8_t data[8];
+    canCommands.getData(data);
+    byte cycleType = data[0];
 
-    if(cycleType == CAN_CMD_LED_CYCLE_OFF) {
-        ledSetCycle(LED_CYCLE_OFF);
-    } else if(cycleType == CAN_CMD_LED_CYCLE_RANDOM) {
-        ledSetCycle(LED_CYCLE_RANDOM);
-    } else if(cycleType == CAN_CMD_LED_CYCLE_MOTION) {
-        ledSetCycle(LED_CYCLE_MOTION);
-    } else if(cycleType == CAN_CMD_LED_CYCLE_BLINK) {
-        ledSetCycle(LED_CYCLE_BLINK);
-    }
+    ledSetCycle(cycleType);
 }
 
-void setLedColor() {
-    byte red = canCommands.message->Data[0];
-    byte green = canCommands.message->Data[1];
-    byte blue = canCommands.message->Data[2];
-    ledSetColor(red, green, blue);
+void canSetLedColor() {
+    uint8_t data[8];
+    canCommands.getData(data);
+
+    ledSetColor(data[0], data[1], data[2]);
 }
 
-void setLedBrightness() {
-    byte brightness = canCommands.message->Data[0];
+void canSetLedBrightness() {
+    uint8_t data[8];
+    canCommands.getData(data);
 
-    ledSetMaxBrightness(brightness);
+    ledSetMaxBrightness(data[0]);
 }
 
-void setLedInterval() {
-    int32 interval = reinterpret_cast<int>(canCommands.message->Data);
+void canSetLedInterval() {
+    uint8_t data[8];
+    canCommands.getData(data);
+
+    uint32 interval = reinterpret_cast<uint32>(data);
 
     ledSetInterval(interval);
+}
+
+void canLedEnable() {
+    uint8_t data[8];
+    canCommands.getData(data);
+
+    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
+
+    ledEnable(enabled);
+}
+
+void canLedPreset() {
+    uint8_t data[8];
+    canCommands.getData(data);
+
+    uint8_t preset = *(reinterpret_cast<uint8_t*>(data));
+
+    ledActivatePreset(preset);
+}
+
+void canSetLedColor2() {
+    uint8_t data[8];
+    canCommands.getData(data);
+
+    ledSetSecondaryColor(data[0], data[1], data[2]);
 }
 
 void led() {
@@ -201,13 +231,7 @@ void led() {
         String presetName = String(presetNameBytes);
 
         if(presetName == "safety") {
-            ledSetCycle(LED_CYCLE_MOTION);
-            ledSetColor(255, 100, 0);
-            ledSetSecondaryColor(255, 255, 255);
-        } else if(presetName == "tron") {
-            ledSetCycle(LED_CYCLE_MOTION);
-            ledSetColor(0, 100, 255);
-            ledSetSecondaryColor(255, 50, 50);
+            ledActivatePreset(LED_PRESET_SAFETY);
         } else {
             Output.println("Unknown preset.");
         }
@@ -259,10 +283,13 @@ void doBeep() {
     beep(frequency, duration);
 }
 
-void doCanBeep() {
-    uint32 frequency = *(reinterpret_cast<uint32*>(canCommands.message->Data));
+void canBeep() {
+    uint8_t data[8];
+    canCommands.getData(data);
+
+    uint32 frequency = *(reinterpret_cast<uint32*>(&data));
     uint32 duration = *(
-        reinterpret_cast<uint32*>(&canCommands.message->Data[4])
+        reinterpret_cast<uint32*>(&data[4])
     );
 
     tone(PIN_BUZZER, frequency, duration);
@@ -422,6 +449,17 @@ void send_can() {
     CanBus.send(&testMsg);
 }
 
+void debug_can() {
+    bool enabled = 1;
+
+    char* enabledStr = commands.next();
+    if(enabledStr != NULL) {
+        enabled = atoi(enabledStr);
+    }
+
+    enableCanDebug(enabled);
+}
+
 
 void flashEsp32() {
     Output.println("Resetting ESP32...");
@@ -505,17 +543,7 @@ void doBridgeUART() {
         return;
     }
 
-    HardwareSerial* uart;
-    if(uartNumber == 3) {
-        uart = &GPSSerial;
-    } else if (uartNumber == 4) {
-        uart = &UART4;
-    } else if (uartNumber == 5) {
-        uart = &UART5;
-    } else {
-        Output.println("Invalid UART number");
-        return;
-    }
+    HardwareSerial* uart = uartNumberToInterface(uartNumber);
 
     Output.print("Bridging with UART ");
     Output.print(uartNumber);
@@ -527,4 +555,23 @@ void doBridgeUART() {
     Output.println();
     Output.println("==========");
     Output.println("Bridge teardown completed");
+}
+
+void canEnableEsp() {
+    uint8_t data[8];
+    canCommands.getData(data);
+
+    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
+
+    enableEsp(enabled);
+}
+
+void printStatistics() {
+    for(uint8_t i = 0; i < Statistics.count(); i++) {
+        auto key = Statistics.keyAt(i);
+        auto value = Statistics.valueFor(key);
+        Output.print(key);
+        Output.print(": ");
+        Output.println(value);
+    }
 }

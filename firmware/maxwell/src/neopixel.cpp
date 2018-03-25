@@ -30,6 +30,29 @@ void ledSetup() {
     pixels.begin();
 }
 
+void ledGetStatus(LedStatus& ledStatus) {
+    ledStatus.red = (uint8_t)colorRed;
+    ledStatus.green = (uint8_t)colorGreen;
+    ledStatus.blue = (uint8_t)colorBlue;
+    ledStatus.red2 = (uint8_t)secondaryColorRed;
+    ledStatus.green2 = (uint8_t)secondaryColorGreen;
+    ledStatus.blue2 = (uint8_t)secondaryColorBlue;
+
+    ledStatus.cycle = cycle;
+    ledStatus.enabled = enabled;
+    ledStatus.brightness = maxBrightness;
+    ledStatus.interval = interval;
+}
+
+void ledActivatePreset(uint32 preset) {
+    if(preset == LED_PRESET_SAFETY) {
+        ledSetCycle(LED_CYCLE_MOTION);
+        ledSetColor(255, 100, 0);
+        ledSetSecondaryColor(255, 255, 255);
+        ledSetMaxBrightness(32);
+    }
+}
+
 void ledSetCycle(uint32 _cycle) {
     cycle = _cycle;
 

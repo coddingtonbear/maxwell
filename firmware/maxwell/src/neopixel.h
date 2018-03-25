@@ -2,27 +2,35 @@
 #include <WS2812B.h>
 #include "main.h"
 #include "pin_map.h"
+#include "led_cycles.h"
 
 #define NUM_LEDS 139
 
-#define LED_CYCLE_ON 0
-#define LED_CYCLE_OFF 1
-#define LED_CYCLE_RANDOM 2
-#define LED_CYCLE_MOTION 3
-#define LED_CYCLE_BLINK 4
-#define LED_CYCLE_TWINKLE 5
-#define LED_CYCLE_RAINBOW 6
+struct LedStatus {
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
+    uint8_t red2;
+    uint8_t green2;
+    uint8_t blue2;
 
+    bool enabled;
+    uint8_t cycle;
+    uint8_t brightness;
+    uint32_t interval;
+};
 
 void ledSetup();
 void ledCycle();
 
 void ledSetCycle(uint32 _cycle);
+void ledActivatePreset(uint32 preset);
 void ledSetInterval(uint32 _interval);
 void ledSetSegmentSize(uint32 _size);
 void ledSetColor(uint8_t _red, uint8_t _green, uint8_t blue);
 void ledSetSecondaryColor(uint8_t _red, uint8_t _green, uint8_t blue);
 void ledSetMaxBrightness(uint8_t);
+void ledGetStatus(LedStatus&);
 
 void ledEnable(bool);
 

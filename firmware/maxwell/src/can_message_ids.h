@@ -1,3 +1,5 @@
+#pragma once
+
 // Status Messages
 #define CAN_TEST 0x10
 
@@ -12,19 +14,22 @@
 #define CAN_AMPS_CURRENT 0x44
 #define CAN_CHARGING_STATUS 0x45
 
+#define CAN_LED_STATUS 0x46  // byte (enabled), byte (cycle), byte (brightness), uint32(interval)
+#define CAN_LED_STATUS_COLOR 0x47  // byte (r), byte (g), byte (b), byte (r2), byte (g2), byte (b2),
+
 // Commands
 #define CAN_CMD_MAIN_MC_RESET 0xA0
 #define CAN_CMD_MAIN_MC_FLASH 0xA1
 #define CAN_CMD_REQ_SET_WAKE 0xA2
-#define CAN_CMD_BEEP 0xA3
-#define CAN_CMD_LED_CYCLE 0xB0
-#define CAN_CMD_LED_COLOR 0xB1
-#define CAN_CMD_LED_INTERVAL 0xB2
-#define CAN_CMD_LED_BRIGHTNESS 0xB3
+#define CAN_CMD_MAIN_MC_SLEEP 0xA4
 
-// Command Arguments
-// * CAN_CMD_LED_CYCLE
-#define CAN_CMD_LED_CYCLE_OFF 1
-#define CAN_CMD_LED_CYCLE_RANDOM 2
-#define CAN_CMD_LED_CYCLE_MOTION 3
-#define CAN_CMD_LED_CYCLE_BLINK 4
+#define CAN_CMD_BEEP 0xA9
+
+#define CAN_CMD_LED_CYCLE 0xB0  // byte (cycle ID)
+#define CAN_CMD_LED_COLOR 0xB1  // byte (r), byte (g), byte (b)
+#define CAN_CMD_LED_INTERVAL 0xB2  // uint32
+#define CAN_CMD_LED_BRIGHTNESS 0xB3  // byte
+#define CAN_CMD_LED_ENABLE 0xB5  // byte
+#define CAN_CMD_LED_PRESET 0xB6  // byte
+#define CAN_CMD_LED_COLOR2 0xB7  // byte (r), byte (g), byte (b)
+#define CAN_CMD_ESP_ENABLE 0xB4  // byte

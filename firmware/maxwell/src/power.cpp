@@ -8,39 +8,79 @@ long int lastUpdated = 0;
 double dynamoVoltage = 0;
 double batteryVoltage = 0;
 double senseVoltage = 0;
+double currentAmps = 0;
 
-void updateVoltages() {
+double lastChargingStatusSample = 0;
+
+void updatePowerMeasurements() {
     double tempVoltage = getInstantaneousVoltage(VOLTAGE_DYNAMO);
+    double tempBattVoltage;
+    double tempSenseVoltage;
     if(dynamoVoltage == 0) {
         dynamoVoltage = tempVoltage;
     } else {
         dynamoVoltage = (
-            dynamoVoltage * (VOLTAGE_SAMPLE_COUNT - 1)
+            dynamoVoltage * (POWER_SAMPLE_COUNT - 1)
             + tempVoltage
-        ) / VOLTAGE_SAMPLE_COUNT;
+        ) / POWER_SAMPLE_COUNT;
     }
 
     tempVoltage = getInstantaneousVoltage(VOLTAGE_BATTERY);
+    tempBattVoltage = tempVoltage;
     if(batteryVoltage == 0) {
         batteryVoltage = tempVoltage;
     } else {
         batteryVoltage = (
-            batteryVoltage * (VOLTAGE_SAMPLE_COUNT - 1)
+            batteryVoltage * (POWER_SAMPLE_COUNT - 1)
             + tempVoltage
-        ) / VOLTAGE_SAMPLE_COUNT;
+        ) / POWER_SAMPLE_COUNT;
     }
 
     tempVoltage = getInstantaneousVoltage(VOLTAGE_SENSE);
+    tempSenseVoltage = tempVoltage;
     if(senseVoltage == 0) {
         senseVoltage = tempVoltage;
     } else {
         senseVoltage = (
-            senseVoltage * (VOLTAGE_SAMPLE_COUNT - 1)
+            senseVoltage * (POWER_SAMPLE_COUNT - 1)
             + tempVoltage
-        ) / VOLTAGE_SAMPLE_COUNT;
+        ) / POWER_SAMPLE_COUNT;
     }
 
+    double tempAmps = (
+        tempBattVoltage - tempSenseVoltage
+    )/SENSE_RESISTOR_VALUE;
+    if(currentAmps == 0) {
+        currentAmps = tempAmps;
+    } else {
+        currentAmps = (
+            currentAmps * (POWER_SAMPLE_COUNT - 1)
+            + tempAmps
+        ) / POWER_SAMPLE_COUNT;
+    }
 
+    Statistics.put("Battery Voltage", batteryVoltage);
+    if(Statistics.valueFor("Battery Voltage (Max)") < batteryVoltage) {
+        Statistics.put("Battery Voltage (Max)", batteryVoltage);
+    }
+    Statistics.put("Sense Voltage", senseVoltage);
+    if(Statistics.valueFor("Sense Voltage (Max)") < senseVoltage) {
+        Statistics.put("Sense Voltage (Max)", senseVoltage);
+    }
+    Statistics.put("Current (Amps)", currentAmps);
+    if(Statistics.valueFor("Current (Amps) (Max)") < currentAmps) {
+        Statistics.put("Current (Amps) (Max)", currentAmps);
+    }
+
+    uint8_t status = getChargingStatus();
+    String minutesName = "Charging Status " + String(status) + " (minutes)";
+    Statistics.put("Charging Status (now)", status);
+    double value = Statistics.valueFor(minutesName) + (
+        (millis() - lastChargingStatusSample) / 60000
+    );
+    Statistics.put(minutesName, value);
+
+    lastChargingStatusSample = millis();
 }
 
 int getRawVoltageAdcValue(uint source) {
@@ -102,10 +142,7 @@ double getInstantaneousVoltage(uint source) {
 }
 
 double getCurrentUsage() {
-    double battery = getVoltage(VOLTAGE_BATTERY);
-    double sense = getVoltage(VOLTAGE_SENSE);
-
-    return (battery - sense)/SENSE_RESISTOR_VALUE;
+    return currentAmps;
 }
 
 

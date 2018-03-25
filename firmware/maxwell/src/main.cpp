@@ -17,9 +17,19 @@
 #include "main.h"
 
 uint32 speedCounter = 0;
+uint32 speedCounterPrev = 0;
+bool canDebug = 0;
+uint32 lastStatisticsUpdate = 0;
+
+uint32 lastKeepalive = 0;
 
 Task taskChirp(CHIRP_INTERVAL, TASK_FOREVER, &taskChirpCallback);
 Task taskVoltage(VOLTAGE_UPDATE_INTERVAL, TASK_FOREVER, &taskVoltageCallback);
+Task taskStatistics(
+    STATS_UPDATE_INTERVAL,
+    TASK_FOREVER,
+    &taskStatisticsCallback
+);
 Task taskVoltageWarning(
     VOLTAGE_WARNING_INTERVAL,
     TASK_FOREVER,
@@ -29,11 +39,6 @@ Task taskCanbusVoltageBatteryAnnounce(
     CANBUS_VOLTAGE_BATTERY_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
     &taskCanbusVoltageBatteryAnnounceCallback
-);
-Task taskCanbusVoltageDynamoAnnounce(
-    CANBUS_VOLTAGE_DYNAMO_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &taskCanbusVoltageDynamoAnnounceCallback
 );
 Task taskCanbusCurrentAnnounce(
     CANBUS_CURRENT_ANNOUNCE_INTERVAL,
@@ -45,9 +50,21 @@ Task taskCanbusChargingStatusAnnounce(
     TASK_FOREVER,
     &taskCanbusChargingStatusAnnounceCallback
 );
+Task taskCanbusSpeedAnnounce(
+    CANBUS_SPEED_ANNOUNCE_INTERVAL,
+    TASK_FOREVER,
+    &taskCanbusSpeedAnnounceCallback
+);
+Task taskCanbusLedStatusAnnounce(
+    CANBUS_LED_STATUS_ANNOUNCE_INTERVAL,
+    TASK_FOREVER,
+    &taskCanbusLedStatusAnnounceCallback
+);
 Scheduler taskRunner;
 
 MultiSerial Output;
+
+HashMap<String, double> Statistics;
 
 void setup() {
     afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
@@ -72,27 +89,29 @@ void setup() {
     pinMode(PIN_ENABLE_BATT_POWER, OUTPUT);
     digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
     pinMode(PIN_ENABLE_BATT_CHARGE_, OUTPUT);
-    digitalWrite(PIN_ENABLE_BATT_CHARGE_, HIGH);
+    digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
 
-    pinMode(PIN_I_SPEED, INPUT);
+    pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
+    attachInterrupt(PIN_I_SPEED, intSpeedUpdate, RISING);
+
+    TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
 
     Output.addInterface(&ESPSerial);
     Output.addInterface(&BTSerial);
     Output.begin(230400, SERIAL_8E1);
     Output.println("[Maxwell 2.0]");
     Output.flush();
+    //failsafeReset();
 
     GPSSerial.begin(9600);
     gpsWake();
+    delay(100);
+    gpsPMTK(161, ",0");  // Disable the GPS
 
     CanBus.map(CAN_GPIO_PB8_PB9);
     CanBus.begin(CAN_SPEED_1000, CAN_MODE_NORMAL);
     CanBus.filter(0, 0, 0);
     CanBus.set_poll_mode();
-
-    setupCommands();
-
-    commandPrompt();
 
     CanMsg wakeMessage;
     wakeMessage.IDE = CAN_ID_STD;
@@ -102,23 +121,23 @@ void setup() {
     CanBus.send(&wakeMessage);
 
     ledSetup();
-    enableEsp(true);
+    enableEsp(false);
 
     taskRunner.init();
     taskRunner.addTask(taskChirp);
     taskRunner.addTask(taskVoltage);
     taskRunner.addTask(taskVoltageWarning);
     taskRunner.addTask(taskCanbusVoltageBatteryAnnounce);
-    taskRunner.addTask(taskCanbusVoltageDynamoAnnounce);
     taskRunner.addTask(taskCanbusCurrentAnnounce);
     taskRunner.addTask(taskCanbusChargingStatusAnnounce);
+    taskRunner.addTask(taskCanbusSpeedAnnounce);
+    taskRunner.addTask(taskStatistics);
+    taskRunner.addTask(taskCanbusLedStatusAnnounce);
     taskRunner.enableAll();
-}
 
-void handleCounter() {
-    if(digitalRead(PIN_I_SPEED)) {
-        speedCounter++;
-    }
+    Output.println("Ready.");
+    setupCommands();
+    commandPrompt();
 }
 
 String sendBluetoothCommand(String command) {
@@ -169,6 +188,23 @@ void bridgeUART(HardwareSerial* bridged, uint baud) {
     Output.begin();
 }
 
+HardwareSerial* uartNumberToInterface(uint uartNumber) {
+    HardwareSerial* uart;
+    if(uartNumber == 1) {
+        uart = &BTSerial;
+    } else if (uartNumber == 2) {
+        uart = &ESPSerial;
+    } else if (uartNumber == 3) {
+        uart = &GPSSerial;
+    } else if (uartNumber == 4) {
+        uart = &UART4;
+    } else if (uartNumber == 5) {
+        uart = &UART5;
+    }
+
+    return uart;
+}
+
 void beep(uint frequency, uint duration) {
     TimerFreeTone(PIN_BUZZER, frequency, duration);
 }
@@ -180,19 +216,59 @@ void taskChirpCallback() {
     }
 }
 
+void taskCanbusLedStatusAnnounceCallback() {
+    LedStatus ledStatus;
+    ledGetStatus(ledStatus);
+
+    CanMsg status;
+    status.IDE = CAN_ID_STD;
+    status.RTR = CAN_RTR_DATA;
+    status.ID = CAN_LED_STATUS_COLOR;
+    status.DLC = sizeof(byte) * 3 + sizeof(uint32);
+    status.Data[0] = ledStatus.enabled;
+    status.Data[1] = ledStatus.cycle;
+    status.Data[2] = ledStatus.brightness;
+    unsigned char *intervalBytes = reinterpret_cast<unsigned char*>(&ledStatus.interval);
+    for(uint8 i = 3; i < sizeof(double); i++) {
+        status.Data[i] = intervalBytes[i - 3];
+    }
+    CanBus.send(&status);
+    delay(50);
+
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_LED_STATUS_COLOR;
+    message.DLC = sizeof(byte) * 6;
+    message.Data[0] = ledStatus.red;
+    message.Data[1] = ledStatus.green;
+    message.Data[2] = ledStatus.blue;
+    message.Data[3] = ledStatus.red2;
+    message.Data[4] = ledStatus.green2;
+    message.Data[5] = ledStatus.blue2;
+    CanBus.send(&message);
+    delay(50);
+}
+
 void taskVoltageCallback() {
-    updateVoltages();
+    updatePowerMeasurements();
 
     double voltage = getVoltage(VOLTAGE_BATTERY);
-    if(voltage < 2.9) {
+    if(voltage < VOLTAGE_LEVEL_SHUTDOWN) {
         Output.println("Low voltage; Shutdown initiated!");
-        sleep();
+        sleep(false);
     }
+}
+
+void taskStatisticsCallback() {
+    Statistics.put("Uptime (minutes)", (double)millis() / 60000);
+
+    lastStatisticsUpdate = millis();
 }
 
 void taskVoltageWarningCallback() {
     double voltage = getVoltage(VOLTAGE_BATTERY);
-    if(voltage < 3.2) {
+    if(voltage < VOLTAGE_LEVEL_WARNING) {
         Output.print("Warning: low voltage (");
         Output.print(voltage, 2);
         Output.println(")");
@@ -207,25 +283,7 @@ void taskCanbusVoltageBatteryAnnounceCallback() {
     message.DLC = sizeof(double);
 
     double voltage = getVoltage(VOLTAGE_BATTERY);
-    unsigned char *voltageBytes = reinterpret_cast<byte*>(&voltage);
-    for(uint8 i = 0; i < sizeof(double); i++) {
-        message.Data[i] = voltageBytes[i];
-    }
-
-    CanBus.send(&message);
-
-    delay(50);
-}
-
-void taskCanbusVoltageDynamoAnnounceCallback() {
-    CanMsg message;
-    message.IDE = CAN_ID_STD;
-    message.RTR = CAN_RTR_DATA;
-    message.ID = CAN_VOLTAGE_DYNAMO;
-    message.DLC = sizeof(double);
-
-    double voltage = getVoltage(VOLTAGE_DYNAMO);
-    unsigned char *voltageBytes = reinterpret_cast<byte*>(&voltage);
+    unsigned char *voltageBytes = reinterpret_cast<unsigned char*>(&voltage);
     for(uint8 i = 0; i < sizeof(double); i++) {
         message.Data[i] = voltageBytes[i];
     }
@@ -243,7 +301,7 @@ void taskCanbusCurrentAnnounceCallback() {
     message.DLC = sizeof(double);
 
     double current = getCurrentUsage();
-    unsigned char *currentBytes = reinterpret_cast<byte*>(&current);
+    unsigned char *currentBytes = reinterpret_cast<unsigned char*>(&current);
     for(uint8 i = 0; i < sizeof(double); i++) {
         message.Data[i] = currentBytes[i];
     }
@@ -271,7 +329,45 @@ void taskCanbusChargingStatusAnnounceCallback() {
     delay(50);
 }
 
+void taskCanbusSpeedAnnounceCallback() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_VELOCITY;
+    message.DLC = sizeof(double);
+
+    // There are 14 poles in the hub, and the outer tire is 80in in
+    // circumference; so every pole is 5.714in of travel.
+
+    uint32 pulseCount = speedCounter - speedCounterPrev;
+    double mph = (
+        pulseCount * (80.0 / 14.0) / CANBUS_SPEED_ANNOUNCE_INTERVAL
+    ) / 63360 * 3.6e6;
+
+    unsigned char *speedBytes = reinterpret_cast<byte*>(&mph);
+    for(uint8 i = 0; i < sizeof(double); i++) {
+        message.Data[i] = speedBytes[i];
+    }
+
+    if (pulseCount > 0) {
+        renewKeepalive();
+    }
+
+    speedCounterPrev = speedCounter;
+    CanBus.send(&message);
+
+    delay(50);
+}
+
 void loop() {
+    // If we're past the keepalive duration; go to sleep
+    if(millis() > lastKeepalive + INACTIVITY_SLEEP_DURATION) {
+        sleep();
+    }
+    // If there are bytes on the serial buffer; keep the device alive
+    if(Output.available()) {
+        renewKeepalive();
+    }
     commandLoop();
 
     ledCycle();
@@ -290,9 +386,22 @@ void loop() {
             for (uint8_t i = 0; i < canMsg->DLC; i++) {
                 command.Data[i] = canMsg->Data[i];
             }
-            Output.println("");
+
+            if(canDebug) {
+                Output.print("Can Message: [");
+                Output.print(canMsg->ID, HEX);
+                Output.print("](");
+                Output.print(canMsg->DLC, HEX);
+                Output.print(") ");
+                for(uint8_t i = 0; i < canMsg->DLC; i++) {
+                    Output.print(canMsg->Data[i], HEX);
+                }
+                Output.println();
+            }
 
             handleCANCommand(&command);
+
+            CanBus.free();
         }
     }
 }
@@ -312,7 +421,46 @@ void enableEsp(bool enabled) {
     }
 }
 
-void sleep() {
+void failsafeReset() {
+    // Failsafe flash reset:
+    // connect to device immediately after bootup and press "~" (0x7e)
+    long started = millis();
+    while (millis() < started + BOOT_FLASH_DELAY) {
+        while(Output.available())  {
+            uint8_t input = Output.read();
+            if(input == 0x7E) {
+                Output.println();
+                Output.print(
+                    "Failsafe flash reset requested; resetting in 5 seconds."
+                );
+                delay(1000);
+                for (uint8_t i = 4; i > 0; i--) {
+                    for(uint8_t j = 0; j < 10; j++) {
+                        Output.write(0x08);
+                    }
+                    Output.print(i);
+                    Output.print(" seconds.");
+                    Output.flush();
+                    delay(1000);
+                    while(Output.available()) {
+                        // Just to flush the buffer so we don't send data
+                        // to the bootloader.
+                        Output.read();
+                    }
+                }
+                Output.println();
+                Output.println("Resetting device.");
+                Output.flush();
+                nvic_sys_reset();
+            }
+        }
+        Output.print(".");
+        delay(500);
+    }
+    Output.println();
+}
+
+void sleep(bool allowMovementWake) {
     CanMsg sleepMsg;
     sleepMsg.IDE = CAN_ID_STD;
     sleepMsg.RTR = CAN_RTR_DATA;
@@ -323,13 +471,28 @@ void sleep() {
 
     enableEsp(false);
     ledEnable(false);
+    gpsWake();
     gpsPMTK(161, ",0");
     systick_disable();
 
     pinMode(PIN_I_WAKE, INPUT_PULLDOWN);
     attachInterrupt(PIN_I_WAKE, nvic_sys_reset, RISING);
-    pinMode(PIN_I_SPEED, INPUT);
-    attachInterrupt(PIN_I_SPEED, nvic_sys_reset, RISING);
+    if (allowMovementWake) {
+        pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
+        attachInterrupt(PIN_I_SPEED, nvic_sys_reset, RISING);
+    }
 
     goToSleep(STANDBY);
+}
+
+void intSpeedUpdate() {
+    speedCounter++;
+}
+
+void enableCanDebug(bool enable) {
+    canDebug = enable;
+}
+
+void renewKeepalive() {
+    lastKeepalive = millis();
 }
