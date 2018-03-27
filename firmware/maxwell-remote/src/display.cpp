@@ -186,7 +186,7 @@ void DisplayManager::refresh() {
                 display.println("<FLASH>");
                 break;
             default:
-                display.println("");
+                display.println("<STARTING>");
                 break;
         }
     }
