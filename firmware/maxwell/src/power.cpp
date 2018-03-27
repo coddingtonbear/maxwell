@@ -13,17 +13,10 @@ double currentAmps = 0;
 double lastChargingStatusSample = 0;
 
 void updatePowerMeasurements() {
-    double tempVoltage = getInstantaneousVoltage(VOLTAGE_DYNAMO);
+    double tempVoltage;
     double tempBattVoltage;
     double tempSenseVoltage;
-    if(dynamoVoltage == 0) {
-        dynamoVoltage = tempVoltage;
-    } else {
-        dynamoVoltage = (
-            dynamoVoltage * (POWER_SAMPLE_COUNT - 1)
-            + tempVoltage
-        ) / POWER_SAMPLE_COUNT;
-    }
+    double tempAmps;
 
     tempVoltage = getInstantaneousVoltage(VOLTAGE_BATTERY);
     tempBattVoltage = tempVoltage;
@@ -47,7 +40,7 @@ void updatePowerMeasurements() {
         ) / POWER_SAMPLE_COUNT;
     }
 
-    double tempAmps = (
+    tempAmps = (
         tempBattVoltage - tempSenseVoltage
     )/SENSE_RESISTOR_VALUE;
     if(currentAmps == 0) {
@@ -145,12 +138,11 @@ double getCurrentUsage() {
     return currentAmps;
 }
 
-
 void enableBatteryCharging(bool enable) {
     if(enable) {
-        digitalWrite(PIN_ENABLE_BATT_CHARGE_, HIGH);
-    } else {
         digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
+    } else {
+        digitalWrite(PIN_ENABLE_BATT_CHARGE_, HIGH);
     }
 }
 

@@ -7,12 +7,12 @@
 #define CAN_MAIN_MC_WAKE 0x31
 #define CAN_MAIN_MC_FLASH_BEGIN 0x32
 
-#define CAN_VOLTAGE_BATTERY 0x040
-#define CAN_VOLTAGE_DYNAMO 0x041
-#define CAN_VOLTAGE_SENSE 0x042
-#define CAN_VELOCITY 0x43
-#define CAN_AMPS_CURRENT 0x44
-#define CAN_CHARGING_STATUS 0x45
+#define CAN_VOLTAGE_BATTERY 0x040  // double
+#define CAN_VOLTAGE_DYNAMO 0x041  // double  (NOT USED)
+#define CAN_VOLTAGE_SENSE 0x042  // double
+#define CAN_VELOCITY 0x43  // double
+#define CAN_AMPS_CURRENT 0x44  // double
+#define CAN_CHARGING_STATUS 0x45  // byte
 
 #define CAN_LED_STATUS 0x46  // byte (enabled), byte (cycle), byte (brightness), uint32(interval)
 #define CAN_LED_STATUS_COLOR 0x47  // byte (r), byte (g), byte (b), byte (r2), byte (g2), byte (b2),
@@ -24,6 +24,8 @@
 #define CAN_CMD_MAIN_MC_SLEEP 0xA4
 
 #define CAN_CMD_BEEP 0xA9
+
+#define CAN_CMD_CHARGE_ENABLE 0xAB  // byte
 
 #define CAN_CMD_LED_CYCLE 0xB0  // byte (cycle ID)
 #define CAN_CMD_LED_COLOR 0xB1  // byte (r), byte (g), byte (b)

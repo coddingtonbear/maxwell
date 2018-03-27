@@ -27,6 +27,7 @@ void canSetLedBrightness();
 void canSetLedInterval();
 void canLedEnable();
 void canLedPreset();
+void canChargeEnable();
 void setLedInterval();
 void send_can();
 void emit_can();

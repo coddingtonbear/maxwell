@@ -1,5 +1,6 @@
 #pragma once
 
+#include <RTClock.h>
 #include <Arduino.h>
 #include <HashMap.h>
 
@@ -26,16 +27,20 @@
 // These are semi-random to make sure they don't collide too often
 #define CANBUS_CHARGING_STATUS_ANNOUNCE_INTERVAL 2201
 #define CANBUS_VOLTAGE_BATTERY_ANNOUNCE_INTERVAL 3111
-#define CANBUS_CURRENT_ANNOUNCE_INTERVAL 11050
+#define CANBUS_CURRENT_ANNOUNCE_INTERVAL 3313
 #define CANBUS_SPEED_ANNOUNCE_INTERVAL 1017
 #define CANBUS_LED_STATUS_ANNOUNCE_INTERVAL 4120
+
+#define SPEED_WHEEL_RADIUS_INCHES 80.0
+#define SPEED_PULSES_PER_ROTATION 14.0
+#define SPEED_INCHES_PER_MILE 63360
+#define SPEED_SECONDS_PER_HOUR 3.6e6
+#define SPEED_SMOOTHING_SAMPLES 5
 
 #define INACTIVITY_SLEEP_DURATION 300000
 
 void setup();
 void loop();
-
-void failsafeReset();
 
 void handleCounter();
 
@@ -67,3 +72,4 @@ void renewKeepalive();
 
 extern MultiSerial Output;
 extern HashMap<String, double> Statistics;
+extern RTClock Clock;

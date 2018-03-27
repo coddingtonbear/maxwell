@@ -5,12 +5,14 @@
 #include <TimerFreeTone.h>
 #include <HardwareCAN.h>
 #include <TaskScheduler.h>
+#include <libmaple/iwdg.h>
 
 #include "multiserial.h"
 #include "can_message_ids.h"
 #include "power.h"
 #include "neopixel.h"
 #include "serial_commands.h"
+#include "power.h"
 #include "can.h"
 #include "gps.h"
 #include "pin_map.h"
@@ -18,6 +20,7 @@
 
 uint32 speedCounter = 0;
 uint32 speedCounterPrev = 0;
+double currentSpeedMph = 0;
 bool canDebug = 0;
 uint32 lastStatisticsUpdate = 0;
 
@@ -66,8 +69,11 @@ MultiSerial Output;
 
 HashMap<String, double> Statistics;
 
+RTClock Clock(RTCSEL_LSE);
+
 void setup() {
     afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
+    iwdg_init(IWDG_PRE_256, 2400);
 
     pinMode(PIN_BUZZER, OUTPUT);
     digitalWrite(PIN_BUZZER, LOW);
@@ -93,6 +99,8 @@ void setup() {
 
     pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
     attachInterrupt(PIN_I_SPEED, intSpeedUpdate, RISING);
+
+    enableBatteryCharging(true);
 
     TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
 
@@ -172,6 +180,7 @@ void bridgeUART(HardwareSerial* bridged, uint baud) {
     bridged->begin(baud);
 
     while(true) {
+        iwdg_feed();
         if (Output.available()) {
             uint8_t value = Output.read();
 
@@ -341,10 +350,20 @@ void taskCanbusSpeedAnnounceCallback() {
 
     uint32 pulseCount = speedCounter - speedCounterPrev;
     double mph = (
-        pulseCount * (80.0 / 14.0) / CANBUS_SPEED_ANNOUNCE_INTERVAL
-    ) / 63360 * 3.6e6;
+        pulseCount * (SPEED_WHEEL_RADIUS_INCHES / SPEED_PULSES_PER_ROTATION)
+        / CANBUS_SPEED_ANNOUNCE_INTERVAL
+    ) / SPEED_INCHES_PER_MILE * SPEED_SECONDS_PER_HOUR;
 
-    unsigned char *speedBytes = reinterpret_cast<byte*>(&mph);
+    if(currentSpeedMph == 0) {
+        currentSpeedMph = mph;
+    } else {
+        currentSpeedMph = (
+            currentSpeedMph * (SPEED_SMOOTHING_SAMPLES - 1)
+            + mph
+        ) / SPEED_SMOOTHING_SAMPLES;
+    }
+
+    unsigned char *speedBytes = reinterpret_cast<byte*>(&currentSpeedMph);
     for(uint8 i = 0; i < sizeof(double); i++) {
         message.Data[i] = speedBytes[i];
     }
@@ -360,6 +379,8 @@ void taskCanbusSpeedAnnounceCallback() {
 }
 
 void loop() {
+    iwdg_feed();
+
     // If we're past the keepalive duration; go to sleep
     if(millis() > lastKeepalive + INACTIVITY_SLEEP_DURATION) {
         sleep();
@@ -421,46 +442,9 @@ void enableEsp(bool enabled) {
     }
 }
 
-void failsafeReset() {
-    // Failsafe flash reset:
-    // connect to device immediately after bootup and press "~" (0x7e)
-    long started = millis();
-    while (millis() < started + BOOT_FLASH_DELAY) {
-        while(Output.available())  {
-            uint8_t input = Output.read();
-            if(input == 0x7E) {
-                Output.println();
-                Output.print(
-                    "Failsafe flash reset requested; resetting in 5 seconds."
-                );
-                delay(1000);
-                for (uint8_t i = 4; i > 0; i--) {
-                    for(uint8_t j = 0; j < 10; j++) {
-                        Output.write(0x08);
-                    }
-                    Output.print(i);
-                    Output.print(" seconds.");
-                    Output.flush();
-                    delay(1000);
-                    while(Output.available()) {
-                        // Just to flush the buffer so we don't send data
-                        // to the bootloader.
-                        Output.read();
-                    }
-                }
-                Output.println();
-                Output.println("Resetting device.");
-                Output.flush();
-                nvic_sys_reset();
-            }
-        }
-        Output.print(".");
-        delay(500);
-    }
-    Output.println();
-}
-
 void sleep(bool allowMovementWake) {
+    TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
+
     CanMsg sleepMsg;
     sleepMsg.IDE = CAN_ID_STD;
     sleepMsg.RTR = CAN_RTR_DATA;
@@ -473,7 +457,6 @@ void sleep(bool allowMovementWake) {
     ledEnable(false);
     gpsWake();
     gpsPMTK(161, ",0");
-    systick_disable();
 
     pinMode(PIN_I_WAKE, INPUT_PULLDOWN);
     attachInterrupt(PIN_I_WAKE, nvic_sys_reset, RISING);
@@ -482,7 +465,12 @@ void sleep(bool allowMovementWake) {
         attachInterrupt(PIN_I_SPEED, nvic_sys_reset, RISING);
     }
 
-    goToSleep(STANDBY);
+    systick_disable();
+    disableAllPeripheralClocks();
+    while(true) {
+        iwdg_feed();
+        sleepAndWakeUp(STOP, &Clock, 14);
+    }
 }
 
 void intSpeedUpdate() {

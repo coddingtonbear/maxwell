@@ -42,6 +42,7 @@ void setupCommands() {
     commands.addCommand("reset", reset);
     canCommands.addCommand(CAN_CMD_MAIN_MC_RESET, reset);
     canCommands.addCommand(CAN_CMD_MAIN_MC_SLEEP, doSleep);
+    canCommands.addCommand(CAN_CMD_CHARGE_ENABLE, canChargeEnable);
 
     commands.addCommand("flash", flash);
     canCommands.addCommand(CAN_CMD_MAIN_MC_FLASH, flash);
@@ -574,4 +575,13 @@ void printStatistics() {
         Output.print(": ");
         Output.println(value);
     }
+}
+
+void canChargeEnable() {
+    uint8_t data[8];
+    canCommands.getData(data);
+
+    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
+
+    enableBatteryCharging(enabled);
 }
