@@ -3,6 +3,7 @@
 #include "menu.h"
 #include "serial_commands.h"
 #include "led_cycles.h"
+#include "display.h"
 
 #include "main.h"
 
@@ -38,26 +39,51 @@ std::function<void()> makeBrightnessMenuItem(uint8_t value) {
         setLightingBrightness(value);
     };
 }
+std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
+    return [value]() -> void {
+        if(value > 0) {
+            Display.enable(true);
+            Display.setContrast(value);
+        } else {
+            Display.enable(false);
+        }
+    };
+}
 
 // Please excuse the weird indentation below; this is a rare instance
 // in which I think a non-standard indentation actually makes the code
 // easier to understand (given the hierarchical nature of the menu
 // defined below.
+                MenuItem chargingMenuOptions[] = {
+                    MenuItem(
+                        "Enable",
+                        enableBatteryCharging
+                    ),
+                    MenuItem(
+                        "Disable",
+                        disableBatteryCharging
+                    )
+                };
+            MenuList chargingMenuList(chargingMenuOptions, 2);
         MenuItem powerMenuItems[] = {
             MenuItem(
-                "Sleep",
+                "Power Off",
                 sleep
             ),
             MenuItem(
-                "Wake",
+                "Wake Base",
                 wake
             ),
             MenuItem(
                 "Reset",
                 reset
+            ),
+            MenuItem(
+                "Charging",
+                &chargingMenuList
             )
         };
-    MenuList powerMenuList(powerMenuItems, 3);
+    MenuList powerMenuList(powerMenuItems, 4);
 MenuItem powerMenu("Power", &powerMenuList);
 
                 MenuItem presetOptions[] = {
@@ -143,11 +169,11 @@ MenuItem powerMenu("Power", &powerMenuList);
             MenuList brightnessMenuList(brightnessOptions, 11);
         MenuItem lightingMenuItems[] = {
             MenuItem(
-                "Enabled",
+                "Enable",
                 enableLighting
             ),
             MenuItem(
-                "Disabled",
+                "Disable",
                 disableLighting
             ),
             MenuItem(
@@ -192,20 +218,45 @@ MenuItem lightingMenu("Lighting", &lightingMenuList);
 
         MenuItem commsMenuItems[] = {
             MenuItem(
-                "Bluetooth",
+                "Local BT",
                 &bluetoothMenuList
             ),
             MenuItem(
-                "BLE/ESP32",
+                "Base BLE",
                 &espMenuList
             )
         };
     MenuList commsMenuList(commsMenuItems, 2);
-MenuItem commsMenu("Comms", &commsMenuList);
+MenuItem commsMenu("Bluetooth", &commsMenuList);
+
+                MenuItem displayBrightnessMenuItems[] = {
+                    MenuItem(
+                        "High",
+                        makeDisplayBrightnessMenuItem(0xCF)
+                    ),
+                    MenuItem(
+                        "Low",
+                        makeDisplayBrightnessMenuItem(0x01)
+                    ),
+                    MenuItem(
+                        "Off",
+                        makeDisplayBrightnessMenuItem(0)
+                    )
+                };
+            MenuList displayBrightnessMenuList(displayBrightnessMenuItems, 3);
+        MenuItem displayMenuItems[] = {
+            MenuItem(
+                "Brightness",
+                &displayBrightnessMenuList
+            )
+        };
+    MenuList displayMenuList(displayMenuItems, 1);
+MenuItem displayMenu("Display", &displayMenuList);
 
 MenuItem mainMenuItems[] = {
     powerMenu,
     commsMenu,
     lightingMenu,
+    displayMenu
 };
-MenuList mainMenu(mainMenuItems, 3);
+MenuList mainMenu(mainMenuItems, 4);

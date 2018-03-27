@@ -5,12 +5,14 @@
 #include <CANCommand.h>
 #include <TaskScheduler.h>
 #include <Button.h>
+#include <RTClock.h>
+#include <libmaple/iwdg.h>
 
+#include "main.h"
 #include "serial_commands.h"
 #include "can_message_ids.h"
 #include "can.h"
 #include "display.h"
-#include "main.h"
 
 Task taskUpdateDisplay(
     DISPLAY_REFRESH_INTERVAL,
@@ -24,13 +26,14 @@ Button buttonLeftB = Button(LEFT_B, true, true, 250);
 Button buttonRightA = Button(RIGHT_A, true, true, 250);
 Button buttonRightB = Button(RIGHT_B, true, true, 250);
 
+RTClock Clock(RTCSEL_LSE);
+
 void setup() {
+    iwdg_init(IWDG_PRE_256, 2400);
+
     // Disable JTAG port; we're using JNRST for
     // display control.
     afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
-
-    pinMode(DISPLAY_ON_, OUTPUT);
-    digitalWrite(DISPLAY_ON_, LOW);
 
     Output.begin(230400, SERIAL_8E1);
 
@@ -104,6 +107,8 @@ void handleSpeedReceived(uint count) {
 }
 
 void loop() {
+    iwdg_feed();
+
     buttonLeftA.read();
     buttonRightA.read();
     buttonLeftB.read();

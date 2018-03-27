@@ -20,7 +20,10 @@ class DisplayManager {
         DisplayManager(MenuList*);
 
         void begin();
+        void enable(bool _enabled=true);
         void refresh();
+
+        void setContrast(uint8_t);
 
         void menuKeepalive();
         void up();
@@ -35,6 +38,8 @@ class DisplayManager {
 
         MenuList* getCurrentMenu();
 
+        bool enabled = true;
+        bool initialized = false;
         uint8_t menuDepth = 0;
         uint8_t menuPosition[10];
 

@@ -32,6 +32,8 @@ void activateLightingPreset(uint8_t);
 void setLightingCycle(uint8_t);
 void setLightingBrightness(uint8_t);
 void setLedColor(int32, int32, int32, bool primary=true);
+void enableBatteryCharging();
+void disableBatteryCharging();
 
 void menuUp();
 void menuDown();
@@ -41,6 +43,7 @@ void menuOut();
 void menuDebug();
 
 void receiveSpeed();
+void receiveCanChargingStatus();
 void receiveCanDouble();
 void receiveMainMcStatus();
 void receiveLedStatus();

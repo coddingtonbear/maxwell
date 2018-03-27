@@ -1,19 +1,42 @@
 #include <Adafruit_SSD1306.h>
+
+#include <Michroma24pt7b.h>
+
 #include "display.h"
 #include "status.h"
 #include "can_message_ids.h"
 #include "menu.h"
-
 #include "main.h"
 
 extern Adafruit_SSD1306 display(-1);
 
 DisplayManager::DisplayManager(MenuList* menuList) {
     mainMenu = menuList;
+
+    pinMode(DISPLAY_ON_, OUTPUT);
+    digitalWrite(DISPLAY_ON_, LOW);
+}
+
+void DisplayManager::enable(bool _enabled) {
+    if(_enabled && !enabled) {
+        digitalWrite(DISPLAY_ON_, LOW);
+        if(!initialized) {
+            begin();
+        }
+    } if(!_enabled && enabled) {
+        initialized = false;
+        digitalWrite(DISPLAY_ON_, HIGH);
+    }
+    enabled = _enabled;
 }
 
 void DisplayManager::menuKeepalive() {
     showMenuUntil = millis() + MENU_TIMEOUT;
+}
+
+void DisplayManager::setContrast(uint8_t value) {
+    display.ssd1306_command(SSD1306_SETCONTRAST);
+    display.ssd1306_command(value);
 }
 
 void DisplayManager::up() {
@@ -71,6 +94,8 @@ void DisplayManager::out() {
 }
 
 void DisplayManager::begin() {
+    digitalWrite(DISPLAY_ON_, LOW);
+    delay(100);
     display.begin(SSD1306_SWITCHCAPVCC, DISPLAY_ADDRESS);
     display.clearDisplay();
     display.display();
@@ -83,13 +108,19 @@ void DisplayManager::begin() {
 
     display.clearDisplay();
     display.display();
+
+    initialized = true;
 }
 
 void DisplayManager::refresh() {
+    if(!enabled) {
+        return;
+    }
+
+    DisplayManager::DisplayBounds bounds;
     display.clearDisplay();
 
-    /* Display Menu or Power */
-    display.setCursor(0, 16);
+    /* Display Menu or Speed */
     if(showMenuUntil > millis()) {
         showMenu();
     } else {
@@ -100,26 +131,43 @@ void DisplayManager::refresh() {
             1
         );
 
-        display.setTextSize(6);
+        display.setFont(&Michroma24pt7b);
+        display.setTextSize(1);
+        display.setCursor(0, DISPLAY_HEIGHT - 1);
+        /*
+        bounds = getTextBounds(velocity);
+        display.setCursor(
+            DISPLAY_WIDTH - bounds.w,
+            DISPLAY_HEIGHT - 1,
+        );
+        */
         display.println(velocity);
     }
 
     /* Display Status Information */
     display.setTextSize(2);
-    display.setTextColor(WHITE, BLACK);
+    display.setFont(NULL);
     display.setCursor(0, 0);
-    DisplayManager::DisplayBounds bounds;
+    display.setTextColor(WHITE, BLACK);
     uint32 mainMcStatus = getStatusMainMc();
+    uint8_t chargingStatus = getChargingStatus();
     if(mainMcStatus == CAN_MAIN_MC_WAKE) {
+        if(chargingStatus != CHARGING_STATUS_SHUTDOWN) {
+            display.setTextColor(BLACK, WHITE);
+        }
         String voltage = String(
             getDoubleStatusParameter(
                 CAN_VOLTAGE_BATTERY
             ),
             2
         );
+        if(chargingStatus == CHARGING_STATUS_FULLY_CHARGED) {
+            voltage += "*";
+        }
         bounds = getTextBounds(voltage);
         display.println(voltage);
 
+        display.setTextColor(WHITE, BLACK);
         String amps = String(
             getDoubleStatusParameter(
                 CAN_AMPS_CURRENT
@@ -163,6 +211,8 @@ void DisplayManager::showMenu() {
 
         return;
     }
+    display.setFont(NULL);
+    display.setCursor(0, 16);
 
     display.setTextSize(2);
     int startingIndex = menuPosition[menuDepth] - 1;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <RTClock.h>
+
 #define DISPLAY_REFRESH_INTERVAL 250
 
 #define BT_ENABLE_ PB11
@@ -18,5 +20,7 @@ void loop();
 void taskUpdateDisplayCallback();
 void handleSpeedReceived(uint);
 void handleControl();
+
+extern RTClock Clock;
 
 #define Output Serial

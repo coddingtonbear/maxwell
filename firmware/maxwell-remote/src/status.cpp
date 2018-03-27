@@ -1,14 +1,20 @@
 #include <Arduino.h>
 #include "can_message_ids.h"
 #include "main.h"
+#include "status.h"
 
 double voltageBattery;
 double voltageDynamo;
 double voltageSense;
 double current;
 double velocity;
+uint8_t chargingStatus;
 
 uint32 status = 0;
+
+void setChargingStatus(uint8_t value) {
+    chargingStatus = value;
+}
 
 void setStatusParameter(uint32 canMsgId, double value) {
     status = CAN_MAIN_MC_WAKE;
@@ -62,4 +68,8 @@ double getDoubleStatusParameter(uint32 canMsgId) {
 
 uint32 getStatusMainMc() {
     return status;
+}
+
+uint8_t getChargingStatus() {
+    return chargingStatus;
 }

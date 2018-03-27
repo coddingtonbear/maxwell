@@ -1,6 +1,7 @@
 #include <HardwareCAN.h>
 #include <SerialCommand.h>
 #include <STM32Sleep.h>
+#include <libmaple/iwdg.h>
 
 #include "serial_commands.h"
 #include "can.h"
@@ -39,6 +40,9 @@ void setupCommands() {
     commands.addCommand("disable_esp", disableEsp);
     commands.addCommand("enable_esp", enableEsp);
 
+    commands.addCommand("enable_charging", enableBatteryCharging);
+    commands.addCommand("disable_charging", disableBatteryCharging);
+
     commands.addCommand("menu_up", menuUp);
     commands.addCommand("menu_down", menuDown);
     commands.addCommand("menu_in", menuIn);
@@ -55,6 +59,7 @@ void setupCommands() {
     canCommands.addCommand(CAN_VELOCITY, receiveCanDouble);
     canCommands.addCommand(CAN_VOLTAGE_BATTERY, receiveCanDouble);
     canCommands.addCommand(CAN_AMPS_CURRENT, receiveCanDouble);
+    canCommands.addCommand(CAN_CHARGING_STATUS, receiveCanChargingStatus);
 }
 
 void bluetooth() {
@@ -263,7 +268,11 @@ void sleep() {
     attachInterrupt(LEFT_A, nvic_sys_reset, FALLING);
     delay(500);
     systick_disable();
-    goToSleep(STANDBY);
+    disableAllPeripheralClocks();
+    while(true) {
+        iwdg_feed();
+        sleepAndWakeUp(STOP, &Clock, 14);
+    }
 }
 
 void beep() {
@@ -336,6 +345,13 @@ void receiveCanDouble() {
     double value = *(reinterpret_cast<double*>(data));
 
     setStatusParameter(msgId, value);
+}
+
+void receiveCanChargingStatus() {
+    static uint8_t data[8];
+    canCommands.getData(data);
+
+    setChargingStatus(data[0]);
 }
 
 void setLedColor(int32 _red, int32 _green, int32 _blue, bool primary) {
@@ -476,4 +492,36 @@ void menuDebug() {
         }
         Output.println();
     }
+}
+
+void enableBatteryCharging() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_CHARGE_ENABLE;
+    message.DLC = sizeof(uint8_t);
+
+    uint8_t enabled = 1;
+    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
+    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
+        message.Data[i] = enabledBytes[i];
+    }
+
+    CanBus.send(&message);
+}
+
+void disableBatteryCharging() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_CHARGE_ENABLE;
+    message.DLC = sizeof(uint8_t);
+
+    uint8_t enabled = 0;
+    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
+    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
+        message.Data[i] = enabledBytes[i];
+    }
+
+    CanBus.send(&message);
 }
