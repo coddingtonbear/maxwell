@@ -259,7 +259,10 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr, bool reset) {
   if (vccstate == SSD1306_EXTERNALVCC)
     { ssd1306_command(0x9F); }
   else
-    { ssd1306_command(0xCF); }
+    { 
+        ssd1306_command(0x05);
+        //ssd1306_command(0xCF);
+    }
 
 #elif defined SSD1306_96_16
   ssd1306_command(SSD1306_SETCOMPINS);                    // 0xDA
