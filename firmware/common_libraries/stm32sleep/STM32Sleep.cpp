@@ -4,12 +4,10 @@
 
 static void noop() {};
 
-/*
 void sleepAndWakeUp(SleepMode mode, RTClock *rt, uint8_t seconds) {
   rt->createAlarm(&noop, rt->getTime() + seconds);
   goToSleep(mode);
 }
-*/
 
 void goToSleep(SleepMode mode) {
     // Clear PDDS and LPDS bits
