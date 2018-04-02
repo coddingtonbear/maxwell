@@ -35,3 +35,4 @@
 #define CAN_CMD_LED_PRESET 0xB6  // byte
 #define CAN_CMD_LED_COLOR2 0xB7  // byte (r), byte (g), byte (b)
 #define CAN_CMD_ESP_ENABLE 0xB4  // byte
+#define CAN_CMD_BT_ENABLE 0xB8  // byte

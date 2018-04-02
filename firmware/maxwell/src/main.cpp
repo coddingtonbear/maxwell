@@ -14,7 +14,6 @@
 #include "serial_commands.h"
 #include "power.h"
 #include "can.h"
-#include "gps.h"
 #include "pin_map.h"
 #include "main.h"
 
@@ -25,6 +24,8 @@ bool canDebug = 0;
 uint32 lastStatisticsUpdate = 0;
 
 uint32 lastKeepalive = 0;
+uint32 lastBluetoothKeepalive = 0;
+bool bluetoothEnabled = true;
 
 Task taskChirp(CHIRP_INTERVAL, TASK_FOREVER, &taskChirpCallback);
 Task taskVoltage(VOLTAGE_UPDATE_INTERVAL, TASK_FOREVER, &taskVoltageCallback);
@@ -83,6 +84,8 @@ void setup() {
     pinMode(PIN_DISABLE_ESP_, OUTPUT);
     digitalWrite(PIN_DISABLE_ESP_, LOW);
 
+    pinMode(PIN_BT_ENABLE_, OUTPUT);
+    digitalWrite(PIN_BT_ENABLE_, LOW);
     pinMode(PIN_BT_KEY, OUTPUT);
     digitalWrite(PIN_BT_KEY, LOW);
 
@@ -111,10 +114,10 @@ void setup() {
     Output.flush();
     //failsafeReset();
 
-    GPSSerial.begin(9600);
-    gpsWake();
+    //GPSSerial.begin(9600);
+    //gpsWake();
     delay(100);
-    gpsPMTK(161, ",0");  // Disable the GPS
+    //gpsPMTK(161, ",0");  // Disable the GPS
 
     CanBus.map(CAN_GPIO_PB8_PB9);
     CanBus.begin(CAN_SPEED_1000, CAN_MODE_NORMAL);
@@ -385,14 +388,19 @@ void loop() {
     if(millis() > lastKeepalive + INACTIVITY_SLEEP_DURATION) {
         sleep();
     }
+    // If we're past the keepalive for bluetooth, deactivate bluetooth, too.
+    if(millis() > lastBluetoothKeepalive + BLUETOOTH_TIMEOUT) {
+        enableBluetooth(false);
+    }
     // If there are bytes on the serial buffer; keep the device alive
     if(Output.available()) {
         renewKeepalive();
+        renewBluetoothKeepalive();
     }
     commandLoop();
 
     ledCycle();
-    gps.available(GPSSerial);  // Update GPS with serial data
+    //gps.available(GPSSerial);  // Update GPS with serial data
 
     // Misc. periodic tasks
     taskRunner.execute();
@@ -455,8 +463,9 @@ void sleep(bool allowMovementWake) {
 
     enableEsp(false);
     ledEnable(false);
-    gpsWake();
-    gpsPMTK(161, ",0");
+    enableBluetooth(false);
+    //gpsWake();
+    //gpsPMTK(161, ",0");
 
     pinMode(PIN_I_WAKE, INPUT_PULLDOWN);
     attachInterrupt(PIN_I_WAKE, nvic_sys_reset, RISING);
@@ -483,4 +492,18 @@ void enableCanDebug(bool enable) {
 
 void renewKeepalive() {
     lastKeepalive = millis();
+}
+
+void enableBluetooth(bool enable) {
+    if(enable) {
+        digitalWrite(PIN_BT_ENABLE_, LOW);
+        bluetoothEnabled = true;
+    } else {
+        digitalWrite(PIN_BT_ENABLE_, HIGH);
+        bluetoothEnabled = false;
+    }
+}
+
+void renewBluetoothKeepalive() {
+    lastBluetoothKeepalive = millis();
 }

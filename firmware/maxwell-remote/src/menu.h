@@ -4,6 +4,7 @@
 #undef min
 #undef max
 
+#include <vector>
 #include <functional>
 
 #define MAX_MENU_LENGTH 20
@@ -24,10 +25,8 @@ class MenuItem {
 
 class MenuList {
     public:
-        MenuList(MenuItem[], uint8_t);
-
-        MenuItem* items;
-        uint8_t length = -1;
+        MenuList(std::vector<MenuItem>);
+        std::vector<MenuItem> items;
 };
 
 extern MenuList mainMenu;

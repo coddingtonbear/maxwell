@@ -2,7 +2,7 @@
 
 #include <RTClock.h>
 
-#define DISPLAY_REFRESH_INTERVAL 250
+#define DISPLAY_REFRESH_INTERVAL 100
 
 #define BT_ENABLE_ PB11
 #define BT_KEY PB10
@@ -18,8 +18,6 @@ void setup();
 void loop();
 
 void taskUpdateDisplayCallback();
-void handleSpeedReceived(uint);
-void handleControl();
 
 extern RTClock Clock;
 

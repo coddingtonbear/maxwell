@@ -39,4 +39,5 @@ void disableEsp32();
 void coordinates();
 void doSendCanMesage();
 void canEnableEsp();
+void canEnableBluetooth();
 void printStatistics();

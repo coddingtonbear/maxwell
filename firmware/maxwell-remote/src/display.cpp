@@ -1,6 +1,6 @@
 #include <Adafruit_SSD1306.h>
-
-#include <Michroma24pt7b.h>
+#include <Roboto_Regular8pt7b.h>
+#include <Roboto_Regular30pt7b.h>
 
 #include "display.h"
 #include "status.h"
@@ -47,7 +47,7 @@ void DisplayManager::up() {
     if(menuPosition[menuDepth] > 0) {
         menuPosition[menuDepth]--;
     } else {
-        menuPosition[menuDepth] = currentMenu->length - 1;
+        menuPosition[menuDepth] = currentMenu->items.size() - 1;
     }
 }
 
@@ -57,7 +57,7 @@ void DisplayManager::down() {
     menuKeepalive();
 
     menuPosition[menuDepth]++;
-    if(menuPosition[menuDepth] >= currentMenu->length) {
+    if(menuPosition[menuDepth] >= currentMenu->items.size()) {
         menuPosition[menuDepth] = 0;
     }
 }
@@ -100,10 +100,9 @@ void DisplayManager::begin() {
     display.clearDisplay();
     display.display();
 
-    display.setTextSize(2);
     display.setCursor(0, 0);
     display.setTextColor(WHITE);
-    display.setTextWrap(true);
+    display.setTextWrap(false);
     display.display();
 
     display.clearDisplay();
@@ -119,6 +118,7 @@ void DisplayManager::refresh() {
 
     DisplayManager::DisplayBounds bounds;
     display.clearDisplay();
+    display.setFont(&Roboto_Regular8pt7b);
 
     /* Display Menu or Speed */
     if(showMenuUntil > millis()) {
@@ -131,51 +131,47 @@ void DisplayManager::refresh() {
             1
         );
 
-        display.setFont(&Michroma24pt7b);
-        display.setTextSize(1);
+        display.setFont(&Roboto_Regular30pt7b);
         display.setCursor(0, DISPLAY_HEIGHT - 1);
-        /*
         bounds = getTextBounds(velocity);
         display.setCursor(
-            DISPLAY_WIDTH - bounds.w,
-            DISPLAY_HEIGHT - 1,
+            (DISPLAY_WIDTH - bounds.w - 1) / 2,
+            DISPLAY_HEIGHT - 1
         );
-        */
         display.println(velocity);
     }
 
     /* Display Status Information */
-    display.setTextSize(2);
-    display.setFont(NULL);
-    display.setCursor(0, 0);
-    display.setTextColor(WHITE, BLACK);
+    display.setFont(&Roboto_Regular8pt7b);
+    display.setCursor(0, 12);
     uint32 mainMcStatus = getStatusMainMc();
     uint8_t chargingStatus = getChargingStatus();
     if(mainMcStatus == CAN_MAIN_MC_WAKE) {
-        if(chargingStatus != CHARGING_STATUS_SHUTDOWN) {
-            display.setTextColor(BLACK, WHITE);
-        }
         String voltage = String(
             getDoubleStatusParameter(
                 CAN_VOLTAGE_BATTERY
             ),
             2
         );
+        voltage += "V";
+        if(chargingStatus != CHARGING_STATUS_SHUTDOWN) {
+            voltage += "*";
+        }
         if(chargingStatus == CHARGING_STATUS_FULLY_CHARGED) {
             voltage += "*";
         }
         bounds = getTextBounds(voltage);
         display.println(voltage);
 
-        display.setTextColor(WHITE, BLACK);
         String amps = String(
             getDoubleStatusParameter(
                 CAN_AMPS_CURRENT
             ),
             2
         );
+        amps += "A";
         bounds = getTextBounds(amps);
-        display.setCursor(DISPLAY_WIDTH - bounds.w, 0);
+        display.setCursor(DISPLAY_WIDTH - bounds.w - 1, 12);
         display.println(amps);
     } else {
         switch(mainMcStatus) {
@@ -206,34 +202,44 @@ MenuList* DisplayManager::getCurrentMenu() {
 
 void DisplayManager::showMenu() {
     if(millis() < showMenuExecNoticeUntil) {
-        display.setTextSize(6);
-        display.println("OK");
+        display.setFont(&Roboto_Regular30pt7b);
+        display.setCursor(0, DISPLAY_HEIGHT - 1);
+
+        String okMessage = "OK";
+
+        DisplayManager::DisplayBounds bounds;
+        bounds = getTextBounds(okMessage);
+        display.setCursor(
+            (DISPLAY_WIDTH - bounds.w - 1) / 2,
+            DISPLAY_HEIGHT - 1
+        );
+        display.println(okMessage);
 
         return;
     }
-    display.setFont(NULL);
-    display.setCursor(0, 16);
+    display.setFont(&Roboto_Regular8pt7b);
 
-    display.setTextSize(2);
     int startingIndex = menuPosition[menuDepth] - 1;
-
     MenuList* currMenu = getCurrentMenu();
 
+    uint16_t rowHeight = 16;
+    uint16_t cursorPosition = 31;
+    for(int8_t i = startingIndex; i < (int8_t)currMenu->items.size(); i++) {
+        display.setCursor(0, cursorPosition);
+        cursorPosition += rowHeight;
 
-    for(int8_t i = startingIndex; i < currMenu->length; i++) {
-        //Output.print(i);
-        //Output.print("/");
-        //Output.println(currMenu->length);
-        display.setTextColor(WHITE, BLACK);
         if(i < 0) {
             display.println();
             continue;
         }
         if(i == menuPosition[menuDepth]) {
-            display.setTextColor(BLACK, WHITE);
+            display.print("[");
         }
-
-        display.println(currMenu->items[i].name);
+        display.print(currMenu->items[i].name);
+        if(i == menuPosition[menuDepth]) {
+            display.print("]");
+        }
+        display.println();
     }
 }
 

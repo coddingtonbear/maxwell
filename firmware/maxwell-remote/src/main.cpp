@@ -21,10 +21,10 @@ Task taskUpdateDisplay(
 );
 Scheduler taskRunner;
 
-Button buttonLeftA = Button(LEFT_A, true, true, 250);
-Button buttonLeftB = Button(LEFT_B, true, true, 250);
-Button buttonRightA = Button(RIGHT_A, true, true, 250);
-Button buttonRightB = Button(RIGHT_B, true, true, 250);
+Button buttonLeftA = Button(LEFT_A, true, true, 120);
+Button buttonLeftB = Button(LEFT_B, true, true, 120);
+Button buttonRightA = Button(RIGHT_A, true, true, 120);
+Button buttonRightB = Button(RIGHT_B, true, true, 120);
 
 RTClock Clock(RTCSEL_LSE);
 
@@ -94,18 +94,6 @@ void taskUpdateDisplayCallback() {
     Display.refresh();
 }
 
-uint8_t pinChanged = 0;
-uint32 lastShown = 0;
-uint32 speedCounter = 0;
-
-void handleControl() {
-    pinChanged = 1;
-}
-
-void handleSpeedReceived(uint count) {
-    speedCounter = count;
-}
-
 void loop() {
     iwdg_feed();
 
@@ -129,17 +117,11 @@ void loop() {
 
     taskRunner.execute();
     if(Output.available()) {
-        refreshBluetoothTimeout();
+        refreshLocalBluetoothTimeout();
     } else {
-        handleBluetoothTimeout();
+        handleLocalBluetoothTimeout();
     }
     commandLoop();
-
-    if (pinChanged != 0) {
-        pinChanged = 0;
-
-        Output.println("Control event occurred.");
-    }
 
     if(CanBus.available()) {
         CanMsg* canMsg;

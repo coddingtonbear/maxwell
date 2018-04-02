@@ -50,6 +50,7 @@ void setupCommands() {
     commands.addCommand("enable_esp", enableEsp32);
     commands.addCommand("disable_esp", disableEsp32);
     canCommands.addCommand(CAN_CMD_ESP_ENABLE, canEnableEsp);
+    canCommands.addCommand(CAN_CMD_BT_ENABLE, canEnableBluetooth);
 
     commands.addCommand("coordinates", coordinates);
 
@@ -567,13 +568,22 @@ void canEnableEsp() {
     enableEsp(enabled);
 }
 
+void canEnableBluetooth() {
+    uint8_t data[8];
+    canCommands.getData(data);
+
+    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
+
+    enableBluetooth(enabled);
+}
+
 void printStatistics() {
     for(uint8_t i = 0; i < Statistics.count(); i++) {
         auto key = Statistics.keyAt(i);
         auto value = Statistics.valueFor(key);
         Output.print(key);
         Output.print(": ");
-        Output.println(value);
+        Output.println(value, 4);
     }
 }
 

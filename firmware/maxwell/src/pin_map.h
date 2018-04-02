@@ -3,6 +3,7 @@
 #define PIN_ESP_BOOT_FLASH_ PA1
 #define PIN_DISABLE_ESP_ PB1
 
+#define PIN_BT_ENABLE_ PC9
 #define PIN_BT_KEY PA11
 
 #define PIN_I_POWER_ON PA15

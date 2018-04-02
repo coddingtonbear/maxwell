@@ -85,23 +85,23 @@ void bluetooth() {
     Output.print(result);
 }
 
-void refreshBluetoothTimeout() {
+void refreshLocalBluetoothTimeout() {
     bluetoothEnabledUntil = millis() + BT_TIMEOUT_ACTIVITY;
 }
 
-void handleBluetoothTimeout() {
+void handleLocalBluetoothTimeout() {
     if(bluetoothEnabled && bluetoothEnabledUntil < millis()) {
-        disableBluetooth();
+        disableLocalBluetooth();
     }
 }
 
-void enableBluetooth() {
-    enableBluetoothUntil(
+void enableLocalBluetooth() {
+    enableLocalBluetoothUntil(
         millis() + BT_TIMEOUT_ACTIVITY
     );
 }
 
-void enableBluetoothUntil(uint32_t until) {
+void enableLocalBluetoothUntil(uint32_t until) {
     pinMode(BT_ENABLE_, OUTPUT);
     digitalWrite(BT_ENABLE_, LOW);
 
@@ -110,7 +110,7 @@ void enableBluetoothUntil(uint32_t until) {
     bluetoothEnabled = true;
 }
 
-void disableBluetooth() {
+void disableLocalBluetooth() {
     pinMode(BT_ENABLE_, OUTPUT);
     digitalWrite(BT_ENABLE_, HIGH);
 
@@ -480,7 +480,7 @@ void menuDebug() {
     }
     Output.println();
 
-    for(uint8_t i = 0; i < curr->length; i++) {
+    for(uint8_t i = 0; i < curr->items.size(); i++) {
         Output.print(i);
         Output.print(") ");
         Output.print(curr->items[i].name);
@@ -518,6 +518,38 @@ void disableBatteryCharging() {
     message.DLC = sizeof(uint8_t);
 
     uint8_t enabled = 0;
+    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
+    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
+        message.Data[i] = enabledBytes[i];
+    }
+
+    CanBus.send(&message);
+}
+
+void enableBluetooth() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_BT_ENABLE;
+    message.DLC = sizeof(uint8_t);
+
+    uint8_t enabled = 1;
+    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
+    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
+        message.Data[i] = enabledBytes[i];
+    }
+
+    CanBus.send(&message);
+}
+
+void disableBluetooth() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_BT_ENABLE;
+    message.DLC = sizeof(uint8_t);
+
+    uint8_t enabled = 1;
     unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
     for(uint8 i = 0; i < sizeof(uint8_t); i++) {
         message.Data[i] = enabledBytes[i];

@@ -14,10 +14,8 @@
 #define CHIRP_COUNT 3
 #define CHIRP_INTRANOTE_INTERVAL 50
 
-#define BOOT_FLASH_DELAY 15000
-
-#define VOLTAGE_LEVEL_WARNING 3.1
-#define VOLTAGE_LEVEL_SHUTDOWN 3.0
+#define VOLTAGE_LEVEL_WARNING 3.0
+#define VOLTAGE_LEVEL_SHUTDOWN 2.75
 
 #define VOLTAGE_UPDATE_INTERVAL 100
 #define VOLTAGE_WARNING_INTERVAL 600000
@@ -37,6 +35,7 @@
 #define SPEED_SECONDS_PER_HOUR 3.6e6
 #define SPEED_SMOOTHING_SAMPLES 5
 
+#define BLUETOOTH_TIMEOUT 120000
 #define INACTIVITY_SLEEP_DURATION 300000
 
 void setup();
@@ -46,9 +45,12 @@ void handleCounter();
 
 String sendBluetoothCommand(String);
 void enableEsp(bool);
+void enableBluetooth(bool);
 void enableBatteryPower(bool);
 
 void enableCanDebug(bool);
+void renewKeepalive();
+void renewBluetoothKeepalive();
 
 void beep(uint, uint);
 
@@ -68,7 +70,6 @@ void taskCanbusChargingStatusAnnounceCallback();
 void taskCanbusSpeedAnnounceCallback();
 void taskStatisticsCallback();
 void taskCanbusLedStatusAnnounceCallback();
-void renewKeepalive();
 
 extern MultiSerial Output;
 extern HashMap<String, double> Statistics;
