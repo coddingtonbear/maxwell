@@ -11,6 +11,7 @@
 #include "can_message_ids.h"
 #include "power.h"
 #include "neopixel.h"
+#include <RollingAverage.h>
 #include "serial_commands.h"
 #include "power.h"
 #include "can.h"
@@ -19,7 +20,8 @@
 
 uint32 speedCounter = 0;
 uint32 speedCounterPrev = 0;
-double currentSpeedMph = 0;
+
+RollingAverage<double, 5> currentSpeedMph;
 bool canDebug = 0;
 uint32 lastStatisticsUpdate = 0;
 
@@ -356,17 +358,10 @@ void taskCanbusSpeedAnnounceCallback() {
         pulseCount * (SPEED_WHEEL_RADIUS_INCHES / SPEED_PULSES_PER_ROTATION)
         / CANBUS_SPEED_ANNOUNCE_INTERVAL
     ) / SPEED_INCHES_PER_MILE * SPEED_SECONDS_PER_HOUR;
+    currentSpeedMph.addMeasurement(mph);
 
-    if(currentSpeedMph == 0) {
-        currentSpeedMph = mph;
-    } else {
-        currentSpeedMph = (
-            currentSpeedMph * (SPEED_SMOOTHING_SAMPLES - 1)
-            + mph
-        ) / SPEED_SMOOTHING_SAMPLES;
-    }
-
-    unsigned char *speedBytes = reinterpret_cast<byte*>(&currentSpeedMph);
+    double currentSpeedTemp = currentSpeedMph.getValue();
+    unsigned char *speedBytes = reinterpret_cast<byte*>(&currentSpeedTemp);
     for(uint8 i = 0; i < sizeof(double); i++) {
         message.Data[i] = speedBytes[i];
     }

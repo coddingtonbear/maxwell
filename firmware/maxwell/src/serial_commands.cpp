@@ -335,9 +335,7 @@ void currentUsage() {
 void voltageMeasurement() {
     String source = String((char*)commands.next());
 
-    if(source == "dynamo") {
-        Output.println(getVoltage(VOLTAGE_DYNAMO), 6);
-    } else if(source == "battery") {
+    if(source == "battery") {
         Output.println(getVoltage(VOLTAGE_BATTERY), 6);
     } else if(source == "sense") {
         Output.println(getVoltage(VOLTAGE_SENSE), 6);

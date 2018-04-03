@@ -1,14 +1,14 @@
 #include <Arduino.h>
+#include <RollingAverage.h>
 #include "main.h"
 #include "pin_map.h"
 #include "power.h"
 
 long int lastUpdated = 0;
 
-double dynamoVoltage = 0;
-double batteryVoltage = 0;
-double senseVoltage = 0;
-double currentAmps = 0;
+RollingAverage<double, 5> currentAmps;
+RollingAverage<double, 10> senseVoltage;
+RollingAverage<double, 10> batteryVoltage;
 
 double lastChargingStatusSample = 0;
 
@@ -19,50 +19,29 @@ void updatePowerMeasurements() {
     double tempAmps;
 
     tempVoltage = getInstantaneousVoltage(VOLTAGE_BATTERY);
+    batteryVoltage.addMeasurement(tempVoltage);
     tempBattVoltage = tempVoltage;
-    if(batteryVoltage == 0) {
-        batteryVoltage = tempVoltage;
-    } else {
-        batteryVoltage = (
-            batteryVoltage * (POWER_SAMPLE_COUNT - 1)
-            + tempVoltage
-        ) / POWER_SAMPLE_COUNT;
-    }
 
     tempVoltage = getInstantaneousVoltage(VOLTAGE_SENSE);
+    senseVoltage.addMeasurement(tempVoltage);
     tempSenseVoltage = tempVoltage;
-    if(senseVoltage == 0) {
-        senseVoltage = tempVoltage;
-    } else {
-        senseVoltage = (
-            senseVoltage * (POWER_SAMPLE_COUNT - 1)
-            + tempVoltage
-        ) / POWER_SAMPLE_COUNT;
-    }
 
     tempAmps = (
         tempBattVoltage - tempSenseVoltage
     )/SENSE_RESISTOR_VALUE;
-    if(currentAmps == 0) {
-        currentAmps = tempAmps;
-    } else {
-        currentAmps = (
-            currentAmps * (POWER_SAMPLE_COUNT - 1)
-            + tempAmps
-        ) / POWER_SAMPLE_COUNT;
-    }
+    currentAmps.addMeasurement(tempAmps);
 
-    Statistics.put("Battery Voltage", batteryVoltage);
-    if(Statistics.valueFor("Battery Voltage (Max)") < batteryVoltage) {
-        Statistics.put("Battery Voltage (Max)", batteryVoltage);
+    Statistics.put("Battery Voltage", batteryVoltage.getValue());
+    if(Statistics.valueFor("Battery Voltage (Max)") < batteryVoltage.getValue()) {
+        Statistics.put("Battery Voltage (Max)", batteryVoltage.getValue());
     }
-    Statistics.put("Sense Voltage", senseVoltage);
-    if(Statistics.valueFor("Sense Voltage (Max)") < senseVoltage) {
-        Statistics.put("Sense Voltage (Max)", senseVoltage);
+    Statistics.put("Sense Voltage", senseVoltage.getValue());
+    if(Statistics.valueFor("Sense Voltage (Max)") < senseVoltage.getValue()) {
+        Statistics.put("Sense Voltage (Max)", senseVoltage.getValue());
     }
-    Statistics.put("Current (Amps)", currentAmps);
-    if(Statistics.valueFor("Current (Amps) (Max)") < currentAmps) {
-        Statistics.put("Current (Amps) (Max)", currentAmps);
+    Statistics.put("Current (Amps)", currentAmps.getValue());
+    if(Statistics.valueFor("Current (Amps) (Max)") < currentAmps.getValue()) {
+        Statistics.put("Current (Amps) (Max)", currentAmps.getValue());
     }
 
     uint8_t status = getChargingStatus();
@@ -80,9 +59,6 @@ int getRawVoltageAdcValue(uint source) {
     int result = -1;
 
     switch(source) {
-        case VOLTAGE_DYNAMO:
-            result = analogRead(PIN_I_DYNAMO_VOLTAGE);
-            break;
         case VOLTAGE_BATTERY:
             result = analogRead(PIN_I_BATT_VOLTAGE);
             break;
@@ -98,14 +74,11 @@ double getVoltage(uint source) {
     double result = 0;
 
     switch(source) {
-        case VOLTAGE_DYNAMO:
-            result = dynamoVoltage;
-            break;
         case VOLTAGE_BATTERY:
-            result = batteryVoltage;
+            result = batteryVoltage.getValue();
             break;
         case VOLTAGE_SENSE:
-            result = senseVoltage;
+            result = senseVoltage.getValue();
             break;
     }
 
@@ -117,12 +90,6 @@ double getInstantaneousVoltage(uint source) {
     double result = -1;
 
     switch(source) {
-        case VOLTAGE_DYNAMO:
-            result = (
-                (10 * adcValue + 1.8 * adcValue)
-                / 10 / 4096 * 3.3
-            );
-            break;
         case VOLTAGE_BATTERY:
         case VOLTAGE_SENSE:
             result = (
@@ -135,7 +102,7 @@ double getInstantaneousVoltage(uint source) {
 }
 
 double getCurrentUsage() {
-    return currentAmps;
+    return currentAmps.getValue();
 }
 
 void enableBatteryCharging(bool enable) {
