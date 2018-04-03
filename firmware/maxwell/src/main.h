@@ -52,10 +52,10 @@ void enableCanDebug(bool);
 void renewKeepalive();
 void renewBluetoothKeepalive();
 
-void beep(uint, uint);
+void beep(uint32_t, uint32_t);
 
-void bridgeUART(HardwareSerial*, uint);
-HardwareSerial* uartNumberToInterface(uint);
+void bridgeUART(HardwareSerial*, uint32_t);
+HardwareSerial* uartNumberToInterface(uint32_t);
 void sleep(bool allowMovementWake=true);
 
 void intSpeedUpdate();

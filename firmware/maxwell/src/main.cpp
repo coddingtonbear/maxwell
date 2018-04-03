@@ -179,7 +179,7 @@ String sendBluetoothCommand(String command) {
     return result;
 }
 
-void bridgeUART(HardwareSerial* bridged, uint baud) {
+void bridgeUART(HardwareSerial* bridged, uint32_t baud) {
     bridged->begin(baud);
 
     while(true) {
@@ -200,7 +200,7 @@ void bridgeUART(HardwareSerial* bridged, uint baud) {
     Output.begin();
 }
 
-HardwareSerial* uartNumberToInterface(uint uartNumber) {
+HardwareSerial* uartNumberToInterface(uint32_t uartNumber) {
     HardwareSerial* uart;
     if(uartNumber == 1) {
         uart = &BTSerial;
@@ -217,7 +217,7 @@ HardwareSerial* uartNumberToInterface(uint uartNumber) {
     return uart;
 }
 
-void beep(uint frequency, uint duration) {
+void beep(uint32_t frequency, uint32_t duration) {
     TimerFreeTone(PIN_BUZZER, frequency, duration);
 }
 
