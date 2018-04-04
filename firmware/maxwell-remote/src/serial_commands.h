@@ -36,6 +36,7 @@ void enableBatteryCharging();
 void disableBatteryCharging();
 void enableBluetooth();
 void disableBluetooth();
+void lowPowerMode();
 
 void menuUp();
 void menuDown();

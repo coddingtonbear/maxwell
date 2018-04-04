@@ -557,3 +557,9 @@ void disableBluetooth() {
 
     CanBus.send(&message);
 }
+
+void lowPowerMode() {
+    disableBluetooth();
+    disableLocalBluetooth();
+    disableEsp();
+}

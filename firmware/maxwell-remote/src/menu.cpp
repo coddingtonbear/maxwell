@@ -81,6 +81,10 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
             MenuItem(
                 "Charging",
                 &chargingMenuList
+            ),
+            MenuItem(
+                "Low-Power Mode",
+                lowPowerMode
             )
         });
     MenuList powerMenuList(powerMenuItems);
