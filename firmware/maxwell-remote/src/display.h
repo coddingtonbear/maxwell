@@ -24,6 +24,7 @@ class DisplayManager {
         void refresh();
 
         void setContrast(uint8_t);
+        void setAutosleep(bool _enabled=true);
 
         void menuKeepalive();
         void up();
@@ -31,15 +32,20 @@ class DisplayManager {
         void in();
         void out();
 
-    //protected:
+    protected:
         struct DisplayBounds {
             int x, y, w, h;
         };
 
+        void sleep();
+        void wake();
+
         MenuList* getCurrentMenu();
 
         bool enabled = true;
-        bool initialized = false;
+        bool autosleep = false;
+        bool sleeping = false;
+
         uint8_t menuDepth = 0;
         uint8_t menuPosition[10];
 

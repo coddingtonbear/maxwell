@@ -20,11 +20,7 @@ DisplayManager::DisplayManager(MenuList* menuList) {
 void DisplayManager::enable(bool _enabled) {
     if(_enabled && !enabled) {
         digitalWrite(DISPLAY_ON_, LOW);
-        if(!initialized) {
-            begin();
-        }
     } if(!_enabled && enabled) {
-        initialized = false;
         digitalWrite(DISPLAY_ON_, HIGH);
     }
     enabled = _enabled;
@@ -37,6 +33,26 @@ void DisplayManager::menuKeepalive() {
 void DisplayManager::setContrast(uint8_t value) {
     display.ssd1306_command(SSD1306_SETCONTRAST);
     display.ssd1306_command(value);
+}
+
+void DisplayManager::setAutosleep(bool _enabled) {
+    autosleep = _enabled;
+    sleeping = false;
+}
+
+void DisplayManager::sleep() {
+    display.ssd1306_command(SSD1306_DISPLAYOFF);
+    sleeping = true;
+}
+
+void DisplayManager::wake() {
+    //display.ssd1306_command(SSD1306_DISPLAYON);
+    enable(false);
+    delay(50);
+    enable(true);
+    delay(50);
+    begin();
+    sleeping = false;
 }
 
 void DisplayManager::up() {
@@ -127,23 +143,23 @@ void DisplayManager::begin() {
 
     display.clearDisplay();
     display.display();
-
-    initialized = true;
 }
 
 void DisplayManager::refresh() {
-    if(!enabled) {
-        return;
-    }
-
     DisplayManager::DisplayBounds bounds;
     display.clearDisplay();
     display.setFont(&Roboto_Regular8pt7b);
 
     /* Display Menu or Speed */
     if(showMenuUntil > millis()) {
+        if(sleeping) {
+            wake();
+        }
         showMenu();
     } else {
+        if(autosleep && !sleeping) {
+            sleep();
+        }
         String velocity = String(
             getDoubleStatusParameter(
                 CAN_VELOCITY

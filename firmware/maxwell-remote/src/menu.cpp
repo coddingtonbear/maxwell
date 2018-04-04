@@ -42,10 +42,10 @@ std::function<void()> makeBrightnessMenuItem(uint8_t value) {
 std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
     return [value]() -> void {
         if(value > 0) {
-            Display.enable(true);
+            Display.setAutosleep(false);
             Display.setContrast(value);
         } else {
-            Display.enable(false);
+            Display.setAutosleep(true);
         }
     };
 }
@@ -82,24 +82,24 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
                 sleep
             ),
             MenuItem(
-                "Wake Base",
-                wake
-            ),
-            MenuItem(
-                "Reset",
-                reset
+                "Save Power",
+                lowPowerMode
             ),
             MenuItem(
                 "Charging",
                 &chargingMenuList
             ),
             MenuItem(
-                "Low-Power Mode",
-                lowPowerMode
-            ),
-            MenuItem(
                 "Autosleep",
                 &autosleepMenuList
+            ),
+            MenuItem(
+                "Wake Base",
+                wake
+            ),
+            MenuItem(
+                "Reset",
+                reset
             )
         });
     MenuList powerMenuList(powerMenuItems);

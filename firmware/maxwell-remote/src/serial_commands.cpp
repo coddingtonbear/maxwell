@@ -47,7 +47,7 @@ void setupCommands() {
     commands.addCommand("menu_down", menuDown);
     commands.addCommand("menu_in", menuIn);
     commands.addCommand("menu_out", menuOut);
-    commands.addCommand("menu_debug", menuDebug);
+    //commands.addCommand("menu_debug", menuDebug);
 
     canCommands.addCommand(CAN_MAIN_MC_SLEEP, sleep);
     canCommands.addCommand(CAN_MAIN_MC_WAKE, receiveMainMcStatus);
@@ -470,6 +470,7 @@ void menuOut() {
     Display.out();
 }
 
+/*
 void menuDebug() {
     MenuList* curr = Display.getCurrentMenu();
 
@@ -493,6 +494,7 @@ void menuDebug() {
         Output.println();
     }
 }
+*/
 
 void enableBatteryCharging() {
     CanMsg message;
@@ -564,6 +566,7 @@ void lowPowerMode() {
     disableEsp();
     delay(100);
     disableLocalBluetooth();
+    Display.setAutosleep(true);
 }
 
 
