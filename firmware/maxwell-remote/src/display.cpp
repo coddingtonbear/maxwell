@@ -239,6 +239,9 @@ void DisplayManager::showMenu() {
         if(i == menuPosition[menuDepth]) {
             display.print("]");
         }
+        if(currMenu->items[i].function == NULL) {
+            display.print(" >");
+        }
         display.println();
     }
 }
