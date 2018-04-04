@@ -40,6 +40,11 @@ void DisplayManager::setContrast(uint8_t value) {
 }
 
 void DisplayManager::up() {
+    if(showMenuUntil < millis()) {
+        menuKeepalive();
+        return;
+    }
+
     MenuList* currentMenu = getCurrentMenu();
 
     menuKeepalive();
@@ -52,6 +57,11 @@ void DisplayManager::up() {
 }
 
 void DisplayManager::down() {
+    if(showMenuUntil < millis()) {
+        menuKeepalive();
+        return;
+    }
+
     MenuList* currentMenu = getCurrentMenu();
 
     menuKeepalive();
@@ -63,6 +73,11 @@ void DisplayManager::down() {
 }
 
 void DisplayManager::in() {
+    if(showMenuUntil < millis()) {
+        menuKeepalive();
+        return;
+    }
+
     MenuList* currentMenu = getCurrentMenu();
     MenuItem selectedItem = currentMenu->items[menuPosition[menuDepth]];
 
@@ -77,6 +92,11 @@ void DisplayManager::in() {
 }
 
 void DisplayManager::out() {
+    if(showMenuUntil < millis()) {
+        menuKeepalive();
+        return;
+    }
+
     MenuList* currentMenu = getCurrentMenu();
 
     menuKeepalive();
