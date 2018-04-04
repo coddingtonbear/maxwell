@@ -51,6 +51,7 @@ void setupCommands() {
     commands.addCommand("disable_esp", disableEsp32);
     canCommands.addCommand(CAN_CMD_ESP_ENABLE, canEnableEsp);
     canCommands.addCommand(CAN_CMD_BT_ENABLE, canEnableBluetooth);
+    canCommands.addCommand(CAN_CMD_AUTOSLEEP_ENABLE, canAutosleepEnable);
 
     commands.addCommand("coordinates", coordinates);
 
@@ -592,4 +593,13 @@ void canChargeEnable() {
     uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
 
     enableBatteryCharging(enabled);
+}
+
+void canAutosleepEnable() {
+    uint8_t data[8];
+    canCommands.getData(data);
+
+    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
+
+    enableAutosleep(enabled);
 }

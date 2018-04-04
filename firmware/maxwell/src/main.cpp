@@ -29,6 +29,8 @@ uint32 lastKeepalive = 0;
 uint32 lastBluetoothKeepalive = 0;
 bool bluetoothEnabled = true;
 
+bool autosleepEnabled = true;
+
 Task taskChirp(CHIRP_INTERVAL, TASK_FOREVER, &taskChirpCallback);
 Task taskVoltage(VOLTAGE_UPDATE_INTERVAL, TASK_FOREVER, &taskVoltageCallback);
 Task taskStatistics(
@@ -380,7 +382,7 @@ void loop() {
     iwdg_feed();
 
     // If we're past the keepalive duration; go to sleep
-    if(millis() > lastKeepalive + INACTIVITY_SLEEP_DURATION) {
+    if(millis() > lastKeepalive + INACTIVITY_SLEEP_DURATION && autosleepEnabled) {
         sleep();
     }
     // If we're past the keepalive for bluetooth, deactivate bluetooth, too.
@@ -487,6 +489,10 @@ void enableCanDebug(bool enable) {
 
 void renewKeepalive() {
     lastKeepalive = millis();
+}
+
+void enableAutosleep(bool enable) {
+    autosleepEnabled = enable;
 }
 
 void enableBluetooth(bool enable) {

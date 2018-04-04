@@ -40,4 +40,5 @@ void coordinates();
 void doSendCanMesage();
 void canEnableEsp();
 void canEnableBluetooth();
+void canAutosleepEnable();
 void printStatistics();

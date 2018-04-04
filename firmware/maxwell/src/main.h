@@ -47,6 +47,7 @@ String sendBluetoothCommand(String);
 void enableEsp(bool);
 void enableBluetooth(bool);
 void enableBatteryPower(bool);
+void enableAutosleep(bool);
 
 void enableCanDebug(bool);
 void renewKeepalive();
