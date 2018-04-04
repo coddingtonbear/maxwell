@@ -65,6 +65,17 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
                     )
                 });
             MenuList chargingMenuList(chargingMenuOptions);
+                std::vector<MenuItem> autosleepMenuOptions({
+                    MenuItem(
+                        "Enable",
+                        enableAutosleep
+                    ),
+                    MenuItem(
+                        "Disable",
+                        disableAutosleep
+                    )
+                });
+            MenuList autosleepMenuList(autosleepMenuOptions);
         std::vector<MenuItem> powerMenuItems({
             MenuItem(
                 "Power Off",
@@ -85,6 +96,10 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
             MenuItem(
                 "Low-Power Mode",
                 lowPowerMode
+            ),
+            MenuItem(
+                "Autosleep",
+                &autosleepMenuList
             )
         });
     MenuList powerMenuList(powerMenuItems);

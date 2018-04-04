@@ -549,7 +549,7 @@ void disableBluetooth() {
     message.ID = CAN_CMD_BT_ENABLE;
     message.DLC = sizeof(uint8_t);
 
-    uint8_t enabled = 1;
+    uint8_t enabled = 0;
     unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
     for(uint8 i = 0; i < sizeof(uint8_t); i++) {
         message.Data[i] = enabledBytes[i];
@@ -560,6 +560,41 @@ void disableBluetooth() {
 
 void lowPowerMode() {
     disableBluetooth();
-    disableLocalBluetooth();
+    delay(100);
     disableEsp();
+    delay(100);
+    disableLocalBluetooth();
+}
+
+
+void enableAutosleep() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_AUTOSLEEP_ENABLE;
+    message.DLC = sizeof(uint8_t);
+
+    uint8_t enabled = 1;
+    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
+    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
+        message.Data[i] = enabledBytes[i];
+    }
+
+    CanBus.send(&message);
+}
+
+void disableAutosleep() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_AUTOSLEEP_ENABLE;
+    message.DLC = sizeof(uint8_t);
+
+    uint8_t enabled = 0;
+    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
+    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
+        message.Data[i] = enabledBytes[i];
+    }
+
+    CanBus.send(&message);
 }
