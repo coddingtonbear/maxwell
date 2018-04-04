@@ -368,7 +368,10 @@ void taskCanbusSpeedAnnounceCallback() {
         message.Data[i] = speedBytes[i];
     }
 
-    if (pulseCount > 0) {
+    if (
+        pulseCount > 0 ||
+        getChargingStatus() == CHARGING_STATUS_CHARGING_NOW
+    ) {
         renewKeepalive();
     }
 
