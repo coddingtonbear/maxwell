@@ -31,9 +31,9 @@ None yet
 
 ### Main
 
-![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/maxwell.svg)
-![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/microcontroller-Microcontroller.svg)
-![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/power-Power.svg)
+![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/maxwell.svg?v=2)
+![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/microcontroller-Microcontroller.svg?v=2)
+![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/power-Power.svg?v=2)
 
 ### Head Unit (Remote)
 
