@@ -1,31 +1,15 @@
 # Maxwell: Bicycle Electrification
 
-## Serial Command Interface
+I have a bicycle dynamo on my bike, a rudimentary understanding of electronics, and a bunch of neopixels, gps, and bluetooth modules to use.  This is what happens when those things combine.
 
-* `uptime`: Returns uptime in milliseconds.
-* `ping`: Returns "pong"
-* `beep [FREQUENCY [DURATION]]`: Beep.  Optionally specify a frequency (Hz) and duration (ms).
-* `voltage (battery|dynamo|sense)`: Returns voltage at specified circuit location.
-* `charging`: Returns "Yes" or "No" to indicate whether the Li-ion battery is currently charging.
-* `btcmd <COMMAND>`: Send command to bluetooth interface board and print result afterward.  Do not interact until prompt is redisplayed.
-* `reset`: Resets the board.  Note that you must disconnect from bluetooth within five seconds or the board will enter flash mode.
-* `flash`: Resets the board into flash mode.  Remain connected until board has reset.
+Maxwell is a two-part bike computer I've designed to allow me to do a few things:
 
-## CanBus Interface
+* Light and control neopixel LEDs wrapped around my bike for added safety while biking at night, and added fun when biking with groups.
+* Charge an easily-swappable 18650 Li-On cell for potential use when bike touring.
+* Gather and transmit GPS coordinates for display on the internet somewhere.
+* Display status information including my current speed, battery voltage, and current consumption, as well as disable or enable bike features including, most importantly, disabling and enabling the LEDs from a small screen mounted at the front of the bike.
 
-See `can_message_ids.h` for a complete list.
-
-# Emitted Messages
-
-* `0x30` (double): Main microcontroller uptime in milliseconds
-* `0x40` (double): Battery voltage
-* `0x41` (double): Dynamo voltage
-* `0x42` (double): Sense resistor voltage
-
-# Handled Messages
-
-None yet
-
+The "remote" unit is based around the STM32F103CB microcontroller, and the "base" unit is based around its slightly-more-full-featured brother, the STM32F103RE.  Both communicate with one another over a CANBus (routed through two of the conductors in a length of ethernet cable) to share status information and emit/handle commands.
 
 ## Schematics
 
@@ -41,18 +25,14 @@ None yet
 
 ## Errata
 
+Checked items indicate errata that have been corrected in the schematic.
+
 ### Maxwell
 
-*Note* None of these have been corrected in the schematics.
-
-* Neglected to add P-Channel MOSFET-based polarity protection to the board.  Added now via a small board; see `maxwell-polarity`. Note that even *that* board is incorrect in that the input and output sides are swapped, and the button does not properly turn the MOSFET off.
-* Battery and Sense resistors used GNDPWR as their ground reference, but GNDPWR is intentionally turned off to save power sometimes.  In the case of a voltage divider, that means that the microcontroller would see the full voltage of the battery (exceeding maximum ratings).
-* I used the wrong footprint for the LT1529, so I've had to bend the pins in unreasonable ways to fit.
-
-### Maxwell-polarity
-
-* Note that even *this* board is incorrect in that the input and output sides are swapped, and the button does not properly turn the MOSFET off.
+* [ ] Capacitor C15 is unnecessary; the buck regulator breakout board that is attached already has a more-than-adequate capacitor.  I discovered this only when attempting to identify C15 had failed, and when discovering that its voltage rating was far too low and that I didn't have capacitors having a similar-enough footprint and a high-enough voltage cieling to work, then did some investigation to see if there was sufficient capacitance on that net: there was.
+* [ ] I really should've added a mosfet for disabling the HC-05 module.  While in sleep mode, the bluetooth module will consume ~20mA of power, which while not _huge_, is more than enough to drain the whole battery over the course of a couple days.
+* [ ] The bluetooth module will have a thin metal shield overhead for the duration of its life, and is not likely to get a GPS lock ever.  I hadn't considered this when designing this, but given the placement of this unit on my bike, the bluetooth module will never be useful, so I've removed it from the live board.
 
 ### Maxwell-remote
 
-* Missing 2.2k pull-up resistors for both SCL and SDA on the I2C bus.  These have been bodged on for my current instance of this board, but were this re-built, I'd add them...probably to the back of the board.
+* [ ] Missing 2.2k pull-up resistors for both SCL and SDA on the I2C bus.  These have been bodged on for my current instance of this board, but were this re-built, I'd add them...probably to the back of the board.
