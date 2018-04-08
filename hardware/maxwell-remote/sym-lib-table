@@ -2,4 +2,5 @@
   (lib (name cvra)(type Legacy)(uri /Users/adam.coddington/Documents/Projects/kicad_footprints/cvra/kicad-lib/components/_div.lib)(options "")(descr ""))
   (lib (name FPGMMOPA6H.lib)(type Legacy)(uri /Users/adam.coddington/Documents/Projects/kicad_footprints/coddingtonbear/FPGMMOPA6H.lib)(options "")(descr ""))
   (lib (name W_RTX)(type Legacy)(uri /Users/adam.coddington/Documents/Projects/kicad_footprints/pelrun/libKiCad/symbol/w_rtx.lib)(options "")(descr ""))
+  (lib (name maxwell-remote-rescue)(type Legacy)(uri ${KIPRJMOD}/maxwell-remote-rescue.lib)(options "")(descr ""))
 )
