@@ -32,6 +32,7 @@ Checked items indicate errata that have been corrected in the schematic.
 * [ ] Capacitor C15 is unnecessary; the buck regulator breakout board that is attached already has a more-than-adequate capacitor.  I discovered this only when attempting to identify C15 had failed, and when discovering that its voltage rating was far too low and that I didn't have capacitors having a similar-enough footprint and a high-enough voltage cieling to work, then did some investigation to see if there was sufficient capacitance on that net: there was.
 * [ ] I really should've added a mosfet for disabling the HC-05 module.  While in sleep mode, the bluetooth module will consume ~20mA of power, which while not _huge_, is more than enough to drain the whole battery over the course of a couple days.
 * [ ] The bluetooth module will have a thin metal shield overhead for the duration of its life, and is not likely to get a GPS lock ever.  I hadn't considered this when designing this, but given the placement of this unit on my bike, the bluetooth module will never be useful, so I've removed it from the live board.
+* [ ] Mis-labeled SPI2 pins for SPI2 ports; two of the labels are swapped starting from the microcontroller itself.  Although labeled `+`, `CLK`, `DI`, `DO`, `+`, `CS`, the pins are actually `+`, `DO`, `DI, `CLK`, `+`, `CS`.
 
 ### Maxwell-remote
 
