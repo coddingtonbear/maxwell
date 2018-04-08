@@ -42,3 +42,4 @@ void canEnableEsp();
 void canEnableBluetooth();
 void canAutosleepEnable();
 void printStatistics();
+void logStatus();

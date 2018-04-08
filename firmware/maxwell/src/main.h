@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <HashMap.h>
 
+#include "logger.h"
 #include "multiserial.h"
 
 #define CHIRP_INTERVAL 900000
@@ -21,6 +22,8 @@
 #define VOLTAGE_WARNING_INTERVAL 600000
 
 #define STATS_UPDATE_INTERVAL 1000
+
+#define LOGGER_STATS_INTERVAL 5000
 
 // These are semi-random to make sure they don't collide too often
 #define CANBUS_CHARGING_STATUS_ANNOUNCE_INTERVAL 2201
@@ -71,7 +74,9 @@ void taskCanbusChargingStatusAnnounceCallback();
 void taskCanbusSpeedAnnounceCallback();
 void taskStatisticsCallback();
 void taskCanbusLedStatusAnnounceCallback();
+void taskLoggerStatsIntervalCallback();
 
 extern MultiSerial Output;
 extern HashMap<String, double> Statistics;
 extern RTClock Clock;
+extern Logger Log;

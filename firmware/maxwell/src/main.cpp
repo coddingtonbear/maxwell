@@ -68,11 +68,18 @@ Task taskCanbusLedStatusAnnounce(
     TASK_FOREVER,
     &taskCanbusLedStatusAnnounceCallback
 );
+Task taskLoggerStatsInterval(
+    LOGGER_STATS_INTERVAL,
+    TASK_FOREVER,
+    &taskLoggerStatsIntervalCallback
+);
 Scheduler taskRunner;
 
 MultiSerial Output;
 
 HashMap<String, double> Statistics;
+
+Logger Log;
 
 RTClock Clock(RTCSEL_LSE);
 
@@ -133,7 +140,7 @@ void setup() {
     wakeMessage.RTR = CAN_RTR_DATA;
     wakeMessage.ID = CAN_MAIN_MC_WAKE;
     wakeMessage.DLC = 0;
-    CanBus.send(&wakeMessage);
+    canTx(&wakeMessage);
 
     ledSetup();
     enableEsp(false);
@@ -148,11 +155,15 @@ void setup() {
     taskRunner.addTask(taskCanbusSpeedAnnounce);
     taskRunner.addTask(taskStatistics);
     taskRunner.addTask(taskCanbusLedStatusAnnounce);
+    taskRunner.addTask(taskLoggerStatsInterval);
     taskRunner.enableAll();
 
     Output.println("Ready.");
     setupCommands();
     commandPrompt();
+
+    Log.begin();
+    Log.log("Ready");
 }
 
 String sendBluetoothCommand(String command) {
@@ -248,7 +259,7 @@ void taskCanbusLedStatusAnnounceCallback() {
     for(uint8 i = 3; i < sizeof(double); i++) {
         status.Data[i] = intervalBytes[i - 3];
     }
-    CanBus.send(&status);
+    canTx(&status);
     delay(50);
 
     CanMsg message;
@@ -262,7 +273,7 @@ void taskCanbusLedStatusAnnounceCallback() {
     message.Data[3] = ledStatus.red2;
     message.Data[4] = ledStatus.green2;
     message.Data[5] = ledStatus.blue2;
-    CanBus.send(&message);
+    canTx(&message);
     delay(50);
 }
 
@@ -304,7 +315,7 @@ void taskCanbusVoltageBatteryAnnounceCallback() {
         message.Data[i] = voltageBytes[i];
     }
 
-    CanBus.send(&message);
+    canTx(&message);
 
     delay(50);
 }
@@ -322,7 +333,7 @@ void taskCanbusCurrentAnnounceCallback() {
         message.Data[i] = currentBytes[i];
     }
 
-    CanBus.send(&message);
+    canTx(&message);
 
     delay(50);
 }
@@ -340,7 +351,7 @@ void taskCanbusChargingStatusAnnounceCallback() {
         message.Data[i] = statusBytes[i];
     }
 
-    CanBus.send(&message);
+    canTx(&message);
 
     delay(50);
 }
@@ -376,7 +387,7 @@ void taskCanbusSpeedAnnounceCallback() {
     }
 
     speedCounterPrev = speedCounter;
-    CanBus.send(&message);
+    canTx(&message);
 
     delay(50);
 }
@@ -427,6 +438,7 @@ void loop() {
                 }
                 Output.println();
             }
+            Log.logCanIncoming(canMsg);
 
             handleCANCommand(&command);
 
@@ -436,6 +448,7 @@ void loop() {
 }
 
 void enableEsp(bool enabled) {
+    Log.log("ESP32 enabled: " + String(enabled));
     if(enabled) {
         digitalWrite(PIN_ESP_BOOT_FLASH_, HIGH);
         digitalWrite(PIN_DISABLE_ESP_, LOW);
@@ -451,6 +464,10 @@ void enableEsp(bool enabled) {
 }
 
 void sleep(bool allowMovementWake) {
+    Log.log("Sleep requested");
+    if(allowMovementWake) {
+        Log.log("Movement wake enabled");
+    }
     TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
 
     CanMsg sleepMsg;
@@ -458,7 +475,7 @@ void sleep(bool allowMovementWake) {
     sleepMsg.RTR = CAN_RTR_DATA;
     sleepMsg.ID = CAN_MAIN_MC_SLEEP;
     sleepMsg.DLC = 0;
-    CanBus.send(&sleepMsg);
+    canTx(&sleepMsg);
     delay(20);
 
     enableEsp(false);
@@ -473,6 +490,8 @@ void sleep(bool allowMovementWake) {
         pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
         attachInterrupt(PIN_I_SPEED, nvic_sys_reset, RISING);
     }
+
+    Log.log("Sleeping now...");
 
     systick_disable();
     disableAllPeripheralClocks();
@@ -495,14 +514,17 @@ void renewKeepalive() {
 }
 
 void enableAutosleep(bool enable) {
+    Log.log("Autosleep enabled: " + String(enable));
     autosleepEnabled = enable;
 }
 
 void enableBluetooth(bool enable) {
     if(enable) {
+        Log.log("Local bluetooth enabled");
         digitalWrite(PIN_BT_ENABLE_, LOW);
         bluetoothEnabled = true;
     } else {
+        Log.log("Local bluetooth disabled");
         digitalWrite(PIN_BT_ENABLE_, HIGH);
         bluetoothEnabled = false;
     }
@@ -510,4 +532,20 @@ void enableBluetooth(bool enable) {
 
 void renewBluetoothKeepalive() {
     lastBluetoothKeepalive = millis();
+}
+
+void taskLoggerStatsIntervalCallback() {
+
+    for(uint8_t i = 0; i < Statistics.count(); i++) {
+        auto key = Statistics.keyAt(i);
+        auto value = Statistics.valueFor(key);
+
+        String message = "Stats: ";
+        message += key;
+        message += ": ";
+        message += String(value, 4);
+        Log.log(message);
+    }
+
+    Log.log("Stats: Speed Pulse Count: " + String(speedCounter));
 }

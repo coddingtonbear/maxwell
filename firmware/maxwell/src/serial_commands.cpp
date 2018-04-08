@@ -60,6 +60,8 @@ void setupCommands() {
     commands.addCommand("emit_can", emit_can);
     canCommands.addCommand(CAN_TEST, emit_can);
 
+    commands.addCommand("log_status", logStatus);
+
     commands.setDefaultHandler(unrecognized);
 }
 
@@ -360,7 +362,7 @@ void flash() {
     flashNoticeMsg.RTR = CAN_RTR_DATA;
     flashNoticeMsg.ID = CAN_MAIN_MC_FLASH_BEGIN;
     flashNoticeMsg.DLC = 0;
-    CanBus.send(&flashNoticeMsg);
+    canTx(&flashNoticeMsg);
 
     Output.println("Resetting device...");
     Output.flush();
@@ -422,7 +424,7 @@ void emit_can() {
     }
 
     testId++;
-    CanBus.send(&testMsg);
+    canTx(&testMsg);
 }
 
 void send_can() {
@@ -447,7 +449,7 @@ void send_can() {
         testMsg.DLC++;
     }
 
-    CanBus.send(&testMsg);
+    canTx(&testMsg);
 }
 
 void debug_can() {
@@ -602,4 +604,16 @@ void canAutosleepEnable() {
     uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
 
     enableAutosleep(enabled);
+}
+
+void logStatus() {
+    uint32 errCode = Log.getErrorCode();
+    uint32 messageCount = Log.getLogCount();
+
+    if(errCode) {
+        Output.println("Status: ERROR " + String(errCode));
+    } else {
+        Output.println("Status: OK");
+    }
+    Output.println("Message Count: " + String(messageCount));
 }
