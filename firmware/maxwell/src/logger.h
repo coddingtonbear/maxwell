@@ -6,12 +6,13 @@
 
 class Logger {
     public:
-        Logger();
+        Logger(SdFs*);
         void begin();
         void log(String);
         void logCanIncoming(CanMsg*);
         void logCanOutgoing(CanMsg*);
 
+        char* getLogFileName();
         uint32 getErrorCode();
         uint32 getLogCount();
 
@@ -19,6 +20,10 @@ class Logger {
         uint32 getNextLogNumber();
         void errorExit();
 
+        SdFs* filesystem;
+        FsFile* logFile;
+
+        char logFileName[30 + 4 + 1];
         uint32 messagesLogged = 0;
         uint32 errorState = 0;
         bool initialized = false;

@@ -6,6 +6,7 @@
 #include <HardwareCAN.h>
 #include <TaskScheduler.h>
 #include <libmaple/iwdg.h>
+#include <SdFs.h>
 
 #include "multiserial.h"
 #include "can_message_ids.h"
@@ -79,13 +80,17 @@ MultiSerial Output;
 
 HashMap<String, double> Statistics;
 
-Logger Log;
+SdFs filesystem;
+
+Logger Log(&filesystem);
 
 RTClock Clock(RTCSEL_LSE);
 
 void setup() {
     afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
     iwdg_init(IWDG_PRE_256, 2400);
+    filesystem.begin(SD_CONFIG);
+    Log.begin();
 
     pinMode(PIN_BUZZER, OUTPUT);
     digitalWrite(PIN_BUZZER, LOW);
@@ -162,7 +167,6 @@ void setup() {
     setupCommands();
     commandPrompt();
 
-    Log.begin();
     Log.log("Ready");
 }
 

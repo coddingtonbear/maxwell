@@ -616,4 +616,5 @@ void logStatus() {
         Output.println("Status: OK");
     }
     Output.println("Message Count: " + String(messageCount));
+    Output.println("Filename: " + String(Log.getLogFileName()));
 }

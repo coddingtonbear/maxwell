@@ -3,6 +3,7 @@
 #include <RTClock.h>
 #include <Arduino.h>
 #include <HashMap.h>
+#include <SdFs.h>
 
 #include "logger.h"
 #include "multiserial.h"
@@ -23,7 +24,7 @@
 
 #define STATS_UPDATE_INTERVAL 1000
 
-#define LOGGER_STATS_INTERVAL 5000
+#define LOGGER_STATS_INTERVAL 10000
 
 // These are semi-random to make sure they don't collide too often
 #define CANBUS_CHARGING_STATUS_ANNOUNCE_INTERVAL 2201
@@ -40,6 +41,8 @@
 
 #define BLUETOOTH_TIMEOUT 120000
 #define INACTIVITY_SLEEP_DURATION 300000
+
+#define SD_CONFIG SdSpiConfig(PC6, SHARED_SPI, SD_SCK_MHZ(18), 2)
 
 void setup();
 void loop();
@@ -80,3 +83,4 @@ extern MultiSerial Output;
 extern HashMap<String, double> Statistics;
 extern RTClock Clock;
 extern Logger Log;
+extern SdFs filesystem;

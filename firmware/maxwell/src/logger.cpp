@@ -5,20 +5,14 @@
 
 #include "logger.h"
 
-#define SD_CONFIG SdSpiConfig(PC6, SHARED_SPI, SD_SCK_MHZ(18), 2)
 
-SdFs filesystem;
-FsFile logFile;
-
-Logger::Logger() {
+Logger::Logger(SdFs* _filesystem) {
+    filesystem = filesystem;
 }
 
 void Logger::begin() {
-    filesystem.begin(SD_CONFIG);
-
-    char logFileName[30 + 4 + 1];
-    sprintf(logFileName, "%030d.log", getNextLogNumber());
-    if(!logFile.open(&filesystem, logFileName, O_RDWR | O_CREAT)) {
+    sprintf(logFileName, "%05d.log", getNextLogNumber());
+    if(!logFile->open(filesystem, logFileName, O_RDWR | O_CREAT)) {
         errorExit();
         return;
     }
@@ -27,11 +21,22 @@ void Logger::begin() {
 }
 
 uint32 Logger::getNextLogNumber() {
-    return 1;
+    for(uint32 i = 1; i < 65534; i++) {
+        char possibleLogFileName[30 + 4 + 1];
+        sprintf(possibleLogFileName, "%05d.log", i);
+
+        if(!filesystem->exists(possibleLogFileName)) {
+            return i;
+        }
+    }
+}
+
+char* Logger::getLogFileName() {
+    return logFileName;
 }
 
 void Logger::errorExit() {
-    errorState = filesystem.sdErrorCode();
+    errorState = filesystem->sdErrorCode();
     initialized = false;
 }
 
@@ -56,10 +61,10 @@ void Logger::log(String message) {
     char messageBytes[messageLength];
     message.toCharArray(messageBytes, messageLength);
 
-    logFile.write(millisBytes, millisLength);
-    logFile.write(messageBytes, messageLength);
-    logFile.write('\n');
-    logFile.sync();
+    logFile->write(millisBytes, millisLength);
+    logFile->write(messageBytes, messageLength);
+    logFile->write('\n');
+    logFile->sync();
 
     messagesLogged++;
 }
