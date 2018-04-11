@@ -652,7 +652,7 @@ void logList() {
 void logDelete() {
     char* filenameBytes = commands.next();
 
-    if(!openFile.open(&filesystem, filenameBytes, O_READ)) {
+    if(!openFile.open(&filesystem, filenameBytes, O_READ | O_WRITE)) {
         Output.println("Error opening file " + String(filenameBytes));
         return;
     }
