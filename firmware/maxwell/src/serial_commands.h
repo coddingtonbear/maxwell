@@ -46,3 +46,4 @@ void logStatus();
 void logList();
 void logPrint();
 void logDelete();
+void logSearch();

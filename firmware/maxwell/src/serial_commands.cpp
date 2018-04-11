@@ -69,6 +69,7 @@ void setupCommands() {
     commands.addCommand("list_logs", logList);
     commands.addCommand("delete_log", logDelete);
     commands.addCommand("print_log", logPrint);
+    commands.addCommand("search_log", logSearch);
 
     commands.setDefaultHandler(unrecognized);
 }
@@ -696,4 +697,69 @@ void logPrint() {
         }
     }
     openFile.close();
+}
+
+void logSearch() {
+    char* filenameBytes = commands.next();
+    char* findBytes;
+    char findBuffer[100];
+    char currentLine[100];
+    char currentLineLower[100];
+    uint8_t currentIndex = 0;
+
+    for(uint8_t i = 0; i < 100; i++) {
+        currentLineLower[i] = '\0';
+        currentLine[i] = '\0';
+    }
+    if(!openFile.open(&filesystem, filenameBytes, O_READ)) {
+        Output.println("Error opening file " + String(filenameBytes));
+        return;
+    }
+    uint8_t bufferIndex = 0;
+    for(uint8_t j = 0; j < 100; j++) {
+        findBytes = commands.next();
+        if(findBytes == NULL) {
+            findBuffer[bufferIndex] = '\0';
+            break;
+        }
+        if(strlen(findBuffer) > 0) {
+            findBuffer[bufferIndex] = ' ';
+            bufferIndex++;
+        }
+        for(uint8_t i = 0; i < 100; i++) {
+            findBuffer[bufferIndex] = tolower(findBytes[i]);
+            if(findBytes[i] == '\0') {
+                break;
+            }
+            bufferIndex++;
+        }
+    }
+
+    Output.print("Searching for: '");
+    Output.print(findBuffer);
+    Output.println("'");
+
+    uint16_t match_count = 0;
+    while(openFile.available()) {
+        currentLine[currentIndex] = (char)openFile.read();
+        if (currentLine[currentIndex] == '\n') {
+            for(uint8_t i = 0; i < 100; i++) {
+                currentLineLower[i] = tolower(currentLine[i]);
+            }
+            if(strstr(currentLineLower, findBuffer) != NULL) {
+                Output.print(currentLine);
+                match_count++;
+            }
+
+            for(uint8_t i = 0; i < 100; i++) {
+                currentLineLower[i] = '\0';
+                currentLine[i] = '\0';
+            }
+            currentIndex = 0;
+        } else {
+            currentIndex++;
+        }
+    }
+    Output.print(match_count);
+    Output.println(" matches found.");
 }
