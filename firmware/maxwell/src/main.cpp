@@ -547,11 +547,11 @@ void enableAutosleep(bool enable) {
 }
 
 void enableBluetooth(bool enable) {
-    if(enable) {
+    if(enable && !bluetoothEnabled) {
         Log.log("Local bluetooth enabled");
         digitalWrite(PIN_BT_ENABLE_, LOW);
         bluetoothEnabled = true;
-    } else {
+    } else if(!enable && bluetoothEnabled) {
         Log.log("Local bluetooth disabled");
         digitalWrite(PIN_BT_ENABLE_, HIGH);
         bluetoothEnabled = false;
