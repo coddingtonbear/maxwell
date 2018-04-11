@@ -61,8 +61,8 @@ void Logger::log(String message) {
     char messageBytes[messageLength];
     message.toCharArray(messageBytes, messageLength);
 
-    logFile.write(millisBytes, millisLength);
-    logFile.write(messageBytes, messageLength);
+    logFile.write(millisBytes, millisLength - 1);
+    logFile.write(messageBytes, messageLength - 1);
     logFile.write('\n');
     logFile.sync();
 
