@@ -91,6 +91,30 @@ void setup() {
     iwdg_init(IWDG_PRE_256, 2400);
     filesystem.begin(SD_CONFIG);
     Log.begin();
+    Log.log(String("Device reset: ") + String(RCC_BASE->CSR, HEX));
+    if(RCC_BASE->CSR & (1 << 31)) {
+        Log.log("Reset reason: Low Power");
+    }
+    if(RCC_BASE->CSR & (1 << 30)) {
+        Log.log("Reset reason: Window Watchdog");
+    }
+    if(RCC_BASE->CSR & (1 << 29)) {
+        Log.log("Reset reason: Independent Watchdog");
+    }
+    if(RCC_BASE->CSR & (1 << 28)) {
+        Log.log("Reset reason: Software Reset");
+    }
+    if(RCC_BASE->CSR & (1 << 27)) {
+        Log.log("Reset reason: POR/PDR");
+    }
+    if(RCC_BASE->CSR & (1 << 26)) {
+        Log.log("Reset reason: NRST");
+    }
+    if(RCC_BASE->CSR & (1 << 25)) {
+        Log.log("Reset reason: BOR");
+    }
+    // Clear reset flags
+    RCC_BASE->CSR |= RCC_CSR_RMVF;
 
     pinMode(PIN_BUZZER, OUTPUT);
     digitalWrite(PIN_BUZZER, LOW);
