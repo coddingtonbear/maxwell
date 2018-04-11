@@ -636,6 +636,7 @@ void logList() {
     }
     char filename[50];
     while(openFile.openNext(&root, O_READ)) {
+        iwdg_feed();
         openFile.getName(filename, 50);
         if(!openFile.isHidden() && filename[0] != '.') {
             Output.print(filename);
@@ -770,6 +771,7 @@ void logSearch() {
 
     uint16_t match_count = 0;
     while(openFile.available()) {
+        iwdg_feed();
         currentLine[currentIndex] = (char)openFile.read();
         if (currentLine[currentIndex] == '\n') {
             for(uint8_t i = 0; i < 100; i++) {
