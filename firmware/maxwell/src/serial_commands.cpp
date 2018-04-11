@@ -68,6 +68,7 @@ void setupCommands() {
     commands.addCommand("log_status", logStatus);
     commands.addCommand("list_logs", logList);
     commands.addCommand("delete_log", logDelete);
+    commands.addCommand("delete_all_logs", logDeleteAll);
     commands.addCommand("print_log", logPrint);
     commands.addCommand("search_log", logSearch);
 
@@ -656,6 +657,34 @@ void logDelete() {
     }
     openFile.remove();
     Output.println("Deleted");
+}
+
+void logDeleteAll() {
+    if(!root.open("/")) {
+        Output.println("Error opening /");
+        return;
+    }
+    char filename[50];
+    char* currentLogFilename = Log.getLogFileName();
+    while(openFile.openNext(&root, O_READ)) {
+        iwdg_feed();
+        bool isHidden = openFile.isHidden();
+        openFile.getName(filename, 50);
+        openFile.close();
+        if(
+            !isHidden &&
+            filename[0] != '.' &&
+            strcmp(filename, currentLogFilename) != 0
+        ) {
+            Output.print(filename);
+            if(filesystem.remove(filename)) {
+                Output.println(" deleted");
+            } else {
+                Output.println(" could not be deleted");
+            }
+        }
+    }
+    root.close();
 }
 
 void logPrint() {
