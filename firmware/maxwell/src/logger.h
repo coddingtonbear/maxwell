@@ -21,7 +21,7 @@ class Logger {
         void errorExit();
 
         SdFs* filesystem;
-        FsFile* logFile;
+        FsFile logFile;
 
         char logFileName[30 + 4 + 1];
         uint32 messagesLogged = 0;

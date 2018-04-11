@@ -1,6 +1,8 @@
 #include <Arduino.h>
+#include <libmaple/iwdg.h>
 #include <SerialCommand.h>
 #include <CANCommand.h>
+#include <SdFs.h>
 
 #include "can.h"
 #include "gps.h"
@@ -13,6 +15,9 @@
 
 SerialCommand commands(&Output);
 CANCommand canCommands;
+
+FsFile root;
+FsFile openFile;
 
 uint8_t testId = 0;
 
@@ -61,6 +66,9 @@ void setupCommands() {
     canCommands.addCommand(CAN_TEST, emit_can);
 
     commands.addCommand("log_status", logStatus);
+    commands.addCommand("list_logs", logList);
+    commands.addCommand("delete_log", logDelete);
+    commands.addCommand("print_log", logPrint);
 
     commands.setDefaultHandler(unrecognized);
 }
@@ -617,4 +625,75 @@ void logStatus() {
     }
     Output.println("Message Count: " + String(messageCount));
     Output.println("Filename: " + String(Log.getLogFileName()));
+}
+
+void logList() {
+    if(!root.open("/")) {
+        Output.println("Error opening /");
+        return;
+    }
+    char filename[50];
+    while(openFile.openNext(&root, O_READ)) {
+        openFile.getName(filename, 50);
+        if(!openFile.isHidden() && filename[0] != '.') {
+            Output.print(filename);
+            Output.print(" (");
+            Output.print(openFile.fileSize());
+            Output.println(")");
+        }
+        openFile.close();
+    }
+    root.close();
+}
+
+void logDelete() {
+    char* filenameBytes = commands.next();
+
+    if(!openFile.open(&filesystem, filenameBytes, O_READ)) {
+        Output.println("Error opening file " + String(filenameBytes));
+        return;
+    }
+    openFile.remove();
+    Output.println("Deleted");
+}
+
+void logPrint() {
+    char* filenameBytes = commands.next();
+    char* afterByteBytes = commands.next();
+    char* lengthBytes = commands.next();
+
+    if(!openFile.open(&filesystem, filenameBytes, O_READ)) {
+        Output.println("Error opening file " + String(filenameBytes));
+        return;
+    }
+    int32_t afterByte = 0;
+    if(afterByteBytes != NULL) {
+        if(atoi(afterByteBytes) < 0) {
+            afterByte = openFile.fileSize() + atoi(afterByteBytes);
+        } else {
+            afterByte = atoi(afterByteBytes);
+        }
+    }
+    int32_t length = openFile.fileSize();
+    if(lengthBytes != NULL) {
+        length = atoi(lengthBytes);
+    }
+
+    int32_t currByte = 0;
+    int32_t lengthPrinted = 0;
+    while(openFile.available()) {
+        iwdg_feed();
+        if(currByte >= afterByte) {
+            Output.print((char)openFile.read());
+            lengthPrinted++;
+        } else {
+            openFile.read();
+        }
+        currByte++;
+
+        if(lengthPrinted >= length) {
+            break;
+        }
+    }
+    openFile.close();
 }

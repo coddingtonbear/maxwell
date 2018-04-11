@@ -43,3 +43,6 @@ void canEnableBluetooth();
 void canAutosleepEnable();
 void printStatistics();
 void logStatus();
+void logList();
+void logPrint();
+void logDelete();

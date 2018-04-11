@@ -7,12 +7,12 @@
 
 
 Logger::Logger(SdFs* _filesystem) {
-    filesystem = filesystem;
+    filesystem = _filesystem;
 }
 
 void Logger::begin() {
     sprintf(logFileName, "%05d.log", getNextLogNumber());
-    if(!logFile->open(filesystem, logFileName, O_RDWR | O_CREAT)) {
+    if(!logFile.open(filesystem, logFileName, O_RDWR | O_CREAT)) {
         errorExit();
         return;
     }
@@ -61,10 +61,10 @@ void Logger::log(String message) {
     char messageBytes[messageLength];
     message.toCharArray(messageBytes, messageLength);
 
-    logFile->write(millisBytes, millisLength);
-    logFile->write(messageBytes, messageLength);
-    logFile->write('\n');
-    logFile->sync();
+    logFile.write(millisBytes, millisLength);
+    logFile.write(messageBytes, messageLength);
+    logFile.write('\n');
+    logFile.sync();
 
     messagesLogged++;
 }
