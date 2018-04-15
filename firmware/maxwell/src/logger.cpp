@@ -1,12 +1,12 @@
 #include <Arduino.h>
 #include <SPI.h>
-#include <SdFs.h>
+#include <SdFat.h>
 #include <HardwareCan.h>
 
 #include "logger.h"
 
 
-Logger::Logger(SdFs* _filesystem) {
+Logger::Logger(SdFat* _filesystem) {
     filesystem = _filesystem;
 }
 
@@ -18,6 +18,10 @@ void Logger::begin() {
     }
 
     initialized = true;
+}
+
+void Logger::end() {
+    logFile.close();
 }
 
 uint32 Logger::getNextLogNumber() {
@@ -36,7 +40,7 @@ char* Logger::getLogFileName() {
 }
 
 void Logger::errorExit() {
-    errorState = filesystem->sdErrorCode();
+    errorState = filesystem->cardErrorCode();
     initialized = false;
 }
 

@@ -3,7 +3,7 @@
 #include <RTClock.h>
 #include <Arduino.h>
 #include <HashMap.h>
-#include <SdFs.h>
+#include <SdFat.h>
 
 #include "logger.h"
 #include "multiserial.h"
@@ -41,8 +41,6 @@
 
 #define BLUETOOTH_TIMEOUT 120000
 #define INACTIVITY_SLEEP_DURATION 300000
-
-#define SD_CONFIG SdSpiConfig(PC6, SHARED_SPI, SD_SCK_MHZ(18), 2)
 
 void setup();
 void loop();
@@ -83,4 +81,4 @@ extern MultiSerial Output;
 extern HashMap<String, double> Statistics;
 extern RTClock Clock;
 extern Logger Log;
-extern SdFs filesystem;
+extern SdFat filesystem;

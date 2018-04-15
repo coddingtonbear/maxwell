@@ -48,3 +48,6 @@ void logPrint();
 void logDelete();
 void logDeleteAll();
 void logSearch();
+void cmdDisableBluetooth();
+void cmdEnableBluetooth();
+void sdErrorState();

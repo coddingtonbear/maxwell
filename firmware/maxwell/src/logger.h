@@ -2,12 +2,14 @@
 
 #include <Arduino.h>
 #include <HardwareCan.h>
+#include <SdFat.h>
 
 
 class Logger {
     public:
-        Logger(SdFs*);
+        Logger(SdFat*);
         void begin();
+        void end();
         void log(String);
         void logCanIncoming(CanMsg*);
         void logCanOutgoing(CanMsg*);
@@ -20,8 +22,8 @@ class Logger {
         uint32 getNextLogNumber();
         void errorExit();
 
-        SdFs* filesystem;
-        FsFile logFile;
+        SdFat* filesystem;
+        SdFile logFile;
 
         char logFileName[30 + 4 + 1];
         uint32 messagesLogged = 0;

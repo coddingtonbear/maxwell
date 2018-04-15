@@ -2,7 +2,7 @@
 #include <libmaple/iwdg.h>
 #include <SerialCommand.h>
 #include <CANCommand.h>
-#include <SdFs.h>
+#include <SdFat.h>
 
 #include "can.h"
 #include "gps.h"
@@ -16,8 +16,7 @@
 SerialCommand commands(&Output);
 CANCommand canCommands;
 
-FsFile root;
-FsFile openFile;
+SdFile openFile;
 
 uint8_t testId = 0;
 
@@ -57,6 +56,8 @@ void setupCommands() {
     canCommands.addCommand(CAN_CMD_ESP_ENABLE, canEnableEsp);
     canCommands.addCommand(CAN_CMD_BT_ENABLE, canEnableBluetooth);
     canCommands.addCommand(CAN_CMD_AUTOSLEEP_ENABLE, canAutosleepEnable);
+    commands.addCommand("disable_bluetooth", cmdDisableBluetooth);
+    commands.addCommand("enable_bluetooth", cmdEnableBluetooth);
 
     commands.addCommand("coordinates", coordinates);
 
@@ -71,6 +72,7 @@ void setupCommands() {
     commands.addCommand("delete_all_logs", logDeleteAll);
     commands.addCommand("print_log", logPrint);
     commands.addCommand("search_log", logSearch);
+    commands.addCommand("sd_error_state", sdErrorState);
 
     commands.setDefaultHandler(unrecognized);
 }
@@ -630,12 +632,9 @@ void logStatus() {
 }
 
 void logList() {
-    if(!root.open("/")) {
-        Output.println("Error opening /");
-        return;
-    }
+    filesystem.vwd()->rewind();
     char filename[50];
-    while(openFile.openNext(&root, O_READ)) {
+    while(openFile.openNext(filesystem.vwd(), O_READ)) {
         iwdg_feed();
         openFile.getName(filename, 50);
         if(!openFile.isHidden() && filename[0] != '.') {
@@ -646,7 +645,6 @@ void logList() {
         }
         openFile.close();
     }
-    root.close();
 }
 
 void logDelete() {
@@ -661,13 +659,10 @@ void logDelete() {
 }
 
 void logDeleteAll() {
-    if(!root.open("/")) {
-        Output.println("Error opening /");
-        return;
-    }
+    filesystem.vwd()->rewind();
     char filename[50];
     char* currentLogFilename = Log.getLogFileName();
-    while(openFile.openNext(&root, O_READ)) {
+    while(openFile.openNext(filesystem.vwd(), O_READ)) {
         iwdg_feed();
         bool isHidden = openFile.isHidden();
         openFile.getName(filename, 50);
@@ -685,7 +680,6 @@ void logDeleteAll() {
             }
         }
     }
-    root.close();
 }
 
 void logPrint() {
@@ -791,6 +785,19 @@ void logSearch() {
             currentIndex++;
         }
     }
+    openFile.close();
     Output.print(match_count);
     Output.println(" matches found.");
+}
+
+void cmdEnableBluetooth() {
+    enableBluetooth(true);
+}
+
+void cmdDisableBluetooth() {
+    enableBluetooth(false);
+}
+
+void sdErrorState() {
+    filesystem.initErrorPrint(&Output);
 }

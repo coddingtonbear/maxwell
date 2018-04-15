@@ -6,6 +6,19 @@
 #define PIN_BT_ENABLE_ PC9
 #define PIN_BT_KEY PA11
 
+#define PIN_CAN_R PB8
+
+#define PIN_SPI_CS_A PC6
+#define PIN_SPI_CS_B PC7
+#define PIN_SPI_MOSI PB13
+#define PIN_SPI_MISO PB14
+#define PIN_SPI_SCK PB15
+
+#define PIN_UART1_TX PA9
+#define PIN_UART1_RX PA10
+#define PIN_UART2_TX PA2
+#define PIN_UART2_RX PA3
+
 #define PIN_I_POWER_ON PA15
 #define PIN_I_BATT_VOLTAGE PC0
 #define PIN_I_CURRENT_SENSE PC1

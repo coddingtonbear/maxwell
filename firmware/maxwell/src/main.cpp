@@ -1,4 +1,3 @@
-
 #include <CANCommand.h>
 #include <STM32Sleep.h>
 #include <Arduino.h>
@@ -6,7 +5,8 @@
 #include <HardwareCAN.h>
 #include <TaskScheduler.h>
 #include <libmaple/iwdg.h>
-#include <SdFs.h>
+#include <SdFat.h>
+#include <SPI.h>
 
 #include "multiserial.h"
 #include "can_message_ids.h"
@@ -80,16 +80,29 @@ MultiSerial Output;
 
 HashMap<String, double> Statistics;
 
-SdFs filesystem;
+SdFat filesystem(2);
 
 Logger Log(&filesystem);
 
 RTClock Clock(RTCSEL_LSE);
 
+SPIClass SPIBus(2);
+
 void setup() {
     afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
     iwdg_init(IWDG_PRE_256, 2400);
-    filesystem.begin(SD_CONFIG);
+
+    Output.addInterface(&ESPSerial);
+    Output.addInterface(&BTSerial);
+    Output.begin(230400, SERIAL_8E1);
+    Output.println("[Maxwell 2.0]");
+    Output.flush();
+
+    SPIBus.begin();
+    if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(18))) {
+        Output.println("Error initializing SD Card");
+        filesystem.initErrorPrint(&Output);
+    }
     Log.begin();
     Log.log(String("Device reset: ") + String(RCC_BASE->CSR, HEX));
     if(RCC_BASE->CSR & (1 << 31)) {
@@ -146,12 +159,6 @@ void setup() {
     enableBatteryCharging(true);
 
     TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
-
-    Output.addInterface(&ESPSerial);
-    Output.addInterface(&BTSerial);
-    Output.begin(230400, SERIAL_8E1);
-    Output.println("[Maxwell 2.0]");
-    Output.flush();
     //failsafeReset();
 
     //GPSSerial.begin(9600);
@@ -498,6 +505,7 @@ void sleep(bool allowMovementWake) {
     }
     TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
 
+    // Disable canbus
     CanMsg sleepMsg;
     sleepMsg.IDE = CAN_ID_STD;
     sleepMsg.RTR = CAN_RTR_DATA;
@@ -505,13 +513,24 @@ void sleep(bool allowMovementWake) {
     sleepMsg.DLC = 0;
     canTx(&sleepMsg);
     delay(20);
+    CanBus.end();
 
-    enableEsp(false);
-    ledEnable(false);
-    enableBluetooth(false);
-    //gpsWake();
-    //gpsPMTK(161, ",0");
+    adc_disable_all();
 
+    // Put CAN transceiver in standby mode
+    pinMode(PIN_CAN_R, OUTPUT);
+    digitalWrite(PIN_CAN_R, HIGH);
+    // Disable ESP32
+    pinMode(PIN_DISABLE_ESP_, OUTPUT);
+    digitalWrite(PIN_DISABLE_ESP_, LOW);
+    // Disable Bluetooth
+    pinMode(PIN_BT_ENABLE_, OUTPUT);
+    digitalWrite(PIN_BT_ENABLE_, HIGH);
+    // Disable neopixel battery drain
+    pinMode(PIN_ENABLE_BATT_POWER, OUTPUT);
+    digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
+
+    // Configure wake conditions
     pinMode(PIN_I_WAKE, INPUT_PULLDOWN);
     attachInterrupt(PIN_I_WAKE, nvic_sys_reset, RISING);
     if (allowMovementWake) {
@@ -520,6 +539,10 @@ void sleep(bool allowMovementWake) {
     }
 
     Log.log("Sleeping now...");
+    Log.end();
+    Output.end();
+
+    filesystem.card()->spiStop();
 
     systick_disable();
     disableAllPeripheralClocks();
