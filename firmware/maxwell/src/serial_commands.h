@@ -51,3 +51,5 @@ void logSearch();
 void cmdDisableBluetooth();
 void cmdEnableBluetooth();
 void sdErrorState();
+void setTime();
+void getTime();

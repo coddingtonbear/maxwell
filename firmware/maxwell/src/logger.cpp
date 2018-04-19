@@ -4,6 +4,7 @@
 #include <HardwareCan.h>
 
 #include "logger.h"
+#include "main.h"
 
 
 Logger::Logger(SdFat* _filesystem) {
@@ -57,6 +58,10 @@ void Logger::log(String message) {
         return;
     }
 
+    uint8_t clockLength = 10 + 2 + 1;
+    char clockBytes[clockLength];
+    sprintf(clockBytes, "%010d: ", Clock.getTime());
+
     uint8_t millisLength = 8 + 2 + 1;
     char millisBytes[millisLength];
     sprintf(millisBytes, "%08d: ", millis());
@@ -65,6 +70,7 @@ void Logger::log(String message) {
     char messageBytes[messageLength];
     message.toCharArray(messageBytes, messageLength);
 
+    logFile.write(clockBytes, clockLength - 1);
     logFile.write(millisBytes, millisLength - 1);
     logFile.write(messageBytes, messageLength - 1);
     logFile.write('\n');

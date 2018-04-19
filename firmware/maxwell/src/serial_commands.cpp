@@ -74,6 +74,9 @@ void setupCommands() {
     commands.addCommand("search_log", logSearch);
     commands.addCommand("sd_error_state", sdErrorState);
 
+    commands.addCommand("set_time", setTime);
+    commands.addCommand("get_time", getTime);
+
     commands.setDefaultHandler(unrecognized);
 }
 
@@ -800,4 +803,18 @@ void cmdDisableBluetooth() {
 
 void sdErrorState() {
     filesystem.initErrorPrint(&Output);
+}
+
+void setTime() {
+    char* timestampBytes = commands.next();
+    uint32_t timestamp = atoi(timestampBytes);
+
+    Clock.setTime(timestamp);
+}
+
+void getTime() {
+    time_t time = Clock.getTime();
+
+    Output.print("Current time: ");
+    Output.println(String((uint32)time));
 }
