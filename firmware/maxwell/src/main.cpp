@@ -142,8 +142,7 @@ void setup() {
     pinMode(PIN_BT_KEY, OUTPUT);
     digitalWrite(PIN_BT_KEY, LOW);
 
-    pinMode(PIN_I_WAKE, INPUT_PULLUP);
-    pinMode(PIN_I_POWER_ON, INPUT_PULLDOWN);
+    pinMode(PIN_I_POWER_ON, INPUT_PULLUP);
     pinMode(PIN_I_BATT_CHARGING_, INPUT_ANALOG);
     pinMode(PIN_I_BATT_VOLTAGE, INPUT_ANALOG);
     pinMode(PIN_I_CURRENT_SENSE, INPUT_ANALOG);
