@@ -502,6 +502,9 @@ void sleep(bool allowMovementWake) {
     if(allowMovementWake) {
         Log.log("Movement wake enabled");
     }
+    Log.end();
+    Output.end();
+    filesystem.card()->spiStop();
     TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
 
     // Disable canbus
@@ -514,36 +517,31 @@ void sleep(bool allowMovementWake) {
     delay(20);
     CanBus.end();
 
-    adc_disable_all();
-
-    // Put CAN transceiver in standby mode
-    pinMode(PIN_CAN_R, OUTPUT);
-    digitalWrite(PIN_CAN_R, HIGH);
+    setGPIOModeToAllPins(GPIO_INPUT_FLOATING);
+    // Disable buzzer
+    pinMode(PIN_BUZZER, OUTPUT);
+    digitalWrite(PIN_BUZZER, LOW);
     // Disable ESP32
     pinMode(PIN_DISABLE_ESP_, OUTPUT);
     digitalWrite(PIN_DISABLE_ESP_, LOW);
+    //pinMode(PIN_ESP_BOOT_FLASH_, OUTPUT);
+    //digitalWrite(PIN_ESP_BOOT_FLASH_, LOW);
     // Disable Bluetooth
     pinMode(PIN_BT_ENABLE_, OUTPUT);
     digitalWrite(PIN_BT_ENABLE_, HIGH);
     // Disable neopixel battery drain
     pinMode(PIN_ENABLE_BATT_POWER, OUTPUT);
     digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
-
     // Configure wake conditions
-    pinMode(PIN_I_WAKE, INPUT_PULLDOWN);
-    attachInterrupt(PIN_I_WAKE, nvic_sys_reset, RISING);
+    pinMode(PIN_I_POWER_ON, INPUT_PULLDOWN);
+    attachInterrupt(PIN_I_POWER_ON, nvic_sys_reset, RISING);
     if (allowMovementWake) {
         pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
         attachInterrupt(PIN_I_SPEED, nvic_sys_reset, RISING);
     }
 
-    Log.log("Sleeping now...");
-    Log.end();
-    Output.end();
-
-    filesystem.card()->spiStop();
-
     systick_disable();
+    adc_disable_all();
     disableAllPeripheralClocks();
     while(true) {
         iwdg_feed();
