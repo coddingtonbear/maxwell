@@ -33,6 +33,8 @@ Checked items indicate errata that have been corrected in the schematic.
 * [ ] I really should've added a mosfet for disabling the HC-05 module.  While in sleep mode, the bluetooth module will consume ~20mA of power, which while not _huge_, is more than enough to drain the whole battery over the course of a couple days.
 * [ ] The bluetooth module will have a thin metal shield overhead for the duration of its life, and is not likely to get a GPS lock ever.  I hadn't considered this when designing this, but given the placement of this unit on my bike, the bluetooth module will never be useful, so I've removed it from the live board.
 * [ ] Mis-labeled SPI2 pins for SPI2 ports; two of the labels are swapped starting from the microcontroller itself.  Although labeled `+`, `CLK`, `DI`, `DO`, `+`, `CS`, the pins are actually `+`, `DO`, `DI`, `CLK`, `+`, `CS`.
+* [ ] The CanBus transceiver's Rs pin should be connected to the microcontroller to allow me to put the device into sleep mode.  Experimentation with sleep modes showed that I was able to get power consumption down to ~5.5mA (from ~50-150mA while running, depending on whether or which radios are turned on), but sleep power consumption _should_ be on the order of microamps.  Most of that 5.5mA is the CanBus transceiver.
+* [ ] The ESP32 module should have a decoupling capacitor.
 
 ### Maxwell-remote
 
