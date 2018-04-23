@@ -16,7 +16,7 @@ void reset();
 void flash();
 void beep();
 void wake();
-void sleep();
+void cmdSleep();
 void uptime();
 void bluetooth();
 void refreshLocalBluetoothTimeout();
@@ -39,6 +39,7 @@ void disableBluetooth();
 void lowPowerMode();
 void enableAutosleep();
 void disableAutosleep();
+void debugCan();
 
 void menuUp();
 void menuDown();

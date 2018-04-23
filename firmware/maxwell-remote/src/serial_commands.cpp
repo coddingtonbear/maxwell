@@ -1,6 +1,5 @@
 #include <HardwareCAN.h>
 #include <SerialCommand.h>
-#include <STM32Sleep.h>
 #include <libmaple/iwdg.h>
 
 #include "serial_commands.h"
@@ -49,7 +48,9 @@ void setupCommands() {
     commands.addCommand("menu_out", menuOut);
     //commands.addCommand("menu_debug", menuDebug);
 
-    canCommands.addCommand(CAN_MAIN_MC_SLEEP, sleep);
+    commands.addCommand("debug_can", debugCan);
+
+    canCommands.addCommand(CAN_MAIN_MC_SLEEP, cmdSleep);
     canCommands.addCommand(CAN_MAIN_MC_WAKE, receiveMainMcStatus);
     canCommands.addCommand(CAN_MAIN_MC_FLASH_BEGIN, receiveMainMcStatus);
 
@@ -255,24 +256,9 @@ void wake() {
     pinMode(WAKE, INPUT);
 }
 
-void sleep() {
-    CanMsg message;
-    message.IDE = CAN_ID_STD;
-    message.RTR = CAN_RTR_DATA;
-    message.ID = CAN_CMD_MAIN_MC_SLEEP;
-    message.DLC = 0;
-    CanBus.send(&message);
+void cmdSleep() {
 
-    digitalWrite(BT_ENABLE_, HIGH);
-    digitalWrite(DISPLAY_ON_, HIGH);
-    attachInterrupt(LEFT_A, nvic_sys_reset, FALLING);
-    delay(500);
-    systick_disable();
-    disableAllPeripheralClocks();
-    while(true) {
-        iwdg_feed();
-        sleepAndWakeUp(STOP, &Clock, 14);
-    }
+    sleep();
 }
 
 void beep() {
@@ -600,4 +586,15 @@ void disableAutosleep() {
     }
 
     CanBus.send(&message);
+}
+
+void debugCan() {
+    bool enabled = 1;
+
+    char* enabledStr = commands.next();
+    if(enabledStr != NULL) {
+        enabled = atoi(enabledStr);
+    }
+
+    enableCanDebug(enabled);
 }

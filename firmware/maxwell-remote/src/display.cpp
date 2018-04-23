@@ -139,6 +139,7 @@ void DisplayManager::begin() {
     display.setCursor(0, 0);
     display.setTextColor(WHITE);
     display.setTextWrap(false);
+    display.setRotation(2);
     display.display();
 
     display.clearDisplay();
@@ -168,18 +169,18 @@ void DisplayManager::refresh() {
         );
 
         display.setFont(&Roboto_Regular30pt7b);
-        display.setCursor(0, DISPLAY_HEIGHT - 1);
+        display.setCursor(0, DISPLAY_HEIGHT - 1 - 17);
         bounds = getTextBounds(velocity);
         display.setCursor(
             (DISPLAY_WIDTH - bounds.w - 1) / 2,
-            DISPLAY_HEIGHT - 1
+            DISPLAY_HEIGHT - 1 - 17
         );
         display.println(velocity);
     }
 
     /* Display Status Information */
     display.setFont(&Roboto_Regular8pt7b);
-    display.setCursor(0, 12);
+    display.setCursor(0, DISPLAY_HEIGHT - 1);
     uint32 mainMcStatus = getStatusMainMc();
     uint8_t chargingStatus = getChargingStatus();
     if(mainMcStatus == CAN_MAIN_MC_WAKE) {
@@ -207,7 +208,10 @@ void DisplayManager::refresh() {
         );
         amps += "A";
         bounds = getTextBounds(amps);
-        display.setCursor(DISPLAY_WIDTH - bounds.w - 1, 12);
+        display.setCursor(
+            DISPLAY_WIDTH - bounds.w - 1,
+            DISPLAY_HEIGHT - 1
+        );
         display.println(amps);
     } else {
         switch(mainMcStatus) {
@@ -239,7 +243,7 @@ MenuList* DisplayManager::getCurrentMenu() {
 void DisplayManager::showMenu() {
     if(millis() < showMenuExecNoticeUntil) {
         display.setFont(&Roboto_Regular30pt7b);
-        display.setCursor(0, DISPLAY_HEIGHT - 1);
+        display.setCursor(0, DISPLAY_HEIGHT - 1 - 17);
 
         String okMessage = "OK";
 
@@ -247,7 +251,7 @@ void DisplayManager::showMenu() {
         bounds = getTextBounds(okMessage);
         display.setCursor(
             (DISPLAY_WIDTH - bounds.w - 1) / 2,
-            DISPLAY_HEIGHT - 1
+            DISPLAY_HEIGHT - 1 - 17
         );
         display.println(okMessage);
 
@@ -259,13 +263,19 @@ void DisplayManager::showMenu() {
     MenuList* currMenu = getCurrentMenu();
 
     uint16_t rowHeight = 16;
-    uint16_t cursorPosition = 31;
-    for(int8_t i = startingIndex; i < (int8_t)currMenu->items.size(); i++) {
-        display.setCursor(0, cursorPosition);
+    uint16_t cursorPosition = 12;
+    uint8_t j = 0;
+    for(
+        int8_t i = startingIndex;
+        i < (int8_t)currMenu->items.size() && j < 3;
+        i++
+    ) {
+        display.setCursor(0, cursorPosition);  // X
         cursorPosition += rowHeight;
 
         if(i < 0) {
             display.println();
+            j++;
             continue;
         }
         if(i == menuPosition[menuDepth]) {
@@ -279,6 +289,7 @@ void DisplayManager::showMenu() {
             display.print(" >");
         }
         display.println();
+        j++;
     }
 }
 

@@ -6,6 +6,7 @@
 #include <TaskScheduler.h>
 #include <Button.h>
 #include <RTClock.h>
+#include <STM32Sleep.h>
 #include <libmaple/iwdg.h>
 
 #include "main.h"
@@ -13,6 +14,8 @@
 #include "can_message_ids.h"
 #include "can.h"
 #include "display.h"
+
+bool canDebug = 0;
 
 Task taskUpdateDisplay(
     DISPLAY_REFRESH_INTERVAL,
@@ -48,6 +51,7 @@ void setup() {
     digitalWrite(BT_KEY, LOW);
     delay(250);
     digitalWrite(BT_ENABLE_, LOW);
+    pinMode(CAN_RS, INPUT);
 
     if(buttonRightA.read()) {
         for(uint8_t i = 20; i > 5; i--) {
@@ -133,9 +137,63 @@ void loop() {
             for (uint8_t i = 0; i < canMsg->DLC; i++) {
                 command.Data[i] = canMsg->Data[i];
             }
+            if(canDebug) {
+                Output.print("Can Message: [");
+                Output.print(canMsg->ID, HEX);
+                Output.print("](");
+                Output.print(canMsg->DLC, HEX);
+                Output.print(") ");
+                for(uint8_t i = 0; i < canMsg->DLC; i++) {
+                    Output.print(canMsg->Data[i], HEX);
+                }
+                Output.println();
+            }
             handleCANCommand(&command);
 
             CanBus.free();
         }
+    }
+}
+
+void enableCanDebug(bool enable) {
+    canDebug = enable;
+}
+
+void sleep() {
+    Output.end();
+    Wire.end();
+
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_MAIN_MC_SLEEP;
+    message.DLC = 0;
+    CanBus.send(&message);
+    delay(100);
+    CanBus.end();
+
+    setGPIOModeToAllPins(GPIO_INPUT_FLOATING);
+    // Disable the CAN Transceiver
+    pinMode(CAN_RS, OUTPUT);
+    digitalWrite(CAN_RS, HIGH);
+    // Disable Bluetooth
+    pinMode(BT_ENABLE_, OUTPUT);
+    digitalWrite(BT_ENABLE_, HIGH);
+    // Disable Display
+    pinMode(DISPLAY_ON_, OUTPUT);
+    digitalWrite(DISPLAY_ON_, HIGH);
+    // Wake for left A button
+    pinMode(LEFT_A, INPUT_PULLUP);
+    attachInterrupt(LEFT_A, nvic_sys_reset, FALLING);
+    // Or when the microcontroller wake line rises
+    pinMode(WAKE, INPUT_PULLDOWN);
+    attachInterrupt(WAKE, nvic_sys_reset, RISING);
+    delay(500);
+    systick_disable();
+    adc_disable_all();
+    disableAllPeripheralClocks();
+    while(true) {
+        iwdg_feed();
+        sleepAndWakeUp(STOP, &Clock, 14);
     }
 }
