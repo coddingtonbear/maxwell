@@ -98,6 +98,10 @@ void setup() {
     Output.println("[Maxwell 2.0]");
     Output.flush();
 
+    if(Clock.getTime() < 1000) {
+        restoreBackupTime();
+    }
+
     SPIBus.begin();
     if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(18))) {
         Output.println("Error initializing SD Card");
@@ -137,10 +141,12 @@ void setup() {
     pinMode(PIN_DISABLE_ESP_, OUTPUT);
     digitalWrite(PIN_DISABLE_ESP_, LOW);
 
-    pinMode(PIN_BT_ENABLE_, OUTPUT);
-    digitalWrite(PIN_BT_ENABLE_, LOW);
     pinMode(PIN_BT_KEY, OUTPUT);
     digitalWrite(PIN_BT_KEY, LOW);
+    pinMode(PIN_BT_ENABLE_, OUTPUT);
+    digitalWrite(PIN_BT_ENABLE_, HIGH);
+    delay(150);  // We need it to start up in LOW, and it was prev floating
+    digitalWrite(PIN_BT_ENABLE_, LOW);
 
     pinMode(PIN_I_POWER_ON, INPUT_PULLUP);
     pinMode(PIN_I_BATT_CHARGING_, INPUT_ANALOG);
@@ -158,7 +164,6 @@ void setup() {
     enableBatteryCharging(true);
 
     TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
-    //failsafeReset();
 
     //GPSSerial.begin(9600);
     //gpsWake();
@@ -518,6 +523,9 @@ void sleep(bool allowMovementWake) {
     CanBus.end();
 
     setGPIOModeToAllPins(GPIO_INPUT_FLOATING);
+    // Turn of CAN transceiver
+    pinMode(PIN_CAN_RS, OUTPUT);
+    digitalWrite(PIN_CAN_RS, HIGH);
     // Disable buzzer
     pinMode(PIN_BUZZER, OUTPUT);
     digitalWrite(PIN_BUZZER, LOW);
@@ -543,8 +551,11 @@ void sleep(bool allowMovementWake) {
     systick_disable();
     adc_disable_all();
     disableAllPeripheralClocks();
+    bkp_init();
+    bkp_enable_writes();
     while(true) {
         iwdg_feed();
+        saveBackupTime();
         sleepAndWakeUp(STOP, &Clock, 14);
     }
 }
@@ -569,11 +580,15 @@ void enableAutosleep(bool enable) {
 void enableBluetooth(bool enable) {
     if(enable && !bluetoothEnabled) {
         Log.log("Local bluetooth enabled");
+        Output.disableInterface(&BTSerial);
+        BTSerial.end();
         digitalWrite(PIN_BT_ENABLE_, LOW);
         bluetoothEnabled = true;
     } else if(!enable && bluetoothEnabled) {
         Log.log("Local bluetooth disabled");
         digitalWrite(PIN_BT_ENABLE_, HIGH);
+        Output.enableInterface(&BTSerial);
+        Output.begin();
         bluetoothEnabled = false;
     }
 }
@@ -596,4 +611,16 @@ void taskLoggerStatsIntervalCallback() {
     }
 
     Log.log("Stats: Speed Pulse Count: " + String(speedCounter));
+}
+
+void restoreBackupTime() {
+    uint16_t backedUp = bkp_read(0);
+    uint16_t uptime = millis() / 1000;
+
+    Clock.setTime(backedUp + uptime);
+}
+
+void saveBackupTime() {
+    time_t currentTime = Clock.getTime();
+    bkp_write(0, currentTime);
 }

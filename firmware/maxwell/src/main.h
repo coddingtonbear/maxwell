@@ -57,6 +57,9 @@ void enableCanDebug(bool);
 void renewKeepalive();
 void renewBluetoothKeepalive();
 
+void restoreBackupTime();
+void saveBackupTime();
+
 void beep(uint32_t, uint32_t);
 
 void bridgeUART(HardwareSerial*, uint32_t);

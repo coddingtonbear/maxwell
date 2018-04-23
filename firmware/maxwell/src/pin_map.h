@@ -6,7 +6,7 @@
 #define PIN_BT_ENABLE_ PC9
 #define PIN_BT_KEY PA11
 
-#define PIN_CAN_R PB8
+#define PIN_CAN_RS PA4
 
 #define PIN_SPI_CS_A PC6
 #define PIN_SPI_CS_B PC7
