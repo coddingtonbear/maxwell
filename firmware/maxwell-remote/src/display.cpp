@@ -68,7 +68,7 @@ void DisplayManager::up() {
     if(menuPosition[menuDepth] > 0) {
         menuPosition[menuDepth]--;
     } else {
-        menuPosition[menuDepth] = currentMenu->items.size() - 1;
+        menuPosition[menuDepth] = currentMenu->length - 1;
     }
 }
 
@@ -83,7 +83,7 @@ void DisplayManager::down() {
     menuKeepalive();
 
     menuPosition[menuDepth]++;
-    if(menuPosition[menuDepth] >= currentMenu->items.size()) {
+    if(menuPosition[menuDepth] >= currentMenu->length) {
         menuPosition[menuDepth] = 0;
     }
 }
@@ -140,6 +140,7 @@ void DisplayManager::begin() {
     display.setTextColor(WHITE);
     display.setTextWrap(false);
     display.setRotation(2);
+    setContrast(0xCF);
     display.display();
 
     display.clearDisplay();
@@ -267,7 +268,7 @@ void DisplayManager::showMenu() {
     uint8_t j = 0;
     for(
         int8_t i = startingIndex;
-        i < (int8_t)currMenu->items.size() && j < 3;
+        i < (int8_t)currMenu->length && j < 3;
         i++
     ) {
         display.setCursor(0, cursorPosition);  // X

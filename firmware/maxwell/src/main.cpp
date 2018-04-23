@@ -98,7 +98,7 @@ void setup() {
     Output.println("[Maxwell 2.0]");
     Output.flush();
 
-    if(Clock.getTime() < 1000) {
+    if(Clock.getTime() < 100000) {
         restoreBackupTime();
     }
 

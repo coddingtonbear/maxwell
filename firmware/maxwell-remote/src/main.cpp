@@ -10,6 +10,7 @@
 #include <libmaple/iwdg.h>
 
 #include "main.h"
+#include "led_cycles.h"
 #include "serial_commands.h"
 #include "can_message_ids.h"
 #include "can.h"
@@ -106,6 +107,18 @@ void loop() {
     buttonLeftB.read();
     buttonRightB.read();
 
+    // Long-press
+    if(buttonLeftB.pressedFor(1000)) {
+        activateLightingPreset(LED_PRESET_SAFETY);
+    }
+    if(buttonRightB.pressedFor(1000)) {
+        sleep();
+    }
+    if(buttonRightA.pressedFor(1000)) {
+        lowPowerMode();
+    }
+
+    // Normal motions
     if(buttonLeftA.wasPressed()) {
         Display.up();
     }

@@ -62,7 +62,7 @@
  * These classes used extended multi-block SD I/O for better performance.
  * the SPI bus may not be shared with other devices in this mode.
  */
-#define ENABLE_EXTENDED_TRANSFER_CLASS 0
+#define ENABLE_EXTENDED_TRANSFER_CLASS 1
 //-----------------------------------------------------------------------------
 /**
  * If the symbol USE_STANDARD_SPI_LIBRARY is nonzero, the classes SdFat and

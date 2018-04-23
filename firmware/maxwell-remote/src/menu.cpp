@@ -1,4 +1,3 @@
-#include <vector>
 #include <functional>
 
 #include "menu.h"
@@ -7,6 +6,10 @@
 #include "display.h"
 
 #include "main.h"
+
+
+#define COUNT_OF(x) ((sizeof(x)/sizeof(0[x])) / ((size_t)(!(sizeof(x) % sizeof(0[x])))))
+
 
 MenuItem::MenuItem(String _name, MenuList* _subMenu){
     name = _name;
@@ -18,8 +21,9 @@ MenuItem::MenuItem(String _name, std::function<void()> _function) {
     function = _function;
 }
 
-MenuList::MenuList(std::vector<MenuItem> menuItems) {
+MenuList::MenuList(MenuItem* menuItems, uint8_t _length) {
     items = menuItems;
+    length = _length;
 }
 
 
@@ -54,7 +58,7 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
 // in which I think a non-standard indentation actually makes the code
 // easier to understand (given the hierarchical nature of the menu
 // defined below.
-                std::vector<MenuItem> chargingMenuOptions({
+                MenuItem chargingMenuOptions[] = {
                     MenuItem(
                         "Enable",
                         enableBatteryCharging
@@ -63,9 +67,9 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
                         "Disable",
                         disableBatteryCharging
                     )
-                });
-            MenuList chargingMenuList(chargingMenuOptions);
-                std::vector<MenuItem> autosleepMenuOptions({
+                };
+            MenuList chargingMenuList(chargingMenuOptions, COUNT_OF(chargingMenuOptions));
+                MenuItem autosleepMenuOptions[] = {
                     MenuItem(
                         "Enable",
                         enableAutosleep
@@ -74,9 +78,9 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
                         "Disable",
                         disableAutosleep
                     )
-                });
-            MenuList autosleepMenuList(autosleepMenuOptions);
-        std::vector<MenuItem> powerMenuItems({
+                };
+            MenuList autosleepMenuList(autosleepMenuOptions, COUNT_OF(autosleepMenuOptions));
+        MenuItem powerMenuItems[] = {
             MenuItem(
                 "Power Off",
                 sleep
@@ -101,18 +105,18 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
                 "Reset",
                 reset
             )
-        });
-    MenuList powerMenuList(powerMenuItems);
+        };
+    MenuList powerMenuList(powerMenuItems, COUNT_OF(powerMenuItems));
 MenuItem powerMenu("Power", &powerMenuList);
 
-                std::vector<MenuItem> presetOptions({
+                MenuItem presetOptions[] = {
                     MenuItem(
                         "Safety",
                         makePresetMenuItem(LED_PRESET_SAFETY)
                     )
-                });
-            MenuList presetMenuList(presetOptions);
-                std::vector<MenuItem> cycleOptions({
+                };
+            MenuList presetMenuList(presetOptions, COUNT_OF(presetOptions));
+                MenuItem cycleOptions[] = {
                     MenuItem(
                         "On",
                         makeCycleMenuItem(LED_CYCLE_ON)
@@ -137,9 +141,9 @@ MenuItem powerMenu("Power", &powerMenuList);
                         "Rainbow",
                         makeCycleMenuItem(LED_CYCLE_RAINBOW)
                     )
-                });
-            MenuList cycleMenuList(cycleOptions);
-                std::vector<MenuItem> brightnessOptions({
+                };
+            MenuList cycleMenuList(cycleOptions, COUNT_OF(cycleOptions));
+                MenuItem brightnessOptions[] = {
                     MenuItem(
                         "100%",
                         makeBrightnessMenuItem(255)
@@ -184,9 +188,9 @@ MenuItem powerMenu("Power", &powerMenuList);
                         "0%",
                         makeBrightnessMenuItem(0)
                     )
-                });
-            MenuList brightnessMenuList(brightnessOptions);
-        std::vector<MenuItem> lightingMenuItems({
+                };
+            MenuList brightnessMenuList(brightnessOptions, COUNT_OF(brightnessOptions));
+        MenuItem lightingMenuItems[] = {
             MenuItem(
                 "Enable",
                 enableLighting
@@ -207,11 +211,11 @@ MenuItem powerMenu("Power", &powerMenuList);
                 "Brightness",
                 &brightnessMenuList
             )
-        });
-    MenuList lightingMenuList(lightingMenuItems);
+        };
+    MenuList lightingMenuList(lightingMenuItems, COUNT_OF(lightingMenuItems));
 MenuItem lightingMenu("Lighting", &lightingMenuList);
 
-                std::vector<MenuItem> localBluetoothMenuItems({
+                MenuItem localBluetoothMenuItems[] = {
                     MenuItem(
                         "Disable",
                         disableLocalBluetooth
@@ -220,10 +224,10 @@ MenuItem lightingMenu("Lighting", &lightingMenuList);
                         "Enable",
                         enableLocalBluetooth
                     )
-                });
-            MenuList localBluetoothMenuList(localBluetoothMenuItems);
+                };
+            MenuList localBluetoothMenuList(localBluetoothMenuItems, COUNT_OF(localBluetoothMenuItems));
 
-                std::vector<MenuItem> baseBluetoothMenuItems({
+                MenuItem baseBluetoothMenuItems[] = {
                     MenuItem(
                         "Disable",
                         disableBluetooth
@@ -232,10 +236,10 @@ MenuItem lightingMenu("Lighting", &lightingMenuList);
                         "Enable",
                         enableBluetooth
                     ),
-                });
-            MenuList baseBluetoothMenuList(baseBluetoothMenuItems);
+                };
+            MenuList baseBluetoothMenuList(baseBluetoothMenuItems, COUNT_OF(baseBluetoothMenuItems));
 
-                std::vector<MenuItem> espMenuItems({
+                MenuItem espMenuItems[] = {
                     MenuItem(
                         "Disable",
                         disableEsp
@@ -244,10 +248,10 @@ MenuItem lightingMenu("Lighting", &lightingMenuList);
                         "Enable",
                         enableEsp
                     )
-                });
-            MenuList espMenuList(espMenuItems);
+                };
+            MenuList espMenuList(espMenuItems, COUNT_OF(espMenuItems));
 
-        std::vector<MenuItem> commsMenuItems({
+        MenuItem commsMenuItems[] = {
             MenuItem(
                 "Local BT",
                 &localBluetoothMenuList
@@ -260,11 +264,11 @@ MenuItem lightingMenu("Lighting", &lightingMenuList);
                 "Base BLE",
                 &espMenuList
             )
-        });
-    MenuList commsMenuList(commsMenuItems);
+        };
+    MenuList commsMenuList(commsMenuItems, COUNT_OF(commsMenuItems));
 MenuItem commsMenu("Bluetooth", &commsMenuList);
 
-                std::vector<MenuItem> displayBrightnessMenuItems({
+                MenuItem displayBrightnessMenuItems[] = {
                     MenuItem(
                         "High",
                         makeDisplayBrightnessMenuItem(0xCF)
@@ -277,21 +281,21 @@ MenuItem commsMenu("Bluetooth", &commsMenuList);
                         "Off",
                         makeDisplayBrightnessMenuItem(0)
                     )
-                });
-            MenuList displayBrightnessMenuList(displayBrightnessMenuItems);
-        std::vector<MenuItem> displayMenuItems({
+                };
+            MenuList displayBrightnessMenuList(displayBrightnessMenuItems, COUNT_OF(displayBrightnessMenuItems));
+        MenuItem displayMenuItems[] = {
             MenuItem(
                 "Brightness",
                 &displayBrightnessMenuList
             )
-        });
-    MenuList displayMenuList(displayMenuItems);
+        };
+    MenuList displayMenuList(displayMenuItems, COUNT_OF(displayMenuItems));
 MenuItem displayMenu("Display", &displayMenuList);
 
-std::vector<MenuItem> mainMenuItems({
+MenuItem mainMenuItems[] = {
     powerMenu,
     commsMenu,
     lightingMenu,
     displayMenu
-});
-MenuList mainMenu(mainMenuItems);
+};
+MenuList mainMenu(mainMenuItems, COUNT_OF(mainMenuItems));

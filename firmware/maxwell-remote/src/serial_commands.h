@@ -37,6 +37,7 @@ void disableBatteryCharging();
 void enableBluetooth();
 void disableBluetooth();
 void lowPowerMode();
+void disableLowPowerMode();
 void enableAutosleep();
 void disableAutosleep();
 void debugCan();

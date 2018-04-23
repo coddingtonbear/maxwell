@@ -25,8 +25,9 @@ class MenuItem {
 
 class MenuList {
     public:
-        MenuList(std::vector<MenuItem>);
-        std::vector<MenuItem> items;
+        MenuList(MenuItem* menuItems, uint8_t length);
+        MenuItem* items;
+        uint8_t length;
 };
 
 extern MenuList mainMenu;
