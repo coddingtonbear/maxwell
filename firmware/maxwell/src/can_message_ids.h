@@ -13,6 +13,7 @@
 #define CAN_VELOCITY 0x43  // double
 #define CAN_AMPS_CURRENT 0x44  // double
 #define CAN_CHARGING_STATUS 0x45  // byte
+#define CAN_STATUS_MAIN_MC 0x46  // CANStatusMainMC
 
 #define CAN_LED_STATUS 0x46  // byte (enabled), byte (cycle), byte (brightness), uint32(interval)
 #define CAN_LED_STATUS_COLOR 0x47  // byte (r), byte (g), byte (b), byte (r2), byte (g2), byte (b2),
@@ -37,3 +38,15 @@
 #define CAN_CMD_ESP_ENABLE 0xB4  // byte
 #define CAN_CMD_BT_ENABLE 0xB8  // byte
 #define CAN_CMD_AUTOSLEEP_ENABLE 0xB9 // byte
+
+struct CANStatusMainMC {
+    bool is_charging:1;
+
+    bool lighting_enabled:1;
+    bool charging_enabled:1;
+    bool bt_enabled:1;
+    bool ble_enabled:1;
+
+    bool has_valid_time:1;
+    bool logging_now:1;
+};

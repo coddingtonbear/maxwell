@@ -6,6 +6,9 @@
 
 long int lastUpdated = 0;
 
+bool batteryChargingEnabled = false;
+bool auxiliaryPowerEnabled = false;
+
 RollingAverage<double, 5> currentAmps;
 RollingAverage<double, 10> senseVoltage;
 RollingAverage<double, 10> batteryVoltage;
@@ -105,11 +108,17 @@ double getCurrentUsage() {
     return currentAmps.getValue();
 }
 
+bool batteryChargingIsEnabled() {
+    return batteryChargingEnabled;
+}
+
 void enableBatteryCharging(bool enable) {
     if(enable) {
         digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
+        batteryChargingEnabled = true;
     } else {
         digitalWrite(PIN_ENABLE_BATT_CHARGE_, HIGH);
+        batteryChargingEnabled = false;
     }
 }
 

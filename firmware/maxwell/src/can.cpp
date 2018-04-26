@@ -5,6 +5,7 @@
 
 void canTx(CanMsg* msg) {
     CanBus.send(msg);
+    delay(50);
     Log.logCanOutgoing(msg);
 }
 

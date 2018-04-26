@@ -12,6 +12,7 @@ double getVoltage(uint source);
 double getInstantaneousVoltage(uint source);
 double getCurrentUsage();
 uint8_t getChargingStatus();
+bool batteryChargingIsEnabled();
 void enableBatteryCharging(bool);
 
 void updatePowerMeasurements();

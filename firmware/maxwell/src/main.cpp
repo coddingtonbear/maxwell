@@ -29,6 +29,7 @@ uint32 lastStatisticsUpdate = 0;
 uint32 lastKeepalive = 0;
 uint32 lastBluetoothKeepalive = 0;
 bool bluetoothEnabled = true;
+bool bleEnabled = false;
 
 bool autosleepEnabled = true;
 
@@ -73,6 +74,11 @@ Task taskLoggerStatsInterval(
     LOGGER_STATS_INTERVAL,
     TASK_FOREVER,
     &taskLoggerStatsIntervalCallback
+);
+Task taskCanbusStatusInterval(
+    CANBUS_STATUS_ANNOUNCE_INTERVAL,
+    TASK_FOREVER,
+    &taskCanbusStatusIntervalCallback
 );
 Scheduler taskRunner;
 
@@ -196,6 +202,7 @@ void setup() {
     taskRunner.addTask(taskStatistics);
     taskRunner.addTask(taskCanbusLedStatusAnnounce);
     taskRunner.addTask(taskLoggerStatsInterval);
+    taskRunner.addTask(taskCanbusStatusInterval);
     taskRunner.enableAll();
 
     Output.println("Ready.");
@@ -299,7 +306,6 @@ void taskCanbusLedStatusAnnounceCallback() {
         status.Data[i] = intervalBytes[i - 3];
     }
     canTx(&status);
-    delay(50);
 
     CanMsg message;
     message.IDE = CAN_ID_STD;
@@ -313,7 +319,6 @@ void taskCanbusLedStatusAnnounceCallback() {
     message.Data[4] = ledStatus.green2;
     message.Data[5] = ledStatus.blue2;
     canTx(&message);
-    delay(50);
 }
 
 void taskVoltageCallback() {
@@ -340,6 +345,33 @@ void taskVoltageWarningCallback() {
         Output.println(")");
     }
 }
+void taskCanbusStatusIntervalCallback() {
+    LedStatus ledStatus;
+    ledGetStatus(ledStatus);
+    uint32 logErrorCode = Log.getErrorCode();
+
+    CANStatusMainMC status;
+    status.is_charging = getChargingStatus() == CHARGING_STATUS_CHARGING_NOW;
+    status.lighting_enabled = ledStatus.enabled;
+    status.charging_enabled = batteryChargingIsEnabled();
+    status.ble_enabled = bleEnabled;
+    status.bt_enabled = bluetoothEnabled;
+    status.has_valid_time = (Clock.getTime() > 1000000000);
+    status.logging_now = !logErrorCode;
+
+    CanMsg output;
+    output.IDE = CAN_ID_STD;
+    output.RTR = CAN_RTR_DATA;
+    output.ID = CAN_STATUS_MAIN_MC;
+    output.DLC = sizeof(status);
+
+    unsigned char *outputBytes = reinterpret_cast<unsigned char *>(&status);
+    for(uint8_t i = 0; i < sizeof(status); i++) {
+        output.Data[i] = outputBytes[i];
+    }
+
+    canTx(&output);
+}
 
 void taskCanbusVoltageBatteryAnnounceCallback() {
     CanMsg message;
@@ -355,8 +387,6 @@ void taskCanbusVoltageBatteryAnnounceCallback() {
     }
 
     canTx(&message);
-
-    delay(50);
 }
 
 void taskCanbusCurrentAnnounceCallback() {
@@ -373,8 +403,6 @@ void taskCanbusCurrentAnnounceCallback() {
     }
 
     canTx(&message);
-
-    delay(50);
 }
 
 void taskCanbusChargingStatusAnnounceCallback() {
@@ -391,8 +419,6 @@ void taskCanbusChargingStatusAnnounceCallback() {
     }
 
     canTx(&message);
-
-    delay(50);
 }
 
 void taskCanbusSpeedAnnounceCallback() {
@@ -427,8 +453,6 @@ void taskCanbusSpeedAnnounceCallback() {
 
     speedCounterPrev = speedCounter;
     canTx(&message);
-
-    delay(50);
 }
 
 void loop() {
@@ -489,6 +513,7 @@ void loop() {
 void enableEsp(bool enabled) {
     Log.log("ESP32 enabled: " + String(enabled));
     if(enabled) {
+        bleEnabled = true;
         digitalWrite(PIN_ESP_BOOT_FLASH_, HIGH);
         digitalWrite(PIN_DISABLE_ESP_, LOW);
         delay(500);
@@ -498,6 +523,7 @@ void enableEsp(bool enabled) {
             ESPSerial.read();
         }
     } else {
+        bleEnabled = false;
         digitalWrite(PIN_DISABLE_ESP_, LOW);
     }
 }
@@ -519,7 +545,6 @@ void sleep(bool allowMovementWake) {
     sleepMsg.ID = CAN_MAIN_MC_SLEEP;
     sleepMsg.DLC = 0;
     canTx(&sleepMsg);
-    delay(20);
     CanBus.end();
 
     setGPIOModeToAllPins(GPIO_INPUT_FLOATING);
