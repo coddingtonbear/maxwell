@@ -14,6 +14,7 @@
 #define CAN_AMPS_CURRENT 0x44  // double
 #define CAN_CHARGING_STATUS 0x45  // byte
 #define CAN_STATUS_MAIN_MC 0x46  // CANStatusMainMC
+#define CAN_CURRENT_TIMESTAMP 0x47 // time_t
 
 #define CAN_LED_STATUS 0x46  // byte (enabled), byte (cycle), byte (brightness), uint32(interval)
 #define CAN_LED_STATUS_COLOR 0x47  // byte (r), byte (g), byte (b), byte (r2), byte (g2), byte (b2),

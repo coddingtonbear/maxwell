@@ -33,6 +33,7 @@
 #define CANBUS_SPEED_ANNOUNCE_INTERVAL 1017
 #define CANBUS_LED_STATUS_ANNOUNCE_INTERVAL 4120
 #define CANBUS_STATUS_ANNOUNCE_INTERVAL 2641
+#define CANBUS_CURRENT_TIMESTAMP_ANNOUNCE_INTERVAL 61001
 
 #define SPEED_WHEEL_RADIUS_INCHES 80.0
 #define SPEED_PULSES_PER_ROTATION 14.0
@@ -81,6 +82,7 @@ void taskStatisticsCallback();
 void taskCanbusLedStatusAnnounceCallback();
 void taskCanbusStatusIntervalCallback();
 void taskLoggerStatsIntervalCallback();
+void taskCanbusCurrentTimestampCallback();
 
 extern MultiSerial Output;
 extern HashMap<String, double> Statistics;

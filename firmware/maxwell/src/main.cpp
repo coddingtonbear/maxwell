@@ -80,6 +80,11 @@ Task taskCanbusStatusInterval(
     TASK_FOREVER,
     &taskCanbusStatusIntervalCallback
 );
+Task taskCanbusCurrentTimestamp(
+    CANBUS_CURRENT_ANNOUNCE_INTERVAL,
+    TASK_FOREVER,
+    &taskCanbusCurrentTimestampCallback
+);
 Scheduler taskRunner;
 
 MultiSerial Output;
@@ -367,6 +372,23 @@ void taskCanbusStatusIntervalCallback() {
 
     unsigned char *outputBytes = reinterpret_cast<unsigned char *>(&status);
     for(uint8_t i = 0; i < sizeof(status); i++) {
+        output.Data[i] = outputBytes[i];
+    }
+
+    canTx(&output);
+}
+
+void taskCanbusCurrentTimestampCallback() {
+    time_t currentTimestamp = Clock.getTime();
+
+    CanMsg output;
+    output.IDE = CAN_ID_STD;
+    output.RTR = CAN_RTR_DATA;
+    output.ID = CAN_STATUS_MAIN_MC;
+    output.DLC = sizeof(time_t);
+
+    unsigned char *outputBytes = reinterpret_cast<unsigned char *>(&currentTimestamp);
+    for(uint8_t i = 0; i < sizeof(currentTimestamp); i++) {
         output.Data[i] = outputBytes[i];
     }
 
