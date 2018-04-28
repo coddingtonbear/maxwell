@@ -10,15 +10,13 @@ double current;
 double velocity;
 uint8_t chargingStatus;
 
-uint32 status = 0;
+CANStatusMainMC status;
 
 void setChargingStatus(uint8_t value) {
     chargingStatus = value;
 }
 
 void setStatusParameter(uint32 canMsgId, double value) {
-    status = CAN_MAIN_MC_WAKE;
-
     switch (canMsgId) {
         case CAN_VOLTAGE_BATTERY:
             voltageBattery = value;
@@ -38,8 +36,8 @@ void setStatusParameter(uint32 canMsgId, double value) {
     }
 }
 
-void setStatusMainMc(uint32 canMsgId) {
-    status = canMsgId;
+void setStatusMainMc(CANStatusMainMC _status) {
+    status = _status;
 }
 
 double getDoubleStatusParameter(uint32 canMsgId) {
@@ -66,7 +64,7 @@ double getDoubleStatusParameter(uint32 canMsgId) {
     return returnValue;
 }
 
-uint32 getStatusMainMc() {
+CANStatusMainMC getStatusMainMc() {
     return status;
 }
 

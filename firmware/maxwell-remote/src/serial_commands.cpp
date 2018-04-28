@@ -52,8 +52,6 @@ void setupCommands() {
     commands.addCommand("debug_can", debugCan);
 
     canCommands.addCommand(CAN_MAIN_MC_SLEEP, cmdSleep);
-    canCommands.addCommand(CAN_MAIN_MC_WAKE, receiveMainMcStatus);
-    canCommands.addCommand(CAN_MAIN_MC_FLASH_BEGIN, receiveMainMcStatus);
 
     canCommands.addCommand(CAN_LED_STATUS, receiveLedStatus);
     canCommands.addCommand(CAN_LED_STATUS_COLOR, receiveLedStatusColor);
@@ -63,6 +61,7 @@ void setupCommands() {
     canCommands.addCommand(CAN_AMPS_CURRENT, receiveCanDouble);
     canCommands.addCommand(CAN_CHARGING_STATUS, receiveCanChargingStatus);
     canCommands.addCommand(CAN_CURRENT_TIMESTAMP, canSetTime);
+    canCommands.addCommand(CAN_STATUS_MAIN_MC, canReceiveStatus);
 }
 
 void bluetooth() {
@@ -86,6 +85,10 @@ void bluetooth() {
     String result = sendBluetoothCommand(btcommand);
 
     Output.print(result);
+}
+
+bool getBluetoothEnabled() {
+    return bluetoothEnabled;
 }
 
 void refreshLocalBluetoothTimeout() {
@@ -406,10 +409,6 @@ void receiveLedStatusColor() {
     ledBlue2 = data[5];
 }
 
-void receiveMainMcStatus() {
-    setStatusMainMc(canCommands.message->ID);
-}
-
 void disableEsp() {
     CanMsg message;
     message.IDE = CAN_ID_STD;
@@ -612,4 +611,13 @@ void canSetTime() {
     time_t timestamp = *(reinterpret_cast<time_t*>(data));
 
     Clock.setTime(timestamp);
+}
+
+void canReceiveStatus() {
+    static uint8_t data[8];
+    canCommands.getData(data);
+
+    CANStatusMainMC status = *(reinterpret_cast<CANStatusMainMC*>(data));
+
+    setStatusMainMc(status);
 }

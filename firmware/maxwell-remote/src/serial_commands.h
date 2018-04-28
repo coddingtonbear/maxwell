@@ -21,6 +21,7 @@ void uptime();
 void bluetooth();
 void refreshLocalBluetoothTimeout();
 void handleLocalBluetoothTimeout();
+bool getBluetoothEnabled();
 void enableLocalBluetooth();
 void enableLocalBluetoothUntil(uint32_t);
 void disableLocalBluetooth();
@@ -43,6 +44,7 @@ void disableAutosleep();
 void debugCan();
 void getTime();
 void canSetTime();
+void canReceiveStatus();
 
 void menuUp();
 void menuDown();
@@ -54,7 +56,6 @@ void menuDebug();
 void receiveSpeed();
 void receiveCanChargingStatus();
 void receiveCanDouble();
-void receiveMainMcStatus();
 void receiveLedStatus();
 void receiveLedStatusColor();
 

@@ -190,51 +190,48 @@ void DisplayManager::refresh() {
     /* Display Status Information */
     display.setFont(&Roboto_Regular8pt7b);
     display.setCursor(0, DISPLAY_HEIGHT - 1);
-    uint32 mainMcStatus = getStatusMainMc();
     uint8_t chargingStatus = getChargingStatus();
-    if(mainMcStatus == CAN_MAIN_MC_WAKE) {
-        if(statusPhase == 0) {
-            String voltage = String(
-                getDoubleStatusParameter(
-                    CAN_VOLTAGE_BATTERY
-                ),
-                2
-            );
-            voltage += "V";
-            if(chargingStatus != CHARGING_STATUS_SHUTDOWN) {
-                voltage += "*";
-            }
-            if(chargingStatus == CHARGING_STATUS_FULLY_CHARGED) {
-                voltage += "**";
-            }
-            display.println(voltage);
-        } else if (statusPhase == 1) {
-            String amps = String(
-                getDoubleStatusParameter(
-                    CAN_AMPS_CURRENT
-                ),
-                2
-            );
-            amps += "A";
-            display.println(amps);
+    if(statusPhase == 0) {
+        String voltage = String(
+            getDoubleStatusParameter(
+                CAN_VOLTAGE_BATTERY
+            ),
+            2
+        );
+        voltage += "V";
+        if(chargingStatus != CHARGING_STATUS_SHUTDOWN) {
+            voltage += "*";
         }
-
-        time_t localTime = Clock.TimeZone(
-            Clock.getTime(),
-            UTC_OFFSET
+        if(chargingStatus == CHARGING_STATUS_FULLY_CHARGED) {
+            voltage += "**";
+        }
+        display.println(voltage);
+    } else if (statusPhase == 1) {
+        String amps = String(
+            getDoubleStatusParameter(
+                CAN_AMPS_CURRENT
+            ),
+            2
         );
-        String currentTime = (
-            String(Clock.hour(localTime))
-            + ":"
-            + String(Clock.minute(localTime))
-        );
-        bounds = getTextBounds(currentTime);
-        display.setCursor(
-            DISPLAY_WIDTH - bounds.w - 1,
-            DISPLAY_HEIGHT - 1
-        );
-        display.println(currentTime);
+        amps += "A";
+        display.println(amps);
     }
+
+    time_t localTime = Clock.TimeZone(
+        Clock.getTime(),
+        UTC_OFFSET
+    );
+    String currentTime = (
+        String(Clock.hour(localTime))
+        + ":"
+        + String(Clock.minute(localTime))
+    );
+    bounds = getTextBounds(currentTime);
+    display.setCursor(
+        DISPLAY_WIDTH - bounds.w - 1,
+        DISPLAY_HEIGHT - 1
+    );
+    display.println(currentTime);
 
     display.display();
 }
