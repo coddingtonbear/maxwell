@@ -81,7 +81,7 @@ Task taskCanbusStatusInterval(
     &taskCanbusStatusIntervalCallback
 );
 Task taskCanbusCurrentTimestamp(
-    CANBUS_CURRENT_ANNOUNCE_INTERVAL,
+    CANBUS_CURRENT_TIMESTAMP_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
     &taskCanbusCurrentTimestampCallback
 );
@@ -208,6 +208,7 @@ void setup() {
     taskRunner.addTask(taskCanbusLedStatusAnnounce);
     taskRunner.addTask(taskLoggerStatsInterval);
     taskRunner.addTask(taskCanbusStatusInterval);
+    taskRunner.addTask(taskCanbusCurrentTimestamp);
     taskRunner.enableAll();
 
     Output.println("Ready.");
@@ -384,7 +385,7 @@ void taskCanbusCurrentTimestampCallback() {
     CanMsg output;
     output.IDE = CAN_ID_STD;
     output.RTR = CAN_RTR_DATA;
-    output.ID = CAN_STATUS_MAIN_MC;
+    output.ID = CAN_CURRENT_TIMESTAMP;
     output.DLC = sizeof(time_t);
 
     unsigned char *outputBytes = reinterpret_cast<unsigned char *>(&currentTimestamp);
