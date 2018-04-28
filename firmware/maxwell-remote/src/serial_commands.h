@@ -41,6 +41,8 @@ void disableLowPowerMode();
 void enableAutosleep();
 void disableAutosleep();
 void debugCan();
+void getTime();
+void canSetTime();
 
 void menuUp();
 void menuDown();

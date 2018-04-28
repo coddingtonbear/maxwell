@@ -4,6 +4,8 @@
 #include "serial_commands.h"
 #include "led_cycles.h"
 #include "display.h"
+#include "status.h"
+#include "can_message_ids.h"
 
 #include "main.h"
 
@@ -16,9 +18,23 @@ MenuItem::MenuItem(String _name, MenuList* _subMenu){
     subMenu = _subMenu;
 }
 
+MenuItem::MenuItem(std::function<String()> _name_function, MenuList* _subMenu){
+    nameFunction = _name_function;
+    subMenu = _subMenu;
+}
+
 MenuItem::MenuItem(String _name, std::function<void()> _function) {
     name = _name;
     function = _function;
+}
+
+MenuItem::MenuItem(std::function<String()> _name_function, std::function<void()> _function) {
+    nameFunction = _name_function;
+    function = _function;
+}
+
+MenuItem::MenuItem(std::function<String()> _function) {
+    nameFunction = _function;
 }
 
 MenuList::MenuList(MenuItem* menuItems, uint8_t _length) {
@@ -58,6 +74,31 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
 // in which I think a non-standard indentation actually makes the code
 // easier to understand (given the hierarchical nature of the menu
 // defined below.
+
+        MenuItem statsMenuItems[] = {
+            MenuItem(
+                []() -> String {
+                    return String("Voltage: ") + String(
+                        getDoubleStatusParameter(
+                            CAN_VOLTAGE_BATTERY
+                        ),
+                        2
+                    );
+                }
+            ),
+            MenuItem(
+                []() -> String {
+                    return String("Current: ") + String(
+                        getDoubleStatusParameter(
+                            CAN_AMPS_CURRENT
+                        ),
+                        2
+                    );
+                }
+            )
+        };
+    MenuList statsMenuList(statsMenuItems, COUNT_OF(statsMenuItems));
+MenuItem statsMenu("Stats", &statsMenuList);
                 MenuItem chargingMenuOptions[] = {
                     MenuItem(
                         "Enable",
@@ -293,6 +334,7 @@ MenuItem commsMenu("Bluetooth", &commsMenuList);
 MenuItem displayMenu("Display", &displayMenuList);
 
 MenuItem mainMenuItems[] = {
+    statsMenu,
     powerMenu,
     commsMenu,
     lightingMenu,

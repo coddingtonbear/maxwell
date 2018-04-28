@@ -38,6 +38,7 @@ void setupCommands() {
     commands.addCommand("btcmd", bluetooth);
     commands.addCommand("disable_esp", disableEsp);
     commands.addCommand("enable_esp", enableEsp);
+    commands.addCommand("get_time", getTime);
 
     commands.addCommand("enable_charging", enableBatteryCharging);
     commands.addCommand("disable_charging", disableBatteryCharging);
@@ -61,6 +62,7 @@ void setupCommands() {
     canCommands.addCommand(CAN_VOLTAGE_BATTERY, receiveCanDouble);
     canCommands.addCommand(CAN_AMPS_CURRENT, receiveCanDouble);
     canCommands.addCommand(CAN_CHARGING_STATUS, receiveCanChargingStatus);
+    canCommands.addCommand(CAN_CURRENT_TIMESTAMP, canSetTime);
 }
 
 void bluetooth() {
@@ -597,4 +599,17 @@ void debugCan() {
     }
 
     enableCanDebug(enabled);
+}
+
+void getTime() {
+    Output.println(Clock.getTime());
+}
+
+void canSetTime() {
+    static uint8_t data[8];
+    canCommands.getData(data);
+
+    time_t timestamp = *(reinterpret_cast<time_t*>(data));
+
+    Clock.setTime(timestamp);
 }

@@ -102,7 +102,7 @@ void DisplayManager::in() {
     if(selectedItem.function != NULL) {
         showMenuExecNoticeUntil = millis() + MENU_EXEC_NOTICE_TIMEOUT;
         selectedItem.function();
-    } else {
+    } else if(selectedItem.subMenu != NULL) {
         menuDepth++;
     }
 }
@@ -152,6 +152,14 @@ void DisplayManager::refresh() {
     display.clearDisplay();
     display.setFont(&Roboto_Regular8pt7b);
 
+    if(millis() > statusPhaseEnds) {
+        statusPhase++;
+        statusPhaseEnds = millis() + STATUS_PHASE_DURATION;
+        if(statusPhase >= statusPhaseCount) {
+            statusPhase = 0;
+        }
+    }
+
     /* Display Menu or Speed */
     if(showMenuUntil > millis()) {
         if(sleeping) {
@@ -185,47 +193,47 @@ void DisplayManager::refresh() {
     uint32 mainMcStatus = getStatusMainMc();
     uint8_t chargingStatus = getChargingStatus();
     if(mainMcStatus == CAN_MAIN_MC_WAKE) {
-        String voltage = String(
-            getDoubleStatusParameter(
-                CAN_VOLTAGE_BATTERY
-            ),
-            2
-        );
-        voltage += "V";
-        if(chargingStatus != CHARGING_STATUS_SHUTDOWN) {
-            voltage += "*";
+        if(statusPhase == 0) {
+            String voltage = String(
+                getDoubleStatusParameter(
+                    CAN_VOLTAGE_BATTERY
+                ),
+                2
+            );
+            voltage += "V";
+            if(chargingStatus != CHARGING_STATUS_SHUTDOWN) {
+                voltage += "*";
+            }
+            if(chargingStatus == CHARGING_STATUS_FULLY_CHARGED) {
+                voltage += "**";
+            }
+            display.println(voltage);
+        } else if (statusPhase == 1) {
+            String amps = String(
+                getDoubleStatusParameter(
+                    CAN_AMPS_CURRENT
+                ),
+                2
+            );
+            amps += "A";
+            display.println(amps);
         }
-        if(chargingStatus == CHARGING_STATUS_FULLY_CHARGED) {
-            voltage += "*";
-        }
-        bounds = getTextBounds(voltage);
-        display.println(voltage);
 
-        String amps = String(
-            getDoubleStatusParameter(
-                CAN_AMPS_CURRENT
-            ),
-            2
+        time_t localTime = Clock.TimeZone(
+            Clock.getTime(),
+            UTC_OFFSET
         );
-        amps += "A";
-        bounds = getTextBounds(amps);
+        String currentTime = (
+            String(Clock.hour(localTime))
+            + ":"
+            + String(Clock.minute(localTime))
+        );
+        bounds = getTextBounds(currentTime);
         display.setCursor(
             DISPLAY_WIDTH - bounds.w - 1,
             DISPLAY_HEIGHT - 1
         );
-        display.println(amps);
-    } else {
-        switch(mainMcStatus) {
-            case CAN_MAIN_MC_SLEEP:
-                display.println("<SLEEP>");
-                break;
-            case CAN_MAIN_MC_FLASH_BEGIN:
-                display.println("<FLASH>");
-                break;
-            default:
-                display.println("");
-                break;
-        }
+        display.println(currentTime);
     }
 
     display.display();
@@ -279,14 +287,32 @@ void DisplayManager::showMenu() {
             j++;
             continue;
         }
-        if(i == menuPosition[menuDepth]) {
+        if(
+            i == menuPosition[menuDepth]
+            && (
+                currMenu->items[i].function != NULL ||
+                currMenu->items[i].subMenu != NULL
+
+            )
+        ) {
             display.print("[");
         }
-        display.print(currMenu->items[i].name);
-        if(i == menuPosition[menuDepth]) {
+        if (currMenu->items[i].nameFunction != NULL) {
+            display.print(currMenu->items[i].nameFunction());
+        } else {
+            display.print(currMenu->items[i].name);
+        }
+        if(
+            i == menuPosition[menuDepth]
+            && (
+                currMenu->items[i].function != NULL ||
+                currMenu->items[i].subMenu != NULL
+
+            )
+        ) {
             display.print("]");
         }
-        if(currMenu->items[i].function == NULL) {
+        if(currMenu->items[i].subMenu != NULL) {
             display.print(" >");
         }
         display.println();

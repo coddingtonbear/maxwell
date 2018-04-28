@@ -14,12 +14,14 @@ class MenuList;
 class MenuItem {
     public:
         MenuItem(String, MenuList*);
-       //MenuItem(String, void(*function)());
-       MenuItem(String, std::function<void()>);
+        MenuItem(std::function<String()>, MenuList*);
+        MenuItem(String, std::function<void()>);
+        MenuItem(std::function<String()>, std::function<void()>);
+        MenuItem(std::function<String()>);
 
         String name;
+        std::function<String()> nameFunction;
         MenuList* subMenu;
-        //void(*function)();
         std::function<void()> function;
 };
 

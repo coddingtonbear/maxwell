@@ -15,6 +15,8 @@
 #define FONT_WIDTH 6
 #define FONT_HEIGHT 8
 
+#define STATUS_PHASE_DURATION 3000
+
 class DisplayManager {
     public:
         DisplayManager(MenuList*);
@@ -52,6 +54,10 @@ class DisplayManager {
         void showMenu();
         void executeMenuCommand(void(*)());
         DisplayBounds getTextBounds(String);
+
+        uint8_t statusPhase = 0;
+        uint8_t statusPhaseCount = 2;
+        unsigned long statusPhaseEnds = 0;
 
         unsigned long showMenuUntil = 0;
         unsigned long showMenuExecNoticeUntil = 0;

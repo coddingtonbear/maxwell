@@ -2,6 +2,8 @@
 
 #include <RTClock.h>
 
+#define UTC_OFFSET -7
+
 #define DISPLAY_REFRESH_INTERVAL 100
 
 #define BT_ENABLE_ PB11
