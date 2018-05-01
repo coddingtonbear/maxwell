@@ -32,7 +32,6 @@ void setupCommands() {
     canCommands.addCommand(CAN_CMD_LED_INTERVAL, canSetLedInterval);
     canCommands.addCommand(CAN_CMD_LED_ENABLE, canLedEnable);
     canCommands.addCommand(CAN_CMD_LED_PRESET, canLedPreset);
-    canCommands.addCommand(CAN_CMD_LED_COLOR2, canSetLedColor2);
     commands.addCommand("bridge_uart", doBridgeUART);
     commands.addCommand("stats", printStatistics);
 
@@ -104,7 +103,10 @@ void canSetLedColor() {
     uint8_t data[8];
     canCommands.getData(data);
 
-    ledSetColor(data[0], data[1], data[2]);
+    CANLedStatusColor color = *(reinterpret_cast<CANLedStatusColor*>(data));
+
+    ledSetColor(color.red, color.green, color.blue);
+    ledSetSecondaryColor(color.red2, color.green2, color.blue2);
 }
 
 void canSetLedBrightness() {
@@ -118,7 +120,7 @@ void canSetLedInterval() {
     uint8_t data[8];
     canCommands.getData(data);
 
-    uint32 interval = reinterpret_cast<uint32>(data);
+    uint32_t interval = *(reinterpret_cast<uint32_t*>(data));
 
     ledSetInterval(interval);
 }
@@ -139,13 +141,6 @@ void canLedPreset() {
     uint8_t preset = *(reinterpret_cast<uint8_t*>(data));
 
     ledActivatePreset(preset);
-}
-
-void canSetLedColor2() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    ledSetSecondaryColor(data[0], data[1], data[2]);
 }
 
 void led() {

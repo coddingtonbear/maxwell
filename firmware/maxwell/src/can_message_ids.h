@@ -13,8 +13,8 @@
 #define CAN_VELOCITY 0x43  // double
 #define CAN_AMPS_CURRENT 0x44  // double
 #define CAN_CHARGING_STATUS 0x45  // byte
-#define CAN_LED_STATUS 0x46  // byte (enabled), byte (cycle), byte (brightness), uint32(interval)
-#define CAN_LED_STATUS_COLOR 0x47  // byte (r), byte (g), byte (b), byte (r2), byte (g2), byte (b2),
+#define CAN_LED_STATUS 0x46  // CANLedStatus
+#define CAN_LED_STATUS_COLOR 0x47  // CANLedStatusColor
 #define CAN_CURRENT_TIMESTAMP 0x48 // time_t
 #define CAN_STATUS_MAIN_MC 0x49  // CANStatusMainMC
 
@@ -34,10 +34,25 @@
 #define CAN_CMD_LED_BRIGHTNESS 0xB3  // byte
 #define CAN_CMD_LED_ENABLE 0xB5  // byte
 #define CAN_CMD_LED_PRESET 0xB6  // byte
-#define CAN_CMD_LED_COLOR2 0xB7  // byte (r), byte (g), byte (b)
 #define CAN_CMD_ESP_ENABLE 0xB4  // byte
 #define CAN_CMD_BT_ENABLE 0xB8  // byte
 #define CAN_CMD_AUTOSLEEP_ENABLE 0xB9 // byte
+
+struct CANLedStatus {
+    bool enabled:1;
+    uint8_t cycle;
+    uint8_t brightness;
+    uint32_t interval;
+};
+
+struct CANLedStatusColor {
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
+    uint8_t red2;
+    uint8_t green2;
+    uint8_t blue2;
+};
 
 struct CANStatusMainMC {
     bool is_charging:1;

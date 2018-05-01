@@ -299,32 +299,41 @@ void taskCanbusLedStatusAnnounceCallback() {
     LedStatus ledStatus;
     ledGetStatus(ledStatus);
 
+    CANLedStatus ledStatusMsg;
+    ledStatusMsg.enabled = ledStatus.enabled;
+    ledStatusMsg.cycle = ledStatus.cycle;
+    ledStatusMsg.brightness = ledStatus.brightness;
+    ledStatusMsg.interval = ledStatus.interval;
+
     CanMsg status;
     status.IDE = CAN_ID_STD;
     status.RTR = CAN_RTR_DATA;
-    status.ID = CAN_LED_STATUS_COLOR;
-    status.DLC = sizeof(byte) * 3 + sizeof(uint32);
-    status.Data[0] = ledStatus.enabled;
-    status.Data[1] = ledStatus.cycle;
-    status.Data[2] = ledStatus.brightness;
-    unsigned char *intervalBytes = reinterpret_cast<unsigned char*>(&ledStatus.interval);
-    for(uint8 i = 3; i < sizeof(double); i++) {
-        status.Data[i] = intervalBytes[i - 3];
+    status.ID = CAN_LED_STATUS;
+    status.DLC = sizeof(ledStatusMsg);
+    unsigned char *ledStatusBytes = reinterpret_cast<unsigned char*>(&ledStatusMsg);
+    for(uint8 i = 0; i < sizeof(ledStatusMsg); i++) {
+        status.Data[i] = ledStatusBytes[i];
     }
     canTx(&status);
 
-    CanMsg message;
-    message.IDE = CAN_ID_STD;
-    message.RTR = CAN_RTR_DATA;
-    message.ID = CAN_LED_STATUS_COLOR;
-    message.DLC = sizeof(byte) * 6;
-    message.Data[0] = ledStatus.red;
-    message.Data[1] = ledStatus.green;
-    message.Data[2] = ledStatus.blue;
-    message.Data[3] = ledStatus.red2;
-    message.Data[4] = ledStatus.green2;
-    message.Data[5] = ledStatus.blue2;
-    canTx(&message);
+    CANLedStatusColor ledStatusColor;
+    ledStatusColor.red = ledStatus.red;
+    ledStatusColor.green = ledStatus.green;
+    ledStatusColor.blue = ledStatus.blue;
+    ledStatusColor.red2 = ledStatus.red2;
+    ledStatusColor.green2 = ledStatus.green2;
+    ledStatusColor.blue2 = ledStatus.blue2;
+
+    CanMsg statusColor;
+    statusColor.IDE = CAN_ID_STD;
+    statusColor.RTR = CAN_RTR_DATA;
+    statusColor.ID = CAN_LED_STATUS_COLOR;
+    statusColor.DLC = sizeof(byte) * 6;
+    unsigned char *ledStatusColorBytes = reinterpret_cast<unsigned char*>(&ledStatusColor);
+    for(uint8 i = 0; i < sizeof(ledStatusColor); i++) {
+        statusColor.Data[i] = ledStatusColorBytes[i];
+    }
+    canTx(&statusColor);
 }
 
 void taskVoltageCallback() {
