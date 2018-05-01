@@ -161,6 +161,12 @@ void DisplayManager::refresh() {
     }
 
     /* Display Menu or Speed */
+    if(millis() < showMenuExecNoticeUntil) {
+        display.invertDisplay(true);
+    } else {
+        display.invertDisplay(false);
+    }
+
     if(showMenuUntil > millis()) {
         if(sleeping) {
             wake();
@@ -221,10 +227,12 @@ void DisplayManager::refresh() {
         Clock.getTime(),
         UTC_OFFSET
     );
+    char minutes[5];
+    sprintf(minutes, "%02d", Clock.minute(localTime));
     String currentTime = (
         String(Clock.hour(localTime))
         + ":"
-        + String(Clock.minute(localTime))
+        + String(minutes)
     );
     bounds = getTextBounds(currentTime);
     display.setCursor(
@@ -247,22 +255,6 @@ MenuList* DisplayManager::getCurrentMenu() {
 }
 
 void DisplayManager::showMenu() {
-    if(millis() < showMenuExecNoticeUntil) {
-        display.setFont(&Roboto_Regular30pt7b);
-        display.setCursor(0, DISPLAY_HEIGHT - 1 - 17);
-
-        String okMessage = "OK";
-
-        DisplayManager::DisplayBounds bounds;
-        bounds = getTextBounds(okMessage);
-        display.setCursor(
-            (DISPLAY_WIDTH - bounds.w - 1) / 2,
-            DISPLAY_HEIGHT - 1 - 17
-        );
-        display.println(okMessage);
-
-        return;
-    }
     display.setFont(&Roboto_Regular8pt7b);
 
     int startingIndex = menuPosition[menuDepth] - 1;

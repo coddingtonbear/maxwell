@@ -108,13 +108,13 @@ void loop() {
     buttonRightB.read();
 
     // Long-press
-    if(buttonLeftB.pressedFor(1000)) {
+    if(buttonLeftB.pressedFor(LONG_PRESS_INTERVAL)) {
         activateLightingPreset(LED_PRESET_SAFETY);
     }
-    if(buttonRightB.pressedFor(1000)) {
+    if(buttonRightB.pressedFor(LONG_PRESS_INTERVAL)) {
         sleep();
     }
-    if(buttonRightA.pressedFor(1000)) {
+    if(buttonRightA.pressedFor(LONG_PRESS_INTERVAL)) {
         lowPowerMode();
     }
 

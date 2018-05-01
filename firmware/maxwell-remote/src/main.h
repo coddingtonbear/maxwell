@@ -6,6 +6,8 @@
 
 #define DISPLAY_REFRESH_INTERVAL 100
 
+#define LONG_PRESS_INTERVAL 500
+
 #define BT_ENABLE_ PB11
 #define BT_KEY PB10
 

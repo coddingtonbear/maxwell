@@ -78,6 +78,13 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
         MenuItem statsMenuItems[] = {
             MenuItem(
                 []() -> String {
+                    return String("Uptime: ") + String(
+                        (float)millis() / 1000.0 / 60.0, 1
+                    ) + String("min");
+                }
+            ),
+            MenuItem(
+                []() -> String {
                     CANStatusMainMC status = getStatusMainMc();
                     return String("Charging: ") + String(
                         status.is_charging ? "Yes" : "No"
