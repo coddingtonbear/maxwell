@@ -89,6 +89,10 @@ void DisplayManager::down() {
 }
 
 void DisplayManager::in() {
+    if(currentAlertEnd > 0 && currentAlertEnd > millis()) {
+        currentAlertEnd = 0;
+        return;
+    }
     if(showMenuUntil < millis()) {
         menuKeepalive();
         return;
@@ -112,8 +116,6 @@ void DisplayManager::out() {
         menuKeepalive();
         return;
     }
-
-    MenuList* currentMenu = getCurrentMenu();
 
     menuKeepalive();
 
@@ -192,10 +194,24 @@ void DisplayManager::refresh() {
         );
         display.println(velocity);
     }
+    display.setFont(&Roboto_Regular8pt7b);
+
+    /* Display alert if necessary */
+    if(currentAlertEnd > 0 && currentAlertEnd > millis()) {
+        display.drawFastHLine(0, 0, 128, WHITE);
+        display.drawFastHLine(0, 47, 128, WHITE);
+        display.fillRect(0, 1, 128, 46, BLACK);
+
+        display.setCursor(0, 2 + FONT_HEIGHT);
+
+        display.setTextWrap(true);
+        display.println(currentAlert);
+        display.setTextWrap(false);
+    }
 
     /* Display Status Information */
-    display.setFont(&Roboto_Regular8pt7b);
     display.setCursor(0, DISPLAY_HEIGHT - 1);
+    display.fillRect(0, 48, 128, 16, BLACK);
     uint8_t chargingStatus = getChargingStatus();
     if(statusPhase == 0) {
         String voltage = String(
@@ -242,6 +258,15 @@ void DisplayManager::refresh() {
     display.println(currentTime);
 
     display.display();
+}
+
+void DisplayManager::addAlert(String message) {
+    message.toCharArray(currentAlert, 255);
+    redisplayAlert();
+}
+
+void DisplayManager::redisplayAlert() {
+    currentAlertEnd = millis() + ALERT_DURATION;
 }
 
 MenuList* DisplayManager::getCurrentMenu() {

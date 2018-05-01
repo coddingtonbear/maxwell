@@ -2,6 +2,7 @@
 
 #include <Arduino.h>
 #include <CANCommand.h>
+#include "can_message_ids.h"
 
 #define BT_TIMEOUT_START 60000
 #define BT_TIMEOUT_ACTIVITY 300000
@@ -32,6 +33,8 @@ void disableLighting();
 void activateLightingPreset(uint8_t);
 void setLightingCycle(uint8_t);
 void setLightingBrightness(uint8_t);
+CANLedStatusColor getLedColors();
+void setLedColor(CANLedStatusColor);
 void setLedColor(int32, int32, int32, bool primary=true);
 void enableBatteryCharging();
 void disableBatteryCharging();

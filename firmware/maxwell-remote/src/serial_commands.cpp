@@ -345,12 +345,7 @@ void receiveCanChargingStatus() {
     setChargingStatus(data[0]);
 }
 
-void setLedColor(int32 _red, int32 _green, int32 _blue, bool primary) {
-    uint8_t baseRed;
-    uint8_t baseGreen;
-    uint8_t baseBlue;
-    uint8_t cmd;
-
+CANLedStatusColor getLedColors() {
     CANLedStatusColor colors;
     colors.red = ledRed;
     colors.green = ledGreen;
@@ -358,6 +353,33 @@ void setLedColor(int32 _red, int32 _green, int32 _blue, bool primary) {
     colors.red2 = ledRed2;
     colors.green2 = ledGreen2;
     colors.blue2 = ledBlue2;
+
+    return colors;
+}
+
+void setLedColor(CANLedStatusColor colors) {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_LED_COLOR;
+    message.DLC = sizeof(colors);
+    unsigned char *colorsBytes = reinterpret_cast<byte*>(&colors);
+    for(uint8 i = 0; i < sizeof(colors); i++) {
+        message.Data[i] = colorsBytes[i];
+    }
+
+    ledRed = colors.red;
+    ledGreen = colors.green;
+    ledBlue = colors.blue;
+    ledRed2 = colors.red2;
+    ledGreen2 = colors.green2;
+    ledBlue2 = colors.blue2;
+
+    CanBus.send(&message);
+}
+
+void setLedColor(int32 _red, int32 _green, int32 _blue, bool primary) {
+    CANLedStatusColor colors = getLedColors();
 
     if(primary) {
         if(_red >= 0) {
@@ -381,17 +403,7 @@ void setLedColor(int32 _red, int32 _green, int32 _blue, bool primary) {
         }
     }
 
-    CanMsg message;
-    message.IDE = CAN_ID_STD;
-    message.RTR = CAN_RTR_DATA;
-    message.ID = CAN_CMD_LED_COLOR;
-    message.DLC = sizeof(colors);
-    unsigned char *colorsBytes = reinterpret_cast<byte*>(&colors);
-    for(uint8 i = 0; i < sizeof(colors); i++) {
-        message.Data[i] = colorsBytes[i];
-    }
-
-    CanBus.send(&message);
+    setLedColor(colors);
 }
 
 void receiveLedStatus() {

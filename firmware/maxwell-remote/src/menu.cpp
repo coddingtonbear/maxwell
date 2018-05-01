@@ -12,6 +12,8 @@
 
 #define COUNT_OF(x) ((sizeof(x)/sizeof(0[x])) / ((size_t)(!(sizeof(x) % sizeof(0[x])))))
 
+uint8_t colorStep = 5;
+
 
 MenuItem::MenuItem(String _name, MenuList* _subMenu){
     name = _name;
@@ -294,6 +296,182 @@ MenuItem powerMenu("Power", &powerMenuList);
                     )
                 };
             MenuList brightnessMenuList(brightnessOptions, COUNT_OF(brightnessOptions));
+                MenuItem color1Options[] = {
+                    MenuItem(
+                        []() -> String {
+                            return "+Step (" + String(colorStep) + ")";
+                        },
+                        []() -> void {
+                            colorStep++;
+                        }
+                    ),
+                    MenuItem(
+                        []() -> String {
+                            return "-Step";
+                        },
+                        []() -> void {
+                            colorStep--;
+                        }
+                    ),
+                    MenuItem(
+                        []() -> String {
+                            CANLedStatusColor colors = getLedColors();
+                            return "-Red (" + String(colors.red) + ")";
+                        },
+                        []() -> void {
+                            CANLedStatusColor colors = getLedColors();
+                            colors.red -= colorStep;
+
+                            setLedColor(colors);
+                        }
+                    ),
+                    MenuItem(
+                        []() -> String {
+                            return "+Red";
+                        },
+                        []() -> void {
+                            CANLedStatusColor colors = getLedColors();
+                            colors.red += colorStep;
+
+                            setLedColor(colors);
+                        }
+                    ),
+                    MenuItem(
+                        []() -> String {
+                            CANLedStatusColor colors = getLedColors();
+                            return "-Green (" + String(colors.green) + ")";
+                        },
+                        []() -> void {
+                            CANLedStatusColor colors = getLedColors();
+                            colors.green -= colorStep;
+
+                            setLedColor(colors);
+                        }
+                    ),
+                    MenuItem(
+                        []() -> String {
+                            return "+Green";
+                        },
+                        []() -> void {
+                            CANLedStatusColor colors = getLedColors();
+                            colors.green += colorStep;
+
+                            setLedColor(colors);
+                        }
+                    ),
+                    MenuItem(
+                        []() -> String {
+                            CANLedStatusColor colors = getLedColors();
+                            return "-Blue (" + String(colors.blue) + ")";
+                        },
+                        []() -> void {
+                            CANLedStatusColor colors = getLedColors();
+                            colors.blue -= colorStep;
+
+                            setLedColor(colors);
+                        }
+                    ),
+                    MenuItem(
+                        []() -> String {
+                            return "+Blue";
+                        },
+                        []() -> void {
+                            CANLedStatusColor colors = getLedColors();
+                            colors.blue += colorStep;
+
+                            setLedColor(colors);
+                        }
+                    ),
+                };
+            MenuList color1MenuList(color1Options, COUNT_OF(color1Options));
+                MenuItem color2Options[] = {
+                    MenuItem(
+                        []() -> String {
+                            return "+Step (" + String(colorStep) + ")";
+                        },
+                        []() -> void {
+                            colorStep++;
+                        }
+                    ),
+                    MenuItem(
+                        []() -> String {
+                            return "-Step";
+                        },
+                        []() -> void {
+                            colorStep--;
+                        }
+                    ),
+                    MenuItem(
+                        []() -> String {
+                            CANLedStatusColor colors = getLedColors();
+                            return "-Red (" + String(colors.red2) + ")";
+                        },
+                        []() -> void {
+                            CANLedStatusColor colors = getLedColors();
+                            colors.red2 -= colorStep;
+
+                            setLedColor(colors);
+                        }
+                    ),
+                    MenuItem(
+                        []() -> String {
+                            return "+Red";
+                        },
+                        []() -> void {
+                            CANLedStatusColor colors = getLedColors();
+                            colors.red2 += colorStep;
+
+                            setLedColor(colors);
+                        }
+                    ),
+                    MenuItem(
+                        []() -> String {
+                            CANLedStatusColor colors = getLedColors();
+                            return "-Green (" + String(colors.green2) + ")";
+                        },
+                        []() -> void {
+                            CANLedStatusColor colors = getLedColors();
+                            colors.green2 -= colorStep;
+
+                            setLedColor(colors);
+                        }
+                    ),
+                    MenuItem(
+                        []() -> String {
+                            return "+Green";
+                        },
+                        []() -> void {
+                            CANLedStatusColor colors = getLedColors();
+                            colors.green2 += colorStep;
+
+                            setLedColor(colors);
+                        }
+                    ),
+                    MenuItem(
+                        []() -> String {
+                            CANLedStatusColor colors = getLedColors();
+                            return "-Blue (" + String(colors.blue2) + ")";
+                        },
+                        []() -> void {
+                            CANLedStatusColor colors = getLedColors();
+                            colors.blue2 -= colorStep;
+
+                            setLedColor(colors);
+                        }
+                    ),
+                    MenuItem(
+                        []() -> String {
+                            return "+Blue";
+                        },
+                        []() -> void {
+                            CANLedStatusColor colors = getLedColors();
+                            colors.blue2 += colorStep;
+
+                            setLedColor(colors);
+                        }
+                    ),
+                };
+            MenuList color2MenuList(color2Options, COUNT_OF(color2Options));
         MenuItem lightingMenuItems[] = {
             MenuItem(
                 "Enable",
@@ -306,6 +484,14 @@ MenuItem powerMenu("Power", &powerMenuList);
             MenuItem(
                 "Presets",
                 &presetMenuList
+            ),
+            MenuItem(
+                "Color #1",
+                &color1MenuList
+            ),
+            MenuItem(
+                "Color #2",
+                &color2MenuList
             ),
             MenuItem(
                 "Cycles",

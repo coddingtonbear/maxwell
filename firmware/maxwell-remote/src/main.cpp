@@ -111,6 +111,9 @@ void loop() {
     if(buttonLeftB.pressedFor(LONG_PRESS_INTERVAL)) {
         activateLightingPreset(LED_PRESET_SAFETY);
     }
+    if(buttonLeftA.pressedFor(LONG_PRESS_INTERVAL)) {
+        Display.redisplayAlert();
+    }
     if(buttonRightB.pressedFor(LONG_PRESS_INTERVAL)) {
         sleep();
     }

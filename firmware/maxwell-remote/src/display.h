@@ -12,10 +12,10 @@
 #define MENU_EXEC_NOTICE_TIMEOUT 100
 #define MENU_TIMEOUT 5000
 
-#define FONT_WIDTH 6
-#define FONT_HEIGHT 8
+#define FONT_HEIGHT 14
 
 #define STATUS_PHASE_DURATION 3000
+#define ALERT_DURATION 10000;
 
 class DisplayManager {
     public:
@@ -27,6 +27,8 @@ class DisplayManager {
 
         void setContrast(uint8_t);
         void setAutosleep(bool _enabled=true);
+        void addAlert(String message);
+        void redisplayAlert();
 
         void menuKeepalive();
         void up();
@@ -43,6 +45,9 @@ class DisplayManager {
         void wake();
 
         MenuList* getCurrentMenu();
+
+        char currentAlert[255];
+        uint32_t currentAlertEnd = 0;
 
         bool enabled = true;
         bool autosleep = false;
