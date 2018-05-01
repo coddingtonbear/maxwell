@@ -351,38 +351,45 @@ void setLedColor(int32 _red, int32 _green, int32 _blue, bool primary) {
     uint8_t baseBlue;
     uint8_t cmd;
 
-    if (primary) {
-        baseRed = ledRed;
-        baseGreen = ledGreen;
-        baseBlue = ledBlue;
+    CANLedStatusColor colors;
+    colors.red = ledRed;
+    colors.green = ledGreen;
+    colors.blue = ledBlue;
+    colors.red2 = ledRed2;
+    colors.green2 = ledGreen2;
+    colors.blue2 = ledBlue2;
 
-        cmd = CAN_CMD_LED_COLOR;
+    if(primary) {
+        if(_red >= 0) {
+            colors.red = _red;
+        }
+        if(_green >= 0) {
+            colors.green = _green;
+        }
+        if(_blue >= 0) {
+            colors.blue = _blue;
+        }
     } else {
-        baseRed = ledRed2;
-        baseGreen = ledGreen2;
-        baseBlue = ledBlue2;
-
-        cmd = CAN_CMD_LED_COLOR2;
-    }
-
-    if(_red >= 0) {
-        baseRed = _red;
-    }
-    if(_green >= 0) {
-        baseGreen = _green;
-    }
-    if(_blue >= 0) {
-        baseBlue = _blue;
+        if(_red >= 0) {
+            colors.red2 = _red;
+        }
+        if(_green >= 0) {
+            colors.green2 = _green;
+        }
+        if(_blue >= 0) {
+            colors.blue2 = _blue;
+        }
     }
 
     CanMsg message;
     message.IDE = CAN_ID_STD;
     message.RTR = CAN_RTR_DATA;
-    message.ID = cmd;
-    message.DLC = sizeof(byte) * 3;
-    message.Data[0] = baseRed;
-    message.Data[1] = baseGreen;
-    message.Data[2] = baseBlue;
+    message.ID = CAN_CMD_LED_COLOR;
+    message.DLC = sizeof(colors);
+    unsigned char *colorsBytes = reinterpret_cast<byte*>(&colors);
+    for(uint8 i = 0; i < sizeof(colors); i++) {
+        message.Data[i] = colorsBytes[i];
+    }
 
     CanBus.send(&message);
 }
@@ -401,12 +408,13 @@ void receiveLedStatusColor() {
     static uint8_t data[8];
     canCommands.getData(data);
 
-    ledRed = data[0];
-    ledGreen = data[1];
-    ledBlue = data[2];
-    ledRed2 = data[3];
-    ledGreen2 = data[4];
-    ledBlue2 = data[5];
+    CANLedStatusColor colors = *(reinterpret_cast<CANLedStatusColor*>(&data));
+    ledRed = colors.red;
+    ledGreen = colors.green;
+    ledBlue = colors.blue;
+    ledRed2 = colors.red2;
+    ledGreen2 = colors.green2;
+    ledBlue2 = colors.blue2;
 }
 
 void disableEsp() {
