@@ -29,7 +29,7 @@
 #define CAN_CMD_CHARGE_ENABLE 0xAB  // byte
 
 #define CAN_CMD_LED_CYCLE 0xB0  // byte (cycle ID)
-#define CAN_CMD_LED_COLOR 0xB1  // byte (r), byte (g), byte (b)
+#define CAN_CMD_LED_COLOR 0xB1  // CANLedStatusColor
 #define CAN_CMD_LED_INTERVAL 0xB2  // uint32
 #define CAN_CMD_LED_BRIGHTNESS 0xB3  // byte
 #define CAN_CMD_LED_ENABLE 0xB5  // byte
