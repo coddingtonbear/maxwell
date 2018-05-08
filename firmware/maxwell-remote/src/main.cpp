@@ -109,16 +109,20 @@ void loop() {
 
     // Long-press
     if(buttonLeftB.pressedFor(LONG_PRESS_INTERVAL)) {
+        Display.setActionTimeout();
         activateLightingPreset(LED_PRESET_SAFETY);
     }
     if(buttonLeftA.pressedFor(LONG_PRESS_INTERVAL)) {
+        Display.setActionTimeout();
         Display.redisplayAlert();
     }
     if(buttonRightB.pressedFor(LONG_PRESS_INTERVAL)) {
+        Display.setActionTimeout();
         sleep();
     }
     if(buttonRightA.pressedFor(LONG_PRESS_INTERVAL)) {
-        lowPowerMode();
+        Display.setActionTimeout();
+        connectCamera();
     }
 
     // Normal motions

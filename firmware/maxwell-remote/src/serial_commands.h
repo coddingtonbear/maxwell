@@ -28,6 +28,8 @@ void enableLocalBluetoothUntil(uint32_t);
 void disableLocalBluetooth();
 void enableEsp();
 void disableEsp();
+void enableBle();
+void disableBle();
 void enableLighting();
 void disableLighting();
 void activateLightingPreset(uint8_t);
@@ -48,6 +50,9 @@ void debugCan();
 void getTime();
 void canSetTime();
 void canReceiveStatus();
+void connectCamera();
+void disconnectCamera();
+void deleteCameraMedia();
 
 void menuUp();
 void menuDown();

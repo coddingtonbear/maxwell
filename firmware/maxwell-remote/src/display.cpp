@@ -7,6 +7,7 @@
 #include "can_message_ids.h"
 #include "menu.h"
 #include "main.h"
+#include "icons.h"
 
 extern Adafruit_SSD1306 display(-1);
 
@@ -104,11 +105,15 @@ void DisplayManager::in() {
     menuKeepalive();
 
     if(selectedItem.function != NULL) {
-        showMenuExecNoticeUntil = millis() + MENU_EXEC_NOTICE_TIMEOUT;
+        setActionTimeout();
         selectedItem.function();
     } else if(selectedItem.subMenu != NULL) {
         menuDepth++;
     }
+}
+
+void DisplayManager::setActionTimeout() {
+    showMenuExecNoticeUntil = millis() + MENU_EXEC_NOTICE_TIMEOUT;
 }
 
 void DisplayManager::out() {
@@ -162,19 +167,62 @@ void DisplayManager::refresh() {
         }
     }
 
-    /* Display Menu or Speed */
     if(millis() < showMenuExecNoticeUntil) {
         display.invertDisplay(true);
     } else {
         display.invertDisplay(false);
     }
 
+    /* Display Menu or Speed */
     if(showMenuUntil > millis()) {
         if(sleeping) {
             wake();
         }
         showMenu();
     } else {
+        CANStatusMainMC status = getStatusMainMc();
+        if(status.is_charging && (statusPhase % 2) == 0) {
+            if(statusPhase % 2 == 0) {
+                display.drawBitmap(
+                    0, 0,
+                    batteryFull,
+                    ICON_WIDTH, ICON_HEIGHT,
+                    WHITE
+                );
+            } else {
+                display.drawBitmap(
+                    0, 0,
+                    batteryHalf,
+                    ICON_WIDTH, ICON_HEIGHT,
+                    WHITE
+                );
+            }
+        }
+        if(status.recording_now) {
+            display.drawBitmap(
+                DISPLAY_WIDTH - ICON_WIDTH - 1, 0,
+                video,
+                ICON_WIDTH, ICON_HEIGHT,
+                WHITE
+            );
+        } else if(status.camera_connected) {
+            display.drawBitmap(
+                DISPLAY_WIDTH - ICON_WIDTH - 1, 0,
+                wifi,
+                ICON_WIDTH, ICON_HEIGHT,
+                WHITE
+            );
+        } else if(status.wifi_enabled) {
+            if(statusPhase % 2 == 0) {
+                display.drawBitmap(
+                    DISPLAY_WIDTH - ICON_WIDTH - 1, 0,
+                    wifi,
+                    ICON_WIDTH, ICON_HEIGHT,
+                    WHITE
+                );
+            }
+        }
+
         if(autosleep && !sleeping) {
             sleep();
         }
@@ -212,8 +260,7 @@ void DisplayManager::refresh() {
     /* Display Status Information */
     display.setCursor(0, DISPLAY_HEIGHT - 1);
     display.fillRect(0, 48, 128, 16, BLACK);
-    uint8_t chargingStatus = getChargingStatus();
-    if(statusPhase == 0) {
+    if(statusPhase < (statusPhaseCount / 2)) {
         String voltage = String(
             getDoubleStatusParameter(
                 CAN_VOLTAGE_BATTERY
@@ -221,14 +268,8 @@ void DisplayManager::refresh() {
             2
         );
         voltage += "V";
-        if(chargingStatus != CHARGING_STATUS_SHUTDOWN) {
-            voltage += "*";
-        }
-        if(chargingStatus == CHARGING_STATUS_FULLY_CHARGED) {
-            voltage += "**";
-        }
         display.println(voltage);
-    } else if (statusPhase == 1) {
+    } else {
         String amps = String(
             getDoubleStatusParameter(
                 CAN_AMPS_CURRENT

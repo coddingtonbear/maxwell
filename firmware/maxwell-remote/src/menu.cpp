@@ -104,6 +104,14 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
             MenuItem(
                 []() -> String {
                     CANStatusMainMC status = getStatusMainMc();
+                    return String("Main ESP: ") + String(
+                        status.esp_enabled ? "Yes" : "No"
+                    );
+                }
+            ),
+            MenuItem(
+                []() -> String {
+                    CANStatusMainMC status = getStatusMainMc();
                     return String("Main BT: ") + String(
                         status.bt_enabled ? "Yes" : "No"
                     );
@@ -122,6 +130,30 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
                     CANStatusMainMC status = getStatusMainMc();
                     return String("Charge En: ") + String(
                         status.charging_enabled ? "Yes" : "No"
+                    );
+                }
+            ),
+            MenuItem(
+                []() -> String {
+                    CANStatusMainMC status = getStatusMainMc();
+                    return String("Wifi En: ") + String(
+                        status.wifi_enabled ? "Yes" : "No"
+                    );
+                }
+            ),
+            MenuItem(
+                []() -> String {
+                    CANStatusMainMC status = getStatusMainMc();
+                    return String("Cam Cnctd: ") + String(
+                        status.camera_connected ? "Yes" : "No"
+                    );
+                }
+            ),
+            MenuItem(
+                []() -> String {
+                    CANStatusMainMC status = getStatusMainMc();
+                    return String("Recording: ") + String(
+                        status.recording_now ? "Yes" : "No"
                     );
                 }
             ),
@@ -505,6 +537,35 @@ MenuItem powerMenu("Power", &powerMenuList);
     MenuList lightingMenuList(lightingMenuItems, COUNT_OF(lightingMenuItems));
 MenuItem lightingMenu("Lighting", &lightingMenuList);
 
+                MenuItem cameraConnectionItems[] = {
+                    MenuItem(
+                        "Connect",
+                        connectCamera
+                    ),
+                    MenuItem(
+                        "Disconnect",
+                        disconnectCamera
+                    )
+                };
+            MenuList cameraConnectionList(cameraConnectionItems, COUNT_OF(cameraConnectionItems));
+        MenuItem cameraMenuItems[] = {
+            MenuItem(
+                []() -> String {
+                    CANStatusMainMC status = getStatusMainMc();
+                    return String("Connected: ") + String(
+                        status.camera_connected ? "Yes" : "No"
+                    );
+                },
+                &cameraConnectionList
+            ),
+            MenuItem(
+                "Delete Media",
+                deleteCameraMedia
+            )
+        };
+    MenuList cameraMenuList(cameraMenuItems, COUNT_OF(cameraMenuItems));
+MenuItem cameraMenu("Camera", &cameraMenuList);
+
                 MenuItem localBluetoothMenuItems[] = {
                     MenuItem(
                         "Disable",
@@ -532,11 +593,11 @@ MenuItem lightingMenu("Lighting", &lightingMenuList);
                 MenuItem espMenuItems[] = {
                     MenuItem(
                         "Disable",
-                        disableEsp
+                        disableBle
                     ),
                     MenuItem(
                         "Enable",
-                        enableEsp
+                        enableBle
                     )
                 };
             MenuList espMenuList(espMenuItems, COUNT_OF(espMenuItems));
@@ -586,6 +647,7 @@ MenuItem mainMenuItems[] = {
     statsMenu,
     powerMenu,
     commsMenu,
+    cameraMenu,
     lightingMenu,
     displayMenu
 };

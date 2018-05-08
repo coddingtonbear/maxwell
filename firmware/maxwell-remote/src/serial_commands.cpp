@@ -461,6 +461,80 @@ void enableEsp() {
     CanBus.send(&message);
 }
 
+void disableBle() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_BLE_ENABLE;
+    message.DLC = sizeof(uint8_t);
+
+    uint8_t enabled = 0;
+    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
+    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
+        message.Data[i] = enabledBytes[i];
+    }
+
+    CanBus.send(&message);
+}
+
+void enableBle() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_BLE_ENABLE;
+    message.DLC = sizeof(uint8_t);
+
+    uint8_t enabled = 1;
+    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
+    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
+        message.Data[i] = enabledBytes[i];
+    }
+
+    CanBus.send(&message);
+}
+
+void connectCamera() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_CONNECT_CAMERA;
+    message.DLC = sizeof(uint8_t);
+
+    uint8_t enabled = 1;
+    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
+    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
+        message.Data[i] = enabledBytes[i];
+    }
+
+    CanBus.send(&message);
+}
+
+void disconnectCamera() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_CONNECT_CAMERA;
+    message.DLC = sizeof(uint8_t);
+
+    uint8_t enabled = 0;
+    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
+    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
+        message.Data[i] = enabledBytes[i];
+    }
+
+    CanBus.send(&message);
+}
+
+void deleteCameraMedia() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_DELETE_CAMERA_MEDIA;
+    message.DLC = 0;
+
+    CanBus.send(&message);
+}
+
 void menuUp() {
     Display.up();
 }

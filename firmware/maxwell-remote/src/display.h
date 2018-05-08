@@ -6,6 +6,9 @@
 #define DISPLAY_ADDRESS 0x3C
 #define DISPLAY_ON_ PB4
 
+#define ICON_HEIGHT 16
+#define ICON_WIDTH 16
+
 #define DISPLAY_WIDTH 128
 #define DISPLAY_HEIGHT 64
 
@@ -14,7 +17,7 @@
 
 #define FONT_HEIGHT 14
 
-#define STATUS_PHASE_DURATION 3000
+#define STATUS_PHASE_DURATION 600
 #define ALERT_DURATION 10000;
 
 class DisplayManager {
@@ -35,6 +38,8 @@ class DisplayManager {
         void down();
         void in();
         void out();
+
+        void setActionTimeout();
 
     protected:
         struct DisplayBounds {
@@ -61,7 +66,7 @@ class DisplayManager {
         DisplayBounds getTextBounds(String);
 
         uint8_t statusPhase = 0;
-        uint8_t statusPhaseCount = 2;
+        uint8_t statusPhaseCount = 10;
         unsigned long statusPhaseEnds = 0;
 
         unsigned long showMenuUntil = 0;
