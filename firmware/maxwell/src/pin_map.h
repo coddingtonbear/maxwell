@@ -35,6 +35,6 @@
 
 #define BTSerial Serial
 #define ESPSerial Serial1
-#define GPSSerial Serial2
+#define ESPCtrlSerial Serial2
 #define UART4 Serial3
 #define UART5 Serial4

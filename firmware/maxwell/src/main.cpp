@@ -7,6 +7,7 @@
 #include <libmaple/iwdg.h>
 #include <SdFat.h>
 #include <SPI.h>
+#include <ArduinoJson.h>
 
 #include "multiserial.h"
 #include "can_message_ids.h"
@@ -29,9 +30,14 @@ uint32 lastStatisticsUpdate = 0;
 uint32 lastKeepalive = 0;
 uint32 lastBluetoothKeepalive = 0;
 bool bluetoothEnabled = true;
-bool bleEnabled = false;
+bool espEnabled = false;
 
 bool autosleepEnabled = true;
+
+char espStatusLine[4096];
+uint16_t espStatusLinePos = 0;
+
+ESPStatus espStatus;
 
 Task taskChirp(CHIRP_INTERVAL, TASK_FOREVER, &taskChirpCallback);
 Task taskVoltage(VOLTAGE_UPDATE_INTERVAL, TASK_FOREVER, &taskVoltageCallback);
@@ -108,6 +114,7 @@ void setup() {
     Output.begin(230400, SERIAL_8E1);
     Output.println("[Maxwell 2.0]");
     Output.flush();
+
 
     if(Clock.getTime() < 100000) {
         restoreBackupTime();
@@ -274,7 +281,7 @@ HardwareSerial* uartNumberToInterface(uint32_t uartNumber) {
     } else if (uartNumber == 2) {
         uart = &ESPSerial;
     } else if (uartNumber == 3) {
-        uart = &GPSSerial;
+        uart = &ESPCtrlSerial;
     } else if (uartNumber == 4) {
         uart = &UART4;
     } else if (uartNumber == 5) {
@@ -369,10 +376,21 @@ void taskCanbusStatusIntervalCallback() {
     status.is_charging = getChargingStatus() == CHARGING_STATUS_CHARGING_NOW;
     status.lighting_enabled = ledStatus.enabled;
     status.charging_enabled = batteryChargingIsEnabled();
-    status.ble_enabled = bleEnabled;
+    status.esp_enabled = espEnabled;
     status.bt_enabled = bluetoothEnabled;
     status.has_valid_time = (Clock.getTime() > 1000000000);
     status.logging_now = !logErrorCode;
+    if(espStatus.lastUpdated && (millis() - espStatus.lastUpdated < 15000)) {
+        status.wifi_enabled = espStatus.wifiEnabled;
+        status.ble_enabled = espStatus.bleEnabled;
+        status.camera_connected = espStatus.cameraConnected;
+        status.recording_now = espStatus.recordingNow;
+    } else {
+        status.wifi_enabled = false;
+        status.ble_enabled = false;
+        status.camera_connected = false;
+        status.recording_now = false;
+    }
 
     CanMsg output;
     output.IDE = CAN_ID_STD;
@@ -491,11 +509,11 @@ void loop() {
     iwdg_feed();
 
     // If we're past the keepalive duration; go to sleep
-    if(millis() > lastKeepalive + INACTIVITY_SLEEP_DURATION && autosleepEnabled) {
+    if((millis() > (lastKeepalive + INACTIVITY_SLEEP_DURATION)) && autosleepEnabled) {
         sleep();
     }
     // If we're past the keepalive for bluetooth, deactivate bluetooth, too.
-    if(millis() > lastBluetoothKeepalive + BLUETOOTH_TIMEOUT) {
+    if((millis() > (lastBluetoothKeepalive + BLUETOOTH_TIMEOUT)) && autosleepEnabled) {
         enableBluetooth(false);
     }
     // If there are bytes on the serial buffer; keep the device alive
@@ -540,12 +558,48 @@ void loop() {
             CanBus.free();
         }
     }
+
+    handleEspStatus();
+}
+
+void sendEspCommand(String command) {
+    ESPCtrlSerial.println(command);
+}
+
+void handleEspStatus() {
+    while(ESPCtrlSerial.available()) {
+        char received = ESPCtrlSerial.read();
+        espStatusLine[espStatusLinePos] = received;
+        espStatusLine[espStatusLinePos + 1] = '\0';
+        espStatusLinePos++;
+
+        if(received == '\n') {
+            DynamicJsonBuffer statusBuffer(4096);
+            JsonObject& object = statusBuffer.parseObject(espStatusLine);
+            if(object.success()) {
+                espStatus.lastUpdated = millis();
+                espStatus.bleEnabled = object["bleEnabled"];
+                espStatus.cameraConnected = object["cameraConnected"];
+                espStatus.cameraStatusValid = (
+                    (object["cameraStatus"]["last_updated"].as<int32_t>() - object["uptime"].as<int32_t>()) < 15000
+                    && (object["cameraStatus"]["last_updated"].as<int32_t>() - object["uptime"].as<int32_t>()) > 0
+                );
+                espStatus.recordingNow = object["cameraStatus"]["recordingNow"];
+                espStatus.batteryLevel = object["cameraStatus"]["batteryLevel"].as<int32_t>();
+                espStatus.bytesAvailable = object["cameraStatus"]["bytesAvailable"].as<int32_t>();
+                espStatus.wifiEnabled = object["wifiStatus"].as<int32_t>() != 255;
+            }
+
+            espStatusLinePos = 0;
+            espStatusLine[0] = '\0';
+        }
+    }
 }
 
 void enableEsp(bool enabled) {
     Log.log("ESP32 enabled: " + String(enabled));
     if(enabled) {
-        bleEnabled = true;
+        espEnabled = true;
         digitalWrite(PIN_ESP_BOOT_FLASH_, HIGH);
         digitalWrite(PIN_DISABLE_ESP_, LOW);
         delay(500);
@@ -555,9 +609,20 @@ void enableEsp(bool enabled) {
             ESPSerial.read();
         }
     } else {
-        bleEnabled = false;
+        espEnabled = false;
+        espStatus.cameraConnected = false;
+        espStatus.wifiEnabled = false;
+        espStatus.bleEnabled = false;
+        espStatus.recordingNow = false;
+        espStatus.cameraStatusValid = false;
+        espStatus.batteryLevel = false;
+        espStatus.bytesAvailable = false;
         digitalWrite(PIN_DISABLE_ESP_, LOW);
     }
+}
+
+bool espIsEnabled() {
+    return espEnabled;
 }
 
 void sleep(bool allowMovementWake) {

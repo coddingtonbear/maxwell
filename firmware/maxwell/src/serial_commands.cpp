@@ -5,7 +5,6 @@
 #include <SdFat.h>
 
 #include "can.h"
-#include "gps.h"
 #include "main.h"
 #include "serial_commands.h"
 #include "can_message_ids.h"
@@ -52,13 +51,20 @@ void setupCommands() {
     commands.addCommand("flash_esp", flashEsp32);
     commands.addCommand("enable_esp", enableEsp32);
     commands.addCommand("disable_esp", disableEsp32);
+    commands.addCommand("send_esp_command", sendEspCommand);
     canCommands.addCommand(CAN_CMD_ESP_ENABLE, canEnableEsp);
     canCommands.addCommand(CAN_CMD_BT_ENABLE, canEnableBluetooth);
     canCommands.addCommand(CAN_CMD_AUTOSLEEP_ENABLE, canAutosleepEnable);
+    commands.addCommand("enable_autosleep", cmdEnableAutosleep);
+    commands.addCommand("disable_autosleep", cmdEnableAutosleep);
     commands.addCommand("disable_bluetooth", cmdDisableBluetooth);
     commands.addCommand("enable_bluetooth", cmdEnableBluetooth);
-
-    commands.addCommand("coordinates", coordinates);
+    commands.addCommand("enable_ble", enableBle);
+    commands.addCommand("disable_ble", disableBle);
+    canCommands.addCommand(CAN_CMD_BLE_ENABLE, canEnableBle);
+    canCommands.addCommand(CAN_CMD_CONNECT_CAMERA, canConnectCamera);
+    canCommands.addCommand(CAN_CMD_DELETE_CAMERA_MEDIA, canDeleteCameraMedia);
+    commands.addCommand("esp_status", printEspStatus);
 
     commands.addCommand("debug_can", debug_can);
     commands.addCommand("send_can", send_can);
@@ -488,6 +494,7 @@ void flashEsp32() {
     BTSerial.println("Ready to flash ESP32 via UART5 (115200); press ENTER to finish.");
 
     while(true) {
+        iwdg_feed();
         if(BTSerial.read() == '\n') {
             break;
         }
@@ -512,29 +519,42 @@ void flashEsp32() {
     Output.println("Finished.");
 }
 
+void enableBle() {
+    enableEsp(true);
+    delay(250);
+    sendEspCommand("enable_ble");
+}
+
+void disableBle() {
+    disableEsp32();
+}
+
+void canEnableBle() {
+    uint8_t data[8];
+    canCommands.getData(data);
+
+    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
+    if(enabled) {
+        enableBle();
+    } else {
+        disableBle();
+    }
+}
+
 void enableEsp32() {
+    ESPCtrlSerial.begin(9600);
     enableEsp(true);
     Output.println("ESP32 Enabled.");
 }
 
 void disableEsp32() {
+    ESPCtrlSerial.end();
     enableEsp(false);
     Output.println("ESP32 Disabled.");
 }
 
 void doSleep() {
     sleep();
-}
-
-void coordinates() {
-    gps_fix fix = gps.read();
-
-    Output.print(fix.latitude(), 6);
-    Output.print(", ");
-    Output.print(fix.longitude(), 6);
-    Output.print("; Altitude: ");
-    Output.print(fix.altitude(), 6);
-    Output.println();
 }
 
 void doBridgeUART() {
@@ -614,6 +634,14 @@ void canAutosleepEnable() {
     uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
 
     enableAutosleep(enabled);
+}
+
+void cmdEnableAutosleep() {
+    enableAutosleep(true);
+}
+
+void cmdDisableAutosleep() {
+    enableAutosleep(false);
 }
 
 void logStatus() {
@@ -812,4 +840,64 @@ void getTime() {
 
     Output.print("Current time: ");
     Output.println(String((uint32)time));
+}
+
+void sendEspCommand() {
+    char* command = commands.next();
+
+    sendEspCommand(command);
+}
+
+void canConnectCamera() {
+    uint8_t data[8];
+    canCommands.getData(data);
+
+    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
+    if(enabled) {
+        enableEsp32();
+        delay(250);
+        sendEspCommand("connect_camera");
+    } else {
+        disableEsp32();
+    }
+}
+
+void canDeleteCameraMedia() {
+    sendEspCommand("delete_gopro_media");
+}
+
+void printEspStatus() {
+    Output.print("ESP Module: ");
+    if(espIsEnabled()) {
+        Output.println("enabled");
+    } else {
+        Output.println("disabled");
+    }
+    Output.print("Camera: ");
+    if(espStatus.cameraConnected) {
+        Output.println("connected");
+    } else {
+        Output.println("not connected");
+    }
+    Output.print("BLE: ");
+    if(espStatus.bleEnabled) {
+        Output.println("enabled");
+    } else {
+        Output.println("not enabled");
+    }
+    Output.print("Recording: ");
+    if(espStatus.recordingNow) {
+        Output.println("yes");
+    } else {
+        Output.println("no");
+    }
+    Output.print("Battery Level: ");
+    Output.println(espStatus.batteryLevel);
+    Output.print("Bytes Available: ");
+    Output.println(espStatus.bytesAvailable);
+    if(espStatus.lastUpdated) {
+        Output.print("Last Updated ");
+        Output.print((millis() - espStatus.lastUpdated) / 1000);
+        Output.println(" seconds ago");
+    }
 }

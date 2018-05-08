@@ -47,13 +47,16 @@
 void setup();
 void loop();
 
+void handleEspStatus();
 void handleCounter();
+void sendEspCommand(String);
 
 String sendBluetoothCommand(String);
 void enableEsp(bool);
 void enableBluetooth(bool);
 void enableBatteryPower(bool);
 void enableAutosleep(bool);
+bool espIsEnabled();
 
 void enableCanDebug(bool);
 void renewKeepalive();
@@ -84,8 +87,22 @@ void taskCanbusStatusIntervalCallback();
 void taskLoggerStatsIntervalCallback();
 void taskCanbusCurrentTimestampCallback();
 
+struct ESPStatus {
+    uint32_t lastUpdated;
+    bool cameraConnected;
+
+    bool wifiEnabled;
+    bool bleEnabled;
+    bool recordingNow;
+
+    bool cameraStatusValid;
+    uint32_t batteryLevel;
+    uint32_t bytesAvailable;
+};
+
 extern MultiSerial Output;
 extern HashMap<String, double> Statistics;
 extern RTClock Clock;
 extern Logger Log;
 extern SdFat filesystem;
+extern ESPStatus espStatus;

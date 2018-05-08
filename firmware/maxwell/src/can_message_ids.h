@@ -37,6 +37,9 @@
 #define CAN_CMD_ESP_ENABLE 0xB4  // byte
 #define CAN_CMD_BT_ENABLE 0xB8  // byte
 #define CAN_CMD_AUTOSLEEP_ENABLE 0xB9 // byte
+#define CAN_CMD_BLE_ENABLE 0xBA  // byte
+#define CAN_CMD_CONNECT_CAMERA 0xBB  // byte
+#define CAN_CMD_DELETE_CAMERA_MEDIA 0xBC // --
 
 struct CANLedStatus {
     bool enabled:1;
@@ -59,9 +62,14 @@ struct CANStatusMainMC {
 
     bool lighting_enabled:1;
     bool charging_enabled:1;
+    bool esp_enabled:1;
     bool bt_enabled:1;
     bool ble_enabled:1;
+    bool wifi_enabled:1;
 
     bool has_valid_time:1;
     bool logging_now:1;
+
+    bool camera_connected:1;
+    bool recording_now:1;
 };
