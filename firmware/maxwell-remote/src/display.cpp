@@ -180,8 +180,8 @@ void DisplayManager::refresh() {
         }
         showMenu();
     } else {
-        CANStatusMainMC status = getStatusMainMc();
-        if(status.is_charging && (statusPhase % 2) == 0) {
+        uint8_t chargingStatus = getChargingStatus();
+        if((chargingStatus == CHARGING_STATUS_CHARGING_NOW) && ((statusPhase % 2) == 0)) {
             if(statusPhase % 2 == 0) {
                 display.drawBitmap(
                     0, 0,
@@ -197,7 +197,16 @@ void DisplayManager::refresh() {
                     WHITE
                 );
             }
+        } else if(chargingStatus == CHARGING_STATUS_FULLY_CHARGED) {
+            display.drawBitmap(
+                0, 0,
+                batteryFull,
+                ICON_WIDTH, ICON_HEIGHT,
+                WHITE
+            );
         }
+
+        CANStatusMainMC status = getStatusMainMc();
         if(status.recording_now) {
             display.drawBitmap(
                 DISPLAY_WIDTH - ICON_WIDTH - 1, 0,
