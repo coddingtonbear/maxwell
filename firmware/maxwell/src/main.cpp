@@ -559,7 +559,9 @@ void loop() {
         }
     }
 
-    handleEspStatus();
+    // Temporarily omitted to see if this is the source of existing
+    // reboot-related problems.
+    //handleEspStatus();
 }
 
 void sendEspCommand(String command) {
