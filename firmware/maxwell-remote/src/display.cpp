@@ -1,6 +1,6 @@
 #include <Adafruit_SSD1306.h>
 #include <Roboto_Regular8pt7b.h>
-#include <Roboto_Regular30pt7b.h>
+#include <Roboto_Regular24pt7b.h>
 
 #include "display.h"
 #include "status.h"
@@ -181,7 +181,7 @@ void DisplayManager::refresh() {
         showMenu();
     } else {
         uint8_t chargingStatus = getChargingStatus();
-        if((chargingStatus == CHARGING_STATUS_CHARGING_NOW) && ((statusPhase % 2) == 0)) {
+        if(chargingStatus == CHARGING_STATUS_CHARGING_NOW) {
             if(statusPhase % 2 == 0) {
                 display.drawBitmap(
                     0, 0,
@@ -242,7 +242,7 @@ void DisplayManager::refresh() {
             1
         );
 
-        display.setFont(&Roboto_Regular30pt7b);
+        display.setFont(&Roboto_Regular24pt7b);
         display.setCursor(0, DISPLAY_HEIGHT - 1 - 17);
         bounds = getTextBounds(velocity);
         display.setCursor(
