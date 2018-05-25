@@ -664,10 +664,13 @@ void sleep(bool allowMovementWake) {
     // Disable neopixel battery drain
     pinMode(PIN_ENABLE_BATT_POWER, OUTPUT);
     digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
+    // Enable battery charging
+    pinMode(PIN_ENABLE_BATT_CHARGE_, OUTPUT);
+    digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
     // Configure wake conditions
     pinMode(PIN_I_POWER_ON, INPUT_PULLDOWN);
     attachInterrupt(PIN_I_POWER_ON, nvic_sys_reset, RISING);
-    if (allowMovementWake) {
+    if (allowMovementWake && MOVEMENT_WAKE_ENABLED) {
         pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
         attachInterrupt(PIN_I_SPEED, nvic_sys_reset, RISING);
     }

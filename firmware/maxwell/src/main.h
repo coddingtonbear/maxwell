@@ -44,6 +44,8 @@
 #define BLUETOOTH_TIMEOUT 120000
 #define INACTIVITY_SLEEP_DURATION 300000
 
+#define MOVEMENT_WAKE_ENABLED false
+
 void setup();
 void loop();
 
