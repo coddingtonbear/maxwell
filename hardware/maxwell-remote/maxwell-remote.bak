@@ -47,7 +47,7 @@ F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/da
 	1    4600 4700
 	1    0    0    -1  
 $EndComp
-Text GLabel 7500 5800 2    60   Output ~ 0
+Text GLabel 7500 4800 2    60   Output ~ 0
 DISBABLE_BLUETOOTH_
 Text GLabel 7850 1400 0    60   Input ~ 0
 CAN_TX
@@ -546,15 +546,15 @@ Wire Wire Line
 $Comp
 L device:R R7
 U 1 1 5AAEE024
-P 8950 4950
-F 0 "R7" H 8880 4904 50  0000 R CNN
-F 1 "330" H 8880 4995 50  0000 R CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 8880 4950 50  0001 C CNN
-F 3 "" H 8950 4950 50  0001 C CNN
-	1    8950 4950
+P 11100 4900
+F 0 "R7" H 11030 4854 50  0000 R CNN
+F 1 "330" H 11030 4945 50  0000 R CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 11030 4900 50  0001 C CNN
+F 3 "" H 11100 4900 50  0001 C CNN
+	1    11100 4900
 	0    -1   -1   0   
 $EndComp
-Text GLabel 8800 4950 0    60   BiDi ~ 0
+Text GLabel 11250 4900 2    60   BiDi ~ 0
 BOOT0
 $Comp
 L power:GND #PWR023
@@ -715,7 +715,7 @@ Text GLabel 10400 5600 3    60   Output ~ 0
 MC_IN
 Text GLabel 1650 3300 1    60   Input ~ 0
 NRST
-Text GLabel 9100 5050 0    60   Output ~ 0
+Text GLabel 9100 4450 0    60   Output ~ 0
 NRST
 NoConn ~ 9800 5600
 NoConn ~ 9900 5600
@@ -723,14 +723,14 @@ NoConn ~ 10000 5600
 NoConn ~ 10100 5600
 NoConn ~ 10200 5600
 NoConn ~ 10300 5600
-Text GLabel 9700 5600 3    60   Input ~ 0
+Text GLabel 9100 4350 0    60   Input ~ 0
 BT_KEY
-Text GLabel 7500 5700 2    60   Output ~ 0
+Text GLabel 7500 4700 2    60   Output ~ 0
 BT_KEY
 NoConn ~ 9100 5150
 Text GLabel 10950 5000 2    60   Input ~ 0
 ESP_BOOT_MODE
-Text GLabel 7500 4900 2    60   Output ~ 0
+Text GLabel 1700 4200 0    60   Output ~ 0
 ESP_BOOT_MODE
 $Comp
 L Connector:Conn_01x02 J9
@@ -789,13 +789,13 @@ F 3 "" H 7850 1200 50  0001 C CNN
 	1    7850 1200
 	-1   0    0    1   
 $EndComp
-Text GLabel 7500 5400 2    60   Output ~ 0
+Text GLabel 1700 5800 0    60   Output ~ 0
 ~ENABLE_SCREEN
 Text GLabel 9950 1200 0    60   Input ~ 0
 ~ENABLE_SCREEN
 Text GLabel 9950 1500 0    60   Input ~ 0
 ~SCREEN_CS
-Text GLabel 1700 5900 0    60   Output ~ 0
+Text GLabel 1700 6100 0    60   Output ~ 0
 ~SCREEN_CS
 Text GLabel 9950 1400 0    60   Input ~ 0
 ~SCREEN_RST
@@ -803,8 +803,8 @@ Text GLabel 1700 6000 0    60   Output ~ 0
 ~SCREEN_RST
 Text GLabel 9950 1300 0    60   Input ~ 0
 SCREEN_A0
-Text GLabel 1700 6100 0    60   Output ~ 0
-SCREEN_AO
+Text GLabel 1700 5900 0    60   Output ~ 0
+SCREEN_A0
 Text GLabel 1700 4900 0    50   Output ~ 0
 SPI1_SCK
 Text GLabel 7850 2000 0    50   Input ~ 0
@@ -855,7 +855,7 @@ Text GLabel 1700 5300 0    50   Output ~ 0
 ~SPI1_CS_2
 Text GLabel 1700 5200 0    50   Output ~ 0
 ~SPI1_CS_3
-Text GLabel 1700 5800 0    50   Output ~ 0
+Text GLabel 7500 5400 2    50   Output ~ 0
 ~SPI1_CS_4
 Text GLabel 7850 1600 0    50   Input ~ 0
 ~SPI1_CS_2
