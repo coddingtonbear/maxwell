@@ -788,7 +788,7 @@ $EndComp
 Text GLabel 1700 5800 0    60   Output ~ 0
 ~ENABLE_SCREEN
 Text GLabel 9950 1200 0    60   Input ~ 0
-~ENABLE_SCREEN
+~SPI_CS_5
 Text GLabel 9950 1500 0    60   Input ~ 0
 ~SCREEN_CS
 Text GLabel 1700 6100 0    60   Output ~ 0

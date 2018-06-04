@@ -6,7 +6,7 @@
     (tracks 478)
     (zones 0)
     (modules 28)
-    (nets 74)
+    (nets 75)
   )
 
   (page A4)
@@ -163,6 +163,7 @@
   (net 71 "Net-(U1-Pad32)")
   (net 72 "Net-(R7-Pad1)")
   (net 73 "Net-(U2-Pad12)")
+  (net 74 ~SPI_CS_5)
 
   (net_class Default "This is the default net class."
     (clearance 0.195)
@@ -244,6 +245,7 @@
     (add_net ~SPI1_CS_2)
     (add_net ~SPI1_CS_3)
     (add_net ~SPI1_CS_4)
+    (add_net ~SPI_CS_5)
   )
 
   (module coddingtonbear/coddingtonbear.pretty:10P_FPC_1.0mm (layer F.Cu) (tedit 5B09D6D5) (tstamp 5B3C6DD3)
@@ -313,7 +315,7 @@
     (pad 2 smd rect (at 3.5 0 90) (size 0.8 2.5) (layers F.Cu F.Paste F.Mask)
       (net 64 SCREEN_A0))
     (pad 1 smd rect (at 4.5 0 90) (size 0.8 2.5) (layers F.Cu F.Paste F.Mask)
-      (net 19 ~ENABLE_SCREEN))
+      (net 74 ~SPI_CS_5))
   )
 
   (module NorbotNorway/NorBotKiCadFootprints.pretty:ESP32-WROOM (layer F.Cu) (tedit 57D08EA8) (tstamp 5B239E45)

@@ -728,10 +728,6 @@ BT_KEY
 Text GLabel 7500 4700 2    60   Output ~ 0
 BT_KEY
 NoConn ~ 9100 5150
-Text GLabel 10950 5000 2    60   Input ~ 0
-ESP_BOOT_MODE
-Text GLabel 1700 4200 0    60   Output ~ 0
-ESP_BOOT_MODE
 $Comp
 L Connector:Conn_01x02 J9
 U 1 1 5AE04FD4
