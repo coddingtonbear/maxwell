@@ -686,4 +686,8 @@ Wire Wire Line
 	8350 4600 8250 4600
 Wire Wire Line
 	8250 4600 8250 4550
+Text GLabel 1750 2100 2    50   BiDi ~ 0
+CAN-
+Text GLabel 1700 2100 0    50   BiDi ~ 0
+CAN+
 $EndSCHEMATC

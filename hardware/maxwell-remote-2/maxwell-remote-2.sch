@@ -39,60 +39,60 @@ $EndComp
 $Comp
 L power:GND #PWR0101
 U 1 1 5B146099
-P 10050 1050
-F 0 "#PWR0101" H 10050 800 50  0001 C CNN
-F 1 "GND" V 10055 922 50  0000 R CNN
-F 2 "" H 10050 1050 50  0001 C CNN
-F 3 "" H 10050 1050 50  0001 C CNN
-	1    10050 1050
+P 10050 1950
+F 0 "#PWR0101" H 10050 1700 50  0001 C CNN
+F 1 "GND" V 10055 1822 50  0000 R CNN
+F 2 "" H 10050 1950 50  0001 C CNN
+F 3 "" H 10050 1950 50  0001 C CNN
+	1    10050 1950
 	0    1    1    0   
 $EndComp
 $Comp
 L power:+3V3 #PWR0102
 U 1 1 5B14611E
-P 10050 1150
-F 0 "#PWR0102" H 10050 1000 50  0001 C CNN
-F 1 "+3V3" V 10065 1278 50  0000 L CNN
-F 2 "" H 10050 1150 50  0001 C CNN
-F 3 "" H 10050 1150 50  0001 C CNN
-	1    10050 1150
+P 10050 1850
+F 0 "#PWR0102" H 10050 1700 50  0001 C CNN
+F 1 "+3V3" V 10065 1978 50  0000 L CNN
+F 2 "" H 10050 1850 50  0001 C CNN
+F 3 "" H 10050 1850 50  0001 C CNN
+	1    10050 1850
 	0    -1   -1   0   
 $EndComp
-Text GLabel 10050 1250 0    50   Output ~ 0
+Text GLabel 10050 1750 0    50   Output ~ 0
 CAN_TX
-Text GLabel 10050 1350 0    50   Input ~ 0
+Text GLabel 10050 1650 0    50   Input ~ 0
 CAN_RX
-Text GLabel 10050 1450 0    50   Output ~ 0
-~SPI1_CS_2
 Text GLabel 10050 1550 0    50   Output ~ 0
+~SPI1_CS_2
+Text GLabel 10050 1450 0    50   Output ~ 0
 ~SPI1_CS_3
-Text GLabel 10050 1650 0    50   Output ~ 0
+Text GLabel 10050 1350 0    50   Output ~ 0
 SPI1_MOSI
-Text GLabel 10050 1750 0    50   Input ~ 0
+Text GLabel 10050 1250 0    50   Input ~ 0
 SPI1_MISO
-Text GLabel 10050 1850 0    50   Output ~ 0
+Text GLabel 10050 1150 0    50   Output ~ 0
 SPI1_SCK
-Text GLabel 10050 2700 0    50   Output ~ 0
-~ENABLE_CAN
-Text GLabel 10050 2400 0    50   Output ~ 0
-SCREEN_A0
-Text GLabel 10050 2500 0    50   Output ~ 0
-~SCREEN_RST
-Text GLabel 10050 2600 0    50   Output ~ 0
-~SCREEN_CS
-Text GLabel 10050 2300 0    50   Output ~ 0
-~SPI_CS_4
 Text GLabel 10050 2800 0    50   Output ~ 0
-~RIGHT_B
-Text GLabel 10050 2900 0    50   Output ~ 0
-~RIGHT_A
-Text GLabel 10050 3000 0    50   Output ~ 0
-~LEFT_B
+~ENABLE_CAN
 Text GLabel 10050 3100 0    50   Output ~ 0
+SCREEN_A0
+Text GLabel 10050 3000 0    50   Output ~ 0
+~SCREEN_RST
+Text GLabel 10050 2900 0    50   Output ~ 0
+~SCREEN_CS
+Text GLabel 10050 3200 0    50   Output ~ 0
+~SPI_CS_4
+Text GLabel 10050 2700 0    50   Output ~ 0
+~RIGHT_B
+Text GLabel 10050 2600 0    50   Output ~ 0
+~RIGHT_A
+Text GLabel 10050 2500 0    50   Output ~ 0
+~LEFT_B
+Text GLabel 10050 2400 0    50   Output ~ 0
 ~LEFT_A
-Text GLabel 10050 3200 0    50   BiDi ~ 0
+Text GLabel 10050 2300 0    50   BiDi ~ 0
 WAKE
-Text GLabel 10050 1950 0    50   Output ~ 0
+Text GLabel 10050 1050 0    50   Output ~ 0
 ENABLE_SCREEN
 Text GLabel 5500 850  2    50   Input ~ 0
 ENABLE_SCREEN
