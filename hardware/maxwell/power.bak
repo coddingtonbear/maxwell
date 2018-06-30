@@ -94,28 +94,6 @@ F 3 "" H 1500 2950 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L maxwell-rescue:D_Zener-RESCUE-maxwell D2
-U 1 1 5A1FF2A4
-P 2400 1050
-F 0 "D2" V 2354 1129 50  0000 L CNN
-F 1 "18" V 2445 1129 50  0000 L CNN
-F 2 "adamgreig/agg-kicad/agg.pretty:DO-214AA-SMB" H 2400 1050 50  0001 C CNN
-F 3 "" H 2400 1050 50  0001 C CNN
-	1    2400 1050
-	0    1    1    0   
-$EndComp
-$Comp
-L maxwell-rescue:D_Zener-RESCUE-maxwell D3
-U 1 1 5A1FF2AB
-P 2400 1400
-F 0 "D3" V 2446 1321 50  0000 R CNN
-F 1 "18" V 2355 1321 50  0000 R CNN
-F 2 "adamgreig/agg-kicad/agg.pretty:DO-214AA-SMB" H 2400 1400 50  0001 C CNN
-F 3 "" H 2400 1400 50  0001 C CNN
-	1    2400 1400
-	0    -1   -1   0   
-$EndComp
-$Comp
 L maxwell-rescue:BOOST_BOARD-RESCUE-maxwell U9
 U 1 1 5A1FFDEF
 P 4700 1300
@@ -146,28 +124,6 @@ F 1 "GND" H 5155 1177 50  0000 C CNN
 F 2 "" H 5150 1350 50  0001 C CNN
 F 3 "" H 5150 1350 50  0001 C CNN
 	1    5150 1350
-	1    0    0    -1  
-$EndComp
-$Comp
-L maxwell-rescue:CP-RESCUE-maxwell C15
-U 1 1 5A20260D
-P 3650 1600
-F 0 "C15" H 3768 1646 50  0000 L CNN
-F 1 "100u" H 3768 1555 50  0000 L CNN
-F 2 "coddingtonbear:CP_Tantalum_Case-D_EIA-7343-31_Milling" H 3688 1450 50  0001 C CNN
-F 3 "" H 3650 1600 50  0001 C CNN
-	1    3650 1600
-	1    0    0    -1  
-$EndComp
-$Comp
-L maxwell-rescue:GND-RESCUE-maxwell #PWR040
-U 1 1 5A202661
-P 3650 1750
-F 0 "#PWR040" H 3650 1500 50  0001 C CNN
-F 1 "GND" H 3655 1577 50  0000 C CNN
-F 2 "" H 3650 1750 50  0001 C CNN
-F 3 "" H 3650 1750 50  0001 C CNN
-	1    3650 1750
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -228,7 +184,7 @@ $EndComp
 Text GLabel 6400 2200 2    60   Output ~ 0
 ~BATT_CHARGING
 Text Notes 4400 1550 0    60   ~ 0
-Tune to 4V
+Tune to 5V
 $Comp
 L maxwell-rescue:C-RESCUE-maxwell C18
 U 1 1 5A22422F
@@ -328,41 +284,6 @@ DYNAMO_NEUTRAL
 Text GLabel 5500 950  2    60   Input ~ 0
 ~BATT_CHARGE_ENABLE
 $Comp
-L maxwell-rescue:R-RESCUE-maxwell R34
-U 1 1 5A27817C
-P 4150 850
-F 0 "R34" H 4220 896 50  0000 L CNN
-F 1 "110k" H 4220 805 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 4080 850 50  0001 C CNN
-F 3 "" H 4150 850 50  0001 C CNN
-	1    4150 850 
-	0    -1   -1   0   
-$EndComp
-$Comp
-L maxwell-rescue:R-RESCUE-maxwell R35
-U 1 1 5A2781E1
-P 4500 850
-F 0 "R35" H 4570 896 50  0000 L CNN
-F 1 "10k" H 4570 805 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 4430 850 50  0001 C CNN
-F 3 "" H 4500 850 50  0001 C CNN
-	1    4500 850 
-	0    -1   -1   0   
-$EndComp
-$Comp
-L maxwell-rescue:GND-RESCUE-maxwell #PWR046
-U 1 1 5A278243
-P 4650 850
-F 0 "#PWR046" H 4650 600 50  0001 C CNN
-F 1 "GND" H 4655 677 50  0000 C CNN
-F 2 "" H 4650 850 50  0001 C CNN
-F 3 "" H 4650 850 50  0001 C CNN
-	1    4650 850 
-	0    -1   -1   0   
-$EndComp
-Text GLabel 4400 650  2    60   Output ~ 0
-DYNAMO_VOLTAGE
-$Comp
 L maxwell-rescue:+BATT-RESCUE-maxwell #PWR043
 U 1 1 5A210C7A
 P 9950 1100
@@ -374,19 +295,7 @@ F 3 "" H 9950 1100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2400 1250 2400 1200
-Wire Wire Line
-	1300 900  2400 900 
-Wire Wire Line
-	1300 1550 2400 1550
-Wire Wire Line
 	3350 900  3350 950 
-Connection ~ 2400 900 
-Connection ~ 2400 1550
-Wire Wire Line
-	3650 1250 3650 1450
-Wire Wire Line
-	3650 1250 3800 1250
 Wire Wire Line
 	5600 1250 5650 1250
 Wire Wire Line
@@ -423,7 +332,7 @@ Wire Wire Line
 	9900 2150 10100 2150
 Connection ~ 10100 2150
 Wire Wire Line
-	5650 1600 5650 2000
+	5650 1600 5650 1900
 Wire Wire Line
 	5650 2000 5900 2000
 Wire Wire Line
@@ -439,17 +348,6 @@ Wire Wire Line
 	1500 3400 1500 3500
 Wire Wire Line
 	1500 3500 1350 3500
-Wire Wire Line
-	4000 850  3800 850 
-Wire Wire Line
-	3800 850  3800 1250
-Connection ~ 3800 1250
-Wire Wire Line
-	4300 850  4350 850 
-Wire Wire Line
-	4300 850  4300 650 
-Wire Wire Line
-	4300 650  4400 650 
 Wire Wire Line
 	5200 1250 5150 1250
 Wire Wire Line
@@ -468,10 +366,6 @@ DYNAMO_AC
 Text GLabel 1500 2600 0    60   Input ~ 0
 DYNAMO_AC
 Wire Wire Line
-	2400 900  3350 900 
-Wire Wire Line
-	2400 1550 3350 1550
-Wire Wire Line
 	5900 1250 6400 1250
 Wire Wire Line
 	5650 1250 5900 1250
@@ -483,8 +377,6 @@ Wire Wire Line
 	10100 2150 10100 2200
 Wire Wire Line
 	5900 2000 5900 2050
-Wire Wire Line
-	3800 1250 4200 1250
 Wire Wire Line
 	7350 1800 7450 1800
 Wire Wire Line
@@ -606,12 +498,12 @@ $EndComp
 $Comp
 L maxwell-rescue:+BATT-RESCUE-maxwell #PWR037
 U 1 1 5A884C49
-P 4950 2850
-F 0 "#PWR037" H 4950 2700 50  0001 C CNN
-F 1 "+BATT" H 4965 3023 50  0000 C CNN
-F 2 "" H 4950 2850 50  0001 C CNN
-F 3 "" H 4950 2850 50  0001 C CNN
-	1    4950 2850
+P 4950 2450
+F 0 "#PWR037" H 4950 2300 50  0001 C CNN
+F 1 "+BATT" H 4965 2623 50  0000 C CNN
+F 2 "" H 4950 2450 50  0001 C CNN
+F 3 "" H 4950 2450 50  0001 C CNN
+	1    4950 2450
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -792,4 +684,117 @@ Wire Wire Line
 Wire Wire Line
 	8250 1350 8400 1350
 Connection ~ 8250 1250
+$Comp
+L device:Q_PMOS_GSD Q6
+U 1 1 5B30AA5F
+P 4850 2650
+F 0 "Q6" V 5100 2650 50  0000 C CNN
+F 1 "NTR1P02T1" V 5191 2650 50  0000 C CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:SOT-23_LargePads" H 5050 2750 50  0001 C CNN
+F 3 "" H 4850 2650 50  0001 C CNN
+	1    4850 2650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5200 1250 5200 1700
+Connection ~ 5200 1250
+$Comp
+L pspice:DIODE D2
+U 1 1 5B30CFBF
+P 4150 2500
+F 0 "D2" V 4104 2628 50  0000 L CNN
+F 1 "GS1M-LTP" V 4195 2628 50  0000 L CNN
+F 2 "mcous/kicad-lib/footprints/diode.pretty:DO-214AC" H 4150 2500 50  0001 C CNN
+F 3 "" H 4150 2500 50  0001 C CNN
+	1    4150 2500
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4150 1700 5200 1700
+Wire Wire Line
+	4150 1700 4150 2300
+$Comp
+L maxwell-rescue:R-RESCUE-maxwell R15
+U 1 1 5B31404F
+P 4800 1900
+F 0 "R15" V 5007 1900 50  0000 C CNN
+F 1 "10k" V 4916 1900 50  0000 C CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 4730 1900 50  0001 C CNN
+F 3 "" H 4800 1900 50  0001 C CNN
+	1    4800 1900
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4950 1900 5650 1900
+Connection ~ 5650 1900
+Wire Wire Line
+	5650 1900 5650 2000
+Wire Wire Line
+	1300 900  3350 900 
+Wire Wire Line
+	1300 1550 3350 1550
+Text GLabel 4400 2200 3    60   Input ~ 0
+BATT_SOURCE_DISABLE
+Wire Wire Line
+	4650 1900 4650 2650
+Wire Wire Line
+	4400 2200 4400 1900
+Wire Wire Line
+	4400 1900 4650 1900
+Connection ~ 4650 1900
+Wire Wire Line
+	4150 3400 4600 3400
+Wire Wire Line
+	4600 3400 4600 2850
+Wire Wire Line
+	4600 2850 4950 2850
+Wire Wire Line
+	4150 2700 4150 3400
+$Comp
+L power:VCC #PWR0103
+U 1 1 5B32131C
+P 5250 2850
+F 0 "#PWR0103" H 5250 2700 50  0001 C CNN
+F 1 "VCC" H 5267 3023 50  0000 C CNN
+F 2 "" H 5250 2850 50  0001 C CNN
+F 3 "" H 5250 2850 50  0001 C CNN
+	1    5250 2850
+	1    0    0    -1  
+$EndComp
+Connection ~ 5250 2850
+Wire Wire Line
+	3650 1250 4200 1250
+$Comp
+L maxwell-rescue:Conn_01x02-RESCUE-maxwell J18
+U 1 1 5B33B354
+P 6250 4150
+F 0 "J18" H 6330 4142 50  0000 L CNN
+F 1 "Supercap" H 6330 4051 50  0000 L CNN
+F 2 "coddingtonbear/coddingtonbear.pretty:JST_XH_B02B-XH-A_02x2.50mm_Straight_LargePads" H 6250 4150 50  0001 C CNN
+F 3 "" H 6250 4150 50  0001 C CNN
+	1    6250 4150
+	0    1    1    0   
+$EndComp
+$Comp
+L maxwell-rescue:GND-RESCUE-maxwell #PWR0111
+U 1 1 5B33B419
+P 6250 3950
+F 0 "#PWR0111" H 6250 3700 50  0001 C CNN
+F 1 "GND" H 6255 3777 50  0000 C CNN
+F 2 "" H 6250 3950 50  0001 C CNN
+F 3 "" H 6250 3950 50  0001 C CNN
+	1    6250 3950
+	-1   0    0    1   
+$EndComp
+$Comp
+L maxwell-rescue:+3V3-RESCUE-maxwell #PWR0112
+U 1 1 5B33B498
+P 6150 3950
+F 0 "#PWR0112" H 6150 3800 50  0001 C CNN
+F 1 "+3V3" H 6165 4123 50  0000 C CNN
+F 2 "" H 6150 3950 50  0001 C CNN
+F 3 "" H 6150 3950 50  0001 C CNN
+	1    6150 3950
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

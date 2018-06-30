@@ -42,7 +42,7 @@ U 1 1 5A65D168
 P 4600 4700
 F 0 "U1" H 4600 6678 50  0000 C CNN
 F 1 "STM32F103C8Tx" H 4600 6587 50  0000 C CNN
-F 2 "kicad-castellated-breakouts:QFP48-1.27MM-CASTELLATED" H 7400 6375 50  0001 R TNN
+F 2 "kicad-castellated-breakouts:QFP48-1.27MM-CASTELLATED-VERS" H 7400 6375 50  0001 R TNN
 F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/CD00161566.pdf" H 4600 4700 50  0001 C CNN
 	1    4600 4700
 	1    0    0    -1  

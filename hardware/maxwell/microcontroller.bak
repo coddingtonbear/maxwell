@@ -20,7 +20,7 @@ U 1 1 5A1FCF5C
 P 5700 3850
 F 0 "U7" H 5700 6028 50  0000 C CNN
 F 1 "STM32F103RETx" H 5700 5937 50  0000 C CNN
-F 2 "kicad-castellated-breakouts:QFP64-1.27MM-CASTELLATED" H 8400 5725 50  0001 R TNN
+F 2 "kicad-castellated-breakouts:QFP64-1.27MM-CASTELLATED-VERS" H 8400 5725 50  0001 R TNN
 F 3 "" H 5700 3850 50  0001 C CNN
 	1    5700 3850
 	1    0    0    -1  
@@ -31,7 +31,7 @@ U 1 1 5A1FCF85
 P 2450 3600
 F 0 "Y2" V 2404 3731 50  0000 L CNN
 F 1 "8M" V 2495 3731 50  0000 L CNN
-F 2 "nqbit/NQBit.pretty:HC-49USX_SMD" H 2450 3600 50  0001 C CNN
+F 2 "cpavlina/kicad-pcblib/smd-non-ipc.pretty:Abracon-ABM2" H 2450 3600 50  0001 C CNN
 F 3 "" H 2450 3600 50  0001 C CNN
 	1    2450 3600
 	0    1    1    0   
@@ -271,7 +271,7 @@ Text GLabel 8500 3150 2    60   Output ~ 0
 BT_DI
 Text GLabel 8500 3250 2    60   Input ~ 0
 BT_DO
-Text GLabel 8500 3350 2    60   Output ~ 0
+Text GLabel 2900 4550 0    60   Output ~ 0
 BT_KEY
 Text GLabel 2900 4050 0    60   Input ~ 0
 CURRENT_SENSE
@@ -327,8 +327,8 @@ Wire Wire Line
 Wire Wire Line
 	2800 3650 2900 3650
 Connection ~ 2700 3750
-Text GLabel 2900 4250 0    60   Input ~ 0
-DYNAMO_VOLTAGE
+Text GLabel 2900 4250 0    60   Output ~ 0
+CAN_DISABLE
 Text GLabel 2000 5150 0    60   Output ~ 0
 ~BATT_CHARGE_ENABLE
 Wire Wire Line
@@ -508,26 +508,20 @@ Wire Wire Line
 Connection ~ 2550 5550
 Wire Wire Line
 	2550 5550 2450 5550
-Text GLabel 2900 4650 0    60   Output ~ 0
+Text GLabel 8500 2650 2    60   Output ~ 0
 SPI2_CS_A
-Text GLabel 8500 5250 2    60   Output ~ 0
+Text GLabel 8500 5450 2    60   Output ~ 0
 SPI2_MOSI
 Text GLabel 8500 5350 2    60   Input ~ 0
 SPI2_MISO
-Text GLabel 8500 5450 2    60   Output ~ 0
+Text GLabel 8500 5250 2    60   Output ~ 0
 SPI2_SCK
-Text GLabel 2900 4550 0    60   Output ~ 0
+Text GLabel 8500 2750 2    60   Output ~ 0
 SPI2_CS_B
-Text GLabel 8500 4050 2    60   Output ~ 0
+Text GLabel 8500 3350 2    60   Output ~ 0
 ~DISABLE_ESP
-Text GLabel 8500 2350 2    60   Output ~ 0
-ESP_BOOT_MODE
-Text GLabel 8500 2550 2    60   Input ~ 0
-ESP_DO
-Text GLabel 8500 2450 2    60   Output ~ 0
-ESP_DI
 $Comp
-L power:+BACKUP #PWR061
+L maxwell-rescue:+BACKUP-power #PWR061
 U 1 1 5A89D925
 P 2700 2650
 F 0 "#PWR061" H 2700 2500 50  0001 C CNN
@@ -584,9 +578,6 @@ Wire Wire Line
 	9250 4350 8500 4350
 Wire Wire Line
 	8500 4450 9250 4450
-NoConn ~ 8500 2650
-NoConn ~ 8500 2750
-NoConn ~ 8500 2850
 NoConn ~ 8500 3050
 NoConn ~ 8500 5150
 NoConn ~ 2900 4350
@@ -595,4 +586,6 @@ NoConn ~ 2900 4750
 NoConn ~ 2900 4850
 NoConn ~ 2450 5400
 NoConn ~ 2650 5400
+Text GLabel 8500 2350 2    60   Output ~ 0
+BATT_SOURCE_DISABLE
 $EndSCHEMATC

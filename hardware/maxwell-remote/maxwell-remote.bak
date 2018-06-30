@@ -786,9 +786,9 @@ F 3 "" H 7850 1200 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 Text GLabel 1700 5800 0    60   Output ~ 0
-~SPI_CS_5
+~SPI_CS_4
 Text GLabel 9950 1200 0    60   Input ~ 0
-~SPI_CS_5
+~SPI_CS_4
 Text GLabel 9950 1500 0    60   Input ~ 0
 ~SCREEN_CS
 Text GLabel 1700 6100 0    60   Output ~ 0
@@ -852,13 +852,13 @@ Text GLabel 1700 5300 0    50   Output ~ 0
 Text GLabel 1700 5200 0    50   Output ~ 0
 ~SPI1_CS_3
 Text GLabel 7500 5400 2    50   Output ~ 0
-~SPI1_CS_4
+~ENABLE_CAN
 Text GLabel 7850 1600 0    50   Input ~ 0
 ~SPI1_CS_2
 Text GLabel 7850 1700 0    50   Input ~ 0
 ~SPI1_CS_3
 Text GLabel 9950 1600 0    50   Input ~ 0
-~SPI1_CS_4
+~ENABLE_CAN
 Text GLabel 10950 5000 2    60   Input ~ 0
 ESP_BOOT_MODE
 $EndSCHEMATC
