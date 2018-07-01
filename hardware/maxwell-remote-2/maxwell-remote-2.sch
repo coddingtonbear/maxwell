@@ -94,7 +94,7 @@ Text GLabel 10050 2300 0    50   BiDi ~ 0
 WAKE
 Text GLabel 10050 1050 0    50   Output ~ 0
 ENABLE_SCREEN
-Text GLabel 5500 850  2    50   Input ~ 0
+Text GLabel 6450 1350 0    50   Input ~ 0
 ENABLE_SCREEN
 $Comp
 L Connector:Conn_01x08 J4
@@ -110,12 +110,12 @@ $EndComp
 $Comp
 L power:+BATT #PWR0103
 U 1 1 5B148AAB
-P 7200 1050
-F 0 "#PWR0103" H 7200 900 50  0001 C CNN
-F 1 "+BATT" H 7215 1223 50  0000 C CNN
-F 2 "" H 7200 1050 50  0001 C CNN
-F 3 "" H 7200 1050 50  0001 C CNN
-	1    7200 1050
+P 5950 1050
+F 0 "#PWR0103" H 5950 900 50  0001 C CNN
+F 1 "+BATT" H 5965 1223 50  0000 C CNN
+F 2 "" H 5950 1050 50  0001 C CNN
+F 3 "" H 5950 1050 50  0001 C CNN
+	1    5950 1050
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -181,7 +181,7 @@ U 1 1 5B148F9A
 P 1850 1250
 F 0 "Q1" V 2193 1250 50  0000 C CNN
 F 1 "NDS332P" V 2102 1250 50  0000 C CNN
-F 2 "cuzdaori/KiCad.pretty:SOT-23_Handsoldering" H 2050 1350 50  0001 C CNN
+F 2 "re-innovation/kicad_reinnovation/KiCAD PRETTY/TO_SOT_Packages_SMD.pretty:SOT-23_Handsoldering" H 2050 1350 50  0001 C CNN
 F 3 "" H 1850 1250 50  0001 C CNN
 	1    1850 1250
 	0    -1   -1   0   
@@ -454,13 +454,13 @@ CAN_RX
 $Comp
 L power:GND #PWR0112
 U 1 1 5B14F63A
-P 5300 1150
-F 0 "#PWR0112" H 5300 900 50  0001 C CNN
-F 1 "GND" V 5305 1022 50  0000 R CNN
-F 2 "" H 5300 1150 50  0001 C CNN
-F 3 "" H 5300 1150 50  0001 C CNN
-	1    5300 1150
-	1    0    0    -1  
+P 7200 1150
+F 0 "#PWR0112" H 7200 900 50  0001 C CNN
+F 1 "GND" V 7205 1022 50  0000 R CNN
+F 2 "" H 7200 1150 50  0001 C CNN
+F 3 "" H 7200 1150 50  0001 C CNN
+	1    7200 1150
+	0    1    1    0   
 $EndComp
 $Comp
 L power:+3V3 #PWR0113
@@ -538,16 +538,14 @@ Text GLabel 6850 2900 3    50   Input ~ 0
 $Comp
 L device:Q_NMOS_GSD Q2
 U 1 1 5B1502DD
-P 5500 1050
-F 0 "Q2" V 5843 1050 50  0000 C CNN
-F 1 "BSS138P" V 5752 1050 50  0000 C CNN
-F 2 "cuzdaori/KiCad.pretty:SOT-23_Handsoldering" H 5700 1150 50  0001 C CNN
-F 3 "" H 5500 1050 50  0001 C CNN
-	1    5500 1050
-	0    1    1    0   
+P 6450 1150
+F 0 "Q2" V 6793 1150 50  0000 C CNN
+F 1 "NDS332P" V 6702 1150 50  0000 C CNN
+F 2 "re-innovation/kicad_reinnovation/KiCAD PRETTY/TO_SOT_Packages_SMD.pretty:SOT-23_Handsoldering" H 6650 1250 50  0001 C CNN
+F 3 "" H 6450 1150 50  0001 C CNN
+	1    6450 1150
+	0    -1   -1   0   
 $EndComp
-Wire Wire Line
-	5700 1150 7200 1150
 $Comp
 L Connector:Conn_01x07 J7
 U 1 1 5B152945
@@ -690,4 +688,8 @@ Text GLabel 1750 2100 2    50   BiDi ~ 0
 CAN-
 Text GLabel 1700 2100 0    50   BiDi ~ 0
 CAN+
+Wire Wire Line
+	6650 1050 7200 1050
+Wire Wire Line
+	6250 1050 5950 1050
 $EndSCHEMATC

@@ -2,7 +2,7 @@
 
   (general
     (thickness 1.6)
-    (drawings 12)
+    (drawings 13)
     (tracks 382)
     (zones 0)
     (modules 21)
@@ -1119,6 +1119,9 @@
     )
   )
 
+  (gr_text "maxwell-remote-2 v5.0\n@coddingtonbear\n24 June 2018" (at 198 75) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.25)))
+  )
   (gr_text DISP (at 181 81 90) (layer F.SilkS)
     (effects (font (size 1.5 1.5) (thickness 0.3)))
   )

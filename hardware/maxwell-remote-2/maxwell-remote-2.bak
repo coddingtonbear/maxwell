@@ -39,62 +39,62 @@ $EndComp
 $Comp
 L power:GND #PWR0101
 U 1 1 5B146099
-P 10050 1050
-F 0 "#PWR0101" H 10050 800 50  0001 C CNN
-F 1 "GND" V 10055 922 50  0000 R CNN
-F 2 "" H 10050 1050 50  0001 C CNN
-F 3 "" H 10050 1050 50  0001 C CNN
-	1    10050 1050
+P 10050 1950
+F 0 "#PWR0101" H 10050 1700 50  0001 C CNN
+F 1 "GND" V 10055 1822 50  0000 R CNN
+F 2 "" H 10050 1950 50  0001 C CNN
+F 3 "" H 10050 1950 50  0001 C CNN
+	1    10050 1950
 	0    1    1    0   
 $EndComp
 $Comp
 L power:+3V3 #PWR0102
 U 1 1 5B14611E
-P 10050 1150
-F 0 "#PWR0102" H 10050 1000 50  0001 C CNN
-F 1 "+3V3" V 10065 1278 50  0000 L CNN
-F 2 "" H 10050 1150 50  0001 C CNN
-F 3 "" H 10050 1150 50  0001 C CNN
-	1    10050 1150
+P 10050 1850
+F 0 "#PWR0102" H 10050 1700 50  0001 C CNN
+F 1 "+3V3" V 10065 1978 50  0000 L CNN
+F 2 "" H 10050 1850 50  0001 C CNN
+F 3 "" H 10050 1850 50  0001 C CNN
+	1    10050 1850
 	0    -1   -1   0   
 $EndComp
-Text GLabel 10050 1250 0    50   Output ~ 0
+Text GLabel 10050 1750 0    50   Output ~ 0
 CAN_TX
-Text GLabel 10050 1350 0    50   Input ~ 0
+Text GLabel 10050 1650 0    50   Input ~ 0
 CAN_RX
-Text GLabel 10050 1450 0    50   Output ~ 0
-~SPI1_CS_2
 Text GLabel 10050 1550 0    50   Output ~ 0
+~SPI1_CS_2
+Text GLabel 10050 1450 0    50   Output ~ 0
 ~SPI1_CS_3
-Text GLabel 10050 1650 0    50   Output ~ 0
+Text GLabel 10050 1350 0    50   Output ~ 0
 SPI1_MOSI
-Text GLabel 10050 1750 0    50   Input ~ 0
+Text GLabel 10050 1250 0    50   Input ~ 0
 SPI1_MISO
-Text GLabel 10050 1850 0    50   Output ~ 0
+Text GLabel 10050 1150 0    50   Output ~ 0
 SPI1_SCK
-Text GLabel 10050 2700 0    50   Output ~ 0
-~ENABLE_CAN
-Text GLabel 10050 2400 0    50   Output ~ 0
-SCREEN_A0
-Text GLabel 10050 2500 0    50   Output ~ 0
-~SCREEN_RST
-Text GLabel 10050 2600 0    50   Output ~ 0
-~SCREEN_CS
-Text GLabel 10050 2300 0    50   Output ~ 0
-~SPI_CS_4
 Text GLabel 10050 2800 0    50   Output ~ 0
-~RIGHT_B
-Text GLabel 10050 2900 0    50   Output ~ 0
-~RIGHT_A
-Text GLabel 10050 3000 0    50   Output ~ 0
-~LEFT_B
+~ENABLE_CAN
 Text GLabel 10050 3100 0    50   Output ~ 0
+SCREEN_A0
+Text GLabel 10050 3000 0    50   Output ~ 0
+~SCREEN_RST
+Text GLabel 10050 2900 0    50   Output ~ 0
+~SCREEN_CS
+Text GLabel 10050 3200 0    50   Output ~ 0
+~SPI_CS_4
+Text GLabel 10050 2700 0    50   Output ~ 0
+~RIGHT_B
+Text GLabel 10050 2600 0    50   Output ~ 0
+~RIGHT_A
+Text GLabel 10050 2500 0    50   Output ~ 0
+~LEFT_B
+Text GLabel 10050 2400 0    50   Output ~ 0
 ~LEFT_A
-Text GLabel 10050 3200 0    50   BiDi ~ 0
+Text GLabel 10050 2300 0    50   BiDi ~ 0
 WAKE
-Text GLabel 10050 1950 0    50   Output ~ 0
+Text GLabel 10050 1050 0    50   Output ~ 0
 ENABLE_SCREEN
-Text GLabel 5500 850  2    50   Input ~ 0
+Text GLabel 6450 1350 0    50   Input ~ 0
 ENABLE_SCREEN
 $Comp
 L Connector:Conn_01x08 J4
@@ -110,12 +110,12 @@ $EndComp
 $Comp
 L power:+BATT #PWR0103
 U 1 1 5B148AAB
-P 7200 1050
-F 0 "#PWR0103" H 7200 900 50  0001 C CNN
-F 1 "+BATT" H 7215 1223 50  0000 C CNN
-F 2 "" H 7200 1050 50  0001 C CNN
-F 3 "" H 7200 1050 50  0001 C CNN
-	1    7200 1050
+P 6250 1050
+F 0 "#PWR0103" H 6250 900 50  0001 C CNN
+F 1 "+BATT" H 6265 1223 50  0000 C CNN
+F 2 "" H 6250 1050 50  0001 C CNN
+F 3 "" H 6250 1050 50  0001 C CNN
+	1    6250 1050
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -181,7 +181,7 @@ U 1 1 5B148F9A
 P 1850 1250
 F 0 "Q1" V 2193 1250 50  0000 C CNN
 F 1 "NDS332P" V 2102 1250 50  0000 C CNN
-F 2 "cuzdaori/KiCad.pretty:SOT-23_Handsoldering" H 2050 1350 50  0001 C CNN
+F 2 "re-innovation/kicad_reinnovation/KiCAD PRETTY/TO_SOT_Packages_SMD.pretty:SOT-23_Handsoldering" H 2050 1350 50  0001 C CNN
 F 3 "" H 1850 1250 50  0001 C CNN
 	1    1850 1250
 	0    -1   -1   0   
@@ -454,13 +454,13 @@ CAN_RX
 $Comp
 L power:GND #PWR0112
 U 1 1 5B14F63A
-P 5300 1150
-F 0 "#PWR0112" H 5300 900 50  0001 C CNN
-F 1 "GND" V 5305 1022 50  0000 R CNN
-F 2 "" H 5300 1150 50  0001 C CNN
-F 3 "" H 5300 1150 50  0001 C CNN
-	1    5300 1150
-	1    0    0    -1  
+P 7200 1150
+F 0 "#PWR0112" H 7200 900 50  0001 C CNN
+F 1 "GND" V 7205 1022 50  0000 R CNN
+F 2 "" H 7200 1150 50  0001 C CNN
+F 3 "" H 7200 1150 50  0001 C CNN
+	1    7200 1150
+	0    1    1    0   
 $EndComp
 $Comp
 L power:+3V3 #PWR0113
@@ -538,16 +538,14 @@ Text GLabel 6850 2900 3    50   Input ~ 0
 $Comp
 L device:Q_NMOS_GSD Q2
 U 1 1 5B1502DD
-P 5500 1050
-F 0 "Q2" V 5843 1050 50  0000 C CNN
-F 1 "BSS138P" V 5752 1050 50  0000 C CNN
-F 2 "cuzdaori/KiCad.pretty:SOT-23_Handsoldering" H 5700 1150 50  0001 C CNN
-F 3 "" H 5500 1050 50  0001 C CNN
-	1    5500 1050
-	0    1    1    0   
+P 6450 1150
+F 0 "Q2" V 6793 1150 50  0000 C CNN
+F 1 "NDS332P" V 6702 1150 50  0000 C CNN
+F 2 "re-innovation/kicad_reinnovation/KiCAD PRETTY/TO_SOT_Packages_SMD.pretty:SOT-23_Handsoldering" H 6650 1250 50  0001 C CNN
+F 3 "" H 6450 1150 50  0001 C CNN
+	1    6450 1150
+	0    -1   -1   0   
 $EndComp
-Wire Wire Line
-	5700 1150 7200 1150
 $Comp
 L Connector:Conn_01x07 J7
 U 1 1 5B152945
@@ -690,4 +688,6 @@ Text GLabel 1750 2100 2    50   BiDi ~ 0
 CAN-
 Text GLabel 1700 2100 0    50   BiDi ~ 0
 CAN+
+Wire Wire Line
+	6650 1050 7200 1050
 $EndSCHEMATC
