@@ -1,10 +1,10 @@
 #include <Arduino.h>
+#include <SPI.h>
 
-#include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <CANCommand.h>
 #include <TaskScheduler.h>
-#include <Button.h>
+#include <JC_Button.h>
 #include <RTClock.h>
 #include <STM32Sleep.h>
 #include <libmaple/iwdg.h>
@@ -17,6 +17,7 @@
 #include "display.h"
 
 bool canDebug = 0;
+unsigned int longPressTimeout = 0;
 
 Task taskUpdateDisplay(
     DISPLAY_REFRESH_INTERVAL,
@@ -25,10 +26,10 @@ Task taskUpdateDisplay(
 );
 Scheduler taskRunner;
 
-Button buttonLeftA = Button(LEFT_A, true, true, 120);
-Button buttonLeftB = Button(LEFT_B, true, true, 120);
-Button buttonRightA = Button(RIGHT_A, true, true, 120);
-Button buttonRightB = Button(RIGHT_B, true, true, 120);
+Button buttonLeftA = Button(LEFT_A, 120, true, true);
+Button buttonLeftB = Button(LEFT_B, 120, true, true);
+Button buttonRightA = Button(RIGHT_A, 120, true, true);
+Button buttonRightB = Button(RIGHT_B, 120, true, true);
 
 RTClock Clock(RTCSEL_LSE);
 
@@ -39,48 +40,53 @@ void setup() {
     // display control.
     afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
 
+    // Remap SPI pins to the alternate set
+    afio_remap(AFIO_REMAP_SPI1);
+    gpio_set_mode(GPIOB, 3, GPIO_AF_OUTPUT_PP);
+    gpio_set_mode(GPIOB, 4, GPIO_INPUT_FLOATING);
+    gpio_set_mode(GPIOB, 5, GPIO_AF_OUTPUT_PP);
+
     Output.begin(230400, SERIAL_8E1);
 
     delay(250);
 
     Output.println("[Maxwell Remote 1.0]");
 
-    // Disable bluetooth
-    pinMode(BT_ENABLE_, OUTPUT);
-    digitalWrite(BT_ENABLE_, HIGH);
-    pinMode(BT_KEY, OUTPUT);
     digitalWrite(BT_KEY, LOW);
-    delay(250);
-    digitalWrite(BT_ENABLE_, LOW);
+    pinMode(BT_KEY, OUTPUT);
+    digitalWrite(BT_DISABLE_, HIGH);
+    pinMode(BT_DISABLE_, OUTPUT);
     pinMode(CAN_RS, INPUT);
 
-    if(buttonRightA.read()) {
-        for(uint8_t i = 20; i > 5; i--) {
-            Output.print("Resetting into flash mode in ");
-            Output.print(i);
-            Output.println(" seconds.");
-            delay(1000);
-        }
+    pinMode(BACKLIGHT_ON_, OUTPUT);
+    digitalWrite(SPI_CS2, HIGH);
+    pinMode(SPI_CS2, OUTPUT);
+    digitalWrite(SPI_CS3, HIGH);
+    pinMode(SPI_CS3, OUTPUT);
+    digitalWrite(SPI_CS4, HIGH);
+    pinMode(SPI_CS4, OUTPUT);
 
-        reset();
-    }
+    buttonRightA.begin();
+    buttonRightB.begin();
+    buttonLeftA.begin();
+    buttonLeftB.begin();
 
     // Wake main microcontroller
-    pinMode(WAKE, OUTPUT);
     digitalWrite(WAKE, HIGH);
+    pinMode(WAKE, OUTPUT);
     delay(100);
     pinMode(WAKE, INPUT);
 
     // Setup buttons
-    pinMode(RIGHT_A, INPUT_PULLUP);
-    pinMode(RIGHT_B, INPUT_PULLUP);
-    pinMode(LEFT_A, INPUT_PULLUP);
-    pinMode(LEFT_B, INPUT_PULLUP);
+    pinMode(RIGHT_A, OUTPUT);
+    pinMode(RIGHT_B, OUTPUT);
+    pinMode(LEFT_A, OUTPUT);
+    pinMode(LEFT_B, OUTPUT);
 
-    Wire.setClock(400000);
-    Wire.begin();
+    digitalWrite(SPI_CS2, LOW);
 
     Display.begin();
+    Display.setContrast(180);
 
     CanBus.map(CAN_GPIO_PB8_PB9);
     CanBus.begin(CAN_SPEED_1000, CAN_MODE_NORMAL);
@@ -108,21 +114,27 @@ void loop() {
     buttonRightB.read();
 
     // Long-press
-    if(buttonLeftB.pressedFor(LONG_PRESS_INTERVAL)) {
-        Display.setActionTimeout();
-        activateLightingPreset(LED_PRESET_SAFETY);
-    }
-    if(buttonLeftA.pressedFor(LONG_PRESS_INTERVAL)) {
-        Display.setActionTimeout();
-        Display.redisplayAlert();
-    }
-    if(buttonRightB.pressedFor(LONG_PRESS_INTERVAL)) {
-        Display.setActionTimeout();
-        sleep();
-    }
-    if(buttonRightA.pressedFor(LONG_PRESS_INTERVAL)) {
-        Display.setActionTimeout();
-        connectCamera();
+    if(millis() > longPressTimeout) {
+        if(buttonLeftB.pressedFor(LONG_PRESS_INTERVAL)) {
+            longPressTimeout = millis() + LONG_PRESS_TIMEOUT;
+            Display.setActionTimeout();
+            activateLightingPreset(LED_PRESET_SAFETY);
+        }
+        if(buttonLeftA.pressedFor(LONG_PRESS_INTERVAL)) {
+            longPressTimeout = millis() + LONG_PRESS_TIMEOUT;
+            Display.setActionTimeout();
+            Display.redisplayAlert();
+        }
+        if(buttonRightB.pressedFor(LONG_PRESS_INTERVAL)) {
+            longPressTimeout = millis() + LONG_PRESS_TIMEOUT;
+            Display.setActionTimeout();
+            sleep();
+        }
+        if(buttonRightA.pressedFor(LONG_PRESS_INTERVAL)) {
+            longPressTimeout = millis() + LONG_PRESS_TIMEOUT;
+            Display.setActionTimeout();
+            Display.toggleBacklight();
+        }
     }
 
     // Normal motions
@@ -181,7 +193,6 @@ void enableCanDebug(bool enable) {
 
 void sleep() {
     Output.end();
-    Wire.end();
 
     CanMsg message;
     message.IDE = CAN_ID_STD;
@@ -192,22 +203,25 @@ void sleep() {
     delay(100);
     CanBus.end();
 
+    // Disable Screen
+    Display.sleep();
+    // Float all GPIOs
     setGPIOModeToAllPins(GPIO_INPUT_FLOATING);
     // Disable the CAN Transceiver
     pinMode(CAN_RS, OUTPUT);
     digitalWrite(CAN_RS, HIGH);
     // Disable Bluetooth
-    pinMode(BT_ENABLE_, OUTPUT);
-    digitalWrite(BT_ENABLE_, HIGH);
-    // Disable Display
-    pinMode(DISPLAY_ON_, OUTPUT);
-    digitalWrite(DISPLAY_ON_, HIGH);
+    pinMode(BT_DISABLE_, OUTPUT);
+    digitalWrite(BT_DISABLE_, LOW);
     // Wake for left A button
     pinMode(LEFT_A, INPUT_PULLUP);
     attachInterrupt(LEFT_A, nvic_sys_reset, FALLING);
     // Or when the microcontroller wake line rises
     pinMode(WAKE, INPUT_PULLDOWN);
     attachInterrupt(WAKE, nvic_sys_reset, RISING);
+    // Disable screen backlight
+    digitalWrite(BACKLIGHT_ON_, HIGH);
+    pinMode(BACKLIGHT_ON_, OUTPUT);
     delay(500);
     systick_disable();
     adc_disable_all();

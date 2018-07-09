@@ -1,13 +1,20 @@
 #pragma once
 
 #include <Arduino.h>
+#include "U8g2lib.h"
 #include "menu.h"
 
-#define DISPLAY_ADDRESS 0x3C
-#define DISPLAY_ON_ PB4
+#define BACKLIGHT_ON_ PA15
+#define DISPLAY_CS PB15
+#define DISPLAY_DC PB13
+#define DISPLAY_RST PB14
 
-#define ICON_HEIGHT 16
-#define ICON_WIDTH 16
+#define SMALL_DISPLAY_FONT u8g2_font_helvB12_tr
+#define SMALL_DISPLAY_FONT_HEIGHT 12
+#define LARGE_DISPLAY_FONT u8g2_font_logisoso32_tr
+#define LARGE_DISPLAY_FONT_HEIGHT 32
+#define ICON_DISPLAY_FONT u8g2_font_open_iconic_all_2x_t
+#define ICON_DISPLAY_HEIGHT 16
 
 #define DISPLAY_WIDTH 128
 #define DISPLAY_HEIGHT 64
@@ -27,11 +34,15 @@ class DisplayManager {
         void begin();
         void enable(bool _enabled=true);
         void refresh();
+        void sleep();
 
         void setContrast(uint8_t);
         void setAutosleep(bool _enabled=true);
         void addAlert(String message);
         void redisplayAlert();
+
+        void enableBacklight(bool _enabled=true);
+        void toggleBacklight();
 
         void menuKeepalive();
         void up();
@@ -42,11 +53,6 @@ class DisplayManager {
         void setActionTimeout();
 
     protected:
-        struct DisplayBounds {
-            int x, y, w, h;
-        };
-
-        void sleep();
         void wake();
 
         MenuList* getCurrentMenu();
@@ -57,13 +63,13 @@ class DisplayManager {
         bool enabled = true;
         bool autosleep = false;
         bool sleeping = false;
+        bool backlightOn = false;
 
         uint8_t menuDepth = 0;
         uint8_t menuPosition[10];
 
         void showMenu();
         void executeMenuCommand(void(*)());
-        DisplayBounds getTextBounds(String);
 
         uint8_t statusPhase = 0;
         uint8_t statusPhaseCount = 10;

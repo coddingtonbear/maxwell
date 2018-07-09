@@ -1,6 +1,7 @@
 #include <HardwareCAN.h>
 #include <SerialCommand.h>
 #include <libmaple/iwdg.h>
+#include <SPI.h>
 
 #include "serial_commands.h"
 #include "can.h"
@@ -33,7 +34,9 @@ void setupCommands() {
     commands.addCommand("flash", flash);
     commands.addCommand("beep", beep);
     commands.addCommand("wake", wake);
+    commands.addCommand("backlight", backlight);
     commands.addCommand("unWake", wake);
+    commands.addCommand("sleep", sleep);
     commands.addCommand("uptime", uptime);
     commands.addCommand("btcmd", bluetooth);
     commands.addCommand("disable_esp", disableEsp);
@@ -49,7 +52,10 @@ void setupCommands() {
     commands.addCommand("menu_out", menuOut);
     //commands.addCommand("menu_debug", menuDebug);
 
+    commands.addCommand("debug", debug);
     commands.addCommand("debug_can", debugCan);
+
+    commands.addCommand("contrast", setContrast);
 
     canCommands.addCommand(CAN_MAIN_MC_SLEEP, cmdSleep);
 
@@ -108,8 +114,8 @@ void enableLocalBluetooth() {
 }
 
 void enableLocalBluetoothUntil(uint32_t until) {
-    pinMode(BT_ENABLE_, OUTPUT);
-    digitalWrite(BT_ENABLE_, LOW);
+    pinMode(BT_DISABLE_, OUTPUT);
+    digitalWrite(BT_DISABLE_, HIGH);
 
     bluetoothEnabledUntil = until;
 
@@ -117,8 +123,8 @@ void enableLocalBluetoothUntil(uint32_t until) {
 }
 
 void disableLocalBluetooth() {
-    pinMode(BT_ENABLE_, OUTPUT);
-    digitalWrite(BT_ENABLE_, HIGH);
+    pinMode(BT_DISABLE_, OUTPUT);
+    digitalWrite(BT_DISABLE_, LOW);
 
     bluetoothEnabled = false;
 }
@@ -262,7 +268,6 @@ void wake() {
 }
 
 void cmdSleep() {
-
     sleep();
 }
 
@@ -535,6 +540,16 @@ void deleteCameraMedia() {
     CanBus.send(&message);
 }
 
+void backlight() {
+    char* arg = commands.next();
+
+    if(arg != NULL) {
+        Display.enableBacklight(atoi(arg));
+    } else {
+        Display.toggleBacklight();
+    }
+}
+
 void menuUp() {
     Display.up();
 }
@@ -683,6 +698,21 @@ void disableAutosleep() {
     CanBus.send(&message);
 }
 
+void debug() {
+    Output.print("BRR: ");
+    Output.println(GPIOA->regs->BRR, BIN);
+    Output.print("BSRR: ");
+    Output.println(GPIOA->regs->BSRR, BIN);
+    Output.print("LCKR: ");
+    Output.println(GPIOA->regs->LCKR, BIN);
+    Output.print("MISO: ");
+    Output.println(SPI.misoPin());
+    Output.print("MOSI: ");
+    Output.println(SPI.mosiPin());
+    Output.print("SCK: ");
+    Output.println(SPI.sckPin());
+}
+
 void debugCan() {
     bool enabled = 1;
 
@@ -714,4 +744,12 @@ void canReceiveStatus() {
     CANStatusMainMC status = *(reinterpret_cast<CANStatusMainMC*>(data));
 
     setStatusMainMc(status);
+}
+
+void setContrast() {
+    char* contrastStr = commands.next();
+    if(contrastStr != NULL) {
+        int contrast = atoi(contrastStr);
+        Display.setContrast(contrast);
+    }
 }
