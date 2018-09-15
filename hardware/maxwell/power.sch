@@ -406,7 +406,7 @@ Wire Wire Line
 Wire Wire Line
 	9900 1100 9900 1800
 $Comp
-L device:Q_PMOS_GSD Q4
+L maxwell-rescue:Q_PMOS_GSD-device Q4
 U 1 1 5A85109E
 P 7850 1350
 F 0 "Q4" V 8193 1350 50  0000 C CNN
@@ -433,7 +433,7 @@ F 3 "" H 7850 1550 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:Q_PMOS_GSD Q3
+L maxwell-rescue:Q_PMOS_GSD-device Q3
 U 1 1 5A876381
 P 5400 1150
 F 0 "Q3" V 5650 1150 50  0000 C CNN
@@ -474,7 +474,7 @@ F 3 "" H 3500 3650 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:Q_NMOS_SGD Q2
+L maxwell-rescue:Q_NMOS_SGD-device Q2
 U 1 1 5A87E051
 P 3150 3900
 F 0 "Q2" H 3356 3946 50  0000 L CNN
@@ -485,7 +485,7 @@ F 3 "" H 3150 3900 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L coddingtonbear:MIC39102 U10
+L maxwell-rescue:MIC39102-coddingtonbear U10
 U 1 1 5A881E0A
 P 6150 3100
 F 0 "U10" H 6175 3587 60  0000 C CNN
@@ -663,7 +663,7 @@ F 3 "" H 9200 1400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:Q_PMOS_GSD Q5
+L maxwell-rescue:Q_PMOS_GSD-device Q5
 U 1 1 5A851232
 P 9200 1200
 F 0 "Q5" V 9543 1200 50  0000 C CNN
@@ -685,7 +685,7 @@ Wire Wire Line
 	8250 1350 8400 1350
 Connection ~ 8250 1250
 $Comp
-L device:Q_PMOS_GSD Q6
+L maxwell-rescue:Q_PMOS_GSD-device Q6
 U 1 1 5B30AA5F
 P 4850 2650
 F 0 "Q6" V 5100 2650 50  0000 C CNN

@@ -370,7 +370,7 @@ CAN_TX
 Text GLabel 8500 4750 2    60   Input ~ 0
 CAN_RX
 $Comp
-L coddingtonbear:MCP1501 U1
+L maxwell-rescue:MCP1501-coddingtonbear U1
 U 1 1 5A83FFBF
 P 7000 1500
 F 0 "U1" H 7050 1013 60  0000 C CNN
@@ -421,7 +421,7 @@ $EndComp
 Wire Wire Line
 	7800 1350 7550 1350
 $Comp
-L device:CP C2
+L maxwell-rescue:CP-device C2
 U 1 1 5A8463F3
 P 7900 1500
 F 0 "C2" H 7782 1454 50  0000 R CNN
@@ -453,7 +453,7 @@ $EndComp
 Wire Wire Line
 	6500 1300 6400 1300
 $Comp
-L device:CP C1
+L maxwell-rescue:CP-device C1
 U 1 1 5A848A15
 P 6250 1500
 F 0 "C1" H 6132 1454 50  0000 R CNN
@@ -488,7 +488,7 @@ Wire Wire Line
 	6250 1850 6250 1650
 Connection ~ 6250 1650
 $Comp
-L device:Crystal_GND23_Small Y1
+L maxwell-rescue:Crystal_GND23_Small-device Y1
 U 1 1 5A8C64C3
 P 2550 5400
 F 0 "Y1" V 2504 5566 50  0000 L CNN
@@ -562,7 +562,7 @@ Wire Wire Line
 Wire Wire Line
 	2850 5150 2000 5150
 $Comp
-L conn:Conn_01x03 J15
+L maxwell-rescue:Conn_01x03-conn J15
 U 1 1 5A8B48F3
 P 9450 4350
 F 0 "J15" H 9529 4392 50  0000 L CNN

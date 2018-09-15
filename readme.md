@@ -29,13 +29,11 @@ Checked items indicate errata that have been corrected in the schematic.
 
 ### Maxwell
 
-* [ ] Capacitor C15 is unnecessary; the buck regulator breakout board that is attached already has a more-than-adequate capacitor.  I discovered this only when attempting to identify C15 had failed, and when discovering that its voltage rating was far too low and that I didn't have capacitors having a similar-enough footprint and a high-enough voltage cieling to work, then did some investigation to see if there was sufficient capacitance on that net: there was.
-* [ ] I really should've added a mosfet for disabling the HC-05 module.  While in sleep mode, the bluetooth module will consume ~20mA of power, which while not _huge_, is more than enough to drain the whole battery over the course of a couple days.
-* [ ] The bluetooth module will have a thin metal shield overhead for the duration of its life, and is not likely to get a GPS lock ever.  I hadn't considered this when designing this, but given the placement of this unit on my bike, the bluetooth module will never be useful, so I've removed it from the live board.
-* [ ] Mis-labeled SPI2 pins for SPI2 ports; two of the labels are swapped starting from the microcontroller itself.  Although labeled `+`, `CLK`, `DI`, `DO`, `+`, `CS`, the pins are actually `+`, `DO`, `DI`, `CLK`, `+`, `CS`.
-* [ ] The CanBus transceiver's Rs pin should be connected to the microcontroller to allow me to put the device into sleep mode.  Experimentation with sleep modes showed that I was able to get power consumption down to ~5.5mA (from ~50-150mA while running, depending on whether or which radios are turned on), but sleep power consumption _should_ be on the order of microamps.  Most of that 5.5mA is the CanBus transceiver.
-* [ ] The ESP32 module should have a decoupling capacitor.
+* [ ] Incorrect management of switching between dynamo and battery power.  The MOSFET method I was originally planning to use was probably unworkable; instead just use a schottky diode before the junction point of both.
 
 ### Maxwell-remote
 
-* [ ] Missing 2.2k pull-up resistors for both SCL and SDA on the I2C bus.  These have been bodged on for my current instance of this board, but were this re-built, I'd add them...probably to the back of the board.
+* [ ] Incorrect diode footprint for polarity protection.  There also might be a power deliver problem through those diodes.  Investigate that the selected mosftet is ON at Vgs -3.3.
+* [ ] I think the gerbers I generated originally may have excluded the rear solder mask, as the resistors and vias were covered.
+* [ ] Board-to-board interconnect should probably either not use an FPC connector, or use multiple conductors for power/ground.  I had to build a workaround connector for transferring power between the two boards.
+* [ ] Resistor R2 of maxwell-remote-2 isn't really necessary; it could be connected directly to VCC.

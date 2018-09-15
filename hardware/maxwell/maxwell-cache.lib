@@ -1,287 +1,11 @@
 EESchema-LIBRARY Version 2.4
 #encoding utf-8
 #
-# coddingtonbear:MCP1501
+# maxwell-rescue_+3V3-RESCUE-maxwell
 #
-DEF coddingtonbear:MCP1501 U 0 40 Y Y 1 F N
-F0 "U" 50 300 60 H V C CNN
-F1 "coddingtonbear:MCP1501" 50 -400 60 H V C CNN
-F2 "" 0 0 60 H I C CNN
-F3 "" 0 0 60 H I C CNN
-DRAW
-S -200 250 300 -300 0 1 0 N
-X OUT 1 450 150 200 L 50 50 1 1 I
-X GND 2 -400 0 200 R 50 50 1 1 I
-X GND 3 -400 -100 200 R 50 50 1 1 I
-X ~SHDN 4 500 -200 200 L 50 50 1 1 I
-X GND 5 -400 -200 200 R 50 50 1 1 I
-X VDD 6 -400 150 200 R 50 50 1 1 I
-ENDDRAW
-ENDDEF
-#
-# coddingtonbear:MIC39102
-#
-DEF coddingtonbear:MIC39102 U 0 40 Y Y 1 F N
-F0 "U" 0 350 60 H V C CNN
-F1 "coddingtonbear:MIC39102" 0 -250 60 H V C CNN
-F2 "" 0 0 60 H I C CNN
-F3 "" 0 0 60 H I C CNN
-DRAW
-S -200 300 250 -200 0 1 0 N
-X EN 1 -400 200 200 R 50 50 1 1 I
-X IN 2 -400 100 200 R 50 50 1 1 W
-X OUT 3 -400 0 200 R 50 50 1 1 w
-X ADJ 4 -400 -100 200 R 50 50 1 1 I
-X GND 5 450 -100 200 L 50 50 1 1 W
-X GND 6 450 0 200 L 50 50 1 1 W
-X GND 7 450 100 200 L 50 50 1 1 W
-X GND 8 450 200 200 L 50 50 1 1 W
-ENDDRAW
-ENDDEF
-#
-# conn:Conn_01x02
-#
-DEF conn:Conn_01x02 J 0 40 Y N 1 F N
-F0 "J" 0 100 50 H V C CNN
-F1 "conn:Conn_01x02" 0 -200 50 H V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- Connector*:*_??x*mm*
- Connector*:*1x??x*mm*
- Pin?Header?Straight?1X*
- Pin?Header?Angled?1X*
- Socket?Strip?Straight?1X*
- Socket?Strip?Angled?1X*
-$ENDFPLIST
-DRAW
-S -50 -95 0 -105 1 1 6 N
-S -50 5 0 -5 1 1 6 N
-S -50 50 50 -150 1 1 10 f
-X Pin_1 1 -200 0 150 R 50 50 1 1 P
-X Pin_2 2 -200 -100 150 R 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# conn:Conn_01x03
-#
-DEF conn:Conn_01x03 J 0 40 Y N 1 F N
-F0 "J" 0 200 50 H V C CNN
-F1 "conn:Conn_01x03" 0 -200 50 H V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- Connector*:*_??x*mm*
- Connector*:*1x??x*mm*
- Pin?Header?Straight?1X*
- Pin?Header?Angled?1X*
- Socket?Strip?Straight?1X*
- Socket?Strip?Angled?1X*
-$ENDFPLIST
-DRAW
-S -50 -95 0 -105 1 1 6 N
-S -50 5 0 -5 1 1 6 N
-S -50 105 0 95 1 1 6 N
-S -50 150 50 -150 1 1 10 f
-X Pin_1 1 -200 100 150 R 50 50 1 1 P
-X Pin_2 2 -200 0 150 R 50 50 1 1 P
-X Pin_3 3 -200 -100 150 R 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# conn:Conn_01x04
-#
-DEF conn:Conn_01x04 J 0 40 Y N 1 F N
-F0 "J" 0 200 50 H V C CNN
-F1 "conn:Conn_01x04" 0 -300 50 H V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- Connector*:*_??x*mm*
- Connector*:*1x??x*mm*
- Pin?Header?Straight?1X*
- Pin?Header?Angled?1X*
- Socket?Strip?Straight?1X*
- Socket?Strip?Angled?1X*
-$ENDFPLIST
-DRAW
-S -50 -195 0 -205 1 1 6 N
-S -50 -95 0 -105 1 1 6 N
-S -50 5 0 -5 1 1 6 N
-S -50 105 0 95 1 1 6 N
-S -50 150 50 -250 1 1 10 f
-X Pin_1 1 -200 100 150 R 50 50 1 1 P
-X Pin_2 2 -200 0 150 R 50 50 1 1 P
-X Pin_3 3 -200 -100 150 R 50 50 1 1 P
-X Pin_4 4 -200 -200 150 R 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# conn:Conn_01x06
-#
-DEF conn:Conn_01x06 J 0 40 Y N 1 F N
-F0 "J" 0 300 50 H V C CNN
-F1 "conn:Conn_01x06" 0 -400 50 H V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- Connector*:*_??x*mm*
- Connector*:*1x??x*mm*
- Pin?Header?Straight?1X*
- Pin?Header?Angled?1X*
- Socket?Strip?Straight?1X*
- Socket?Strip?Angled?1X*
-$ENDFPLIST
-DRAW
-S -50 -295 0 -305 1 1 6 N
-S -50 -195 0 -205 1 1 6 N
-S -50 -95 0 -105 1 1 6 N
-S -50 5 0 -5 1 1 6 N
-S -50 105 0 95 1 1 6 N
-S -50 205 0 195 1 1 6 N
-S -50 250 50 -350 1 1 10 f
-X Pin_1 1 -200 200 150 R 50 50 1 1 P
-X Pin_2 2 -200 100 150 R 50 50 1 1 P
-X Pin_3 3 -200 0 150 R 50 50 1 1 P
-X Pin_4 4 -200 -100 150 R 50 50 1 1 P
-X Pin_5 5 -200 -200 150 R 50 50 1 1 P
-X Pin_6 6 -200 -300 150 R 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# device:C
-#
-DEF device:C C 0 10 N Y 1 F N
-F0 "C" 25 100 50 H V L CNN
-F1 "device:C" 25 -100 50 H V L CNN
-F2 "" 38 -150 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- C_*
-$ENDFPLIST
-DRAW
-P 2 0 1 20 -80 -30 80 -30 N
-P 2 0 1 20 -80 30 80 30 N
-X ~ 1 0 150 110 D 50 50 1 1 P
-X ~ 2 0 -150 110 U 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# device:CP
-#
-DEF device:CP C 0 10 N Y 1 F N
-F0 "C" 25 100 50 H V L CNN
-F1 "device:CP" 25 -100 50 H V L CNN
-F2 "" 38 -150 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- CP_*
-$ENDFPLIST
-DRAW
-S -90 20 -90 40 0 1 0 N
-S -90 20 90 20 0 1 0 N
-S 90 -20 -90 -40 0 1 0 F
-S 90 40 -90 40 0 1 0 N
-S 90 40 90 20 0 1 0 N
-P 2 0 1 0 -70 90 -30 90 N
-P 2 0 1 0 -50 110 -50 70 N
-X ~ 1 0 150 110 D 50 50 1 1 P
-X ~ 2 0 -150 110 U 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# device:Crystal_GND23_Small
-#
-DEF device:Crystal_GND23_Small Y 0 40 Y N 1 F N
-F0 "Y" 50 175 50 H V L CNN
-F1 "device:Crystal_GND23_Small" 50 100 50 H V L CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- Crystal*
-$ENDFPLIST
-DRAW
-S -30 -60 30 60 0 1 0 N
-P 2 0 1 15 -50 -30 -50 30 N
-P 2 0 1 15 50 -30 50 30 N
-P 4 0 1 0 -50 -50 -50 -75 50 -75 50 -50 N
-P 4 0 1 0 -50 50 -50 75 50 75 50 50 N
-X 1 1 -100 0 50 R 50 50 1 1 P
-X 2 2 0 -125 50 U 50 50 1 1 P
-X 3 3 0 125 50 D 50 50 1 1 P
-X 4 4 100 0 50 L 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# device:Q_NMOS_SGD
-#
-DEF device:Q_NMOS_SGD Q 0 0 Y N 1 F N
-F0 "Q" 200 50 50 H V L CNN
-F1 "device:Q_NMOS_SGD" 200 -50 50 H V L CNN
-F2 "" 200 100 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-DRAW
-C 65 0 111 0 1 10 N
-C 100 -70 11 0 1 0 F
-C 100 70 11 0 1 0 F
-P 2 0 1 0 2 0 10 0 N
-P 2 0 1 0 30 -70 100 -70 N
-P 2 0 1 10 30 -50 30 -90 N
-P 2 0 1 0 30 0 100 0 N
-P 2 0 1 10 30 20 30 -20 N
-P 2 0 1 0 30 70 100 70 N
-P 2 0 1 10 30 90 30 50 N
-P 2 0 1 0 100 -70 100 -100 N
-P 2 0 1 0 100 -70 100 0 N
-P 2 0 1 0 100 100 100 70 N
-P 3 0 1 10 10 75 10 -75 10 -75 N
-P 4 0 1 0 40 0 80 15 80 -15 40 0 F
-P 4 0 1 0 100 -70 130 -70 130 70 100 70 N
-P 4 0 1 0 110 20 115 15 145 15 150 10 N
-P 4 0 1 0 130 15 115 -10 145 -10 130 15 N
-X S 1 100 -200 100 U 50 50 1 1 P
-X G 2 -200 0 200 R 50 50 1 1 I
-X D 3 100 200 100 D 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# device:Q_PMOS_GSD
-#
-DEF device:Q_PMOS_GSD Q 0 0 Y N 1 F N
-F0 "Q" 200 50 50 H V L CNN
-F1 "device:Q_PMOS_GSD" 200 -50 50 H V L CNN
-F2 "" 200 100 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-DRAW
-C 65 0 111 0 1 10 N
-C 100 -70 11 0 1 0 F
-C 100 70 11 0 1 0 F
-P 2 0 1 0 2 0 10 0 N
-P 2 0 1 0 30 -70 100 -70 N
-P 2 0 1 10 30 -50 30 -90 N
-P 2 0 1 0 30 0 100 0 N
-P 2 0 1 10 30 20 30 -20 N
-P 2 0 1 0 30 70 100 70 N
-P 2 0 1 10 30 90 30 50 N
-P 2 0 1 0 100 -70 100 -100 N
-P 2 0 1 0 100 -70 100 0 N
-P 2 0 1 0 100 100 100 70 N
-P 3 0 1 10 10 75 10 -75 10 -75 N
-P 4 0 1 0 90 0 50 -15 50 15 90 0 F
-P 4 0 1 0 100 -70 130 -70 130 70 100 70 N
-P 4 0 1 0 110 -20 115 -15 145 -15 150 -10 N
-P 4 0 1 0 130 -15 115 10 145 10 130 -15 N
-X G 1 -200 0 200 R 50 50 1 1 I
-X S 2 100 -200 100 U 50 50 1 1 P
-X D 3 100 200 100 D 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# maxwell-rescue:+3V3-RESCUE-maxwell
-#
-DEF maxwell-rescue:+3V3-RESCUE-maxwell #PWR 0 0 Y Y 1 F P
+DEF maxwell-rescue_+3V3-RESCUE-maxwell #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 -150 50 H I C CNN
-F1 "maxwell-rescue:+3V3-RESCUE-maxwell" 0 140 50 H V C CNN
+F1 "maxwell-rescue_+3V3-RESCUE-maxwell" 0 140 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -292,11 +16,11 @@ X +3V3 1 0 0 0 U 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:+BACKUP-power
+# maxwell-rescue_+BACKUP-power
 #
-DEF maxwell-rescue:+BACKUP-power #PWR 0 0 Y Y 1 F P
+DEF maxwell-rescue_+BACKUP-power #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 -150 50 H I C CNN
-F1 "maxwell-rescue:+BACKUP-power" 0 140 50 H V C CNN
+F1 "maxwell-rescue_+BACKUP-power" 0 140 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -307,11 +31,11 @@ X +BACKUP 1 0 0 0 U 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:+BATT-RESCUE-maxwell
+# maxwell-rescue_+BATT-RESCUE-maxwell
 #
-DEF maxwell-rescue:+BATT-RESCUE-maxwell #PWR 0 0 Y Y 1 F P
+DEF maxwell-rescue_+BATT-RESCUE-maxwell #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 -150 50 H I C CNN
-F1 "maxwell-rescue:+BATT-RESCUE-maxwell" 0 140 50 H V C CNN
+F1 "maxwell-rescue_+BATT-RESCUE-maxwell" 0 140 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -322,11 +46,11 @@ X +BATT 1 0 0 0 U 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:BOOST_BOARD-RESCUE-maxwell
+# maxwell-rescue_BOOST_BOARD-RESCUE-maxwell
 #
-DEF maxwell-rescue:BOOST_BOARD-RESCUE-maxwell U 0 40 Y Y 1 F N
+DEF maxwell-rescue_BOOST_BOARD-RESCUE-maxwell U 0 40 Y Y 1 F N
 F0 "U" -50 -200 60 H V C CNN
-F1 "maxwell-rescue:BOOST_BOARD-RESCUE-maxwell" 0 200 60 H V C CNN
+F1 "maxwell-rescue_BOOST_BOARD-RESCUE-maxwell" 0 200 60 H V C CNN
 F2 "" 0 0 60 H I C CNN
 F3 "" 0 0 60 H I C CNN
 $FPLIST
@@ -341,11 +65,11 @@ X OUT- 4 450 -50 200 L 50 50 1 1 w
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:BSS138-RESCUE-maxwell
+# maxwell-rescue_BSS138-RESCUE-maxwell
 #
-DEF maxwell-rescue:BSS138-RESCUE-maxwell Q 0 0 Y N 1 F N
+DEF maxwell-rescue_BSS138-RESCUE-maxwell Q 0 0 Y N 1 F N
 F0 "Q" 200 75 50 H V L CNN
-F1 "maxwell-rescue:BSS138-RESCUE-maxwell" 200 0 50 H V L CNN
+F1 "maxwell-rescue_BSS138-RESCUE-maxwell" 200 0 50 H V L CNN
 F2 "TO_SOT_Packages_SMD:SOT-23" 200 -75 50 H I L CIN
 F3 "" 0 0 50 H I L CNN
 $FPLIST
@@ -375,11 +99,11 @@ X D 3 100 200 100 D 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:Buzzer-RESCUE-maxwell
+# maxwell-rescue_Buzzer-RESCUE-maxwell
 #
-DEF maxwell-rescue:Buzzer-RESCUE-maxwell BZ 0 1 Y N 1 F N
+DEF maxwell-rescue_Buzzer-RESCUE-maxwell BZ 0 1 Y N 1 F N
 F0 "BZ" 150 50 50 H V L CNN
-F1 "maxwell-rescue:Buzzer-RESCUE-maxwell" 150 -50 50 H V L CNN
+F1 "maxwell-rescue_Buzzer-RESCUE-maxwell" 150 -50 50 H V L CNN
 F2 "" -25 100 50 V I C CNN
 F3 "" -25 100 50 V I C CNN
 $FPLIST
@@ -395,11 +119,11 @@ X + 2 -100 -100 100 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:C-RESCUE-maxwell
+# maxwell-rescue_C-RESCUE-maxwell
 #
-DEF maxwell-rescue:C-RESCUE-maxwell C 0 10 N Y 1 F N
+DEF maxwell-rescue_C-RESCUE-maxwell C 0 10 N Y 1 F N
 F0 "C" 25 100 50 H V L CNN
-F1 "maxwell-rescue:C-RESCUE-maxwell" 25 -100 50 H V L CNN
+F1 "maxwell-rescue_C-RESCUE-maxwell" 25 -100 50 H V L CNN
 F2 "" 38 -150 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -413,11 +137,29 @@ X ~ 2 0 -150 110 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:CP-RESCUE-maxwell
+# maxwell-rescue_C-device
 #
-DEF maxwell-rescue:CP-RESCUE-maxwell C 0 10 N Y 1 F N
+DEF maxwell-rescue_C-device C 0 10 N Y 1 F N
 F0 "C" 25 100 50 H V L CNN
-F1 "maxwell-rescue:CP-RESCUE-maxwell" 25 -100 50 H V L CNN
+F1 "maxwell-rescue_C-device" 25 -100 50 H V L CNN
+F2 "" 38 -150 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ C_*
+$ENDFPLIST
+DRAW
+P 2 0 1 20 -80 -30 80 -30 N
+P 2 0 1 20 -80 30 80 30 N
+X ~ 1 0 150 110 D 50 50 1 1 P
+X ~ 2 0 -150 110 U 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# maxwell-rescue_CP-RESCUE-maxwell
+#
+DEF maxwell-rescue_CP-RESCUE-maxwell C 0 10 N Y 1 F N
+F0 "C" 25 100 50 H V L CNN
+F1 "maxwell-rescue_CP-RESCUE-maxwell" 25 -100 50 H V L CNN
 F2 "" 38 -150 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -436,11 +178,34 @@ X ~ 2 0 -150 110 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:Conn_01x02-RESCUE-maxwell
+# maxwell-rescue_CP-device
 #
-DEF maxwell-rescue:Conn_01x02-RESCUE-maxwell J 0 40 Y N 1 F N
+DEF maxwell-rescue_CP-device C 0 10 N Y 1 F N
+F0 "C" 25 100 50 H V L CNN
+F1 "maxwell-rescue_CP-device" 25 -100 50 H V L CNN
+F2 "" 38 -150 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ CP_*
+$ENDFPLIST
+DRAW
+S -90 20 -90 40 0 1 0 N
+S -90 20 90 20 0 1 0 N
+S 90 -20 -90 -40 0 1 0 F
+S 90 40 -90 40 0 1 0 N
+S 90 40 90 20 0 1 0 N
+P 2 0 1 0 -70 90 -30 90 N
+P 2 0 1 0 -50 110 -50 70 N
+X ~ 1 0 150 110 D 50 50 1 1 P
+X ~ 2 0 -150 110 U 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# maxwell-rescue_Conn_01x02-RESCUE-maxwell
+#
+DEF maxwell-rescue_Conn_01x02-RESCUE-maxwell J 0 40 Y N 1 F N
 F0 "J" 0 100 50 H V C CNN
-F1 "maxwell-rescue:Conn_01x02-RESCUE-maxwell" 0 -200 50 H V C CNN
+F1 "maxwell-rescue_Conn_01x02-RESCUE-maxwell" 0 -200 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -460,11 +225,35 @@ X Pin_2 2 -200 -100 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:Conn_01x03-RESCUE-maxwell
+# maxwell-rescue_Conn_01x02-conn
 #
-DEF maxwell-rescue:Conn_01x03-RESCUE-maxwell J 0 40 Y N 1 F N
+DEF maxwell-rescue_Conn_01x02-conn J 0 40 Y N 1 F N
+F0 "J" 0 100 50 H V C CNN
+F1 "maxwell-rescue_Conn_01x02-conn" 0 -200 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ Connector*:*_??x*mm*
+ Connector*:*1x??x*mm*
+ Pin?Header?Straight?1X*
+ Pin?Header?Angled?1X*
+ Socket?Strip?Straight?1X*
+ Socket?Strip?Angled?1X*
+$ENDFPLIST
+DRAW
+S -50 -95 0 -105 1 1 6 N
+S -50 5 0 -5 1 1 6 N
+S -50 50 50 -150 1 1 10 f
+X Pin_1 1 -200 0 150 R 50 50 1 1 P
+X Pin_2 2 -200 -100 150 R 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# maxwell-rescue_Conn_01x03-RESCUE-maxwell
+#
+DEF maxwell-rescue_Conn_01x03-RESCUE-maxwell J 0 40 Y N 1 F N
 F0 "J" 0 200 50 H V C CNN
-F1 "maxwell-rescue:Conn_01x03-RESCUE-maxwell" 0 -200 50 H V C CNN
+F1 "maxwell-rescue_Conn_01x03-RESCUE-maxwell" 0 -200 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -486,11 +275,37 @@ X Pin_3 3 -200 -100 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:Conn_01x04-RESCUE-maxwell
+# maxwell-rescue_Conn_01x03-conn
 #
-DEF maxwell-rescue:Conn_01x04-RESCUE-maxwell J 0 40 Y N 1 F N
+DEF maxwell-rescue_Conn_01x03-conn J 0 40 Y N 1 F N
 F0 "J" 0 200 50 H V C CNN
-F1 "maxwell-rescue:Conn_01x04-RESCUE-maxwell" 0 -300 50 H V C CNN
+F1 "maxwell-rescue_Conn_01x03-conn" 0 -200 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ Connector*:*_??x*mm*
+ Connector*:*1x??x*mm*
+ Pin?Header?Straight?1X*
+ Pin?Header?Angled?1X*
+ Socket?Strip?Straight?1X*
+ Socket?Strip?Angled?1X*
+$ENDFPLIST
+DRAW
+S -50 -95 0 -105 1 1 6 N
+S -50 5 0 -5 1 1 6 N
+S -50 105 0 95 1 1 6 N
+S -50 150 50 -150 1 1 10 f
+X Pin_1 1 -200 100 150 R 50 50 1 1 P
+X Pin_2 2 -200 0 150 R 50 50 1 1 P
+X Pin_3 3 -200 -100 150 R 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# maxwell-rescue_Conn_01x04-RESCUE-maxwell
+#
+DEF maxwell-rescue_Conn_01x04-RESCUE-maxwell J 0 40 Y N 1 F N
+F0 "J" 0 200 50 H V C CNN
+F1 "maxwell-rescue_Conn_01x04-RESCUE-maxwell" 0 -300 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -514,11 +329,39 @@ X Pin_4 4 -200 -200 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:Conn_01x05-RESCUE-maxwell
+# maxwell-rescue_Conn_01x04-conn
 #
-DEF maxwell-rescue:Conn_01x05-RESCUE-maxwell J 0 40 Y N 1 F N
+DEF maxwell-rescue_Conn_01x04-conn J 0 40 Y N 1 F N
+F0 "J" 0 200 50 H V C CNN
+F1 "maxwell-rescue_Conn_01x04-conn" 0 -300 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ Connector*:*_??x*mm*
+ Connector*:*1x??x*mm*
+ Pin?Header?Straight?1X*
+ Pin?Header?Angled?1X*
+ Socket?Strip?Straight?1X*
+ Socket?Strip?Angled?1X*
+$ENDFPLIST
+DRAW
+S -50 -195 0 -205 1 1 6 N
+S -50 -95 0 -105 1 1 6 N
+S -50 5 0 -5 1 1 6 N
+S -50 105 0 95 1 1 6 N
+S -50 150 50 -250 1 1 10 f
+X Pin_1 1 -200 100 150 R 50 50 1 1 P
+X Pin_2 2 -200 0 150 R 50 50 1 1 P
+X Pin_3 3 -200 -100 150 R 50 50 1 1 P
+X Pin_4 4 -200 -200 150 R 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# maxwell-rescue_Conn_01x05-RESCUE-maxwell
+#
+DEF maxwell-rescue_Conn_01x05-RESCUE-maxwell J 0 40 Y N 1 F N
 F0 "J" 0 300 50 H V C CNN
-F1 "maxwell-rescue:Conn_01x05-RESCUE-maxwell" 0 -300 50 H V C CNN
+F1 "maxwell-rescue_Conn_01x05-RESCUE-maxwell" 0 -300 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -544,11 +387,43 @@ X Pin_5 5 -200 -200 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:Crystal-RESCUE-maxwell
+# maxwell-rescue_Conn_01x06-conn
 #
-DEF maxwell-rescue:Crystal-RESCUE-maxwell Y 0 40 N N 1 F N
+DEF maxwell-rescue_Conn_01x06-conn J 0 40 Y N 1 F N
+F0 "J" 0 300 50 H V C CNN
+F1 "maxwell-rescue_Conn_01x06-conn" 0 -400 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ Connector*:*_??x*mm*
+ Connector*:*1x??x*mm*
+ Pin?Header?Straight?1X*
+ Pin?Header?Angled?1X*
+ Socket?Strip?Straight?1X*
+ Socket?Strip?Angled?1X*
+$ENDFPLIST
+DRAW
+S -50 -295 0 -305 1 1 6 N
+S -50 -195 0 -205 1 1 6 N
+S -50 -95 0 -105 1 1 6 N
+S -50 5 0 -5 1 1 6 N
+S -50 105 0 95 1 1 6 N
+S -50 205 0 195 1 1 6 N
+S -50 250 50 -350 1 1 10 f
+X Pin_1 1 -200 200 150 R 50 50 1 1 P
+X Pin_2 2 -200 100 150 R 50 50 1 1 P
+X Pin_3 3 -200 0 150 R 50 50 1 1 P
+X Pin_4 4 -200 -100 150 R 50 50 1 1 P
+X Pin_5 5 -200 -200 150 R 50 50 1 1 P
+X Pin_6 6 -200 -300 150 R 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# maxwell-rescue_Crystal-RESCUE-maxwell
+#
+DEF maxwell-rescue_Crystal-RESCUE-maxwell Y 0 40 N N 1 F N
 F0 "Y" 0 150 50 H V C CNN
-F1 "maxwell-rescue:Crystal-RESCUE-maxwell" 0 -150 50 H V C CNN
+F1 "maxwell-rescue_Crystal-RESCUE-maxwell" 0 -150 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -565,11 +440,34 @@ X 2 2 150 0 50 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:D-RESCUE-maxwell
+# maxwell-rescue_Crystal_GND23_Small-device
 #
-DEF maxwell-rescue:D-RESCUE-maxwell D 0 40 N N 1 F N
+DEF maxwell-rescue_Crystal_GND23_Small-device Y 0 40 Y N 1 F N
+F0 "Y" 50 175 50 H V L CNN
+F1 "maxwell-rescue_Crystal_GND23_Small-device" 50 100 50 H V L CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ Crystal*
+$ENDFPLIST
+DRAW
+S -30 -60 30 60 0 1 0 N
+P 2 0 1 15 -50 -30 -50 30 N
+P 2 0 1 15 50 -30 50 30 N
+P 4 0 1 0 -50 -50 -50 -75 50 -75 50 -50 N
+P 4 0 1 0 -50 50 -50 75 50 75 50 50 N
+X 1 1 -100 0 50 R 50 50 1 1 P
+X 2 2 0 -125 50 U 50 50 1 1 P
+X 3 3 0 125 50 D 50 50 1 1 P
+X 4 4 100 0 50 L 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# maxwell-rescue_D-RESCUE-maxwell
+#
+DEF maxwell-rescue_D-RESCUE-maxwell D 0 40 N N 1 F N
 F0 "D" 0 100 50 H V C CNN
-F1 "maxwell-rescue:D-RESCUE-maxwell" 0 -100 50 H V C CNN
+F1 "maxwell-rescue_D-RESCUE-maxwell" 0 -100 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -588,11 +486,11 @@ X A 2 150 0 100 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:D_Bridge_+-AA-RESCUE-maxwell
+# maxwell-rescue_D_Bridge_+-AA-RESCUE-maxwell
 #
-DEF maxwell-rescue:D_Bridge_+-AA-RESCUE-maxwell D 0 50 Y Y 1 F N
+DEF maxwell-rescue_D_Bridge_+-AA-RESCUE-maxwell D 0 50 Y Y 1 F N
 F0 "D" 50 275 50 H V L CNN
-F1 "maxwell-rescue:D_Bridge_+-AA-RESCUE-maxwell" 50 200 50 H V L CNN
+F1 "maxwell-rescue_D_Bridge_+-AA-RESCUE-maxwell" 50 200 50 H V L CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -616,11 +514,11 @@ X ~ 4 0 -300 100 U 50 50 1 1 I
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:ESP-32S-esp32
+# maxwell-rescue_ESP-32S-esp32
 #
-DEF maxwell-rescue:ESP-32S-esp32 U 0 40 Y Y 1 F N
+DEF maxwell-rescue_ESP-32S-esp32 U 0 40 Y Y 1 F N
 F0 "U" -700 1250 60 H V C CNN
-F1 "maxwell-rescue:ESP-32S-esp32" 500 1250 60 H V C CNN
+F1 "maxwell-rescue_ESP-32S-esp32" 500 1250 60 H V C CNN
 F2 "ESP32-footprints-Lib:ESP-32S" 350 1350 60 H I C CNN
 F3 "" -450 450 60 H I C CNN
 DRAW
@@ -668,11 +566,11 @@ X IO33 9 -950 -100 200 R 50 50 1 1 B
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:GND-RESCUE-maxwell
+# maxwell-rescue_GND-RESCUE-maxwell
 #
-DEF maxwell-rescue:GND-RESCUE-maxwell #PWR 0 0 Y Y 1 F P
+DEF maxwell-rescue_GND-RESCUE-maxwell #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 -250 50 H I C CNN
-F1 "maxwell-rescue:GND-RESCUE-maxwell" 0 -150 50 H V C CNN
+F1 "maxwell-rescue_GND-RESCUE-maxwell" 0 -150 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -681,11 +579,11 @@ X GND 1 0 0 0 D 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:GNDPWR-RESCUE-maxwell
+# maxwell-rescue_GNDPWR-RESCUE-maxwell
 #
-DEF maxwell-rescue:GNDPWR-RESCUE-maxwell #PWR 0 0 Y Y 1 F P
+DEF maxwell-rescue_GNDPWR-RESCUE-maxwell #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 -200 50 H I C CNN
-F1 "maxwell-rescue:GNDPWR-RESCUE-maxwell" 0 -130 50 H V C CNN
+F1 "maxwell-rescue_GNDPWR-RESCUE-maxwell" 0 -130 50 H V C CNN
 F2 "" 0 -50 50 H I C CNN
 F3 "" 0 -50 50 H I C CNN
 DRAW
@@ -700,11 +598,29 @@ X GNDPWR 1 0 0 0 U 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:MCP73831T-RESCUE-maxwell
+# maxwell-rescue_MCP1501-coddingtonbear
 #
-DEF maxwell-rescue:MCP73831T-RESCUE-maxwell U* 0 40 Y Y 1 F N
+DEF maxwell-rescue_MCP1501-coddingtonbear U 0 40 Y Y 1 F N
+F0 "U" 50 300 60 H V C CNN
+F1 "maxwell-rescue_MCP1501-coddingtonbear" 50 -400 60 H V C CNN
+F2 "" 0 0 60 H I C CNN
+F3 "" 0 0 60 H I C CNN
+DRAW
+S -200 250 300 -300 0 1 0 N
+X OUT 1 450 150 200 L 50 50 1 1 I
+X GND 2 -400 0 200 R 50 50 1 1 I
+X GND 3 -400 -100 200 R 50 50 1 1 I
+X ~SHDN 4 500 -200 200 L 50 50 1 1 I
+X GND 5 -400 -200 200 R 50 50 1 1 I
+X VDD 6 -400 150 200 R 50 50 1 1 I
+ENDDRAW
+ENDDEF
+#
+# maxwell-rescue_MCP73831T-RESCUE-maxwell
+#
+DEF maxwell-rescue_MCP73831T-RESCUE-maxwell U* 0 40 Y Y 1 F N
 F0 "U*" 0 450 60 H V C CNN
-F1 "maxwell-rescue:MCP73831T-RESCUE-maxwell" 0 -300 60 H V C CNN
+F1 "maxwell-rescue_MCP73831T-RESCUE-maxwell" 0 -300 60 H V C CNN
 F2 "" 0 -300 60 H V C CNN
 F3 "" 0 -300 60 H V C CNN
 DRAW
@@ -723,11 +639,95 @@ X PROG 5 450 100 200 L 50 50 1 1 I
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:R-RESCUE-maxwell
+# maxwell-rescue_MIC39102-coddingtonbear
 #
-DEF maxwell-rescue:R-RESCUE-maxwell R 0 0 N Y 1 F N
+DEF maxwell-rescue_MIC39102-coddingtonbear U 0 40 Y Y 1 F N
+F0 "U" 0 350 60 H V C CNN
+F1 "maxwell-rescue_MIC39102-coddingtonbear" 0 -250 60 H V C CNN
+F2 "" 0 0 60 H I C CNN
+F3 "" 0 0 60 H I C CNN
+DRAW
+S -200 300 250 -200 0 1 0 N
+X EN 1 -400 200 200 R 50 50 1 1 I
+X IN 2 -400 100 200 R 50 50 1 1 W
+X OUT 3 -400 0 200 R 50 50 1 1 w
+X ADJ 4 -400 -100 200 R 50 50 1 1 I
+X GND 5 450 -100 200 L 50 50 1 1 W
+X GND 6 450 0 200 L 50 50 1 1 W
+X GND 7 450 100 200 L 50 50 1 1 W
+X GND 8 450 200 200 L 50 50 1 1 W
+ENDDRAW
+ENDDEF
+#
+# maxwell-rescue_Q_NMOS_SGD-device
+#
+DEF maxwell-rescue_Q_NMOS_SGD-device Q 0 0 Y N 1 F N
+F0 "Q" 200 50 50 H V L CNN
+F1 "maxwell-rescue_Q_NMOS_SGD-device" 200 -50 50 H V L CNN
+F2 "" 200 100 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+C 65 0 111 0 1 10 N
+C 100 -70 11 0 1 0 F
+C 100 70 11 0 1 0 F
+P 2 0 1 0 2 0 10 0 N
+P 2 0 1 0 30 -70 100 -70 N
+P 2 0 1 10 30 -50 30 -90 N
+P 2 0 1 0 30 0 100 0 N
+P 2 0 1 10 30 20 30 -20 N
+P 2 0 1 0 30 70 100 70 N
+P 2 0 1 10 30 90 30 50 N
+P 2 0 1 0 100 -70 100 -100 N
+P 2 0 1 0 100 -70 100 0 N
+P 2 0 1 0 100 100 100 70 N
+P 3 0 1 10 10 75 10 -75 10 -75 N
+P 4 0 1 0 40 0 80 15 80 -15 40 0 F
+P 4 0 1 0 100 -70 130 -70 130 70 100 70 N
+P 4 0 1 0 110 20 115 15 145 15 150 10 N
+P 4 0 1 0 130 15 115 -10 145 -10 130 15 N
+X S 1 100 -200 100 U 50 50 1 1 P
+X G 2 -200 0 200 R 50 50 1 1 I
+X D 3 100 200 100 D 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# maxwell-rescue_Q_PMOS_GSD-device
+#
+DEF maxwell-rescue_Q_PMOS_GSD-device Q 0 0 Y N 1 F N
+F0 "Q" 200 50 50 H V L CNN
+F1 "maxwell-rescue_Q_PMOS_GSD-device" 200 -50 50 H V L CNN
+F2 "" 200 100 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+C 65 0 111 0 1 10 N
+C 100 -70 11 0 1 0 F
+C 100 70 11 0 1 0 F
+P 2 0 1 0 2 0 10 0 N
+P 2 0 1 0 30 -70 100 -70 N
+P 2 0 1 10 30 -50 30 -90 N
+P 2 0 1 0 30 0 100 0 N
+P 2 0 1 10 30 20 30 -20 N
+P 2 0 1 0 30 70 100 70 N
+P 2 0 1 10 30 90 30 50 N
+P 2 0 1 0 100 -70 100 -100 N
+P 2 0 1 0 100 -70 100 0 N
+P 2 0 1 0 100 100 100 70 N
+P 3 0 1 10 10 75 10 -75 10 -75 N
+P 4 0 1 0 90 0 50 -15 50 15 90 0 F
+P 4 0 1 0 100 -70 130 -70 130 70 100 70 N
+P 4 0 1 0 110 -20 115 -15 145 -15 150 -10 N
+P 4 0 1 0 130 -15 115 10 145 10 130 -15 N
+X G 1 -200 0 200 R 50 50 1 1 I
+X S 2 100 -200 100 U 50 50 1 1 P
+X D 3 100 200 100 D 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# maxwell-rescue_R-RESCUE-maxwell
+#
+DEF maxwell-rescue_R-RESCUE-maxwell R 0 0 N Y 1 F N
 F0 "R" 80 0 50 V V C CNN
-F1 "maxwell-rescue:R-RESCUE-maxwell" 0 0 50 V V C CNN
+F1 "maxwell-rescue_R-RESCUE-maxwell" 0 0 50 V V C CNN
 F2 "" -70 0 50 V I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -741,11 +741,11 @@ X ~ 2 0 -150 50 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:SN65HVD233-RESCUE-maxwell
+# maxwell-rescue_SN65HVD233-RESCUE-maxwell
 #
-DEF maxwell-rescue:SN65HVD233-RESCUE-maxwell U 0 40 Y Y 1 F N
+DEF maxwell-rescue_SN65HVD233-RESCUE-maxwell U 0 40 Y Y 1 F N
 F0 "U" -100 400 50 H V R CNN
-F1 "maxwell-rescue:SN65HVD233-RESCUE-maxwell" -100 300 50 H V R CNN
+F1 "maxwell-rescue_SN65HVD233-RESCUE-maxwell" -100 300 50 H V R CNN
 F2 "Housings_SOIC:SOIC-8_3.9x4.9mm_Pitch1.27mm" 0 -500 50 H I C CNN
 F3 "" -100 400 50 H I C CNN
 $FPLIST
@@ -764,11 +764,11 @@ X Rs 8 -400 -200 100 R 50 50 1 1 I
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:STM32F103RETx-RESCUE-maxwell
+# maxwell-rescue_STM32F103RETx-RESCUE-maxwell
 #
-DEF maxwell-rescue:STM32F103RETx-RESCUE-maxwell U 0 40 Y Y 1 L N
+DEF maxwell-rescue_STM32F103RETx-RESCUE-maxwell U 0 40 Y Y 1 L N
 F0 "U" -2700 1925 50 H V L BNN
-F1 "maxwell-rescue:STM32F103RETx-RESCUE-maxwell" 2700 1925 50 H V R BNN
+F1 "maxwell-rescue_STM32F103RETx-RESCUE-maxwell" 2700 1925 50 H V R BNN
 F2 "LQFP64" 2700 1875 50 H I R TNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -840,11 +840,11 @@ X PC1/ADC1_IN11/ADC2_IN11/ADC3_IN11 9 -2800 -200 100 R 50 50 1 1 B
 ENDDRAW
 ENDDEF
 #
-# maxwell-rescue:TLP185(SE-RESCUE-maxwell
+# maxwell-rescue_TLP185(SE-RESCUE-maxwell
 #
-DEF maxwell-rescue:TLP185(SE-RESCUE-maxwell U 0 40 Y Y 1 F N
+DEF maxwell-rescue_TLP185(SE-RESCUE-maxwell U 0 40 Y Y 1 F N
 F0 "U" -200 200 50 H V L CNN
-F1 "maxwell-rescue:TLP185(SE-RESCUE-maxwell" -200 -200 50 H V L CNN
+F1 "maxwell-rescue_TLP185(SE-RESCUE-maxwell" -200 -200 50 H V L CNN
 F2 "Housings_SSOP:MFSOP6-4_4.4x3.6mm_Pitch1.27mm" 0 -300 50 H I C CIN
 F3 "" 0 0 50 H I L CNN
 $FPLIST
@@ -868,11 +868,11 @@ X ~ 6 300 100 100 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# power:VCC
+# power_VCC
 #
-DEF power:VCC #PWR 0 0 Y Y 1 F P
+DEF power_VCC #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 -150 50 H I C CNN
-F1 "power:VCC" 0 150 50 H V C CNN
+F1 "power_VCC" 0 150 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -882,11 +882,11 @@ X VCC 1 0 0 0 U 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# pspice:DIODE
+# pspice_DIODE
 #
-DEF pspice:DIODE D 0 40 Y N 1 F N
+DEF pspice_DIODE D 0 40 Y N 1 F N
 F0 "D" 0 150 50 H V C CNN
-F1 "pspice:DIODE" 0 -175 50 H V C CNN
+F1 "pspice_DIODE" 0 -175 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW

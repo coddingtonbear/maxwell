@@ -398,7 +398,7 @@ F 3 "" H 1550 7350 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L conn:Conn_01x02 J4
+L maxwell-rescue:Conn_01x02-conn J4
 U 1 1 5A8A1BD4
 P 3250 1100
 F 0 "J4" H 3329 1092 50  0000 L CNN
@@ -409,7 +409,7 @@ F 3 "~" H 3250 1100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L conn:Conn_01x02 J8
+L maxwell-rescue:Conn_01x02-conn J8
 U 1 1 5A8A1C87
 P 3250 2350
 F 0 "J8" H 3329 2342 50  0000 L CNN
@@ -515,7 +515,7 @@ SPI2_SCK
 Text GLabel 7750 1650 0    60   Output ~ 0
 SPI2_MISO
 $Comp
-L conn:Conn_01x06 J5
+L maxwell-rescue:Conn_01x06-conn J5
 U 1 1 5A872F71
 P 7950 1550
 F 0 "J5" H 8029 1542 50  0000 L CNN
@@ -526,7 +526,7 @@ F 3 "~" H 7950 1550 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L conn:Conn_01x06 J10
+L maxwell-rescue:Conn_01x06-conn J10
 U 1 1 5A87305D
 P 8350 1550
 F 0 "J10" H 8430 1542 50  0000 L CNN
@@ -638,7 +638,7 @@ $EndComp
 Wire Wire Line
 	3350 4200 3600 4200
 $Comp
-L conn:Conn_01x02 J11
+L maxwell-rescue:Conn_01x02-conn J11
 U 1 1 5A8ACC4B
 P 2550 2050
 F 0 "J11" H 2630 2042 50  0000 L CNN
@@ -705,7 +705,7 @@ F 3 "" H 8950 4550 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L conn:Conn_01x04 J12
+L maxwell-rescue:Conn_01x04-conn J12
 U 1 1 5A8B4267
 P 4450 5700
 F 0 "J12" H 4530 5692 50  0000 L CNN
@@ -716,7 +716,7 @@ F 3 "~" H 4450 5700 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L conn:Conn_01x04 J13
+L maxwell-rescue:Conn_01x04-conn J13
 U 1 1 5A8B42C9
 P 4450 6200
 F 0 "J13" H 4530 6192 50  0000 L CNN
@@ -761,7 +761,7 @@ I2C1_SDA
 Text GLabel 5350 5850 0    60   BiDi ~ 0
 I2C1_SCL
 $Comp
-L conn:Conn_01x04 J14
+L maxwell-rescue:Conn_01x04-conn J14
 U 1 1 5A8B5837
 P 5800 5750
 F 0 "J14" H 5880 5742 50  0000 L CNN
@@ -889,7 +889,7 @@ $EndComp
 Text GLabel 10300 3850 2    60   Output ~ 0
 N_RST
 $Comp
-L device:C C5
+L maxwell-rescue:C-device C5
 U 1 1 5B327200
 P 7900 2750
 F 0 "C5" H 8015 2796 50  0000 L CNN
@@ -978,7 +978,7 @@ Connection ~ 7750 1450
 Text GLabel 5300 2200 3    60   Input ~ 0
 ESP_BOOT_MODE
 $Comp
-L conn:Conn_01x02 J16
+L maxwell-rescue:Conn_01x02-conn J16
 U 1 1 5B336731
 P 5500 2100
 F 0 "J16" H 5579 2092 50  0000 L CNN

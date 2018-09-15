@@ -508,9 +508,9 @@ $EndComp
 Connection ~ 2350 6750
 Text GLabel 7750 1350 0    60   Input ~ 0
 SPI2_CS_A
-Text GLabel 7750 1550 0    60   Input ~ 0
-SPI2_MOSI
 Text GLabel 7750 1750 0    60   Input ~ 0
+SPI2_MOSI
+Text GLabel 7750 1550 0    60   Input ~ 0
 SPI2_SCK
 Text GLabel 7750 1650 0    60   Output ~ 0
 SPI2_MISO
