@@ -29,7 +29,7 @@ Checked items indicate errata that have been corrected in the schematic.
 
 ### Maxwell
 
-* [ ] Incorrect management of switching between dynamo and battery power.  The MOSFET method I was originally planning to use was probably unworkable; instead just use a schottky diode before the junction point of both.
+* [ ] Incorrect management of switching between dynamo and battery power.  The MOSFET method I was originally planning to use was probably unworkable; instead just use a schottky diode before the junction point of both.  See https://www.dropbox.com/s/91mg9zh1k596qku/Fixing%20Maxwell.pdf?raw=1&page=1 for details.
 
 ### Maxwell-remote
 
