@@ -56,6 +56,7 @@ void connectCamera();
 void disconnectCamera();
 void deleteCameraMedia();
 void setContrast();
+void setBluetoothTimeoutSeconds();
 
 void menuUp();
 void menuDown();

@@ -43,6 +43,8 @@ void setupCommands() {
     commands.addCommand("enable_esp", enableEsp);
     commands.addCommand("get_time", getTime);
 
+    commands.addCommand("delay_bt_timeout", setBluetoothTimeoutSeconds);
+
     commands.addCommand("enable_charging", enableBatteryCharging);
     commands.addCommand("disable_charging", disableBatteryCharging);
 
@@ -99,6 +101,13 @@ bool getBluetoothEnabled() {
 
 void refreshLocalBluetoothTimeout() {
     bluetoothEnabledUntil = millis() + BT_TIMEOUT_ACTIVITY;
+}
+
+void setBluetoothTimeoutSeconds() {
+    char* seconds = commands.next();
+    if(seconds != NULL) {
+        bluetoothEnabledUntil = millis() + (atoi(seconds) * 1000);
+    }
 }
 
 void handleLocalBluetoothTimeout() {
