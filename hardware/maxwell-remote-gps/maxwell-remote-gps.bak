@@ -363,12 +363,6 @@ F 3 "" H 5750 1450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	7250 1450 6950 1450
-Wire Wire Line
-	6950 1450 6950 1700
-Wire Wire Line
-	6950 1700 6350 1700
-Wire Wire Line
 	6350 1700 6350 1150
 Wire Wire Line
 	6350 1150 5750 1150
@@ -393,10 +387,6 @@ F 3 "~" H 6150 2050 50  0001 C CNN
 	1    6150 2050
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	5800 1950 5950 1950
-Wire Wire Line
-	5950 2050 5800 2050
 $Comp
 L power:GND #PWR0114
 U 1 1 5BA0A6E4
@@ -410,4 +400,40 @@ F 3 "" H 5900 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5900 2150 5950 2150
+Wire Wire Line
+	5800 2050 5850 2050
+Wire Wire Line
+	5850 2050 5850 1950
+Wire Wire Line
+	5850 1950 5950 1950
+Wire Wire Line
+	5800 1950 5800 1900
+Wire Wire Line
+	5800 1900 5900 1900
+Wire Wire Line
+	5900 1900 5900 2050
+Wire Wire Line
+	5900 2050 5950 2050
+Wire Wire Line
+	6350 1700 6750 1700
+Wire Wire Line
+	6750 1700 6750 1500
+Wire Wire Line
+	6900 1500 6900 1450
+Wire Wire Line
+	6900 1450 7250 1450
+Wire Wire Line
+	6750 1500 6900 1500
+Wire Wire Line
+	7250 1550 6800 1550
+Wire Wire Line
+	6800 1550 6800 2550
+Wire Wire Line
+	6800 2550 5800 2550
+Wire Wire Line
+	5800 2650 6850 2650
+Wire Wire Line
+	6850 2650 6850 1650
+Wire Wire Line
+	6850 1650 7250 1650
 $EndSCHEMATC

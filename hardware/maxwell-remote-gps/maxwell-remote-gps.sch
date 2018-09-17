@@ -363,12 +363,6 @@ F 3 "" H 5750 1450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	7250 1450 6950 1450
-Wire Wire Line
-	6950 1450 6950 1700
-Wire Wire Line
-	6950 1700 6350 1700
-Wire Wire Line
 	6350 1700 6350 1150
 Wire Wire Line
 	6350 1150 5750 1150
@@ -420,4 +414,26 @@ Wire Wire Line
 	5900 1900 5900 2050
 Wire Wire Line
 	5900 2050 5950 2050
+Wire Wire Line
+	6350 1700 6750 1700
+Wire Wire Line
+	6750 1700 6750 1500
+Wire Wire Line
+	6900 1500 6900 1450
+Wire Wire Line
+	6900 1450 7250 1450
+Wire Wire Line
+	6750 1500 6900 1500
+Wire Wire Line
+	6800 2550 5800 2550
+Wire Wire Line
+	5800 2650 6850 2650
+Wire Wire Line
+	7250 1550 6850 1550
+Wire Wire Line
+	6850 1550 6850 2650
+Wire Wire Line
+	6800 2550 6800 1650
+Wire Wire Line
+	6800 1650 7250 1650
 $EndSCHEMATC
