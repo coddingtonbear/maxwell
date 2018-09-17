@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <SdFat.h>
-#include <HardwareCan.h>
+#include <HardwareCAN.h>
 
 #include "logger.h"
 #include "main.h"

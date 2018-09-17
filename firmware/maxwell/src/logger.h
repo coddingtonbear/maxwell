@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
-#include <HardwareCan.h>
+#include <HardwareCAN.h>
 #include <SdFat.h>
 
 

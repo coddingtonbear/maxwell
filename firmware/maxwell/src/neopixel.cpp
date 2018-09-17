@@ -95,7 +95,7 @@ void ledSetSecondaryColor(uint8_t _red, uint8_t _green, uint8_t _blue) {
 }
 
 void ledSetMaxBrightness(uint8_t _brightness) {
-    maxBrightness = _brightness;
+    pixels.setBrightness(_brightness);
 }
 
 void ledCycle() {
@@ -129,8 +129,8 @@ void ledCycle() {
         }
     } else if(cycle == LED_CYCLE_MOTION) {
         int colors[6] = {
-            adjustedColor(colorRed, colorGreen, colorBlue),
-            adjustedColor(
+            pixels.Color(colorRed, colorGreen, colorBlue),
+            pixels.Color(
                 secondaryColorRed,
                 secondaryColorGreen,
                 secondaryColorBlue
@@ -174,12 +174,12 @@ void ledCycle() {
         }
     } else if(cycle == LED_CYCLE_RAINBOW) {
         int colors[6] = {
-            adjustedColor(255, 0, 0),
-            adjustedColor(255, 168, 0),
-            adjustedColor(255, 255, 0),
-            adjustedColor(0, 255, 0),
-            adjustedColor(0, 0, 255),
-            adjustedColor(168, 0, 255)
+            pixels.Color(255, 0, 0),
+            pixels.Color(255, 168, 0),
+            pixels.Color(255, 255, 0),
+            pixels.Color(0, 255, 0),
+            pixels.Color(0, 0, 255),
+            pixels.Color(168, 0, 255)
         };
         for(int i = 0; i < NUM_LEDS; i++) {
             int effectiveI = i + offset;
@@ -203,15 +203,6 @@ void ledCycle() {
     lastCycle = millis();
 
     delay(5);
-}
-
-
-uint32 adjustedColor(uint32 r, uint32 g, uint32 b) {
-    return pixels.Color(
-        ((float)r/(float)255) * (float)maxBrightness,
-        ((float)g/(float)255) * (float)maxBrightness,
-        ((float)b/(float)255) * (float)maxBrightness
-    );
 }
 
 

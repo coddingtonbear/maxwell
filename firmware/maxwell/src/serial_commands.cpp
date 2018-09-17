@@ -48,23 +48,12 @@ void setupCommands() {
 
     commands.addCommand("flash", flash);
     canCommands.addCommand(CAN_CMD_MAIN_MC_FLASH, flash);
-    commands.addCommand("flash_esp", flashEsp32);
-    commands.addCommand("enable_esp", enableEsp32);
-    commands.addCommand("disable_esp", disableEsp32);
-    commands.addCommand("send_esp_command", sendEspCommand);
-    canCommands.addCommand(CAN_CMD_ESP_ENABLE, canEnableEsp);
-    canCommands.addCommand(CAN_CMD_BT_ENABLE, canEnableBluetooth);
     canCommands.addCommand(CAN_CMD_AUTOSLEEP_ENABLE, canAutosleepEnable);
     commands.addCommand("enable_autosleep", cmdEnableAutosleep);
     commands.addCommand("disable_autosleep", cmdEnableAutosleep);
     commands.addCommand("disable_bluetooth", cmdDisableBluetooth);
     commands.addCommand("enable_bluetooth", cmdEnableBluetooth);
-    commands.addCommand("enable_ble", enableBle);
-    commands.addCommand("disable_ble", disableBle);
-    canCommands.addCommand(CAN_CMD_BLE_ENABLE, canEnableBle);
-    canCommands.addCommand(CAN_CMD_CONNECT_CAMERA, canConnectCamera);
-    canCommands.addCommand(CAN_CMD_DELETE_CAMERA_MEDIA, canDeleteCameraMedia);
-    commands.addCommand("esp_status", printEspStatus);
+    commands.addCommand("delay_bt_timeout", setBluetoothTimeoutSeconds);
 
     commands.addCommand("debug_can", debug_can);
     commands.addCommand("send_can", send_can);
@@ -479,80 +468,6 @@ void debug_can() {
     enableCanDebug(enabled);
 }
 
-
-void flashEsp32() {
-    Output.println("Resetting ESP32...");
-
-    digitalWrite(PIN_ESP_BOOT_FLASH_, LOW);
-    digitalWrite(PIN_DISABLE_ESP_, LOW);
-    delay(1000);
-    digitalWrite(PIN_DISABLE_ESP_, HIGH);
-
-    ESPSerial.begin(115200);
-    UART5.begin(115200);
-
-    BTSerial.println("Ready to flash ESP32 via UART5 (115200); press ENTER to finish.");
-
-    while(true) {
-        iwdg_feed();
-        if(BTSerial.read() == '\n') {
-            break;
-        }
-        if(UART5.available()) {
-            uint8_t value = UART5.read();
-            ESPSerial.write(value);
-            //BTSerial.print("-> ");
-            //BTSerial.println(value);
-        }
-        if(ESPSerial.available()) {
-            uint8_t value = ESPSerial.read();
-            UART5.write(value);
-            //BTSerial.print("<- ");
-            //BTSerial.println(value);
-        }
-    }
-
-    Output.begin();
-
-    Output.println("Re-enabling ESP32.");
-    enableEsp(true);
-    Output.println("Finished.");
-}
-
-void enableBle() {
-    enableEsp(true);
-    delay(250);
-    sendEspCommand("enable_ble");
-}
-
-void disableBle() {
-    disableEsp32();
-}
-
-void canEnableBle() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
-    if(enabled) {
-        enableBle();
-    } else {
-        disableBle();
-    }
-}
-
-void enableEsp32() {
-    ESPCtrlSerial.begin(9600);
-    enableEsp(true);
-    Output.println("ESP32 Enabled.");
-}
-
-void disableEsp32() {
-    ESPCtrlSerial.end();
-    enableEsp(false);
-    Output.println("ESP32 Disabled.");
-}
-
 void doSleep() {
     sleep();
 }
@@ -588,15 +503,6 @@ void doBridgeUART() {
     Output.println();
     Output.println("==========");
     Output.println("Bridge teardown completed");
-}
-
-void canEnableEsp() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
-
-    enableEsp(enabled);
 }
 
 void canEnableBluetooth() {
@@ -824,6 +730,13 @@ void cmdDisableBluetooth() {
     enableBluetooth(false);
 }
 
+void setBluetoothTimeoutSeconds() {
+    char* seconds = commands.next();
+    if(seconds != NULL) {
+        setBluetoothKeepalive(millis() + (atoi(seconds) * 1000));
+    }
+}
+
 void sdErrorState() {
     filesystem.initErrorPrint(&Output);
 }
@@ -840,64 +753,4 @@ void getTime() {
 
     Output.print("Current time: ");
     Output.println(String((uint32)time));
-}
-
-void sendEspCommand() {
-    char* command = commands.next();
-
-    sendEspCommand(command);
-}
-
-void canConnectCamera() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
-    if(enabled) {
-        enableEsp32();
-        delay(250);
-        sendEspCommand("connect_camera");
-    } else {
-        disableEsp32();
-    }
-}
-
-void canDeleteCameraMedia() {
-    sendEspCommand("delete_gopro_media");
-}
-
-void printEspStatus() {
-    Output.print("ESP Module: ");
-    if(espIsEnabled()) {
-        Output.println("enabled");
-    } else {
-        Output.println("disabled");
-    }
-    Output.print("Camera: ");
-    if(espStatus.cameraConnected) {
-        Output.println("connected");
-    } else {
-        Output.println("not connected");
-    }
-    Output.print("BLE: ");
-    if(espStatus.bleEnabled) {
-        Output.println("enabled");
-    } else {
-        Output.println("not enabled");
-    }
-    Output.print("Recording: ");
-    if(espStatus.recordingNow) {
-        Output.println("yes");
-    } else {
-        Output.println("no");
-    }
-    Output.print("Battery Level: ");
-    Output.println(espStatus.batteryLevel);
-    Output.print("Bytes Available: ");
-    Output.println(espStatus.bytesAvailable);
-    if(espStatus.lastUpdated) {
-        Output.print("Last Updated ");
-        Output.print((millis() - espStatus.lastUpdated) / 1000);
-        Output.println(" seconds ago");
-    }
 }

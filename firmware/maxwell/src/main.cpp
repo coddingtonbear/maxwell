@@ -30,16 +30,9 @@ uint32 lastStatisticsUpdate = 0;
 uint32 lastKeepalive = 0;
 uint32 lastBluetoothKeepalive = 0;
 bool bluetoothEnabled = true;
-bool espEnabled = false;
 
 bool autosleepEnabled = true;
 
-char espStatusLine[4096];
-uint16_t espStatusLinePos = 0;
-
-ESPStatus espStatus;
-
-Task taskChirp(CHIRP_INTERVAL, TASK_FOREVER, &taskChirpCallback);
 Task taskVoltage(VOLTAGE_UPDATE_INTERVAL, TASK_FOREVER, &taskVoltageCallback);
 Task taskStatistics(
     STATS_UPDATE_INTERVAL,
@@ -109,12 +102,21 @@ void setup() {
     afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
     iwdg_init(IWDG_PRE_256, 2400);
 
-    Output.addInterface(&ESPSerial);
-    Output.addInterface(&BTSerial);
+    // I2C_SCL has a pull-up to 3.3v naturally, so we can
+    // use that line being pulled down at initialization to
+    // prevent the UART from being activated
+    bool skipSerialInit = false;
+    pinMode(I2C_SCL, INPUT);
+    if(digitalRead(I2C_SCL) == LOW) {
+        skipSerialInit = true;
+    }
+
+    if(!skipSerialInit) {
+        Output.addInterface(&BTSerial);
+    }
     Output.begin(230400, SERIAL_8E1);
     Output.println("[Maxwell 2.0]");
     Output.flush();
-
 
     if(Clock.getTime() < 100000) {
         restoreBackupTime();
@@ -153,24 +155,15 @@ void setup() {
 
     pinMode(PIN_BUZZER, OUTPUT);
     digitalWrite(PIN_BUZZER, LOW);
-
-    pinMode(PIN_ESP_BOOT_FLASH_, OUTPUT);
-    digitalWrite(PIN_ESP_BOOT_FLASH_, HIGH);
-    pinMode(PIN_DISABLE_ESP_, OUTPUT);
-    digitalWrite(PIN_DISABLE_ESP_, LOW);
-
-    pinMode(PIN_BT_KEY, OUTPUT);
     digitalWrite(PIN_BT_KEY, LOW);
-    pinMode(PIN_BT_ENABLE_, OUTPUT);
-    digitalWrite(PIN_BT_ENABLE_, HIGH);
-    delay(150);  // We need it to start up in LOW, and it was prev floating
-    digitalWrite(PIN_BT_ENABLE_, LOW);
+    pinMode(PIN_BT_KEY, OUTPUT);
+    digitalWrite(PIN_BT_DISABLE_, HIGH);
+    pinMode(PIN_BT_DISABLE_, OUTPUT);
 
     pinMode(PIN_I_POWER_ON, INPUT_PULLUP);
     pinMode(PIN_I_BATT_CHARGING_, INPUT_ANALOG);
     pinMode(PIN_I_BATT_VOLTAGE, INPUT_ANALOG);
     pinMode(PIN_I_CURRENT_SENSE, INPUT_ANALOG);
-    pinMode(PIN_I_DYNAMO_VOLTAGE, INPUT_ANALOG);
     pinMode(PIN_ENABLE_BATT_POWER, OUTPUT);
     digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
     pinMode(PIN_ENABLE_BATT_CHARGE_, OUTPUT);
@@ -201,10 +194,8 @@ void setup() {
     canTx(&wakeMessage);
 
     ledSetup();
-    enableEsp(false);
 
     taskRunner.init();
-    taskRunner.addTask(taskChirp);
     taskRunner.addTask(taskVoltage);
     taskRunner.addTask(taskVoltageWarning);
     taskRunner.addTask(taskCanbusVoltageBatteryAnnounce);
@@ -279,9 +270,9 @@ HardwareSerial* uartNumberToInterface(uint32_t uartNumber) {
     if(uartNumber == 1) {
         uart = &BTSerial;
     } else if (uartNumber == 2) {
-        uart = &ESPSerial;
+        uart = &UART2;
     } else if (uartNumber == 3) {
-        uart = &ESPCtrlSerial;
+        uart = &UART3;
     } else if (uartNumber == 4) {
         uart = &UART4;
     } else if (uartNumber == 5) {
@@ -293,13 +284,6 @@ HardwareSerial* uartNumberToInterface(uint32_t uartNumber) {
 
 void beep(uint32_t frequency, uint32_t duration) {
     TimerFreeTone(PIN_BUZZER, frequency, duration);
-}
-
-void taskChirpCallback() {
-    for(uint8_t i = 0; i < CHIRP_COUNT; i++) {
-        beep(CHIRP_FREQUENCY, CHIRP_DURATION);
-        delay(CHIRP_INTRANOTE_INTERVAL);
-    }
 }
 
 void taskCanbusLedStatusAnnounceCallback() {
@@ -376,21 +360,14 @@ void taskCanbusStatusIntervalCallback() {
     status.is_charging = getChargingStatus() == CHARGING_STATUS_CHARGING_NOW;
     status.lighting_enabled = ledStatus.enabled;
     status.charging_enabled = batteryChargingIsEnabled();
-    status.esp_enabled = espEnabled;
     status.bt_enabled = bluetoothEnabled;
     status.has_valid_time = (Clock.getTime() > 1000000000);
     status.logging_now = !logErrorCode;
-    if(espStatus.lastUpdated && (millis() - espStatus.lastUpdated < 15000)) {
-        status.wifi_enabled = espStatus.wifiEnabled;
-        status.ble_enabled = espStatus.bleEnabled;
-        status.camera_connected = espStatus.cameraConnected;
-        status.recording_now = espStatus.recordingNow;
-    } else {
-        status.wifi_enabled = false;
-        status.ble_enabled = false;
-        status.camera_connected = false;
-        status.recording_now = false;
-    }
+    // ESP32 Status
+    status.wifi_enabled = false;
+    status.ble_enabled = false;
+    status.camera_connected = false;
+    status.recording_now = false;
 
     CanMsg output;
     output.IDE = CAN_ID_STD;
@@ -561,70 +538,6 @@ void loop() {
 
     // Temporarily omitted to see if this is the source of existing
     // reboot-related problems.
-    //handleEspStatus();
-}
-
-void sendEspCommand(String command) {
-    ESPCtrlSerial.println(command);
-}
-
-void handleEspStatus() {
-    while(ESPCtrlSerial.available()) {
-        char received = ESPCtrlSerial.read();
-        espStatusLine[espStatusLinePos] = received;
-        espStatusLine[espStatusLinePos + 1] = '\0';
-        espStatusLinePos++;
-
-        if(received == '\n') {
-            DynamicJsonBuffer statusBuffer(4096);
-            JsonObject& object = statusBuffer.parseObject(espStatusLine);
-            if(object.success()) {
-                espStatus.lastUpdated = millis();
-                espStatus.bleEnabled = object["bleEnabled"];
-                espStatus.cameraConnected = object["cameraConnected"];
-                espStatus.cameraStatusValid = (
-                    (object["cameraStatus"]["last_updated"].as<int32_t>() - object["uptime"].as<int32_t>()) < 15000
-                    && (object["cameraStatus"]["last_updated"].as<int32_t>() - object["uptime"].as<int32_t>()) > 0
-                );
-                espStatus.recordingNow = object["cameraStatus"]["recordingNow"];
-                espStatus.batteryLevel = object["cameraStatus"]["batteryLevel"].as<int32_t>();
-                espStatus.bytesAvailable = object["cameraStatus"]["bytesAvailable"].as<int32_t>();
-                espStatus.wifiEnabled = object["wifiStatus"].as<int32_t>() != 255;
-            }
-
-            espStatusLinePos = 0;
-            espStatusLine[0] = '\0';
-        }
-    }
-}
-
-void enableEsp(bool enabled) {
-    Log.log("ESP32 enabled: " + String(enabled));
-    if(enabled) {
-        espEnabled = true;
-        digitalWrite(PIN_ESP_BOOT_FLASH_, HIGH);
-        digitalWrite(PIN_DISABLE_ESP_, LOW);
-        delay(500);
-        digitalWrite(PIN_DISABLE_ESP_, HIGH);
-        delay(500);
-        while(ESPSerial.available()) {
-            ESPSerial.read();
-        }
-    } else {
-        espEnabled = false;
-        espStatus.cameraConnected = false;
-        espStatus.wifiEnabled = false;
-        espStatus.bleEnabled = false;
-        espStatus.recordingNow = false;
-        espStatus.cameraStatusValid = false;
-        espStatus.batteryLevel = false;
-        espStatus.bytesAvailable = false;
-        digitalWrite(PIN_DISABLE_ESP_, LOW);
-    }
-}
-
-bool espIsEnabled() {
-    return espEnabled;
 }
 
 void sleep(bool allowMovementWake) {
@@ -653,14 +566,11 @@ void sleep(bool allowMovementWake) {
     // Disable buzzer
     pinMode(PIN_BUZZER, OUTPUT);
     digitalWrite(PIN_BUZZER, LOW);
-    // Disable ESP32
-    pinMode(PIN_DISABLE_ESP_, OUTPUT);
-    digitalWrite(PIN_DISABLE_ESP_, LOW);
     //pinMode(PIN_ESP_BOOT_FLASH_, OUTPUT);
     //digitalWrite(PIN_ESP_BOOT_FLASH_, LOW);
     // Disable Bluetooth
-    pinMode(PIN_BT_ENABLE_, OUTPUT);
-    digitalWrite(PIN_BT_ENABLE_, HIGH);
+    pinMode(PIN_BT_DISABLE_, OUTPUT);
+    digitalWrite(PIN_BT_DISABLE_, LOW);
     // Disable neopixel battery drain
     pinMode(PIN_ENABLE_BATT_POWER, OUTPUT);
     digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
@@ -696,7 +606,17 @@ void enableCanDebug(bool enable) {
 }
 
 void renewKeepalive() {
-    lastKeepalive = millis();
+    if(lastKeepalive < millis()) {
+        setKeepalive(millis());
+    }
+}
+
+void setBluetoothKeepalive(uint32_t newValue) {
+    lastBluetoothKeepalive = newValue;
+}
+
+void setKeepalive(uint32_t newValue) {
+    lastKeepalive = newValue;
 }
 
 void enableAutosleep(bool enable) {
@@ -709,11 +629,11 @@ void enableBluetooth(bool enable) {
         Log.log("Local bluetooth enabled");
         Output.disableInterface(&BTSerial);
         BTSerial.end();
-        digitalWrite(PIN_BT_ENABLE_, LOW);
+        digitalWrite(PIN_BT_DISABLE_, HIGH);
         bluetoothEnabled = true;
     } else if(!enable && bluetoothEnabled) {
         Log.log("Local bluetooth disabled");
-        digitalWrite(PIN_BT_ENABLE_, HIGH);
+        digitalWrite(PIN_BT_DISABLE_, LOW);
         Output.enableInterface(&BTSerial);
         Output.begin();
         bluetoothEnabled = false;
@@ -721,7 +641,9 @@ void enableBluetooth(bool enable) {
 }
 
 void renewBluetoothKeepalive() {
-    lastBluetoothKeepalive = millis();
+    if(lastBluetoothKeepalive < millis()) {
+        setBluetoothKeepalive(millis());
+    }
 }
 
 void taskLoggerStatsIntervalCallback() {

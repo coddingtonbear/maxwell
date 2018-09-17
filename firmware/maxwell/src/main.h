@@ -9,7 +9,7 @@
 #include "multiserial.h"
 
 #define CHIRP_INTERVAL 900000
-#define CHIRP_INIT_FREQUENCY 2500
+#define CHIRP_INIT_FREQUENCY 1046
 #define CHIRP_INIT_DURATION 50
 #define CHIRP_FREQUENCY 2500
 #define CHIRP_DURATION 50
@@ -49,20 +49,16 @@
 void setup();
 void loop();
 
-void handleEspStatus();
-void handleCounter();
-void sendEspCommand(String);
-
 String sendBluetoothCommand(String);
-void enableEsp(bool);
 void enableBluetooth(bool);
 void enableBatteryPower(bool);
 void enableAutosleep(bool);
-bool espIsEnabled();
 
 void enableCanDebug(bool);
 void renewKeepalive();
 void renewBluetoothKeepalive();
+void setKeepalive(uint32_t);
+void setBluetoothKeepalive(uint32_t);
 
 void restoreBackupTime();
 void saveBackupTime();
@@ -75,7 +71,6 @@ void sleep(bool allowMovementWake=true);
 
 void intSpeedUpdate();
 
-void taskChirpCallback();
 void taskVoltageCallback();
 void taskVoltageWarningCallback();
 void taskCanbusVoltageBatteryAnnounceCallback();
@@ -89,22 +84,8 @@ void taskCanbusStatusIntervalCallback();
 void taskLoggerStatsIntervalCallback();
 void taskCanbusCurrentTimestampCallback();
 
-struct ESPStatus {
-    uint32_t lastUpdated;
-    bool cameraConnected;
-
-    bool wifiEnabled;
-    bool bleEnabled;
-    bool recordingNow;
-
-    bool cameraStatusValid;
-    uint32_t batteryLevel;
-    uint32_t bytesAvailable;
-};
-
 extern MultiSerial Output;
 extern HashMap<String, double> Statistics;
 extern RTClock Clock;
 extern Logger Log;
 extern SdFat filesystem;
-extern ESPStatus espStatus;
