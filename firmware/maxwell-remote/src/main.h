@@ -1,6 +1,7 @@
 #pragma once
 
 #include <RTClock.h>
+#include <SC16IS750.h>
 
 #define UTC_OFFSET -7
 
@@ -33,5 +34,6 @@ void sleep();
 void taskUpdateDisplayCallback();
 
 extern RTClock Clock;
+extern SC16IS750 GPSUart;
 
 #define Output Serial

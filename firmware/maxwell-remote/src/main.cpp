@@ -8,6 +8,7 @@
 #include <RTClock.h>
 #include <STM32Sleep.h>
 #include <libmaple/iwdg.h>
+#include <SC16IS750.h>
 
 #include "main.h"
 #include "led_cycles.h"
@@ -15,6 +16,7 @@
 #include "can_message_ids.h"
 #include "can.h"
 #include "display.h"
+#include "status.h"
 
 bool canDebug = 0;
 unsigned int longPressTimeout = 0;
@@ -30,6 +32,12 @@ Button buttonLeftA = Button(LEFT_A, 120, true, true);
 Button buttonLeftB = Button(LEFT_B, 120, true, true);
 Button buttonRightA = Button(RIGHT_A, 120, true, true);
 Button buttonRightB = Button(RIGHT_B, 120, true, true);
+
+SC16IS750 GPSUart = SC16IS750(
+    SPI_CS2,
+    SC16IS750_CHAN_B,
+    14745600UL
+);
 
 RTClock Clock(RTCSEL_LSE);
 
@@ -83,10 +91,14 @@ void setup() {
     pinMode(LEFT_A, OUTPUT);
     pinMode(LEFT_B, OUTPUT);
 
-    digitalWrite(SPI_CS2, LOW);
-
     Display.begin();
     Display.setContrast(180);
+
+    GPSUart.begin(9600, true);
+    if(!GPSUart.ping()) {
+        Output.println("Error connecting to UART over SPI; no GPS available.");
+    }
+    gpsWake();
 
     CanBus.map(CAN_GPIO_PB8_PB9);
     CanBus.begin(CAN_SPEED_1000, CAN_MODE_NORMAL);
@@ -112,6 +124,10 @@ void loop() {
     buttonRightA.read();
     buttonLeftB.read();
     buttonRightB.read();
+
+    while(GPSUart.available()) {
+        updateGpsFix();
+    }
 
     // Long-press
     if(millis() > longPressTimeout) {
@@ -203,6 +219,11 @@ void sleep() {
     delay(100);
     CanBus.end();
 
+    // Let's sleep the GPS
+    gpsWake();
+    gpsPMTK(161, ",0");
+    GPSUart.flush();
+    GPSUart.sleep();
     // Disable Screen
     Display.sleep();
     // Float all GPIOs

@@ -1,4 +1,6 @@
 #include <Arduino.h>
+#include <MicroNMEA.h>
+
 #include "can_message_ids.h"
 #include "main.h"
 #include "status.h"
@@ -9,6 +11,9 @@ double voltageSense;
 double current;
 double velocity;
 uint8_t chargingStatus;
+
+char nmeaBuffer[255];
+MicroNMEA nmea(nmeaBuffer, sizeof(nmeaBuffer));
 
 CANStatusMainMC status;
 
@@ -70,4 +75,41 @@ CANStatusMainMC getStatusMainMc() {
 
 uint8_t getChargingStatus() {
     return chargingStatus;
+}
+
+void gpsPMTK(uint cmd, String data) {
+    GPSUart.println();
+    GPSUart.print("$");
+
+    String commandString = "PMTK" + String(cmd) + String(data);
+
+    GPSUart.print(commandString);
+    GPSUart.print("*");
+
+    uint8_t checkSum = 0;
+
+    for (uint8_t i = 0; i < commandString.length(); i++) {
+        checkSum = checkSum ^ commandString.charAt(i);
+    }
+
+    GPSUart.print(String(checkSum, HEX));
+    GPSUart.print("\r\n");
+
+    GPSUart.flush();
+    delay(100);
+}
+
+
+void gpsWake() {
+    GPSUart.println();
+    delay(100);
+}
+
+
+void updateGpsFix() {
+    nmea.process((char)GPSUart.read());
+}
+
+MicroNMEA* getGpsFix() {
+    return &nmea;
 }

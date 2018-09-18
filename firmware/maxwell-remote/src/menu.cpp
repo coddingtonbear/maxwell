@@ -1,4 +1,5 @@
 #include <functional>
+#include <MicroNMEA.h>
 
 #include "menu.h"
 #include "serial_commands.h"
@@ -83,6 +84,18 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
                     return String("Uptime: ") + String(
                         (float)millis() / 1000.0 / 60.0, 1
                     ) + String("min");
+                }
+            ),
+            MenuItem(
+                []() -> String {
+                    MicroNMEA* fix = getGpsFix();
+                    return String("Latitude: ") + String(fix->getLatitude());
+                }
+            ),
+            MenuItem(
+                []() -> String {
+                    MicroNMEA* fix = getGpsFix();
+                    return String("Longitude: ") + String(fix->getLongitude());
                 }
             ),
             MenuItem(

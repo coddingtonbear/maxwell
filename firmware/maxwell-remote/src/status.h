@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include <MicroNMEA.h>
 
 #include "can_message_ids.h"
 
@@ -11,6 +12,10 @@
 void setChargingStatus(uint8_t);
 void setStatusParameter(uint32, double);
 void setStatusMainMc(CANStatusMainMC);
+void updateGpsFix();
+void gpsPMTK(uint cmd, String data);
+void gpsWake();
+MicroNMEA* getGpsFix();
 
 double getDoubleStatusParameter(uint32);
 CANStatusMainMC getStatusMainMc();
