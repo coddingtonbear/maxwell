@@ -89,13 +89,21 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
             MenuItem(
                 []() -> String {
                     MicroNMEA* fix = getGpsFix();
-                    return String("Latitude: ") + String(fix->getLatitude());
+                    return String("GPS lock: ") + String(
+                        fix->isValid() ? "Yes" : "No"
+                    );
                 }
             ),
             MenuItem(
                 []() -> String {
                     MicroNMEA* fix = getGpsFix();
-                    return String("Longitude: ") + String(fix->getLongitude());
+                    return String("Latitude: ") + String((float)fix->getLatitude() / 10e6);
+                }
+            ),
+            MenuItem(
+                []() -> String {
+                    MicroNMEA* fix = getGpsFix();
+                    return String("Longitude: ") + String((float)fix->getLongitude() / 10e6);
                 }
             ),
             MenuItem(

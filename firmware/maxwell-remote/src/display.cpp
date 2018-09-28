@@ -196,26 +196,37 @@ void DisplayManager::refresh() {
         }
 
         CANStatusMainMC status = getStatusMainMc();
+        int rightPosition = 0;
         if(status.recording_now) {
             display.drawXBM(
-                DISPLAY_WIDTH - ICON_WIDTH - 1, 0,
+                DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
                 ICON_WIDTH, ICON_HEIGHT,
                 video
             );
+            rightPosition += ICON_HEIGHT;
         } else if(status.camera_connected) {
             display.drawXBM(
-                DISPLAY_WIDTH - ICON_WIDTH - 1, 0,
+                DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
                 ICON_WIDTH, ICON_HEIGHT,
                 wifi
             );
+            rightPosition += ICON_HEIGHT;
         } else if(status.wifi_enabled) {
             if(statusPhase % 2 == 0) {
                 display.drawXBM(
-                    DISPLAY_WIDTH - ICON_WIDTH - 1, 0,
+                    DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
                     ICON_WIDTH, ICON_HEIGHT,
                     wifi
                 );
             }
+            rightPosition += ICON_HEIGHT;
+        }
+        if(gpsFixValid()) {
+            display.drawXBM(
+                DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
+                ICON_WIDTH, ICON_HEIGHT,
+                gps
+            );
         }
 
         if(autosleep && !sleeping) {

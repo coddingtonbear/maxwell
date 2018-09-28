@@ -6,6 +6,7 @@
 #define UTC_OFFSET -7
 
 #define DISPLAY_REFRESH_INTERVAL 100
+#define GPS_REFRESH_INTERVAL 1720
 
 #define LONG_PRESS_TIMEOUT 2000
 #define LONG_PRESS_INTERVAL 500
@@ -32,6 +33,7 @@ void enableCanDebug(bool);
 void sleep();
 
 void taskUpdateDisplayCallback();
+void taskGpsRefreshCallback();
 
 extern RTClock Clock;
 extern SC16IS750 GPSUart;

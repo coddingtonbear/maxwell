@@ -762,3 +762,28 @@ void setContrast() {
         Display.setContrast(contrast);
     }
 }
+
+void sendUpdatedGpsPosition() {
+    MicroNMEA* nmea = getGpsFix();
+
+    CANGpsPosition position;
+    if(nmea->isValid()) {
+        position.latitude = nmea->getLatitude();
+        position.longitude = nmea->getLongitude();
+    } else {
+        position.latitude = 0;
+        position.longitude = 0;
+    }
+
+    CanMsg status;
+    status.IDE = CAN_ID_STD;
+    status.RTR = CAN_RTR_DATA;
+    status.ID = CAN_LED_STATUS;
+    status.DLC = sizeof(position);
+    unsigned char *positionBytes = reinterpret_cast<unsigned char*>(&position);
+    for(uint8 i = 0; i < sizeof(position); i++) {
+        status.Data[i] = positionBytes[i];
+    }
+
+    CanBus.send(&status);
+}

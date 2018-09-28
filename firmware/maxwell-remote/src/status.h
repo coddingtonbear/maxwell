@@ -13,6 +13,7 @@ void setChargingStatus(uint8_t);
 void setStatusParameter(uint32, double);
 void setStatusMainMc(CANStatusMainMC);
 void updateGpsFix();
+bool gpsFixValid();
 void gpsPMTK(uint cmd, String data);
 void gpsWake();
 MicroNMEA* getGpsFix();

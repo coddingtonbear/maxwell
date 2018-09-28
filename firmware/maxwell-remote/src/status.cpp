@@ -12,6 +12,8 @@ double current;
 double velocity;
 uint8_t chargingStatus;
 
+bool gpsFixAvailable;
+
 char nmeaBuffer[255];
 MicroNMEA nmea(nmeaBuffer, sizeof(nmeaBuffer));
 
@@ -108,6 +110,12 @@ void gpsWake() {
 
 void updateGpsFix() {
     nmea.process((char)GPSUart.read());
+
+    gpsFixAvailable = nmea.isValid();
+}
+
+bool gpsFixValid() {
+    return gpsFixAvailable;
 }
 
 MicroNMEA* getGpsFix() {

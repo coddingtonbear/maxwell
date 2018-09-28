@@ -26,6 +26,11 @@ Task taskUpdateDisplay(
     TASK_FOREVER,
     &taskUpdateDisplayCallback
 );
+Task taskGpsRefresh(
+    GPS_REFRESH_INTERVAL,
+    TASK_FOREVER,
+    &taskGpsRefreshCallback
+);
 Scheduler taskRunner;
 
 Button buttonLeftA = Button(LEFT_A, 120, true, true);
@@ -107,6 +112,7 @@ void setup() {
 
     taskRunner.init();
     taskRunner.addTask(taskUpdateDisplay);
+    taskRunner.addTask(taskGpsRefresh);
     taskRunner.enableAll();
 
     setupCommands();
@@ -115,6 +121,10 @@ void setup() {
 
 void taskUpdateDisplayCallback() {
     Display.refresh();
+}
+
+void taskGpsRefreshCallback() {
+    sendUpdatedGpsPosition();
 }
 
 void loop() {

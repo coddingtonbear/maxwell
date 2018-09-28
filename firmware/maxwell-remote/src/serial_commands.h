@@ -57,6 +57,7 @@ void disconnectCamera();
 void deleteCameraMedia();
 void setContrast();
 void setBluetoothTimeoutSeconds();
+void sendUpdatedGpsPosition();
 
 void menuUp();
 void menuDown();
