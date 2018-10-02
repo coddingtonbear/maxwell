@@ -1,4 +1,4 @@
-14802812506717803
+14892790477944278
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (http://www.bulgin.com/media/bulgin/data/Battery_holders.pdf)
@@ -5536,6 +5536,314 @@ C Rect series Radial pin pitch 37.50mm  length 41.5mm width 40mm Capacitor
 0
 2
 2
+coddingtonbear
+10P_FPC_1.0mm
+
+
+0
+10
+10
+coddingtonbear
+12mm_buzzer
+
+
+0
+2
+2
+coddingtonbear
+30P_FPC_0.5mm
+
+
+0
+30
+30
+coddingtonbear
+128x64_OLED_LCD
+
+
+0
+4
+4
+coddingtonbear
+0805_Milling
+Resistor SMD 0805, reflow soldering, Vishay (see dcrcw.pdf)
+resistor 0805
+0
+2
+2
+coddingtonbear
+ASFL1
+ASFL1
+asfl1
+0
+4
+4
+coddingtonbear
+BOOST_LM2596_3A
+https://www.amazon.com/eBoot-LM2596-Converter-3-0-40V-1-5-35V/dp/B01GJ0SC2C/
+
+0
+4
+4
+coddingtonbear
+BOOST_TP4056_2A
+https://www.amazon.com/eBoot-LM2596-Converter-3-0-40V-1-5-35V/dp/B01GJ0SC2C/
+
+0
+4
+4
+coddingtonbear
+BUCK_REGULATOR
+
+
+0
+8
+4
+coddingtonbear
+coddingtonbear_logo.B.Cu.5mm
+
+
+0
+0
+0
+coddingtonbear
+coddingtonbear_logo.base
+
+
+0
+0
+0
+coddingtonbear
+CP_Tantalum_Case-C_EIA-6032-28_Milling
+Tantalum capacitor, Case C, EIA 6032-28, 6.0x3.2x2.5mm, Reflow soldering footprint
+capacitor tantalum smd
+0
+4
+2
+coddingtonbear
+CP_Tantalum_Case-D_EIA-7343-31_Milling
+Tantalum capacitor, Case D, EIA 7343-31, 7.3x4.3x2.8mm, Reflow soldering footprint
+capacitor tantalum smd
+0
+4
+2
+coddingtonbear
+CR2032
+
+
+0
+2
+2
+coddingtonbear
+DIODE-VERTICAL
+
+
+0
+2
+2
+coddingtonbear
+ESP-12E
+Module, ESP-8266, ESP-12, 16 pad, SMD
+Module ESP-8266 ESP8266
+0
+22
+22
+coddingtonbear
+ESP-32S
+
+
+0
+39
+39
+coddingtonbear
+FGPMMOPA6C
+
+
+0
+13
+13
+coddingtonbear
+JST_EH_B02B-EH-A_02x2.50mm_Straight_LargePads
+JST EH series connector, B02B-EH-A, 2.50mm pitch, top entry
+connector jst eh top vertical straight
+0
+2
+2
+coddingtonbear
+JST_EH_B03B-EH-A_03x2.50mm_Straight_LargePads
+JST EH series connector, B03B-EH-A, 2.50mm pitch, top entry
+connector jst eh top vertical straight
+0
+3
+3
+coddingtonbear
+JST_EH_B05B-EH-A_05x2.50mm_Straight_LargePads
+JST EH series connector, B05B-EH-A, 2.50mm pitch, top entry
+connector jst eh top vertical straight
+0
+5
+5
+coddingtonbear
+JST_XH_B02B-XH-A_02x2.50mm_Straight_LargePads
+JST XH series connector, B02B-XH-A, top entry type, through hole
+connector jst xh tht top vertical 2.50mm
+0
+2
+2
+coddingtonbear
+JST_XH_B03B-XH-A_03x2.50mm_Straight_LargePads
+JST XH series connector, B03B-XH-A, top entry type, through hole
+connector jst xh tht top vertical 2.50mm
+0
+3
+3
+coddingtonbear
+JST_XH_B04B-XH-A_04x2.50mm_Straight_LargePads
+JST XH series connector, B04B-XH-A, top entry type, through hole
+connector jst xh tht top vertical 2.50mm
+0
+4
+4
+coddingtonbear
+JST_XH_B05B-XH-A_05x2.50mm_Straight_LargePads
+JST XH series connector, B05B-XH-A, top entry type, through hole
+connector jst xh tht top vertical 2.50mm
+0
+5
+5
+coddingtonbear
+JST_XH_B06B-XH-A_06x2.50mm_Straight_LargePads
+JST XH series connector, B06B-XH-A, top entry type, through hole
+connector jst xh tht top vertical 2.50mm
+0
+6
+6
+coddingtonbear
+JST_XH_B07B-XH-A_07x2.50mm_Straight_LargePads
+JST XH series connector, B07B-XH-A, top entry type, through hole
+connector jst xh tht top vertical 2.50mm
+0
+7
+7
+coddingtonbear
+JST_XH_B08B-XH-A_08x2.50mm_Straight_LargePads
+JST XH series connector, B08B-XH-A, top entry type, through hole
+connector jst xh tht top vertical 2.50mm
+0
+8
+8
+coddingtonbear
+MICRO-B_USB-INVERTED
+
+
+0
+11
+5
+coddingtonbear
+NDS8434
+
+
+0
+8
+3
+coddingtonbear
+Pin_Header_Straight_1x02_Pitch1.27mm_JMP
+Through hole straight pin header, 1x02, 1.27mm pitch, single row
+Through hole pin header THT 1x02 1.27mm single row
+0
+2
+2
+coddingtonbear
+Pin_Header_Straight_1x04_Pitch2.54mm_LargePads
+Through hole straight pin header, 1x04, 2.54mm pitch, single row
+Through hole pin header THT 1x04 2.54mm single row
+0
+4
+4
+coddingtonbear
+Pololu_Stepper_Breakout
+
+
+0
+16
+16
+coddingtonbear
+PSMN5R4-25YLD
+LFPAK www.nxp.com/documents/leaflet/939775016838_LR.pdf
+LFPAK SOT-669 Power-SO8
+0
+19
+3
+coddingtonbear
+SIM800L_Breakout
+
+
+0
+5
+5
+coddingtonbear
+SJ1-3524NG
+3.5 mm Right-Angle Stereo Jack, 4 Pin PCB Mount, Isolated Ground
+
+0
+5
+5
+coddingtonbear
+SLV6A-FKB-MILLING
+
+
+0
+6
+6
+coddingtonbear
+SM-CRYSTAL-ABS25_LargePads
+
+
+0
+4
+4
+coddingtonbear
+SMD_RED_TACTILE_SWITCH
+
+
+0
+4
+2
+coddingtonbear
+SO-4_Milling
+
+SO4
+0
+4
+4
+coddingtonbear
+SOT-23_LargePads
+
+
+0
+3
+3
+coddingtonbear
+TAB
+
+
+0
+2
+1
+coddingtonbear
+UJ2-MIBH-4-SMT
+
+
+0
+9
+6
+coddingtonbear
+USB_Thru_hole
+
+
+0
+5
+5
 Connector
 Banana_Jack_1Pin
 Single banana socket, footprint - 6mm drill
@@ -35301,6 +35609,13 @@ RJ45 Magjack
 14
 13
 Connector_RJ
+RJ45_Wuerth_7499010121A_Horizontal
+10/100Base-TX RJ45 ethernet magnetic transformer connector horizontal https://katalog.we-online.de/pbs/datasheet/7499010121A.pdf
+RJ45 ethernet magnetic
+0
+12
+12
+Connector_RJ
 RJ45_Wuerth_7499151120_Horizontal
 Wuerth 7499151120, LAN-Transformer WE-RJ45LAN 10/100/1000 BaseT, Dual Ethernet Jack (http://katalog.we-online.de/pbs/datasheet/7499151120.pdf)
 ethernet lan connector
@@ -48930,6 +49245,13 @@ BGA-100
 100
 100
 Package_BGA
+BGA-121_9.0x9.0mm_Layout11x11_P0.8mm_Ball0.4mm_Pad0.35mm_NSMD
+121-ball, 0.8mm BGA (based on http://www.latticesemi.com/view_document?document_id=213)
+BGA 0.8mm 9mm 121
+0
+121
+121
+Package_BGA
 BGA-121_12.0x12.0mm_Layout11x11_P1.0mm
 BGA-121, http://cds.linear.com/docs/en/packaging/05081891_A_bga121.pdf
 BGA-121
@@ -49405,6 +49727,20 @@ LFCSP 0.5
 0
 37
 33
+Package_CSP
+LFCSP-72-1EP_10x10mm_P0.5mm_EP5.3x5.3mm
+LFCSP, 72 Pin (http://www.analog.com/media/en/technical-documentation/data-sheets/ADAU1452_1451_1450.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+LFCSP DFN_QFN
+0
+82
+73
+Package_CSP
+LFCSP-72-1EP_10x10mm_P0.5mm_EP5.3x5.3mm_ThermalVias
+LFCSP, 72 Pin (http://www.analog.com/media/en/technical-documentation/data-sheets/ADAU1452_1451_1450.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+LFCSP DFN_QFN
+0
+99
+73
 Package_CSP
 LFCSP-72-1EP_10x10mm_P0.5mm_EP6.15x6.15mm
 72-Lead Frame Chip Scale Package - 10x10x0.9 mm Body [LFCSP]; (see https://www.intersil.com/content/dam/Intersil/documents/l72_/l72.10x10c.pdf)
@@ -58674,6 +59010,41 @@ Potentiometer horizontal Bourns 3386X
 3
 3
 Potentiometer_THT
+Potentiometer_Bourns_PTA1543_Single_Slide
+Bourns single-gang slide potentiometer, 15.0mm travel, https://www.bourns.com/docs/Product-Datasheets/pta.pdf
+Bourns single-gang slide potentiometer 15.0mm
+0
+7
+4
+Potentiometer_THT
+Potentiometer_Bourns_PTA2043_Single_Slide
+Bourns single-gang slide potentiometer, 20.0mm travel, https://www.bourns.com/docs/Product-Datasheets/pta.pdf
+Bourns single-gang slide potentiometer 20.0mm
+0
+7
+4
+Potentiometer_THT
+Potentiometer_Bourns_PTA3043_Single_Slide
+Bourns single-gang slide potentiometer, 30.0mm travel, https://www.bourns.com/docs/Product-Datasheets/pta.pdf
+Bourns single-gang slide potentiometer 30.0mm
+0
+7
+4
+Potentiometer_THT
+Potentiometer_Bourns_PTA4543_Single_Slide
+Bourns single-gang slide potentiometer, 45.0mm travel, https://www.bourns.com/docs/Product-Datasheets/pta.pdf
+Bourns single-gang slide potentiometer 45.0mm
+0
+7
+4
+Potentiometer_THT
+Potentiometer_Bourns_PTA6043_Single_Slide
+Bourns single-gang slide potentiometer, 60.0mm travel, https://www.bourns.com/docs/Product-Datasheets/pta.pdf
+Bourns single-gang slide potentiometer 60.0mm
+0
+7
+4
+Potentiometer_THT
 Potentiometer_Bourns_PTV09A-1_Single_Vertical
 Potentiometer, vertical, Bourns PTV09A-1 Single, http://www.bourns.com/docs/Product-Datasheets/ptv09.pdf
 Potentiometer vertical Bourns PTV09A-1 Single
@@ -58953,6 +59324,13 @@ Potentiometer vertical Vishay T73YP
 0
 3
 3
+prettylib
+47151-0001
+
+
+0
+23
+20
 prettylib
 ABRACON-ABM2_xtal
 
@@ -66331,6 +66709,13 @@ NF-Transformer ETAL P3191 SMD Handsoldering
 0
 8
 6
+Transformer_SMD
+Transformer_Pulse_H1100NL
+For H1100NL, H1101NL, H1102NL, H1121NL, H1183NL, H1199NL, HX1188NL, HX1198NL and H1302NL. https://productfinder.pulseeng.com/doc_type/WEB301/doc_num/H1102NL/doc_part/H1102NL.pdf
+H1100NL H1101NL H1102NL H1121NL H1183NL H1199NL HX1188NL HX1198NL H1302N
+0
+16
+16
 Transformer_THT
 Autotransformer_Toroid_1Tap_Horizontal_D9.0mm_Amidon-T30
 Autotransformer, Toroid, horizontal, laying, 1 Tap, Diameter 9mm, Amidon T30,

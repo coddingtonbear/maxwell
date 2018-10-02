@@ -1,4 +1,4 @@
-update=Sunday, January 21, 2018 'PMt' 08:17:59 PM
+update=Mon 17 Sep 2018 10:49:59 AM PDT
 version=1
 last_client=kicad
 [general]
@@ -33,7 +33,7 @@ LibDir=
 [schematic_editor]
 version=1
 PageLayoutDescrFile=
-PlotDirectoryName=/Users/adam.coddington/Desktop/maxwell__ctrl/
+PlotDirectoryName=schematics/
 SubpartIdSeparator=0
 SubpartFirstId=65
 NetFmtName=

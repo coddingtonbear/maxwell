@@ -15,7 +15,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Connector:Conn_01x10 J5
+L maxwell-remote-2-rescue:Conn_01x10-Connector J5
 U 1 1 5B145F18
 P 10250 1450
 F 0 "J5" H 10330 1442 50  0000 L CNN
@@ -26,7 +26,7 @@ F 3 "~" H 10250 1450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:Conn_01x10 J6
+L maxwell-remote-2-rescue:Conn_01x10-Connector J6
 U 1 1 5B145F48
 P 10250 2700
 F 0 "J6" H 10330 2692 50  0000 L CNN
@@ -97,7 +97,7 @@ ENABLE_SCREEN
 Text GLabel 6450 1350 0    50   Input ~ 0
 ENABLE_SCREEN
 $Comp
-L Connector:Conn_01x08 J4
+L maxwell-remote-2-rescue:Conn_01x08-Connector J4
 U 1 1 5B148703
 P 7400 1350
 F 0 "J4" H 7479 1342 50  0000 L CNN
@@ -119,7 +119,7 @@ F 3 "" H 5950 1050 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:Conn_01x05 J1
+L maxwell-remote-2-rescue:Conn_01x05-Connector J1
 U 1 1 5B148BDD
 P 1250 1250
 F 0 "J1" H 1170 825 50  0000 C CNN
@@ -154,7 +154,7 @@ F 3 "" H 1450 1450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L coddingtonbear:MIC5209-ADJ U2
+L maxwell-remote-2-rescue:MIC5209-ADJ-coddingtonbear U2
 U 1 1 5B148E82
 P 3350 1250
 F 0 "U2" H 3350 1737 60  0000 C CNN
@@ -165,7 +165,7 @@ F 3 "" H 3350 1250 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device:R R2
+L maxwell-remote-2-rescue:R-device R2
 U 1 1 5B148F2F
 P 2550 1050
 F 0 "R2" V 2343 1050 50  0000 C CNN
@@ -176,7 +176,7 @@ F 3 "" H 2550 1050 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L device:Q_PMOS_GSD Q1
+L maxwell-remote-2-rescue:Q_PMOS_GSD-device Q1
 U 1 1 5B148F9A
 P 1850 1250
 F 0 "Q1" V 2193 1250 50  0000 C CNN
@@ -225,7 +225,7 @@ F 3 "" H 2500 1250 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L device:CP C1
+L maxwell-remote-2-rescue:CP-device C1
 U 1 1 5B1491D3
 P 2150 1300
 F 0 "C1" H 2268 1346 50  0000 L CNN
@@ -239,7 +239,7 @@ Connection ~ 2150 1150
 Wire Wire Line
 	2150 1150 2900 1150
 $Comp
-L device:CP C3
+L maxwell-remote-2-rescue:CP-device C3
 U 1 1 5B149293
 P 2550 1400
 F 0 "C3" H 2668 1446 50  0000 L CNN
@@ -255,7 +255,7 @@ Wire Wire Line
 	2900 1250 2750 1250
 Connection ~ 2550 1250
 $Comp
-L device:R R3
+L maxwell-remote-2-rescue:R-device R3
 U 1 1 5B149456
 P 2750 1400
 F 0 "R3" H 2680 1354 50  0000 R CNN
@@ -269,7 +269,7 @@ Connection ~ 2750 1250
 Wire Wire Line
 	2750 1250 2550 1250
 $Comp
-L device:R R4
+L maxwell-remote-2-rescue:R-device R4
 U 1 1 5B149498
 P 2750 1750
 F 0 "R4" H 2680 1704 50  0000 R CNN
@@ -328,7 +328,7 @@ Wire Wire Line
 	3800 1350 3800 1400
 Connection ~ 3800 1350
 $Comp
-L interface:SN65HVD235 U1
+L maxwell-remote-2-rescue:SN65HVD235-interface U1
 U 1 1 5B14A98D
 P 2350 3050
 F 0 "U1" H 2350 3528 50  0000 C CNN
@@ -339,7 +339,7 @@ F 3 "http://www.ti.com/lit/ds/symlink/sn65hvd234.pdf" H 2250 3450 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L device:C C2
+L maxwell-remote-2-rescue:C-device C2
 U 1 1 5B14AA77
 P 2200 3500
 F 0 "C2" V 1948 3500 50  0000 C CNN
@@ -404,7 +404,7 @@ $EndComp
 Text GLabel 2900 2850 2    50   Input ~ 0
 ~ENABLE_CAN
 $Comp
-L device:R R5
+L maxwell-remote-2-rescue:R-device R5
 U 1 1 5B14C80B
 P 2800 2700
 F 0 "R5" H 2730 2654 50  0000 R CNN
@@ -425,7 +425,7 @@ Wire Wire Line
 	2800 2850 2900 2850
 Connection ~ 2800 2850
 $Comp
-L device:R R1
+L maxwell-remote-2-rescue:R-device R1
 U 1 1 5B14E249
 P 1500 2600
 F 0 "R1" H 1430 2554 50  0000 R CNN
@@ -484,7 +484,7 @@ SPI1_SCK
 Text GLabel 7200 1750 0    50   Input ~ 0
 SPI1_MOSI
 $Comp
-L Connector:Conn_01x03 J2
+L maxwell-remote-2-rescue:Conn_01x03-Connector J2
 U 1 1 5B14FA4E
 P 5300 2700
 F 0 "J2" V 5266 2512 50  0000 R CNN
@@ -495,7 +495,7 @@ F 3 "~" H 5300 2700 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector:Conn_01x03 J3
+L maxwell-remote-2-rescue:Conn_01x03-Connector J3
 U 1 1 5B14FAD5
 P 6750 2700
 F 0 "J3" V 6716 2512 50  0000 R CNN
@@ -536,7 +536,7 @@ Text GLabel 6750 2900 3    50   Input ~ 0
 Text GLabel 6850 2900 3    50   Input ~ 0
 ~RIGHT_B
 $Comp
-L device:Q_NMOS_GSD Q2
+L maxwell-remote-2-rescue:Q_NMOS_GSD-device Q2
 U 1 1 5B1502DD
 P 6450 1150
 F 0 "Q2" V 6793 1150 50  0000 C CNN
@@ -547,7 +547,7 @@ F 3 "" H 6450 1150 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector:Conn_01x07 J7
+L maxwell-remote-2-rescue:Conn_01x07-Connector J7
 U 1 1 5B152945
 P 7950 3400
 F 0 "J7" V 7916 3012 50  0000 R CNN
@@ -558,7 +558,7 @@ F 3 "~" H 7950 3400 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector:Conn_01x07 J8
+L maxwell-remote-2-rescue:Conn_01x07-Connector J8
 U 1 1 5B1529E8
 P 7950 3850
 F 0 "J8" V 7916 3462 50  0000 R CNN
@@ -569,7 +569,7 @@ F 3 "~" H 7950 3850 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector:Conn_01x07 J9
+L maxwell-remote-2-rescue:Conn_01x07-Connector J9
 U 1 1 5B152A24
 P 7950 4350
 F 0 "J9" V 7916 3962 50  0000 R CNN
