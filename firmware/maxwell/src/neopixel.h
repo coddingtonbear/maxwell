@@ -33,6 +33,5 @@ void ledSetMaxBrightness(uint8_t);
 void ledGetStatus(LedStatus&);
 
 void ledEnable(bool);
-rdu
 uint32 lowestCommonDenominator(uint32, uint32);
 uint32 adjustedColor(uint32, uint32, uint32);

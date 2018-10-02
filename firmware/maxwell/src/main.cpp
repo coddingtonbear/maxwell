@@ -129,26 +129,34 @@ void setup() {
     }
     Log.begin();
     Log.log(String("Device reset: ") + String(RCC_BASE->CSR, HEX));
+    Output.print("Device reset: ");
     if(RCC_BASE->CSR & (1 << 31)) {
         Log.log("Reset reason: Low Power");
+        Output.println("Low Power");
     }
     if(RCC_BASE->CSR & (1 << 30)) {
         Log.log("Reset reason: Window Watchdog");
+        Output.println("Window Wathdog");
     }
     if(RCC_BASE->CSR & (1 << 29)) {
         Log.log("Reset reason: Independent Watchdog");
+        Output.println("Independent Wathdog");
     }
     if(RCC_BASE->CSR & (1 << 28)) {
         Log.log("Reset reason: Software Reset");
+        Output.println("Software Reset");
     }
     if(RCC_BASE->CSR & (1 << 27)) {
         Log.log("Reset reason: POR/PDR");
+        Output.println("POR/PDR");
     }
     if(RCC_BASE->CSR & (1 << 26)) {
         Log.log("Reset reason: NRST");
+        Output.println("NRST");
     }
     if(RCC_BASE->CSR & (1 << 25)) {
         Log.log("Reset reason: BOR");
+        Output.println("BOR");
     }
     // Clear reset flags
     RCC_BASE->CSR |= RCC_CSR_RMVF;
@@ -172,6 +180,7 @@ void setup() {
     pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
     attachInterrupt(PIN_I_SPEED, intSpeedUpdate, RISING);
 
+    initADCs();
     enableBatteryCharging(true);
 
     TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
