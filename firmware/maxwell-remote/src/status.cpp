@@ -103,13 +103,20 @@ void gpsPMTK(uint cmd, String data) {
 
 
 void gpsWake() {
-    GPSUart.println();
-    delay(100);
+    GPSUart.GPIOSetPinState(5, LOW);
+}
+
+void gpsSleep() {
+    GPSUart.GPIOSetPinState(5, HIGH);
 }
 
 
 void updateGpsFix() {
-    nmea.process((char)GPSUart.read());
+    char readByte = GPSUart.read();
+
+    //Output.print(readByte);
+
+    nmea.process(readByte);
 
     gpsFixAvailable = nmea.isValid();
 }

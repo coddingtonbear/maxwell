@@ -24,8 +24,8 @@ Please keep the above information when you use this code in your project.
 #include "SC16IS750.h"
 
 
-//SPISettings settings(2000000, MSBFIRST, SPI_MODE0);
-SPISettings settings(250000, MSBFIRST, SPI_MODE0);
+SPISettings settings(2000000, MSBFIRST, SPI_MODE0);
+//SPISettings settings(250000, MSBFIRST, SPI_MODE0);
 
 SC16IS750::SC16IS750(
     uint8_t addr_sspin,
@@ -54,6 +54,13 @@ void SC16IS750::begin(uint32_t baud, bool reset)
         ResetDevice();
     }
     FIFOEnable(1);
+
+    // Enable enhanced functions
+    uint8_t temp_lcr = ReadRegister(SC16IS750_REG_LCR);
+    WriteRegister(SC16IS750_REG_LCR, 0xBF);
+    WriteRegister(SC16IS750_REG_EFR, 1 << 4);
+    WriteRegister(SC16IS750_REG_LCR, temp_lcr);;
+
     SetBaudrate(baud);
     SetLine(8,0,1);
     FIFOReset();
@@ -324,23 +331,6 @@ void SC16IS750::ResetDevice(void)
     reg |= 0x08;
     WriteRegister(SC16IS750_REG_IOCONTROL, reg);
 
-    delayMicroseconds(3);
-
-    uint8_t ioctlValue = ReadRegister(SC16IS750_REG_IOCONTROL);
-    for(
-        int i = 0;
-        i < 3 && !(ioctlValue & ~0x08);
-        i++
-    ) {
-        delay(1000);
-        ioctlValue = ReadRegister(SC16IS750_REG_IOCONTROL);
-
-        delayMicroseconds(1);
-    }
-    if (ioctlValue & ~0x08) {
-        Serial.println("ERROR while resetting UART.");
-    }
-
     return;
 }
 
@@ -417,9 +407,7 @@ void SC16IS750::__isr(void)
 
 void SC16IS750::FIFOEnable(uint8_t fifo_enable)
 {
-    uint8_t temp_fcr;
-
-    temp_fcr = ReadRegister(SC16IS750_REG_FCR);
+    uint8_t temp_fcr = 0;
 
     if (fifo_enable == 0){
         temp_fcr &= 0xFE;
@@ -433,9 +421,7 @@ void SC16IS750::FIFOEnable(uint8_t fifo_enable)
 
 void SC16IS750::FIFOReset()
 {
-     uint8_t temp_fcr;
-
-    temp_fcr = ReadRegister(SC16IS750_REG_FCR);
+     uint8_t temp_fcr = 0;
 
     temp_fcr |= 0x04;
     temp_fcr |= 0x02;
@@ -452,25 +438,18 @@ void SC16IS750::FIFOSetTriggerLevel(uint8_t rx_fifo, uint8_t length)
     temp_reg |= 0x04;
     WriteRegister(SC16IS750_REG_MCR,temp_reg); //SET MCR[2] to '1' to use TLR register or trigger level control in FCR register
 
-    temp_reg = ReadRegister(SC16IS750_REG_EFR);
-    WriteRegister(SC16IS750_REG_EFR, temp_reg|0x10); //set ERF[4] to '1' to use the  enhanced features
     if (rx_fifo == 0) {
         WriteRegister(SC16IS750_REG_TLR, length<<4); //Tx FIFO trigger level setting
     } else {
         WriteRegister(SC16IS750_REG_TLR, length);    //Rx FIFO Trigger level setting
     }
-    WriteRegister(SC16IS750_REG_EFR, temp_reg); //restore EFR register
-
     return;
 }
 
-
 void SC16IS750::sleep(void)
 {
-    uint8_t temp_reg = ReadRegister(SC16IS750_REG_EFR);
-    WriteRegister(SC16IS750_REG_EFR, temp_reg|0x10);
-    temp_reg = ReadRegister(SC16IS750_REG_EFR);
-    WriteRegister(SC16IS750_REG_EFR, temp_reg|0x10);
+    uint8_t temp_reg = ReadRegister(SC16IS750_REG_IER);
+    WriteRegister(SC16IS750_REG_IER, temp_reg | (1 << 4));
 }
 
 uint8_t SC16IS750::FIFOAvailableData(void)

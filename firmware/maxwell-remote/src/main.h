@@ -37,5 +37,6 @@ void taskGpsRefreshCallback();
 
 extern RTClock Clock;
 extern SC16IS750 GPSUart;
+extern SC16IS750 AlternateUart;
 
 #define Output Serial

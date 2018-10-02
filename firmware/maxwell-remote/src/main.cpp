@@ -44,6 +44,12 @@ SC16IS750 GPSUart = SC16IS750(
     14745600UL
 );
 
+SC16IS750 AlternateUart = SC16IS750(
+    SPI_CS2,
+    SC16IS750_CHAN_A,
+    14745600UL
+);
+
 RTClock Clock(RTCSEL_LSE);
 
 void setup() {
@@ -100,6 +106,10 @@ void setup() {
     Display.setContrast(180);
 
     GPSUart.begin(9600, true);
+    GPSUart.GPIOSetPinState(5, HIGH);
+    GPSUart.GPIOSetPinMode(5, OUTPUT);
+    GPSUart.GPIOSetPinMode(6, INPUT);
+    GPSUart.GPIOSetPinMode(7, INPUT);
     if(!GPSUart.ping()) {
         Output.println("Error connecting to UART over SPI; no GPS available.");
     }
@@ -230,8 +240,7 @@ void sleep() {
     CanBus.end();
 
     // Let's sleep the GPS
-    gpsWake();
-    gpsPMTK(161, ",0");
+    gpsSleep();
     GPSUart.flush();
     GPSUart.sleep();
     // Disable Screen

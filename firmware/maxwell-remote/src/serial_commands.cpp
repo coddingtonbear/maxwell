@@ -59,6 +59,9 @@ void setupCommands() {
 
     commands.addCommand("contrast", setContrast);
 
+    commands.addCommand("set_uart_reg", setUartRegister);
+    commands.addCommand("get_uart_reg", getUartRegister);
+
     canCommands.addCommand(CAN_MAIN_MC_SLEEP, cmdSleep);
 
     canCommands.addCommand(CAN_LED_STATUS, receiveLedStatus);
@@ -786,4 +789,77 @@ void sendUpdatedGpsPosition() {
     }
 
     CanBus.send(&status);
+}
+
+void getUartRegister() {
+    char * channelId = commands.next();
+    if(!channelId) {
+        Output.println("Must supply channel id");
+        return;
+    }
+
+    char* registerId = commands.next();
+    if(!registerId) {
+        Output.println("Must supply register ID");
+        return;
+    }
+
+    uint8_t registerIdInt = strtoul(registerId, NULL, 16);
+
+    Output.print("Register ");
+    Output.print(registerIdInt, HEX);
+    Output.print(": ");
+    if(strcmp(channelId, "a") == 0) {
+        Output.println(
+            AlternateUart.ReadRegister(registerIdInt),
+            BIN
+        );
+    } else if (strcmp(channelId, "b") == 0) {
+        Output.println(
+            GPSUart.ReadRegister(registerIdInt),
+            BIN
+        );
+    } else {
+        Output.print("Unrecognized channel: ");
+        Output.println(channelId);
+    }
+}
+
+void setUartRegister() {
+    char * channelId = commands.next();
+    if(!channelId) {
+        Output.println("Must supply channel id");
+        return;
+    }
+
+    char* registerId = commands.next();
+    if(!registerId) {
+        Output.println("Must supply register ID");
+        return;
+    }
+
+    char* value = commands.next();
+    if(!value) {
+        Output.println("Must supply value");
+        return;
+    }
+
+    uint8_t registerIdInt = strtoul(registerId, NULL, 16);
+    uint8_t valueInt = strtoul(value, NULL, 2);
+
+    Output.print(
+        "Register "
+    );
+    Output.print(registerIdInt, HEX);
+    Output.print(" set to ");
+    Output.println(valueInt, BIN);
+    tolower(channelId[0]);
+    if(strcmp(channelId, "a") == 0) {
+        AlternateUart.WriteRegister(registerIdInt, valueInt);
+    } else if (strcmp(channelId, "b") == 0) {
+        GPSUart.WriteRegister(registerIdInt, valueInt);
+    } else {
+        Output.print("Unrecognized channel: ");
+        Output.println(channelId);
+    }
 }

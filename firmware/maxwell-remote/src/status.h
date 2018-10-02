@@ -16,6 +16,7 @@ void updateGpsFix();
 bool gpsFixValid();
 void gpsPMTK(uint cmd, String data);
 void gpsWake();
+void gpsSleep();
 MicroNMEA* getGpsFix();
 
 double getDoubleStatusParameter(uint32);
