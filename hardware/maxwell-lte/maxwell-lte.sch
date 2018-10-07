@@ -1,0 +1,891 @@
+EESchema Schematic File Version 4
+LIBS:maxwell-lte-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Connector:Conn_Coaxial J1
+U 1 1 5BB94EB6
+P 1900 1750
+F 0 "J1" H 2000 1634 50  0000 L CNN
+F 1 "LTE" H 2000 1725 50  0000 L CNN
+F 2 "Connector_Coaxial:SMA_Amphenol_132134_Vertical" H 1900 1750 50  0001 C CNN
+F 3 " ~" H 1900 1750 50  0001 C CNN
+	1    1900 1750
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:Conn_Coaxial J2
+U 1 1 5BB94F55
+P 1900 2300
+F 0 "J2" H 2000 2184 50  0000 L CNN
+F 1 "GPS" H 2000 2275 50  0000 L CNN
+F 2 "Connector_Coaxial:SMA_Amphenol_132134_Vertical" H 1900 2300 50  0001 C CNN
+F 3 " ~" H 1900 2300 50  0001 C CNN
+	1    1900 2300
+	-1   0    0    1   
+$EndComp
+$Comp
+L SIM7000A:SIM7000A U2
+U 1 1 5BB9E33B
+P 4150 3650
+F 0 "U2" H 4150 3550 50  0000 C CNN
+F 1 "SIM7000A" H 4150 3650 50  0000 C CNN
+F 2 "coddingtonbear:SIM7000" H 4150 3650 50  0001 C CNN
+F 3 "" H 4250 2000 50  0001 C CNN
+	1    4150 3650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2100 1750 3600 1750
+Wire Wire Line
+	3600 1750 3600 2350
+Wire Wire Line
+	2100 2300 3500 2300
+Wire Wire Line
+	3500 2300 3500 2350
+$Comp
+L Device:Crystal Y1
+U 1 1 5BB9B1CC
+P 10300 1950
+F 0 "Y1" V 10346 1819 50  0000 R CNN
+F 1 "Crystal" V 10255 1819 50  0000 R CNN
+F 2 "coddingtonbear:Crystal_HC49-U_Vertical_LargePads" H 10300 1950 50  0001 C CNN
+F 3 "~" H 10300 1950 50  0001 C CNN
+	1    10300 1950
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:C C4
+U 1 1 5BB9B35A
+P 10450 1800
+F 0 "C4" V 10702 1800 50  0000 C CNN
+F 1 "22p" V 10611 1800 50  0000 C CNN
+F 2 "coddingtonbear:0805_Milling" H 10488 1650 50  0001 C CNN
+F 3 "~" H 10450 1800 50  0001 C CNN
+	1    10450 1800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:C C5
+U 1 1 5BB9B40F
+P 10450 2100
+F 0 "C5" V 10702 2100 50  0000 C CNN
+F 1 "22p" V 10611 2100 50  0000 C CNN
+F 2 "coddingtonbear:0805_Milling" H 10488 1950 50  0001 C CNN
+F 3 "~" H 10450 2100 50  0001 C CNN
+	1    10450 2100
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	10000 1900 10100 1900
+Wire Wire Line
+	10100 1900 10100 1800
+Wire Wire Line
+	10100 1800 10300 1800
+Connection ~ 10300 1800
+Wire Wire Line
+	10000 2000 10100 2000
+Wire Wire Line
+	10100 2000 10100 2100
+Wire Wire Line
+	10100 2100 10300 2100
+Connection ~ 10300 2100
+$Comp
+L power:GND #PWR0101
+U 1 1 5BB9B72E
+P 10800 2100
+F 0 "#PWR0101" H 10800 1850 50  0001 C CNN
+F 1 "GND" H 10805 1927 50  0000 C CNN
+F 2 "" H 10800 2100 50  0001 C CNN
+F 3 "" H 10800 2100 50  0001 C CNN
+	1    10800 2100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10600 1800 10800 1800
+Wire Wire Line
+	10800 1800 10800 2100
+Wire Wire Line
+	10600 2100 10700 2100
+Connection ~ 10800 2100
+$Comp
+L coddingtonbear:SC16IS750IPW U4
+U 1 1 5BB9AD73
+P 9200 2600
+F 0 "U4" H 9200 1413 60  0000 C CNN
+F 1 "SC16IS750IPW" H 9200 1519 60  0000 C CNN
+F 2 "Package_SO:TSSOP-24_4.4x7.8mm_P0.65mm" H 9200 3550 60  0001 C CNN
+F 3 "" H 9200 3550 60  0000 C CNN
+	1    9200 2600
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	10000 1700 10800 1700
+Wire Wire Line
+	10800 1700 10800 1800
+Connection ~ 10800 1800
+$Comp
+L Logic_LevelTranslator:TXB0104D U3
+U 1 1 5BB9C6DD
+P 7450 3050
+F 0 "U3" H 7450 2264 50  0000 C CNN
+F 1 "TXB0104D" H 7150 2350 50  0000 C CNN
+F 2 "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm" H 7450 2300 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/txb0104.pdf" H 7560 3145 50  0001 C CNN
+	1    7450 3050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3V3 #PWR0102
+U 1 1 5BB9DC86
+P 7550 2050
+F 0 "#PWR0102" H 7550 1900 50  0001 C CNN
+F 1 "+3V3" H 7565 2223 50  0000 C CNN
+F 2 "" H 7550 2050 50  0001 C CNN
+F 3 "" H 7550 2050 50  0001 C CNN
+	1    7550 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0103
+U 1 1 5BB9DCF8
+P 7450 3750
+F 0 "#PWR0103" H 7450 3500 50  0001 C CNN
+F 1 "GND" H 7455 3577 50  0000 C CNN
+F 2 "" H 7450 3750 50  0001 C CNN
+F 3 "" H 7450 3750 50  0001 C CNN
+	1    7450 3750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x06 J3
+U 1 1 5BB9E54D
+P 5100 6200
+F 0 "J3" H 5179 6192 50  0000 L CNN
+F 1 "Input" H 5179 6101 50  0000 L CNN
+F 2 "coddingtonbear:JST_XH_B06B-XH-A_06x2.50mm_Straight_LargePads" H 5100 6200 50  0001 C CNN
+F 3 "~" H 5100 6200 50  0001 C CNN
+	1    5100 6200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0104
+U 1 1 5BB9E638
+P 4900 6500
+F 0 "#PWR0104" H 4900 6250 50  0001 C CNN
+F 1 "GND" H 4905 6327 50  0000 C CNN
+F 2 "" H 4900 6500 50  0001 C CNN
+F 3 "" H 4900 6500 50  0001 C CNN
+	1    4900 6500
+	1    0    0    -1  
+$EndComp
+Text GLabel 4900 6400 0    50   Output ~ 0
+MOSI
+Text GLabel 4900 6300 0    50   Input ~ 0
+MISO
+Text GLabel 4900 6200 0    50   Output ~ 0
+SCK
+$Comp
+L power:+BATT #PWR0105
+U 1 1 5BB9E859
+P 4600 6100
+F 0 "#PWR0105" H 4600 5950 50  0001 C CNN
+F 1 "+BATT" H 4615 6273 50  0000 C CNN
+F 2 "" H 4600 6100 50  0001 C CNN
+F 3 "" H 4600 6100 50  0001 C CNN
+	1    4600 6100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4600 6100 4900 6100
+Text GLabel 4900 6000 0    50   Output ~ 0
+CS
+Text GLabel 10000 2800 2    50   Input ~ 0
+CS
+Text GLabel 10000 2500 2    50   Input ~ 0
+SCK
+Text GLabel 10000 2600 2    50   Output ~ 0
+MISO
+Text GLabel 10000 2700 2    50   Input ~ 0
+MOSI
+$Comp
+L coddingtonbear:MIC5209-ADJ U1
+U 1 1 5BB9F400
+P 3300 6400
+F 0 "U1" H 3300 6887 60  0000 C CNN
+F 1 "MIC5209-ADJ" H 3300 6781 60  0000 C CNN
+F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 3300 6400 60  0001 C CNN
+F 3 "" H 3300 6400 60  0001 C CNN
+	1    3300 6400
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0106
+U 1 1 5BB9F4F6
+P 3850 6500
+F 0 "#PWR0106" H 3850 6250 50  0001 C CNN
+F 1 "GND" H 3855 6327 50  0000 C CNN
+F 2 "" H 3850 6500 50  0001 C CNN
+F 3 "" H 3850 6500 50  0001 C CNN
+	1    3850 6500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3750 6200 3850 6200
+Wire Wire Line
+	3850 6200 3850 6300
+Wire Wire Line
+	3750 6300 3850 6300
+Connection ~ 3850 6300
+Wire Wire Line
+	3850 6300 3850 6400
+Wire Wire Line
+	3750 6400 3850 6400
+Connection ~ 3850 6400
+Wire Wire Line
+	3850 6400 3850 6500
+Wire Wire Line
+	3750 6500 3850 6500
+Connection ~ 3850 6500
+$Comp
+L power:+BATT #PWR0107
+U 1 1 5BBA0E2E
+P 2650 6200
+F 0 "#PWR0107" H 2650 6050 50  0001 C CNN
+F 1 "+BATT" H 2665 6373 50  0000 C CNN
+F 2 "" H 2650 6200 50  0001 C CNN
+F 3 "" H 2650 6200 50  0001 C CNN
+	1    2650 6200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2850 6300 2650 6300
+Wire Wire Line
+	2650 6300 2650 6200
+Connection ~ 2650 6200
+Wire Wire Line
+	2650 6200 2850 6200
+$Comp
+L power:+3V3 #PWR0108
+U 1 1 5BBA28E0
+P 2450 6400
+F 0 "#PWR0108" H 2450 6250 50  0001 C CNN
+F 1 "+3V3" H 2465 6573 50  0000 C CNN
+F 2 "" H 2450 6400 50  0001 C CNN
+F 3 "" H 2450 6400 50  0001 C CNN
+	1    2450 6400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2850 6400 2550 6400
+$Comp
+L power:+BATT #PWR0109
+U 1 1 5BBA3268
+P 3200 900
+F 0 "#PWR0109" H 3200 750 50  0001 C CNN
+F 1 "+BATT" H 3215 1073 50  0000 C CNN
+F 2 "" H 3200 900 50  0001 C CNN
+F 3 "" H 3200 900 50  0001 C CNN
+	1    3200 900 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4050 2350 4050 2200
+Wire Wire Line
+	4050 2200 4150 2200
+Wire Wire Line
+	4150 2200 4250 2200
+Wire Wire Line
+	4250 2200 4250 2350
+Connection ~ 4150 2200
+Wire Wire Line
+	4150 2350 4150 2200
+$Comp
+L power:GND #PWR0110
+U 1 1 5BBA5277
+P 4050 5050
+F 0 "#PWR0110" H 4050 4800 50  0001 C CNN
+F 1 "GND" H 4055 4877 50  0000 C CNN
+F 2 "" H 4050 5050 50  0001 C CNN
+F 3 "" H 4050 5050 50  0001 C CNN
+	1    4050 5050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3450 4950 3450 5050
+Wire Wire Line
+	3450 5050 3550 5050
+Wire Wire Line
+	4850 4950 4850 5050
+Wire Wire Line
+	4850 5050 4750 5050
+Connection ~ 4050 5050
+Wire Wire Line
+	3550 4950 3550 5050
+Connection ~ 3550 5050
+Wire Wire Line
+	3550 5050 3650 5050
+Wire Wire Line
+	3650 4950 3650 5050
+Connection ~ 3650 5050
+Wire Wire Line
+	3650 5050 3750 5050
+Wire Wire Line
+	3750 4950 3750 5050
+Connection ~ 3750 5050
+Wire Wire Line
+	3750 5050 3850 5050
+Wire Wire Line
+	3850 4950 3850 5050
+Connection ~ 3850 5050
+Wire Wire Line
+	3850 5050 3950 5050
+Wire Wire Line
+	3950 4950 3950 5050
+Connection ~ 3950 5050
+Wire Wire Line
+	3950 5050 4050 5050
+Wire Wire Line
+	4050 4950 4050 5050
+Wire Wire Line
+	4150 4950 4150 5050
+Connection ~ 4150 5050
+Wire Wire Line
+	4150 5050 4050 5050
+Wire Wire Line
+	4250 4950 4250 5050
+Connection ~ 4250 5050
+Wire Wire Line
+	4250 5050 4150 5050
+Wire Wire Line
+	4350 4950 4350 5050
+Connection ~ 4350 5050
+Wire Wire Line
+	4350 5050 4250 5050
+Connection ~ 4450 5050
+Wire Wire Line
+	4450 5050 4350 5050
+Wire Wire Line
+	4450 4950 4450 5050
+Wire Wire Line
+	4550 4950 4550 5050
+Connection ~ 4550 5050
+Wire Wire Line
+	4550 5050 4450 5050
+Wire Wire Line
+	4650 4950 4650 5050
+Connection ~ 4650 5050
+Wire Wire Line
+	4650 5050 4550 5050
+Wire Wire Line
+	4750 4950 4750 5050
+Connection ~ 4750 5050
+Wire Wire Line
+	4750 5050 4650 5050
+$Comp
+L power:GND #PWR0111
+U 1 1 5BBB93A0
+P 10500 2400
+F 0 "#PWR0111" H 10500 2150 50  0001 C CNN
+F 1 "GND" H 10505 2227 50  0000 C CNN
+F 2 "" H 10500 2400 50  0001 C CNN
+F 3 "" H 10500 2400 50  0001 C CNN
+	1    10500 2400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10000 2400 10500 2400
+$Comp
+L power:+3V3 #PWR0112
+U 1 1 5BBBB108
+P 9850 3800
+F 0 "#PWR0112" H 9850 3650 50  0001 C CNN
+F 1 "+3V3" H 9865 3973 50  0000 C CNN
+F 2 "" H 9850 3800 50  0001 C CNN
+F 3 "" H 9850 3800 50  0001 C CNN
+	1    9850 3800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9850 3800 9850 3950
+Wire Wire Line
+	10150 3950 10150 3400
+Wire Wire Line
+	10150 3400 10000 3400
+Wire Wire Line
+	10000 2200 10700 2200
+Wire Wire Line
+	10700 2200 10700 2100
+Connection ~ 10700 2100
+Wire Wire Line
+	10700 2100 10800 2100
+$Comp
+L Device:R R3
+U 1 1 5BBBF67B
+P 10400 3150
+F 0 "R3" H 10470 3196 50  0000 L CNN
+F 1 "1k" H 10470 3105 50  0000 L CNN
+F 2 "coddingtonbear:0805_Milling" V 10330 3150 50  0001 C CNN
+F 3 "~" H 10400 3150 50  0001 C CNN
+	1    10400 3150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10000 3000 10400 3000
+Wire Wire Line
+	10400 3300 10400 3400
+Wire Wire Line
+	10400 3400 10150 3400
+Connection ~ 10150 3400
+$Comp
+L Device:C C3
+U 1 1 5BBC3C11
+P 10300 3950
+F 0 "C3" V 10552 3950 50  0000 C CNN
+F 1 "0.1u" V 10461 3950 50  0000 C CNN
+F 2 "coddingtonbear:0805_Milling" H 10338 3800 50  0001 C CNN
+F 3 "~" H 10300 3950 50  0001 C CNN
+	1    10300 3950
+	0    -1   -1   0   
+$EndComp
+Connection ~ 10150 3950
+Wire Wire Line
+	9850 3950 10150 3950
+$Comp
+L power:GND #PWR0113
+U 1 1 5BBC3D7E
+P 10450 3950
+F 0 "#PWR0113" H 10450 3700 50  0001 C CNN
+F 1 "GND" H 10455 3777 50  0000 C CNN
+F 2 "" H 10450 3950 50  0001 C CNN
+F 3 "" H 10450 3950 50  0001 C CNN
+	1    10450 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C2
+U 1 1 5BBC3F25
+P 7700 2250
+F 0 "C2" V 7952 2250 50  0000 C CNN
+F 1 "0.1u" V 7861 2250 50  0000 C CNN
+F 2 "coddingtonbear:0805_Milling" H 7738 2100 50  0001 C CNN
+F 3 "~" H 7700 2250 50  0001 C CNN
+	1    7700 2250
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:C C1
+U 1 1 5BBC3FF6
+P 7200 2250
+F 0 "C1" V 6948 2250 50  0000 C CNN
+F 1 "0.1u" V 7039 2250 50  0000 C CNN
+F 2 "coddingtonbear:0805_Milling" H 7238 2100 50  0001 C CNN
+F 3 "~" H 7200 2250 50  0001 C CNN
+	1    7200 2250
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4800 2350 4800 1850
+Wire Wire Line
+	4800 1850 6450 1850
+Wire Wire Line
+	7350 1850 7350 2250
+Wire Wire Line
+	7350 2250 7350 2350
+Connection ~ 7350 2250
+Wire Wire Line
+	7550 2250 7550 2350
+Wire Wire Line
+	7550 2050 7550 2250
+Connection ~ 7550 2250
+$Comp
+L power:GND #PWR0114
+U 1 1 5BBCD48A
+P 7900 2300
+F 0 "#PWR0114" H 7900 2050 50  0001 C CNN
+F 1 "GND" H 7905 2127 50  0000 C CNN
+F 2 "" H 7900 2300 50  0001 C CNN
+F 3 "" H 7900 2300 50  0001 C CNN
+	1    7900 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0115
+U 1 1 5BBCD4B1
+P 6950 2300
+F 0 "#PWR0115" H 6950 2050 50  0001 C CNN
+F 1 "GND" H 6955 2127 50  0000 C CNN
+F 2 "" H 6950 2300 50  0001 C CNN
+F 3 "" H 6950 2300 50  0001 C CNN
+	1    6950 2300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7850 2250 7900 2250
+Wire Wire Line
+	7900 2250 7900 2300
+Wire Wire Line
+	7050 2250 6950 2250
+Wire Wire Line
+	6950 2250 6950 2300
+Wire Wire Line
+	10000 3200 10150 3200
+Wire Wire Line
+	10150 3200 10150 3400
+$Comp
+L Connector:SIM_Card J4
+U 1 1 5BBD8183
+P 6700 4450
+F 0 "J4" H 7329 4550 50  0000 L CNN
+F 1 "SIM_Card" H 7329 4459 50  0000 L CNN
+F 2 "coddingtonbear:78800-0001" H 6700 4800 50  0001 C CNN
+F 3 " ~" H 6650 4450 50  0001 C CNN
+	1    6700 4450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5750 4450 5900 4450
+$Comp
+L power:GND #PWR0116
+U 1 1 5BBE36A4
+P 6100 4800
+F 0 "#PWR0116" H 6100 4550 50  0001 C CNN
+F 1 "GND" H 6105 4627 50  0000 C CNN
+F 2 "" H 6100 4800 50  0001 C CNN
+F 3 "" H 6100 4800 50  0001 C CNN
+	1    6100 4800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6200 4450 6100 4450
+Wire Wire Line
+	6100 4450 6100 4800
+Text GLabel 7050 3350 0    50   Output ~ 0
+PWRKEY
+Text GLabel 2550 2850 0    50   Input ~ 0
+PWRKEY
+$Comp
+L power:GND #PWR0117
+U 1 1 5BBEDF0C
+P 1400 1550
+F 0 "#PWR0117" H 1400 1300 50  0001 C CNN
+F 1 "GND" H 1405 1377 50  0000 C CNN
+F 2 "" H 1400 1550 50  0001 C CNN
+F 3 "" H 1400 1550 50  0001 C CNN
+	1    1400 1550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0118
+U 1 1 5BBEDF35
+P 1350 2200
+F 0 "#PWR0118" H 1350 1950 50  0001 C CNN
+F 1 "GND" H 1355 2027 50  0000 C CNN
+F 2 "" H 1350 2200 50  0001 C CNN
+F 3 "" H 1350 2200 50  0001 C CNN
+	1    1350 2200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1900 1550 1400 1550
+Wire Wire Line
+	1900 2100 1350 2100
+Wire Wire Line
+	1350 2100 1350 2200
+$Comp
+L Device:R R1
+U 1 1 5BBF51E7
+P 2550 6550
+F 0 "R1" H 2620 6596 50  0000 L CNN
+F 1 "R1" H 2620 6505 50  0000 L CNN
+F 2 "coddingtonbear:0805_Milling" V 2480 6550 50  0001 C CNN
+F 3 "~" H 2550 6550 50  0001 C CNN
+	1    2550 6550
+	1    0    0    -1  
+$EndComp
+Connection ~ 2550 6400
+Wire Wire Line
+	2550 6400 2450 6400
+$Comp
+L Device:R R2
+U 1 1 5BBF52DB
+P 2550 6950
+F 0 "R2" H 2620 6996 50  0000 L CNN
+F 1 "R2" H 2620 6905 50  0000 L CNN
+F 2 "coddingtonbear:0805_Milling" V 2480 6950 50  0001 C CNN
+F 3 "~" H 2550 6950 50  0001 C CNN
+	1    2550 6950
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0119
+U 1 1 5BBF5341
+P 2550 7100
+F 0 "#PWR0119" H 2550 6850 50  0001 C CNN
+F 1 "GND" H 2555 6927 50  0000 C CNN
+F 2 "" H 2550 7100 50  0001 C CNN
+F 3 "" H 2550 7100 50  0001 C CNN
+	1    2550 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2550 6700 2550 6750
+Wire Wire Line
+	2550 6750 2850 6750
+Wire Wire Line
+	2850 6750 2850 6500
+Connection ~ 2550 6750
+Wire Wire Line
+	2550 6750 2550 6800
+Text Notes 2850 7000 0    50   ~ 0
+1.242V * (1  + R2 / R1)  = 3.3
+Text Label 5850 3350 0    50   ~ 0
+LTE_DI_L
+Text Label 5850 3250 0    50   ~ 0
+LTE_DO_L
+Text Label 8200 4000 0    50   ~ 0
+LTE_DI_H
+Text Label 8050 4250 0    50   ~ 0
+LTE_DO_H
+Text Label 8900 4000 0    50   ~ 0
+PWRKEY_H
+Text Label 8050 3800 0    50   ~ 0
+LTE_DTR_H
+Text Label 6600 3150 0    50   ~ 0
+LTE_DTR_L
+Text Label 6000 1850 0    50   ~ 0
+VDD_EXT
+Text Label 2600 1750 0    50   ~ 0
+LTE_ANT
+Text Label 2600 2300 0    50   ~ 0
+GPS_ANT
+Wire Wire Line
+	5750 3350 6300 3350
+Wire Wire Line
+	6300 3350 6300 2700
+Wire Wire Line
+	6300 2700 6650 2700
+Wire Wire Line
+	6650 2700 6650 2750
+Wire Wire Line
+	6650 2750 7050 2750
+Wire Wire Line
+	7050 2950 6250 2950
+Wire Wire Line
+	6250 2950 6250 3250
+Wire Wire Line
+	6250 3250 5750 3250
+Wire Wire Line
+	6500 2750 6500 3150
+Wire Wire Line
+	5750 2750 6500 2750
+Wire Wire Line
+	6500 3150 7050 3150
+Wire Wire Line
+	7850 2950 8150 2950
+Wire Wire Line
+	8150 2950 8150 3400
+Wire Wire Line
+	8150 3400 8400 3400
+Wire Wire Line
+	8400 3300 8200 3300
+Wire Wire Line
+	8200 3300 8200 2750
+Wire Wire Line
+	8200 2750 7850 2750
+Wire Wire Line
+	7850 3150 8050 3150
+Wire Wire Line
+	8050 3150 8050 2700
+Wire Wire Line
+	8050 2700 8400 2700
+Wire Wire Line
+	8400 2800 8250 2800
+Wire Wire Line
+	8250 2800 8250 3250
+Wire Wire Line
+	8250 3250 7850 3250
+Wire Wire Line
+	7850 3250 7850 3350
+$Comp
+L Device:C C6
+U 1 1 5BC2DAED
+P 3750 1050
+F 0 "C6" V 3498 1050 50  0000 C CNN
+F 1 "0.1u" V 3589 1050 50  0000 C CNN
+F 2 "coddingtonbear:0805_Milling" H 3788 900 50  0001 C CNN
+F 3 "~" H 3750 1050 50  0001 C CNN
+	1    3750 1050
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:CP C8
+U 1 1 5BC2DBF3
+P 4300 1600
+F 0 "C8" V 4555 1600 50  0000 C CNN
+F 1 "220u / TAJC227K006RNJ" V 4464 1600 50  0000 C CNN
+F 2 "coddingtonbear:CP_Tantalum_Case-C_EIA-6032-28_Milling" H 4338 1450 50  0001 C CNN
+F 3 "~" H 4300 1600 50  0001 C CNN
+	1    4300 1600
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4150 1200 4150 1600
+Connection ~ 4150 1600
+$Comp
+L Device:CP C7
+U 1 1 5BC3EBE6
+P 4300 1200
+F 0 "C7" V 4555 1200 50  0000 C CNN
+F 1 "220u / TAJC227K006RNJ" V 4464 1200 50  0000 C CNN
+F 2 "coddingtonbear:CP_Tantalum_Case-C_EIA-6032-28_Milling" H 4338 1050 50  0001 C CNN
+F 3 "~" H 4300 1200 50  0001 C CNN
+	1    4300 1200
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4150 1600 4150 2000
+$Comp
+L Device:CP C9
+U 1 1 5BC3EC4C
+P 4300 2000
+F 0 "C9" V 4555 2000 50  0000 C CNN
+F 1 "220u / TAJC227K006RNJ" V 4464 2000 50  0000 C CNN
+F 2 "coddingtonbear:CP_Tantalum_Case-C_EIA-6032-28_Milling" H 4338 1850 50  0001 C CNN
+F 3 "~" H 4300 2000 50  0001 C CNN
+	1    4300 2000
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4150 1200 3750 1200
+Connection ~ 4150 1200
+Wire Wire Line
+	3200 900  3200 1200
+Wire Wire Line
+	3200 1200 3750 1200
+Connection ~ 3750 1200
+Connection ~ 4150 2000
+Wire Wire Line
+	4150 2000 4150 2200
+$Comp
+L power:GND #PWR0120
+U 1 1 5BC47884
+P 4450 2100
+F 0 "#PWR0120" H 4450 1850 50  0001 C CNN
+F 1 "GND" H 4455 1927 50  0000 C CNN
+F 2 "" H 4450 2100 50  0001 C CNN
+F 3 "" H 4450 2100 50  0001 C CNN
+	1    4450 2100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4450 2100 4450 2000
+Wire Wire Line
+	4450 2000 4450 1600
+Connection ~ 4450 2000
+Wire Wire Line
+	4450 1600 4450 1200
+Connection ~ 4450 1600
+Wire Wire Line
+	4450 1200 4450 900 
+Wire Wire Line
+	4450 900  3750 900 
+Connection ~ 4450 1200
+$Comp
+L Device:C C10
+U 1 1 5BC5AC1E
+P 6050 4000
+F 0 "C10" V 5798 4000 50  0000 C CNN
+F 1 "0.1u" V 5889 4000 50  0000 C CNN
+F 2 "coddingtonbear:0805_Milling" H 6088 3850 50  0001 C CNN
+F 3 "~" H 6050 4000 50  0001 C CNN
+	1    6050 4000
+	-1   0    0    1   
+$EndComp
+Connection ~ 6050 4150
+Wire Wire Line
+	6050 4150 6200 4150
+$Comp
+L power:GND #PWR0121
+U 1 1 5BC5ACB8
+P 6500 3850
+F 0 "#PWR0121" H 6500 3600 50  0001 C CNN
+F 1 "GND" H 6505 3677 50  0000 C CNN
+F 2 "" H 6500 3850 50  0001 C CNN
+F 3 "" H 6500 3850 50  0001 C CNN
+	1    6500 3850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6050 3850 6500 3850
+$Comp
+L Device:R R5
+U 1 1 5BC5FF4A
+P 6000 4250
+F 0 "R5" H 6070 4296 50  0000 L CNN
+F 1 "22" H 6070 4205 50  0000 L CNN
+F 2 "coddingtonbear:0805_Milling" V 5930 4250 50  0001 C CNN
+F 3 "~" H 6000 4250 50  0001 C CNN
+	1    6000 4250
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5800 4150 5800 4550
+Wire Wire Line
+	5800 4550 5750 4550
+Wire Wire Line
+	5800 4150 6050 4150
+$Comp
+L Device:R R6
+U 1 1 5BC6524B
+P 6000 4350
+F 0 "R6" H 6070 4396 50  0000 L CNN
+F 1 "22" H 6070 4305 50  0000 L CNN
+F 2 "coddingtonbear:0805_Milling" V 5930 4350 50  0001 C CNN
+F 3 "~" H 6000 4350 50  0001 C CNN
+	1    6000 4350
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R4
+U 1 1 5BC6528B
+P 5900 4600
+F 0 "R4" H 5970 4646 50  0000 L CNN
+F 1 "22" H 5970 4555 50  0000 L CNN
+F 2 "coddingtonbear:0805_Milling" V 5830 4600 50  0001 C CNN
+F 3 "~" H 5900 4600 50  0001 C CNN
+	1    5900 4600
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5850 4250 5750 4250
+Wire Wire Line
+	5750 4350 5850 4350
+Wire Wire Line
+	6150 4250 6200 4250
+Wire Wire Line
+	6200 4350 6150 4350
+Wire Wire Line
+	5900 4750 6200 4750
+Wire Wire Line
+	6200 4750 6200 4650
+Wire Wire Line
+	7050 2550 6450 2550
+Wire Wire Line
+	6450 2550 6450 1850
+Connection ~ 6450 1850
+Wire Wire Line
+	6450 1850 7350 1850
+$EndSCHEMATC
