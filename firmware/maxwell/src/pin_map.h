@@ -20,6 +20,10 @@
 #define PIN_ENABLE_BATT_POWER PB0
 #define PIN_ENABLE_BATT_CHARGE_ PC13
 
+// Note that these are GPIOs on the LTE Module
+#define PIN_LTE_DTR 7
+#define PIN_LTE_PWRKEY 6
+
 #define PIN_I_SPEED PA0
 
 #define BTSerial Serial

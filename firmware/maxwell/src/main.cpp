@@ -8,6 +8,7 @@
 #include <SdFat.h>
 #include <SPI.h>
 #include <ArduinoJson.h>
+#include <SC16IS750.h>
 
 #include "multiserial.h"
 #include "can_message_ids.h"
@@ -32,6 +33,12 @@ uint32 lastBluetoothKeepalive = 0;
 bool bluetoothEnabled = true;
 
 bool autosleepEnabled = true;
+
+SC16IS750 LTEUart = SC16IS750(
+    PIN_SPI_CS_B,
+    SC16IS750_CHAN_A,
+    14745600UL
+);
 
 Task taskVoltage(VOLTAGE_UPDATE_INTERVAL, TASK_FOREVER, &taskVoltageCallback);
 Task taskStatistics(
@@ -123,6 +130,18 @@ void setup() {
     }
 
     SPIBus.begin();
+
+    LTEUart.setSpiBus(&SPIBus);
+    LTEUart.begin(9600, true);
+    if(!LTEUart.ping()) {
+        Output.println("Error connecting to UART over SPI; no LTE available.");
+    } else {
+        LTEUart.GPIOSetPinState(PIN_LTE_DTR, LOW);
+        LTEUart.GPIOSetPinState(PIN_LTE_PWRKEY, LOW);
+        LTEUart.GPIOSetPinMode(PIN_LTE_DTR, OUTPUT);
+        LTEUart.GPIOSetPinMode(PIN_LTE_PWRKEY, OUTPUT);
+    }
+
     if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(18))) {
         Output.println("Error initializing SD Card");
         filesystem.initErrorPrint(&Output);
@@ -256,6 +275,25 @@ String sendBluetoothCommand(String command) {
 void bridgeUART(HardwareSerial* bridged, uint32_t baud) {
     bridged->begin(baud);
 
+    while(true) {
+        iwdg_feed();
+        if (Output.available()) {
+            uint8_t value = Output.read();
+
+            if (value == 4) {
+                break;
+            }
+            bridged->write(value);
+        }
+        if (bridged->available()) {
+            Output.write(bridged->read());
+        }
+    }
+
+    Output.begin();
+}
+
+void bridgeUART(SC16IS750* bridged) {
     while(true) {
         iwdg_feed();
         if (Output.available()) {
@@ -554,9 +592,16 @@ void sleep(bool allowMovementWake) {
     if(allowMovementWake) {
         Log.log("Movement wake enabled");
     }
+
+    // Stop LTE module
+    disableLTE();
+    LTEUart.sleep();
+
+    // Stop logging
     Log.end();
-    Output.end();
     filesystem.card()->spiStop();
+
+    Output.end();
     TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
 
     // Disable canbus

@@ -55,10 +55,16 @@ void setupCommands() {
     commands.addCommand("enable_bluetooth", cmdEnableBluetooth);
     commands.addCommand("delay_bt_timeout", setBluetoothTimeoutSeconds);
 
+    commands.addCommand("enable_lte", enableLTE);
+    commands.addCommand("disable_lte", disableLTE);
+
     commands.addCommand("debug_can", debug_can);
     commands.addCommand("send_can", send_can);
     commands.addCommand("emit_can", emit_can);
     canCommands.addCommand(CAN_TEST, emit_can);
+
+    commands.addCommand("set_uart_register", setUartRegister);
+    commands.addCommand("get_uart_register", getUartRegister);
 
     commands.addCommand("log_status", logStatus);
     commands.addCommand("list_logs", logList);
@@ -483,26 +489,39 @@ void doBridgeUART() {
         Output.println("UART number required.");
         return;
     }
-    char* baudString = commands.next();
-    if(baudString != NULL) {
-        baud = atoi(baudString);
+
+    if(uartNumber == 10) {
+        SC16IS750 uart = LTEUart;
+
+        Output.print("Bridging with UART ");
+        Output.println(uartNumber);
+        Output.println("==========");
+        bridgeUART(&uart);
+        Output.println();
+        Output.println("==========");
+        Output.println("Bridge teardown completed");
     } else {
-        Output.println("Baud rate required.");
-        return;
+        HardwareSerial* uart = uartNumberToInterface(uartNumber);
+
+        char* baudString = commands.next();
+        if(baudString != NULL) {
+            baud = atoi(baudString);
+        } else {
+            Output.println("Baud rate required.");
+            return;
+        }
+
+        Output.print("Bridging with UART ");
+        Output.print(uartNumber);
+        Output.print(" at ");
+        Output.print(baud);
+        Output.println(" bps");
+        Output.println("==========");
+        bridgeUART(uart, baud);
+        Output.println();
+        Output.println("==========");
+        Output.println("Bridge teardown completed");
     }
-
-    HardwareSerial* uart = uartNumberToInterface(uartNumber);
-
-    Output.print("Bridging with UART ");
-    Output.print(uartNumber);
-    Output.print(" at ");
-    Output.print(baud);
-    Output.println(" bps");
-    Output.println("==========");
-    bridgeUART(uart, baud);
-    Output.println();
-    Output.println("==========");
-    Output.println("Bridge teardown completed");
 }
 
 void canEnableBluetooth() {
@@ -753,4 +772,55 @@ void getTime() {
 
     Output.print("Current time: ");
     Output.println(String((uint32)time));
+}
+
+void enableLTE() {
+    LTEUart.GPIOSetPinState(PIN_LTE_PWRKEY, LOW);
+}
+
+void disableLTE() {
+    LTEUart.GPIOSetPinState(PIN_LTE_PWRKEY, HIGH);
+}
+
+void getUartRegister() {
+    char* registerId = commands.next();
+    if(!registerId) {
+        Output.println("Must supply register ID");
+        return;
+    }
+
+    uint8_t registerIdInt = strtoul(registerId, NULL, 16);
+
+    Output.print("Register ");
+    Output.print(registerIdInt, HEX);
+    Output.print(": ");
+    Output.println(
+        LTEUart.ReadRegister(registerIdInt),
+        BIN
+    );
+}
+
+void setUartRegister() {
+    char* registerId = commands.next();
+    if(!registerId) {
+        Output.println("Must supply register ID");
+        return;
+    }
+
+    char* value = commands.next();
+    if(!value) {
+        Output.println("Must supply value");
+        return;
+    }
+
+    uint8_t registerIdInt = strtoul(registerId, NULL, 16);
+    uint8_t valueInt = strtoul(value, NULL, 2);
+
+    Output.print(
+        "Register "
+    );
+    Output.print(registerIdInt, HEX);
+    Output.print(" set to ");
+    Output.println(valueInt, BIN);
+    LTEUart.WriteRegister(registerIdInt, valueInt);
 }

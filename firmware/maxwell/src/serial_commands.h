@@ -51,3 +51,7 @@ void cmdEnableBluetooth();
 void sdErrorState();
 void setTime();
 void getTime();
+void enableLTE();
+void disableLTE();
+void getUartRegister();
+void setUartRegister();

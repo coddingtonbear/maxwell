@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <HashMap.h>
 #include <SdFat.h>
+#include <SC16IS750.h>
 
 #include "logger.h"
 #include "multiserial.h"
@@ -66,6 +67,7 @@ void saveBackupTime();
 void beep(uint32_t, uint32_t);
 
 void bridgeUART(HardwareSerial*, uint32_t);
+void bridgeUART(SC16IS750*);
 HardwareSerial* uartNumberToInterface(uint32_t);
 void sleep(bool allowMovementWake=true);
 
@@ -89,3 +91,4 @@ extern HashMap<String, double> Statistics;
 extern RTClock Clock;
 extern Logger Log;
 extern SdFat filesystem;
+extern SC16IS750 LTEUart;
