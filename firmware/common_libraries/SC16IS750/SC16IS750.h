@@ -117,6 +117,7 @@ class SC16IS750 : public Stream
             uint8_t chan = SC16IS750_CHAN_A,
             unsigned long crystal_frequency = 14745600UL
         );
+        void setSpiBus(SPIClass*);
         void begin(uint32_t baud=0, bool reset=false);
         int read();
         size_t write(uint8_t val);
@@ -146,6 +147,7 @@ class SC16IS750 : public Stream
         
     
     private:
+        SPIClass* spiBus;
         unsigned long crystal_frequency;
         uint32_t _baud;
         uint8_t channel;

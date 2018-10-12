@@ -36,8 +36,14 @@ SC16IS750::SC16IS750(
     channel = chan;
     device_address_sspin = addr_sspin;
 
-    pinMode(device_address_sspin, OUTPUT);
     digitalWrite(device_address_sspin, HIGH);
+    pinMode(device_address_sspin, OUTPUT);
+
+    spiBus = &SPI;
+}
+
+void SC16IS750::setSpiBus(SPIClass* bus) {
+    spiBus = bus;
 }
 
 
@@ -48,7 +54,7 @@ void SC16IS750::begin(uint32_t baud, bool reset)
     }
     _baud = baud;
 
-    SPI.beginTransaction(settings);
+    spiBus->beginTransaction(settings);
     digitalWrite(device_address_sspin, LOW);
     if (reset) {
         ResetDevice();
@@ -65,11 +71,11 @@ void SC16IS750::begin(uint32_t baud, bool reset)
     SetLine(8,0,1);
     FIFOReset();
     digitalWrite(device_address_sspin, HIGH);
-    SPI.endTransaction();
+    spiBus->endTransaction();
 }
 
 uint8_t SC16IS750::transfer(uint8_t byte) {
-    uint8_t result = SPI.transfer(byte);
+    uint8_t result = spiBus->transfer(byte);
 
 #ifdef  SC16IS750_DEBUG_PRINT
     Serial.print("TX: ");
@@ -85,7 +91,7 @@ uint8_t SC16IS750::transfer(uint8_t byte) {
 }
 
 void SC16IS750::writeBytes(uint8_t bytes[], uint8_t size) {
-    SPI.beginTransaction(settings);
+    spiBus->beginTransaction(settings);
     digitalWrite(device_address_sspin, LOW);
 
     transfer(channel << 1);
@@ -95,7 +101,7 @@ void SC16IS750::writeBytes(uint8_t bytes[], uint8_t size) {
     }
 
     digitalWrite(device_address_sspin, HIGH);
-    SPI.endTransaction();
+    spiBus->endTransaction();
 }
 
 int SC16IS750::available(void)
@@ -116,7 +122,7 @@ size_t SC16IS750::write(uint8_t val)
 uint8_t SC16IS750::ReadRegister(uint8_t reg_addr)
 {
     uint8_t result;
-    SPI.beginTransaction(settings);
+    spiBus->beginTransaction(settings);
     digitalWrite(device_address_sspin, LOW);
     //delayMicroseconds(10);
 #ifdef  SC16IS750_DEBUG_PRINT
@@ -135,14 +141,14 @@ uint8_t SC16IS750::ReadRegister(uint8_t reg_addr)
 
     //delayMicroseconds(10);
     digitalWrite(device_address_sspin, HIGH);
-    SPI.endTransaction();
+    spiBus->endTransaction();
 
     return result;
 }
 
 void SC16IS750::WriteRegister(uint8_t reg_addr, uint8_t val)
 {
-    SPI.beginTransaction(settings);
+    spiBus->beginTransaction(settings);
     digitalWrite(device_address_sspin, LOW);
     //delayMicroseconds(10);
 #ifdef  SC16IS750_DEBUG_PRINT
@@ -163,7 +169,7 @@ void SC16IS750::WriteRegister(uint8_t reg_addr, uint8_t val)
 
     //delayMicroseconds(10);
     digitalWrite(device_address_sspin, HIGH);
-    SPI.endTransaction();
+    spiBus->endTransaction();
 }
 
 int16_t SC16IS750::SetBaudrate(uint32_t baudrate) //return error of baudrate parts per thousand
@@ -496,7 +502,7 @@ uint8_t SC16IS750::ping()
 {
     int result = 1;
 
-    SPI.beginTransaction(settings);
+    spiBus->beginTransaction(settings);
     digitalWrite(device_address_sspin, LOW);
     WriteRegister(SC16IS750_REG_SPR,0x55);
     byte firstResult = ReadRegister(SC16IS750_REG_SPR);
@@ -510,7 +516,7 @@ uint8_t SC16IS750::ping()
     }
 
     digitalWrite(device_address_sspin, HIGH);
-    SPI.endTransaction();
+    spiBus->endTransaction();
     return result;
 
 }
@@ -554,7 +560,7 @@ void SC16IS750::flush()
 {
     uint8_t tmp_lsr;
 
-    SPI.beginTransaction(settings);
+    spiBus->beginTransaction(settings);
     digitalWrite(device_address_sspin, LOW);
 
     do {
@@ -562,7 +568,7 @@ void SC16IS750::flush()
     } while ((tmp_lsr&0x20) ==0);
 
     digitalWrite(device_address_sspin, HIGH);
-    SPI.endTransaction();
+    spiBus->endTransaction();
 
 }
 
