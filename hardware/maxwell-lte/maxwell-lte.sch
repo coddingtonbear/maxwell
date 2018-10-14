@@ -897,4 +897,10 @@ Wire Wire Line
 	6650 1750 6050 1750
 Connection ~ 6650 1750
 Connection ~ 6050 1750
+Text GLabel 8300 3500 0    50   Output ~ 0
+PWRKEY
+Wire Wire Line
+	8400 3000 8300 3000
+Wire Wire Line
+	8300 3000 8300 3500
 $EndSCHEMATC
