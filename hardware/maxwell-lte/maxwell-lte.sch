@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:maxwell-lte-cache
-EELAYER 26 0
+EELAYER 28 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -17,12 +17,12 @@ $EndDescr
 $Comp
 L Connector:Conn_Coaxial J1
 U 1 1 5BB94EB6
-P 1900 1750
-F 0 "J1" H 2000 1634 50  0000 L CNN
-F 1 "LTE" H 2000 1725 50  0000 L CNN
-F 2 "Connector_Coaxial:SMA_Amphenol_132134_Vertical" H 1900 1750 50  0001 C CNN
-F 3 " ~" H 1900 1750 50  0001 C CNN
-	1    1900 1750
+P 1850 1400
+F 0 "J1" H 1950 1284 50  0000 L CNN
+F 1 "LTE" H 1950 1375 50  0000 L CNN
+F 2 "coddingtonbear:SMA_Amphenol_132134_Vertical_Largepads" H 1850 1400 50  0001 C CNN
+F 3 " ~" H 1850 1400 50  0001 C CNN
+	1    1850 1400
 	-1   0    0    1   
 $EndComp
 $Comp
@@ -31,7 +31,7 @@ U 1 1 5BB94F55
 P 1900 2300
 F 0 "J2" H 2000 2184 50  0000 L CNN
 F 1 "GPS" H 2000 2275 50  0000 L CNN
-F 2 "Connector_Coaxial:SMA_Amphenol_132134_Vertical" H 1900 2300 50  0001 C CNN
+F 2 "coddingtonbear:SMA_Amphenol_132134_Vertical_Largepads" H 1900 2300 50  0001 C CNN
 F 3 " ~" H 1900 2300 50  0001 C CNN
 	1    1900 2300
 	-1   0    0    1   
@@ -47,12 +47,6 @@ F 3 "" H 4250 2000 50  0001 C CNN
 	1    4150 3650
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	2100 1750 3600 1750
-Wire Wire Line
-	3600 1750 3600 2350
-Wire Wire Line
-	2100 2300 3500 2300
 Wire Wire Line
 	3500 2300 3500 2350
 $Comp
@@ -126,7 +120,7 @@ U 1 1 5BB9AD73
 P 9200 2600
 F 0 "U4" H 9200 1413 60  0000 C CNN
 F 1 "SC16IS750IPW" H 9200 1519 60  0000 C CNN
-F 2 "Package_SO:TSSOP-24_4.4x7.8mm_P0.65mm" H 9200 3550 60  0001 C CNN
+F 2 "coddingtonbear:TSSOP-24_4.4x7.8mm_P0.65mm_LargePads" H 9200 3550 60  0001 C CNN
 F 3 "" H 9200 3550 60  0000 C CNN
 	1    9200 2600
 	-1   0    0    1   
@@ -142,7 +136,7 @@ U 1 1 5BB9C6DD
 P 7450 3050
 F 0 "U3" H 7450 2264 50  0000 C CNN
 F 1 "TXB0104D" H 7150 2350 50  0000 C CNN
-F 2 "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm" H 7450 2300 50  0001 C CNN
+F 2 "coddingtonbear:SOIC-14_3.9x8.7mm_P1.27mm_LargePads" H 7450 2300 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/txb0104.pdf" H 7560 3145 50  0001 C CNN
 	1    7450 3050
 	1    0    0    -1  
@@ -226,7 +220,7 @@ U 1 1 5BB9F400
 P 3300 6400
 F 0 "U1" H 3300 6887 60  0000 C CNN
 F 1 "MIC5209-ADJ" H 3300 6781 60  0000 C CNN
-F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 3300 6400 60  0001 C CNN
+F 2 "coddingtonbear:SOIC-8_3.9x4.9mm_P1.27mm_LargePads" H 3300 6400 60  0001 C CNN
 F 3 "" H 3300 6400 60  0001 C CNN
 	1    3300 6400
 	1    0    0    -1  
@@ -497,14 +491,7 @@ F 3 "~" H 7200 2250 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	4800 2350 4800 1850
-Wire Wire Line
-	4800 1850 6450 1850
-Wire Wire Line
-	7350 1850 7350 2250
-Wire Wire Line
 	7350 2250 7350 2350
-Connection ~ 7350 2250
 Wire Wire Line
 	7550 2250 7550 2350
 Wire Wire Line
@@ -579,12 +566,12 @@ PWRKEY
 $Comp
 L power:GND #PWR0117
 U 1 1 5BBEDF0C
-P 1400 1550
-F 0 "#PWR0117" H 1400 1300 50  0001 C CNN
-F 1 "GND" H 1405 1377 50  0000 C CNN
-F 2 "" H 1400 1550 50  0001 C CNN
-F 3 "" H 1400 1550 50  0001 C CNN
-	1    1400 1550
+P 1350 1200
+F 0 "#PWR0117" H 1350 950 50  0001 C CNN
+F 1 "GND" H 1355 1027 50  0000 C CNN
+F 2 "" H 1350 1200 50  0001 C CNN
+F 3 "" H 1350 1200 50  0001 C CNN
+	1    1350 1200
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -599,7 +586,7 @@ F 3 "" H 1350 2200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	1900 1550 1400 1550
+	1850 1200 1350 1200
 Wire Wire Line
 	1900 2100 1350 2100
 Wire Wire Line
@@ -665,9 +652,7 @@ Text Label 8050 3800 0    50   ~ 0
 LTE_DTR_H
 Text Label 6600 3150 0    50   ~ 0
 LTE_DTR_L
-Text Label 6000 1850 0    50   ~ 0
-VDD_EXT
-Text Label 2600 1750 0    50   ~ 0
+Text Label 2550 1400 0    50   ~ 0
 LTE_ANT
 Text Label 2600 2300 0    50   ~ 0
 GPS_ANT
@@ -730,55 +715,8 @@ F 3 "~" H 3750 1050 50  0001 C CNN
 	1    3750 1050
 	-1   0    0    1   
 $EndComp
-$Comp
-L Device:CP C8
-U 1 1 5BC2DBF3
-P 4300 1600
-F 0 "C8" V 4555 1600 50  0000 C CNN
-F 1 "220u / TAJC227K006RNJ" V 4464 1600 50  0000 C CNN
-F 2 "coddingtonbear:CP_Tantalum_Case-C_EIA-6032-28_Milling" H 4338 1450 50  0001 C CNN
-F 3 "~" H 4300 1600 50  0001 C CNN
-	1    4300 1600
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	4150 1200 4150 1600
-Connection ~ 4150 1600
-$Comp
-L Device:CP C7
-U 1 1 5BC3EBE6
-P 4300 1200
-F 0 "C7" V 4555 1200 50  0000 C CNN
-F 1 "220u / TAJC227K006RNJ" V 4464 1200 50  0000 C CNN
-F 2 "coddingtonbear:CP_Tantalum_Case-C_EIA-6032-28_Milling" H 4338 1050 50  0001 C CNN
-F 3 "~" H 4300 1200 50  0001 C CNN
-	1    4300 1200
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	4150 1600 4150 2000
-$Comp
-L Device:CP C9
-U 1 1 5BC3EC4C
-P 4300 2000
-F 0 "C9" V 4555 2000 50  0000 C CNN
-F 1 "220u / TAJC227K006RNJ" V 4464 2000 50  0000 C CNN
-F 2 "coddingtonbear:CP_Tantalum_Case-C_EIA-6032-28_Milling" H 4338 1850 50  0001 C CNN
-F 3 "~" H 4300 2000 50  0001 C CNN
-	1    4300 2000
-	0    -1   -1   0   
-$EndComp
 Wire Wire Line
 	4150 1200 3750 1200
-Connection ~ 4150 1200
-Wire Wire Line
-	3200 900  3200 1200
-Wire Wire Line
-	3200 1200 3750 1200
-Connection ~ 3750 1200
-Connection ~ 4150 2000
-Wire Wire Line
-	4150 2000 4150 2200
 $Comp
 L power:GND #PWR0120
 U 1 1 5BC47884
@@ -791,18 +729,7 @@ F 3 "" H 4450 2100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4450 2100 4450 2000
-Wire Wire Line
-	4450 2000 4450 1600
-Connection ~ 4450 2000
-Wire Wire Line
-	4450 1600 4450 1200
-Connection ~ 4450 1600
-Wire Wire Line
-	4450 1200 4450 900 
-Wire Wire Line
 	4450 900  3750 900 
-Connection ~ 4450 1200
 $Comp
 L Device:C C10
 U 1 1 5BC5AC1E
@@ -830,17 +757,6 @@ F 3 "" H 6500 3850 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6050 3850 6500 3850
-$Comp
-L Device:R R5
-U 1 1 5BC5FF4A
-P 6000 4250
-F 0 "R5" H 6070 4296 50  0000 L CNN
-F 1 "22" H 6070 4205 50  0000 L CNN
-F 2 "coddingtonbear:0805_Milling" V 5930 4250 50  0001 C CNN
-F 3 "~" H 6000 4250 50  0001 C CNN
-	1    6000 4250
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	5800 4150 5800 4550
 Wire Wire Line
@@ -848,44 +764,137 @@ Wire Wire Line
 Wire Wire Line
 	5800 4150 6050 4150
 $Comp
-L Device:R R6
-U 1 1 5BC6524B
-P 6000 4350
-F 0 "R6" H 6070 4396 50  0000 L CNN
-F 1 "22" H 6070 4305 50  0000 L CNN
-F 2 "coddingtonbear:0805_Milling" V 5930 4350 50  0001 C CNN
-F 3 "~" H 6000 4350 50  0001 C CNN
-	1    6000 4350
-	0    1    1    0   
+L power:+3V3 #PWR0122
+U 1 1 5BC55B46
+P 5500 1450
+F 0 "#PWR0122" H 5500 1300 50  0001 C CNN
+F 1 "+3V3" H 5515 1623 50  0000 C CNN
+F 2 "" H 5500 1450 50  0001 C CNN
+F 3 "" H 5500 1450 50  0001 C CNN
+	1    5500 1450
+	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R4
-U 1 1 5BC6528B
-P 5900 4600
-F 0 "R4" H 5970 4646 50  0000 L CNN
-F 1 "22" H 5970 4555 50  0000 L CNN
-F 2 "coddingtonbear:0805_Milling" V 5830 4600 50  0001 C CNN
-F 3 "~" H 5900 4600 50  0001 C CNN
-	1    5900 4600
+L Device:R R7
+U 1 1 5BC58077
+P 5500 1600
+F 0 "R7" H 5570 1646 50  0000 L CNN
+F 1 "1k" H 5570 1555 50  0000 L CNN
+F 2 "coddingtonbear:0805_Milling" V 5430 1600 50  0001 C CNN
+F 3 "~" H 5500 1600 50  0001 C CNN
+	1    5500 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R8
+U 1 1 5BC5A95F
+P 5500 1900
+F 0 "R8" H 5570 1946 50  0000 L CNN
+F 1 "3.6k" H 5570 1855 50  0000 L CNN
+F 2 "coddingtonbear:0805_Milling" V 5430 1900 50  0001 C CNN
+F 3 "~" H 5500 1900 50  0001 C CNN
+	1    5500 1900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0123
+U 1 1 5BC5C791
+P 5500 2050
+F 0 "#PWR0123" H 5500 1800 50  0001 C CNN
+F 1 "GND" H 5505 1877 50  0000 C CNN
+F 2 "" H 5500 2050 50  0001 C CNN
+F 3 "" H 5500 2050 50  0001 C CNN
+	1    5500 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7350 1750 7350 2250
+Connection ~ 7350 2250
+$Comp
+L power:+1V8 #PWR0124
+U 1 1 5BC6DF49
+P 6650 1750
+F 0 "#PWR0124" H 6650 1600 50  0001 C CNN
+F 1 "+1V8" H 6665 1923 50  0000 C CNN
+F 2 "" H 6650 1750 50  0001 C CNN
+F 3 "" H 6650 1750 50  0001 C CNN
+	1    6650 1750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6650 1750 7350 1750
+Text GLabel 6700 2500 1    50   Input ~ 0
+EN_OUTPUT
+Wire Wire Line
+	8300 2550 8300 2900
+Wire Wire Line
+	8300 2900 8400 2900
+Wire Wire Line
+	6700 2500 6700 2550
+Wire Wire Line
+	6700 2550 7050 2550
+Text GLabel 8300 2550 1    50   Output ~ 0
+EN_OUTPUT
+Wire Wire Line
+	5750 4250 6200 4250
+Wire Wire Line
+	5750 4350 6200 4350
+Wire Wire Line
+	6200 4650 5900 4650
+Wire Wire Line
+	5900 4450 5900 4650
+Wire Wire Line
+	3200 900  3200 1200
+Wire Wire Line
+	3200 1200 3750 1200
+Connection ~ 3750 1200
+Wire Wire Line
+	2050 1400 3600 1400
+Wire Wire Line
+	3600 1400 3600 2350
+Wire Wire Line
+	2100 2300 3500 2300
+Wire Wire Line
+	4150 1200 4150 1650
+Wire Wire Line
+	4450 900  4450 1650
+$Comp
+L Device:CP C7
+U 1 1 5BCFB050
+P 4300 1650
+F 0 "C7" V 4555 1650 50  0000 C CNN
+F 1 "0.1 / FG0H104ZF" V 4464 1650 50  0000 C CNN
+F 2 "Capacitor_THT:C_Disc_D11.0mm_W5.0mm_P5.00mm" H 4338 1500 50  0001 C CNN
+F 3 "~" H 4300 1650 50  0001 C CNN
+	1    4300 1650
+	0    -1   -1   0   
+$EndComp
+Connection ~ 4150 1650
+Wire Wire Line
+	4150 1650 4150 2200
+Connection ~ 4450 1650
+Wire Wire Line
+	4450 1650 4450 2100
+$Comp
+L Device:D D1
+U 1 1 5BDAAFFC
+P 5900 1750
+F 0 "D1" H 5900 1534 50  0000 C CNN
+F 1 "1N4148W" H 5900 1625 50  0000 C CNN
+F 2 "coddingtonbear:D_SOD-123_LargePads" H 5900 1750 50  0001 C CNN
+F 3 "~" H 5900 1750 50  0001 C CNN
+	1    5900 1750
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	5850 4250 5750 4250
+	5750 1750 5500 1750
+Connection ~ 5500 1750
 Wire Wire Line
-	5750 4350 5850 4350
+	4800 2350 6050 2350
 Wire Wire Line
-	6150 4250 6200 4250
+	6050 2350 6050 1750
 Wire Wire Line
-	6200 4350 6150 4350
-Wire Wire Line
-	5900 4750 6200 4750
-Wire Wire Line
-	6200 4750 6200 4650
-Wire Wire Line
-	7050 2550 6450 2550
-Wire Wire Line
-	6450 2550 6450 1850
-Connection ~ 6450 1850
-Wire Wire Line
-	6450 1850 7350 1850
+	6650 1750 6050 1750
+Connection ~ 6650 1750
+Connection ~ 6050 1750
 $EndSCHEMATC
