@@ -1,4 +1,4 @@
-update=Sat 13 Oct 2018 05:28:28 PM PDT
+update=Sun 14 Oct 2018 12:52:59 PM PDT
 version=1
 last_client=kicad
 [general]
@@ -28,7 +28,7 @@ MinViaDrill=0.3
 MinMicroViaDiameter=0.2
 MinMicroViaDrill=0.09999999999999999
 MinHoleToHole=0.25
-TrackWidth1=0.25
+TrackWidth1=0.45
 TrackWidth2=0.5
 TrackWidth3=1
 ViaDiameter1=2
@@ -57,14 +57,14 @@ OthersTextSizeThickness=0.15
 OthersTextItalic=0
 OthersTextUpright=1
 SolderMaskClearance=0.051
-SolderMaskMinWidth=0.25
+SolderMaskMinWidth=0.35
 SolderPasteClearance=0
 SolderPasteRatio=-0
 [pcbnew/Netclasses]
 [pcbnew/Netclasses/1]
 Name=Power
-Clearance=0.2
-TrackWidth=0.35
+Clearance=0.18
+TrackWidth=0.45
 ViaDiameter=2
 ViaDrill=0.4
 uViaDiameter=0.3
@@ -74,7 +74,7 @@ dPairGap=0.25
 dPairViaGap=0.25
 [pcbnew/Netclasses/2]
 Name=RF
-Clearance=0.2
+Clearance=0.18
 TrackWidth=2.8
 ViaDiameter=2
 ViaDrill=0.4

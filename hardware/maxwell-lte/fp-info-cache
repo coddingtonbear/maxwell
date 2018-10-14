@@ -1,4 +1,4 @@
-15000542146979287
+15003621105254287
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (http://www.bulgin.com/media/bulgin/data/Battery_holders.pdf)
@@ -5705,6 +5705,13 @@ DO-214AC
 2
 2
 coddingtonbear
+D_SOD-123_LargePads
+SOD-123
+SOD-123
+0
+2
+2
+coddingtonbear
 ESP-12E
 Module, ESP-8266, ESP-12, 16 pad, SMD
 Module ESP-8266 ESP8266
@@ -5900,6 +5907,13 @@ SO4
 0
 4
 4
+coddingtonbear
+SOIC-8_3.9x4.9mm_P1.27mm_LargePads
+8-Lead Plastic Small Outline (SN) - Narrow, 3.90 mm Body [SOIC] (see Microchip Packaging Specification 00000049BS.pdf)
+SOIC 1.27
+0
+8
+8
 coddingtonbear
 SOIC-14_3.9x8.7mm_P1.27mm_LargePads
 14-Lead Plastic Small Outline (SL) - Narrow, 3.90 mm Body [SOIC] (see Microchip Packaging Specification 00000049BS.pdf)
