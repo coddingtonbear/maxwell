@@ -22,7 +22,9 @@
 
 // Note that these are GPIOs on the LTE Module
 #define PIN_LTE_DTR 7
-#define PIN_LTE_PWRKEY 6
+//#define PIN_LTE_PWRKEY 6 -- Later _LTE_STATUS
+#define PIN_LTE_PWRKEY 4
+#define PIN_LTE_OE 5
 
 #define PIN_I_SPEED PA0
 

@@ -11,6 +11,7 @@
 #include "pin_map.h"
 #include "neopixel.h"
 #include "power.h"
+#include "lte.h"
 
 SerialCommand commands(&Output);
 CANCommand canCommands;
@@ -57,6 +58,9 @@ void setupCommands() {
 
     commands.addCommand("enable_lte", enableLTE);
     commands.addCommand("disable_lte", disableLTE);
+    commands.addCommand("get_lte_status", getLTEStatus);
+    commands.addCommand("get_lte_rssi", getLTERSSI);
+    commands.addCommand("send_text_message", sendTextMessage);
 
     commands.addCommand("debug_can", debug_can);
     commands.addCommand("send_can", send_can);
@@ -774,14 +778,6 @@ void getTime() {
     Output.println(String((uint32)time));
 }
 
-void enableLTE() {
-    LTEUart.GPIOSetPinState(PIN_LTE_PWRKEY, LOW);
-}
-
-void disableLTE() {
-    LTEUart.GPIOSetPinState(PIN_LTE_PWRKEY, HIGH);
-}
-
 void getUartRegister() {
     char* registerId = commands.next();
     if(!registerId) {
@@ -790,14 +786,18 @@ void getUartRegister() {
     }
 
     uint8_t registerIdInt = strtoul(registerId, NULL, 16);
+    uint8_t value;
+
+    if(registerIdInt == 0xff) {
+        value = LTEUart.gpioState;
+    } else {
+        value = LTEUart.ReadRegister(registerIdInt);
+    }
 
     Output.print("Register ");
     Output.print(registerIdInt, HEX);
     Output.print(": ");
-    Output.println(
-        LTEUart.ReadRegister(registerIdInt),
-        BIN
-    );
+    Output.println(value, BIN);
 }
 
 void setUartRegister() {
@@ -823,4 +823,50 @@ void setUartRegister() {
     Output.print(" set to ");
     Output.println(valueInt, BIN);
     LTEUart.WriteRegister(registerIdInt, valueInt);
+}
+
+void getLTEStatus() {
+    uint8_t n = LTE.getNetworkStatus();
+
+    if (n == 0) Output.println(F("Not registered"));
+    if (n == 1) Output.println(F("Registered (home)"));
+    if (n == 2) Output.println(F("Not registered (searching)"));
+    if (n == 3) Output.println(F("Denied"));
+    if (n == 4) Output.println(F("Unknown"));
+    if (n == 5) Output.println(F("Registered roaming"));
+}
+
+void getLTERSSI() {
+    // read the RSSI
+    uint8_t n = LTE.getRSSI();
+    int8_t r;
+
+    Output.print(F("RSSI = ")); Output.print(n); Output.print(": ");
+    if (n == 0) r = -115;
+    if (n == 1) r = -111;
+    if (n == 31) r = -52;
+    if ((n >= 2) && (n <= 30)) {
+        r = map(n, 2, 30, -110, -54);
+    }
+    Output.print(r); Output.println(F(" dBm"));
+}
+
+void sendTextMessage() {
+    char* msisdn = commands.next();
+    if(!msisdn) {
+        Output.println("Must supply MSISDN");
+        return;
+    }
+
+    char* message = commands.next();
+    if(!message) {
+        Output.println("Must supply message");
+        return;
+    }
+
+    if(LTE.sendSMS(msisdn, message)) {
+        Output.println("OK");
+    } else {
+        Output.println("Failed");
+    }
 }

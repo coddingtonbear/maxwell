@@ -20,6 +20,7 @@
 #include "can.h"
 #include "pin_map.h"
 #include "main.h"
+#include "lte.h"
 
 uint32 speedCounter = 0;
 uint32 speedCounterPrev = 0;
@@ -132,14 +133,14 @@ void setup() {
     SPIBus.begin();
 
     LTEUart.setSpiBus(&SPIBus);
-    LTEUart.begin(9600, true);
+    LTEUart.begin(115200, true);
     if(!LTEUart.ping()) {
         Output.println("Error connecting to UART over SPI; no LTE available.");
     } else {
-        LTEUart.GPIOSetPinState(PIN_LTE_DTR, LOW);
-        LTEUart.GPIOSetPinState(PIN_LTE_PWRKEY, LOW);
         LTEUart.GPIOSetPinMode(PIN_LTE_DTR, OUTPUT);
-        LTEUart.GPIOSetPinMode(PIN_LTE_PWRKEY, OUTPUT);
+        LTEUart.GPIOSetPinMode(PIN_LTE_OE, OUTPUT);
+        LTEUart.GPIOSetPinState(PIN_LTE_DTR, LOW);
+        LTEUart.GPIOSetPinState(PIN_LTE_OE, HIGH);
     }
 
     if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(18))) {
@@ -593,8 +594,12 @@ void sleep(bool allowMovementWake) {
         Log.log("Movement wake enabled");
     }
 
+    TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
+
     // Stop LTE module
+    LTEUart.GPIOSetPinMode(PIN_LTE_PWRKEY, INPUT);
     disableLTE();
+    LTEUart.GPIOSetPinMode(PIN_LTE_OE, INPUT);
     LTEUart.sleep();
 
     // Stop logging
@@ -602,7 +607,6 @@ void sleep(bool allowMovementWake) {
     filesystem.card()->spiStop();
 
     Output.end();
-    TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
 
     // Disable canbus
     CanMsg sleepMsg;
