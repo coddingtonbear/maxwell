@@ -279,16 +279,13 @@ void SC16IS750::GPIOSetPinMode(uint8_t pin_number, uint8_t i_o)
 
 void SC16IS750::GPIOSetPinState(uint8_t pin_number, uint8_t pin_state)
 {
-    uint8_t temp_iostate;
-
-    temp_iostate = ReadRegister(SC16IS750_REG_IOSTATE);
     if ( pin_state == 1 ) {
-      temp_iostate |= (0x01 << pin_number);
+      gpioState |= (0x01 << pin_number);
     } else {
-      temp_iostate &= (uint8_t)~(0x01 << pin_number);
+      gpioState &= (uint8_t)~(0x01 << pin_number);
     }
 
-    WriteRegister(SC16IS750_REG_IOSTATE, temp_iostate);
+    WriteRegister(SC16IS750_REG_IOSTATE, gpioState);
     return;
 }
 
@@ -336,6 +333,10 @@ void SC16IS750::ResetDevice(void)
     reg = ReadRegister(SC16IS750_REG_IOCONTROL);
     reg |= 0x08;
     WriteRegister(SC16IS750_REG_IOCONTROL, reg);
+    delay(500);
+
+    // Clear cache of GPIO states
+    gpioState = 0;
 
     return;
 }

@@ -147,6 +147,8 @@ class SC16IS750 : public Stream
         void    GPIOSetPinState(uint8_t pin_number, uint8_t pin_state);
         void    FIFOReset();
         void    sleep();
+
+        uint8_t gpioState = 0;
         
     
     private:
