@@ -1,4 +1,4 @@
-15003621105254287
+15005161251323287
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (http://www.bulgin.com/media/bulgin/data/Battery_holders.pdf)
@@ -5941,6 +5941,13 @@ TAB
 
 0
 2
+1
+coddingtonbear
+Thermal_Relief_Via_Milling
+
+
+0
+1
 1
 coddingtonbear
 TSSOP-24_4.4x7.8mm_P0.65mm_LargePads

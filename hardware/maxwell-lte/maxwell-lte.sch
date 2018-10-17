@@ -638,13 +638,13 @@ Text Label 5850 3350 0    50   ~ 0
 LTE_DI_L
 Text Label 5850 3250 0    50   ~ 0
 LTE_DO_L
-Text Label 8200 4000 0    50   ~ 0
+Text Label 7900 2750 0    50   ~ 0
 LTE_DI_H
-Text Label 8050 4250 0    50   ~ 0
+Text Label 7950 2950 0    50   ~ 0
 LTE_DO_H
-Text Label 8900 4000 0    50   ~ 0
-PWRKEY_H
-Text Label 8050 3800 0    50   ~ 0
+Text Label 7950 3250 0    50   ~ 0
+STATUS_H
+Text Label 7900 3150 0    50   ~ 0
 LTE_DTR_H
 Text Label 6600 3150 0    50   ~ 0
 LTE_DTR_L
@@ -697,7 +697,7 @@ Wire Wire Line
 Wire Wire Line
 	8250 2800 8250 3250
 Wire Wire Line
-	8250 3250 7850 3250
+	8250 3250 7950 3250
 Wire Wire Line
 	7850 3250 7850 3350
 $Comp
@@ -807,26 +807,26 @@ Wire Wire Line
 Wire Wire Line
 	2100 2300 3500 2300
 Wire Wire Line
-	4150 1200 4150 1650
+	4150 1200 4150 1300
 Wire Wire Line
-	4450 900  4450 1650
+	4450 900  4450 1300
 $Comp
 L Device:CP C7
 U 1 1 5BCFB050
 P 4300 1650
 F 0 "C7" V 4555 1650 50  0000 C CNN
-F 1 "0.1 / FG0H104ZF" V 4464 1650 50  0000 C CNN
-F 2 "Capacitor_THT:C_Disc_D11.0mm_W5.0mm_P5.00mm" H 4338 1500 50  0001 C CNN
+F 1 "220u / TAJC227K006RNJ" V 4464 1650 50  0000 C CNN
+F 2 "coddingtonbear:CP_Tantalum_Case-C_EIA-6032-28_Milling" H 4338 1500 50  0001 C CNN
 F 3 "~" H 4300 1650 50  0001 C CNN
 	1    4300 1650
 	0    -1   -1   0   
 $EndComp
 Connection ~ 4150 1650
 Wire Wire Line
-	4150 1650 4150 2200
+	4150 1650 4150 1900
 Connection ~ 4450 1650
 Wire Wire Line
-	4450 1650 4450 2100
+	4450 1650 4450 1900
 Wire Wire Line
 	4800 2350 6050 2350
 Wire Wire Line
@@ -856,10 +856,10 @@ F 3 "~" H 3700 5700 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L power:+3V3 #PWR?
+L power:+3V3 #PWR0122
 U 1 1 5BCAD008
 P 2800 5650
-F 0 "#PWR?" H 2800 5500 50  0001 C CNN
+F 0 "#PWR0122" H 2800 5500 50  0001 C CNN
 F 1 "+3V3" H 2815 5823 50  0000 C CNN
 F 2 "" H 2800 5650 50  0001 C CNN
 F 3 "" H 2800 5650 50  0001 C CNN
@@ -875,4 +875,273 @@ Wire Wire Line
 	3550 5700 2800 5700
 Wire Wire Line
 	2800 5700 2800 5650
+$Comp
+L Device:R R4
+U 1 1 5BCE15C8
+P 7950 3900
+F 0 "R4" H 8020 3946 50  0000 L CNN
+F 1 "10k" H 8020 3855 50  0000 L CNN
+F 2 "coddingtonbear:0805_Milling" V 7880 3900 50  0001 C CNN
+F 3 "~" H 7950 3900 50  0001 C CNN
+	1    7950 3900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7950 3750 7950 3250
+Connection ~ 7950 3250
+Wire Wire Line
+	7950 3250 7850 3250
+$Comp
+L power:GND #PWR0123
+U 1 1 5BCEC6ED
+P 7950 4050
+F 0 "#PWR0123" H 7950 3800 50  0001 C CNN
+F 1 "GND" H 7955 3877 50  0000 C CNN
+F 2 "" H 7950 4050 50  0001 C CNN
+F 3 "" H 7950 4050 50  0001 C CNN
+	1    7950 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:CP C11
+U 1 1 5BCF1386
+P 4300 1900
+F 0 "C11" V 4555 1900 50  0000 C CNN
+F 1 "220u / TAJC227K006RNJ" V 4464 1900 50  0000 C CNN
+F 2 "coddingtonbear:CP_Tantalum_Case-C_EIA-6032-28_Milling" H 4338 1750 50  0001 C CNN
+F 3 "~" H 4300 1900 50  0001 C CNN
+	1    4300 1900
+	0    -1   -1   0   
+$EndComp
+Connection ~ 4150 1900
+Wire Wire Line
+	4150 1900 4150 2200
+Connection ~ 4450 1900
+Wire Wire Line
+	4450 1900 4450 2100
+$Comp
+L Device:CP C9
+U 1 1 5BCF3DE9
+P 4300 1300
+F 0 "C9" V 4555 1300 50  0000 C CNN
+F 1 "220u / TAJC227K006RNJ" V 4464 1300 50  0000 C CNN
+F 2 "coddingtonbear:CP_Tantalum_Case-C_EIA-6032-28_Milling" H 4338 1150 50  0001 C CNN
+F 3 "~" H 4300 1300 50  0001 C CNN
+	1    4300 1300
+	0    -1   -1   0   
+$EndComp
+Connection ~ 4150 1300
+Wire Wire Line
+	4150 1300 4150 1650
+Connection ~ 4450 1300
+Wire Wire Line
+	4450 1300 4450 1650
+$Comp
+L Connector_Generic:Conn_01x01 J5
+U 1 1 5BCF9B92
+P 1250 6100
+F 0 "J5" H 1330 6142 50  0001 L CNN
+F 1 "Stitching" H 1330 6096 50  0001 L CNN
+F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 6100 50  0001 C CNN
+F 3 "~" H 1250 6100 50  0001 C CNN
+	1    1250 6100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J6
+U 1 1 5BCFB3BD
+P 1250 6250
+F 0 "J6" H 1330 6292 50  0001 L CNN
+F 1 "Stitching" H 1330 6246 50  0001 L CNN
+F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 6250 50  0001 C CNN
+F 3 "~" H 1250 6250 50  0001 C CNN
+	1    1250 6250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J7
+U 1 1 5BCFD518
+P 1250 6400
+F 0 "J7" H 1330 6442 50  0001 L CNN
+F 1 "Stitching" H 1330 6396 50  0001 L CNN
+F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 6400 50  0001 C CNN
+F 3 "~" H 1250 6400 50  0001 C CNN
+	1    1250 6400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J8
+U 1 1 5BD00976
+P 1250 6550
+F 0 "J8" H 1330 6592 50  0001 L CNN
+F 1 "Stitching" H 1330 6546 50  0001 L CNN
+F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 6550 50  0001 C CNN
+F 3 "~" H 1250 6550 50  0001 C CNN
+	1    1250 6550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J9
+U 1 1 5BD0317D
+P 1250 6700
+F 0 "J9" H 1330 6742 50  0001 L CNN
+F 1 "Stitching" H 1330 6696 50  0001 L CNN
+F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 6700 50  0001 C CNN
+F 3 "~" H 1250 6700 50  0001 C CNN
+	1    1250 6700
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0125
+U 1 1 5BD041C0
+P 1050 6850
+F 0 "#PWR0125" H 1050 6600 50  0001 C CNN
+F 1 "GND" H 1055 6677 50  0000 C CNN
+F 2 "" H 1050 6850 50  0001 C CNN
+F 3 "" H 1050 6850 50  0001 C CNN
+	1    1050 6850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1050 6850 1050 6700
+Wire Wire Line
+	1050 6700 1050 6550
+Connection ~ 1050 6700
+Wire Wire Line
+	1050 6550 1050 6400
+Connection ~ 1050 6550
+Wire Wire Line
+	1050 6250 1050 6400
+Connection ~ 1050 6400
+Wire Wire Line
+	1050 6100 1050 6250
+Connection ~ 1050 6250
+$Comp
+L Connector_Generic:Conn_01x01 J13
+U 1 1 5BD39E3D
+P 1250 5950
+F 0 "J13" H 1330 5992 50  0001 L CNN
+F 1 "Stitching" H 1330 5946 50  0001 L CNN
+F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 5950 50  0001 C CNN
+F 3 "~" H 1250 5950 50  0001 C CNN
+	1    1250 5950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J12
+U 1 1 5BD3B2BE
+P 1250 5800
+F 0 "J12" H 1330 5842 50  0001 L CNN
+F 1 "Stitching" H 1330 5796 50  0001 L CNN
+F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 5800 50  0001 C CNN
+F 3 "~" H 1250 5800 50  0001 C CNN
+	1    1250 5800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J11
+U 1 1 5BD3CE48
+P 1250 5650
+F 0 "J11" H 1330 5692 50  0001 L CNN
+F 1 "Stitching" H 1330 5646 50  0001 L CNN
+F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 5650 50  0001 C CNN
+F 3 "~" H 1250 5650 50  0001 C CNN
+	1    1250 5650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J10
+U 1 1 5BD3D997
+P 1250 5500
+F 0 "J10" H 1330 5542 50  0001 L CNN
+F 1 "Stitching" H 1330 5496 50  0001 L CNN
+F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 5500 50  0001 C CNN
+F 3 "~" H 1250 5500 50  0001 C CNN
+	1    1250 5500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1050 5950 1050 6100
+Connection ~ 1050 6100
+Wire Wire Line
+	1050 5950 1050 5800
+Connection ~ 1050 5950
+Wire Wire Line
+	1050 5650 1050 5800
+Connection ~ 1050 5800
+Wire Wire Line
+	1050 5500 1050 5650
+Connection ~ 1050 5650
+$Comp
+L Connector_Generic:Conn_01x01 J?
+U 1 1 5BD652CB
+P 1250 5350
+F 0 "J?" H 1330 5392 50  0001 L CNN
+F 1 "Stitching" H 1330 5346 50  0001 L CNN
+F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 5350 50  0001 C CNN
+F 3 "~" H 1250 5350 50  0001 C CNN
+	1    1250 5350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J?
+U 1 1 5BD652D1
+P 1250 5200
+F 0 "J?" H 1330 5242 50  0001 L CNN
+F 1 "Stitching" H 1330 5196 50  0001 L CNN
+F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 5200 50  0001 C CNN
+F 3 "~" H 1250 5200 50  0001 C CNN
+	1    1250 5200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J?
+U 1 1 5BD652D7
+P 1250 5050
+F 0 "J?" H 1330 5092 50  0001 L CNN
+F 1 "Stitching" H 1330 5046 50  0001 L CNN
+F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 5050 50  0001 C CNN
+F 3 "~" H 1250 5050 50  0001 C CNN
+	1    1250 5050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J?
+U 1 1 5BD652DD
+P 1250 4900
+F 0 "J?" H 1330 4942 50  0001 L CNN
+F 1 "Stitching" H 1330 4896 50  0001 L CNN
+F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 4900 50  0001 C CNN
+F 3 "~" H 1250 4900 50  0001 C CNN
+	1    1250 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J?
+U 1 1 5BD652E3
+P 1250 4750
+F 0 "J?" H 1330 4746 50  0001 L CNN
+F 1 "Stiching" H 1330 4701 50  0001 L CNN
+F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 4750 50  0001 C CNN
+F 3 "~" H 1250 4750 50  0001 C CNN
+	1    1250 4750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1050 5350 1050 5500
+Connection ~ 1050 5500
+Wire Wire Line
+	1050 5350 1050 5200
+Connection ~ 1050 5350
+Wire Wire Line
+	1050 5050 1050 5200
+Connection ~ 1050 5200
+Wire Wire Line
+	1050 4900 1050 5050
+Connection ~ 1050 5050
+Wire Wire Line
+	1050 4750 1050 4900
+Connection ~ 1050 4900
+Text Notes 850  5050 3    50   ~ 0
+Via RF Guard Stitching
 $EndSCHEMATC
