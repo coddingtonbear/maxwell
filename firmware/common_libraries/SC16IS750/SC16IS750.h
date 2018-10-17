@@ -109,6 +109,9 @@ Please keep the above information when you use this code in your project.
 #define     SC16IS750_PROTOCOL_SPI  (1)
 
 
+#define Debug Serial
+
+
 class SC16IS750 : public Stream
 { 
     public:
@@ -177,5 +180,9 @@ class SC16IS750 : public Stream
 	//	int16_t readwithtimeout();
 		int 	peek_buf;
 		uint8_t peek_flag;
-		
+
+#ifdef  SC16IS750_DEBUG_PRINT
+        bool printedPreamble = false;	
+        bool outbound = true;
+#endif
 };

@@ -78,13 +78,13 @@ uint8_t SC16IS750::transfer(uint8_t byte) {
     uint8_t result = spiBus->transfer(byte);
 
 #ifdef  SC16IS750_DEBUG_PRINT
-    Serial.print("TX: ");
+    Debug.print("TX: ");
     printByteVerbose(byte);
-    Serial.println();
+    Debug.println();
 
-    Serial.print("RX: ");
+    Debug.print("RX: ");
     printByteVerbose(result);
-    Serial.println();
+    Debug.println();
 #endif
 
     return result;
@@ -126,10 +126,10 @@ uint8_t SC16IS750::ReadRegister(uint8_t reg_addr)
     digitalWrite(device_address_sspin, LOW);
     //delayMicroseconds(10);
 #ifdef  SC16IS750_DEBUG_PRINT
-    Serial.print("//: ");
-    Serial.print(channel);
-    Serial.print(" Read from ");
-    Serial.println(reg_addr, HEX);
+    Debug.print("//: ");
+    Debug.print(channel);
+    Debug.print(" Read from ");
+    Debug.println(reg_addr, HEX);
 #endif
 
     // BIT   [8]: R/W (2=read, 0=write)
@@ -152,12 +152,12 @@ void SC16IS750::WriteRegister(uint8_t reg_addr, uint8_t val)
     digitalWrite(device_address_sspin, LOW);
     //delayMicroseconds(10);
 #ifdef  SC16IS750_DEBUG_PRINT
-    Serial.print("//: ");
-    Serial.print(channel);
-    Serial.print(" Write to ");
-    Serial.print(reg_addr, HEX);
-    Serial.print("; value: ");
-    Serial.println(val, HEX);
+    Debug.print("//: ");
+    Debug.print(channel);
+    Debug.print(" Write to ");
+    Debug.print(reg_addr, HEX);
+    Debug.print("; value: ");
+    Debug.println(val, HEX);
 #endif
 
     // BIT   [7]: R/W (1=read, 0=write)
@@ -199,16 +199,16 @@ int16_t SC16IS750::SetBaudrate(uint32_t baudrate) //return error of baudrate par
 
 
 #ifdef  SC16IS750_DEBUG_PRINT
-    Serial.print("Desired baudrate: ");
-    Serial.println(baudrate,DEC);
-    Serial.print("Crystal Frequency: ");
-    Serial.println(crystal_frequency);
-    Serial.print("Calculated divisor: ");
-    Serial.println(divisor,DEC);
-    Serial.print("Actual baudrate: ");
-    Serial.println(actual_baudrate,DEC);
-    Serial.print("Baudrate error: ");
-    Serial.println(error,DEC);
+    Debug.print("Desired baudrate: ");
+    Debug.println(baudrate,DEC);
+    Debug.print("Crystal Frequency: ");
+    Debug.println(crystal_frequency);
+    Debug.print("Calculated divisor: ");
+    Debug.println(divisor,DEC);
+    Debug.print("Actual baudrate: ");
+    Debug.println(actual_baudrate,DEC);
+    Debug.print("Baudrate error: ");
+    Debug.println(error,DEC);
 #endif
 
     return error;
@@ -472,15 +472,48 @@ uint8_t SC16IS750::FIFOAvailableSpace(void)
 
 void SC16IS750::WriteByte(uint8_t val)
 {
-    uint8_t bytes[] = {val};
+#ifdef SC16IS750_DEBUG_PRINT
+    if(!printedPreamble || !outbound) {
+        UART5.println();
+        UART5.print(">> ");
 
-    writeBytes(bytes, 1);
+        printedPreamble = true;
+        outbound = true;
+    }
+    UART5.write(val);
+    if(val == '\n') {
+        printedPreamble = false;
+    }
+#endif SC16IS750_DEBUG_PRINT
+    uint8_t tmp_lsr;
+
+    do {
+        tmp_lsr = ReadRegister(SC16IS750_REG_LSR);
+    } while ((tmp_lsr&0x20) ==0);
+    WriteRegister(SC16IS750_REG_THR,val);
+
+
 }
 
 int SC16IS750::ReadByte(void)
 {
     volatile uint8_t val;
     val = ReadRegister(SC16IS750_REG_RHR);
+#ifdef SC16IS750_DEBUG_PRINT
+    if(val) {
+        if(!printedPreamble || outbound) {
+            UART5.println();
+            UART5.print("<< ");
+
+            printedPreamble = true;
+            outbound = false;
+        }
+        UART5.write(val);
+        if(val == '\n') {
+            printedPreamble = false;
+        }
+    }
+#endif SC16IS750_DEBUG_PRINT
     return val;
 }
 
@@ -586,26 +619,26 @@ int SC16IS750:: peek()
 
 void SC16IS750::printByteVerbose(uint8_t reading) {
     if(reading < pow(2, 4)) {
-        Serial.print("0");
+        Debug.print("0");
     }
-    Serial.print(reading, HEX);
-    Serial.print(" ");
+    Debug.print(reading, HEX);
+    Debug.print(" ");
     for (uint8_t i = 1; i < 8; i++) {
         if(reading < pow(2, i)) {
-            Serial.print(B0);
+            Debug.print(B0);
         }
     }
-    Serial.print(reading, BIN);
-    Serial.print(" ");
-    Serial.print((int)reading);
+    Debug.print(reading, BIN);
+    Debug.print(" ");
+    Debug.print((int)reading);
 }
 
 void SC16IS750::printRegister(uint8_t registerId) {
-    Serial.print(registerId, HEX);
-    Serial.print(": 0x");
+    Debug.print(registerId, HEX);
+    Debug.print(": 0x");
     uint8_t reading = ReadRegister(registerId);
     printByteVerbose(reading);
-    Serial.println();
+    Debug.println();
 }
 
 void SC16IS750::printRegisters(uint8_t registers[], uint8_t size) {
@@ -646,18 +679,18 @@ void SC16IS750::printAllRegisters(bool general, bool special, bool enhanced) {
     uint8_t temp_lcr = ReadRegister(SC16IS750_REG_LCR);
 
     if (general) {
-        Serial.println("General Registers:");
+        Debug.println("General Registers:");
         printRegisters(generalRegisters, sizeof(generalRegisters));
     }
 
     if (special) {
-        Serial.println("Special Registers:");
+        Debug.println("Special Registers:");
         WriteRegister(SC16IS750_REG_LCR, temp_lcr | 0x80);
         printRegisters(specialRegisters, sizeof(specialRegisters));
     }
 
     if (enhanced) {
-        Serial.println("Enhanced Registers:");
+        Debug.println("Enhanced Registers:");
         WriteRegister(SC16IS750_REG_LCR, 0xbf);
         printRegisters(enhancedRegisters, sizeof(enhancedRegisters));
     }
