@@ -55,4 +55,8 @@ void getUartRegister();
 void setUartRegister();
 void getLTEStatus();
 void getLTERSSI();
+void lteCommand();
 void sendTextMessage();
+void showLTETimestamp();
+void canReceivePosition();
+void cmdSendStatusUpdate();

@@ -21,6 +21,7 @@
 #include "pin_map.h"
 #include "main.h"
 #include "lte.h"
+#include "status.h"
 
 uint32 speedCounter = 0;
 uint32 speedCounterPrev = 0;
@@ -92,6 +93,11 @@ Task taskCanbusCurrentTimestamp(
     TASK_FOREVER,
     &taskCanbusCurrentTimestampCallback
 );
+Task taskLTEStatusAnnounce(
+    LTE_STATUS_ANNOUNCE_INTERVAL,
+    TASK_FOREVER,
+    &taskLTEStatusAnnounceCallback
+);
 Scheduler taskRunner;
 
 MultiSerial Output;
@@ -141,6 +147,11 @@ void setup() {
         LTEUart.GPIOSetPinMode(PIN_LTE_OE, OUTPUT);
         LTEUart.GPIOSetPinState(PIN_LTE_DTR, LOW);
         LTEUart.GPIOSetPinState(PIN_LTE_OE, HIGH);
+    }
+
+    // We need to press this ~2.5s before unpressing it
+    if(!lteIsPoweredOn()) {
+        pressLTEPowerKey();
     }
 
     if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(18))) {
@@ -236,12 +247,23 @@ void setup() {
     taskRunner.addTask(taskLoggerStatsInterval);
     taskRunner.addTask(taskCanbusStatusInterval);
     taskRunner.addTask(taskCanbusCurrentTimestamp);
+    //taskRunner.addTask(taskLTEStatusAnnounce);
     taskRunner.enableAll();
 
-    Output.println("Ready.");
     setupCommands();
     commandPrompt();
 
+    // We need to press this ~2.5s after pressing it
+    delay(2000);
+    unpressLTEPowerKey();
+    //enableLTE();
+    if(!syncTimestampWithLTE()) {
+        Output.println(
+            "Synchronization of timestamp with LTE failed."
+        );
+    }
+
+    Output.println("Ready.");
     Log.log("Ready");
 }
 
@@ -597,7 +619,6 @@ void sleep(bool allowMovementWake) {
     TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
 
     // Stop LTE module
-    LTEUart.GPIOSetPinMode(PIN_LTE_PWRKEY, INPUT);
     disableLTE();
     LTEUart.GPIOSetPinMode(PIN_LTE_OE, INPUT);
     LTEUart.sleep();
@@ -636,7 +657,6 @@ void sleep(bool allowMovementWake) {
     pinMode(PIN_ENABLE_BATT_CHARGE_, OUTPUT);
     digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
     // Configure wake conditions
-    pinMode(PIN_I_POWER_ON, INPUT_PULLDOWN);
     attachInterrupt(PIN_I_POWER_ON, nvic_sys_reset, RISING);
     if (allowMovementWake && MOVEMENT_WAKE_ENABLED) {
         pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
@@ -720,6 +740,23 @@ void taskLoggerStatsIntervalCallback() {
     Log.log("Stats: Speed Pulse Count: " + String(speedCounter));
 }
 
+bool syncTimestampWithLTE() {
+    if(!lteIsEnabled()){
+        return false;
+    }
+    time_t lteTimestamp = getLTETimestamp();
+
+    if(lteTimestamp < 1) {
+        return false;
+    }
+
+    // Now convert to my timezone
+    lteTimestamp += (TIMEZONE_OFFSET_MINUTES * 60);
+
+    Clock.setTime(lteTimestamp);
+    return true;
+}
+
 void restoreBackupTime() {
     uint16_t backedUp = bkp_read(0);
     uint16_t uptime = millis() / 1000;
@@ -730,4 +767,8 @@ void restoreBackupTime() {
 void saveBackupTime() {
     time_t currentTime = Clock.getTime();
     bkp_write(0, currentTime);
+}
+
+void taskLTEStatusAnnounceCallback() {
+    sendStatusUpdate();
 }

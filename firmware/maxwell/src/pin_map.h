@@ -8,8 +8,8 @@
 
 #define PIN_CAN_RS PC3
 
-#define PIN_SPI_CS_A PA4
-#define PIN_SPI_CS_B PA5
+#define PIN_SPI_CS_A PA3
+#define PIN_SPI_CS_B PA2
 
 #define PIN_NEOPIXEL PA7
 
@@ -22,9 +22,9 @@
 
 // Note that these are GPIOs on the LTE Module
 #define PIN_LTE_DTR 7
-//#define PIN_LTE_PWRKEY 6 -- Later _LTE_STATUS
-#define PIN_LTE_PWRKEY 4
+#define PIN_LTE_STATUS 6
 #define PIN_LTE_OE 5
+#define PIN_LTE_PWRKEY 4
 
 #define PIN_I_SPEED PA0
 

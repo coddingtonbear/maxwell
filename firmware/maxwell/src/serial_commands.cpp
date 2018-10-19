@@ -11,6 +11,7 @@
 #include "pin_map.h"
 #include "neopixel.h"
 #include "power.h"
+#include "status.h"
 #include "lte.h"
 
 SerialCommand commands(&Output);
@@ -56,11 +57,14 @@ void setupCommands() {
     commands.addCommand("enable_bluetooth", cmdEnableBluetooth);
     commands.addCommand("delay_bt_timeout", setBluetoothTimeoutSeconds);
 
+    commands.addCommand("power_on_lte", toggleLTEPower);
     commands.addCommand("enable_lte", enableLTE);
     commands.addCommand("disable_lte", disableLTE);
     commands.addCommand("get_lte_status", getLTEStatus);
     commands.addCommand("get_lte_rssi", getLTERSSI);
     commands.addCommand("send_text_message", sendTextMessage);
+    commands.addCommand("lte_command", lteCommand);
+    commands.addCommand("lte_timestamp", showLTETimestamp);
 
     commands.addCommand("debug_can", debug_can);
     commands.addCommand("send_can", send_can);
@@ -80,6 +84,9 @@ void setupCommands() {
 
     commands.addCommand("set_time", setTime);
     commands.addCommand("get_time", getTime);
+    commands.addCommand("send_status", cmdSendStatusUpdate);
+
+    canCommands.addCommand(CAN_GPS_POSITION, canReceivePosition);
 
     commands.setDefaultHandler(unrecognized);
 }
@@ -797,7 +804,18 @@ void getUartRegister() {
     Output.print("Register ");
     Output.print(registerIdInt, HEX);
     Output.print(": ");
-    Output.println(value, BIN);
+
+    for(int8_t i = 7; i >=0; i--) {
+        if(i == 3) {
+            Output.print(' ');
+        }
+        bitRead(value, i);
+        if(value & (1 << i)) {
+            Output.print('1');
+        } else {
+            Output.print('0');
+        }
+    }
 }
 
 void setUartRegister() {
@@ -826,6 +844,11 @@ void setUartRegister() {
 }
 
 void getLTEStatus() {
+    if (!lteIsEnabled()) {
+        Output.println("LTE is not enabled");
+        Output.flush();
+        return;
+    }
     uint8_t n = LTE.getNetworkStatus();
 
     if (n == 0) Output.println(F("Not registered"));
@@ -837,6 +860,10 @@ void getLTEStatus() {
 }
 
 void getLTERSSI() {
+    if (!lteIsEnabled()) {
+        Output.println("LTE is not enabled");
+        return;
+    }
     // read the RSSI
     uint8_t n = LTE.getRSSI();
     int8_t r;
@@ -852,21 +879,78 @@ void getLTERSSI() {
 }
 
 void sendTextMessage() {
+    if (!lteIsEnabled()) {
+        Output.println("LTE is not enabled");
+        return;
+    }
     char* msisdn = commands.next();
     if(!msisdn) {
         Output.println("Must supply MSISDN");
         return;
     }
 
-    char* message = commands.next();
-    if(!message) {
-        Output.println("Must supply message");
+    char messageFinal[140] = {'\0'};
+    uint8_t length = 0;
+    char* message;
+    while(message = commands.next()) {
+        if (strlen(messageFinal) > 0) {
+            messageFinal[length] = ' ';
+            length++;
+        }
+        strcpy(&messageFinal[length], message);
+        length += strlen(message);
+    }
+    if(strlen(messageFinal) < 1) {
+        Output.println("Must supply a message.");
         return;
     }
 
-    if(LTE.sendSMS(msisdn, message)) {
+    if(LTE.sendSMS(msisdn, messageFinal)) {
         Output.println("OK");
     } else {
         Output.println("Failed");
     }
+}
+
+void lteCommand() {
+    if (!lteIsEnabled()) {
+        Output.println("LTE is not enabled");
+        return;
+    }
+    char* command = commands.next();
+    if(!command) {
+        Output.println("Must supply command");
+        return;
+    }
+
+    char reply[4096];
+
+    if(LTE.getReply(command, reply)) {
+        Output.println(reply);
+    } else {
+        Output.println("Failed");
+    }
+}
+
+void showLTETimestamp() {
+    if (!lteIsEnabled()) {
+        Output.println("LTE is not enabled");
+        return;
+    }
+    time_t timestamp = getLTETimestamp();
+
+    Output.println(timestamp);
+}
+
+void canReceivePosition() {
+    uint8_t data[8];
+    canCommands.getData(data);
+
+    CANGpsPosition pos = *(reinterpret_cast<CANGpsPosition*>(data));
+
+    setGpsPosition(pos.latitude, pos.longitude);
+}
+
+void cmdSendStatusUpdate() {
+    sendStatusUpdate();
 }
