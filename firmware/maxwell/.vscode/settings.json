@@ -6,5 +6,13 @@
     "terminal.integrated.env.linux": {
         "PATH": "/home/acoddington/.platformio/penv/bin:/home/acoddington/.platformio/penv:/home/acoddington/Downloads/google-cloud-sdk/bin:/home/acoddington/.local/bin:/home/acoddington/.local/bin:/home/acoddington/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/acoddington/n/bin",
         "PLATFORMIO_CALLER": "vscode"
+    },
+    "files.associations": {
+        "*.ract": "handlebars",
+        "istream": "cpp",
+        "optional": "cpp",
+        "ostream": "cpp",
+        "system_error": "cpp",
+        "type_traits": "cpp"
     }
 }

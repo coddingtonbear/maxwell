@@ -1073,10 +1073,10 @@ Wire Wire Line
 	1050 5500 1050 5650
 Connection ~ 1050 5650
 $Comp
-L Connector_Generic:Conn_01x01 J?
+L Connector_Generic:Conn_01x01 J18
 U 1 1 5BD652CB
 P 1250 5350
-F 0 "J?" H 1330 5392 50  0001 L CNN
+F 0 "J18" H 1330 5392 50  0001 L CNN
 F 1 "Stitching" H 1330 5346 50  0001 L CNN
 F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 5350 50  0001 C CNN
 F 3 "~" H 1250 5350 50  0001 C CNN
@@ -1084,10 +1084,10 @@ F 3 "~" H 1250 5350 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x01 J?
+L Connector_Generic:Conn_01x01 J17
 U 1 1 5BD652D1
 P 1250 5200
-F 0 "J?" H 1330 5242 50  0001 L CNN
+F 0 "J17" H 1330 5242 50  0001 L CNN
 F 1 "Stitching" H 1330 5196 50  0001 L CNN
 F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 5200 50  0001 C CNN
 F 3 "~" H 1250 5200 50  0001 C CNN
@@ -1095,10 +1095,10 @@ F 3 "~" H 1250 5200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x01 J?
+L Connector_Generic:Conn_01x01 J16
 U 1 1 5BD652D7
 P 1250 5050
-F 0 "J?" H 1330 5092 50  0001 L CNN
+F 0 "J16" H 1330 5092 50  0001 L CNN
 F 1 "Stitching" H 1330 5046 50  0001 L CNN
 F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 5050 50  0001 C CNN
 F 3 "~" H 1250 5050 50  0001 C CNN
@@ -1106,10 +1106,10 @@ F 3 "~" H 1250 5050 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x01 J?
+L Connector_Generic:Conn_01x01 J15
 U 1 1 5BD652DD
 P 1250 4900
-F 0 "J?" H 1330 4942 50  0001 L CNN
+F 0 "J15" H 1330 4942 50  0001 L CNN
 F 1 "Stitching" H 1330 4896 50  0001 L CNN
 F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 4900 50  0001 C CNN
 F 3 "~" H 1250 4900 50  0001 C CNN
@@ -1117,10 +1117,10 @@ F 3 "~" H 1250 4900 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x01 J?
+L Connector_Generic:Conn_01x01 J14
 U 1 1 5BD652E3
 P 1250 4750
-F 0 "J?" H 1330 4746 50  0001 L CNN
+F 0 "J14" H 1330 4746 50  0001 L CNN
 F 1 "Stiching" H 1330 4701 50  0001 L CNN
 F 2 "coddingtonbear:Thermal_Relief_Via_Milling" H 1250 4750 50  0001 C CNN
 F 3 "~" H 1250 4750 50  0001 C CNN
