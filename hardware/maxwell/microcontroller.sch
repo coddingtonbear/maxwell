@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:maxwell-cache
-EELAYER 26 0
+EELAYER 28 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -508,7 +508,7 @@ Wire Wire Line
 Connection ~ 2550 5550
 Wire Wire Line
 	2550 5550 2450 5550
-Text GLabel 8500 2650 2    60   Output ~ 0
+Text GLabel 8500 2450 2    60   Output ~ 0
 SPI2_CS_A
 Text GLabel 8500 5450 2    60   Output ~ 0
 SPI2_MOSI
@@ -516,7 +516,7 @@ Text GLabel 8500 5350 2    60   Input ~ 0
 SPI2_MISO
 Text GLabel 8500 5250 2    60   Output ~ 0
 SPI2_SCK
-Text GLabel 8500 2750 2    60   Output ~ 0
+Text GLabel 8500 2550 2    60   Output ~ 0
 SPI2_CS_B
 Text GLabel 8500 3350 2    60   Output ~ 0
 ~DISABLE_ESP
@@ -580,12 +580,14 @@ Wire Wire Line
 	8500 4450 9250 4450
 NoConn ~ 8500 3050
 NoConn ~ 8500 5150
-NoConn ~ 2900 4350
-NoConn ~ 2900 4450
 NoConn ~ 2900 4750
 NoConn ~ 2900 4850
 NoConn ~ 2450 5400
 NoConn ~ 2650 5400
 Text GLabel 8500 2350 2    60   Output ~ 0
-BATT_SOURCE_DISABLE
+DYNAMO_SOURCE_DISABLE
+Text GLabel 2900 4350 0    60   Input ~ 0
+DYNAMO_VOLTAGE
+Text GLabel 2900 4450 0    60   Input ~ 0
+DYNAMO_BUCK_VOLTAGE
 $EndSCHEMATC
