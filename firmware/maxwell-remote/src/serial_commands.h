@@ -60,6 +60,7 @@ void setBluetoothTimeoutSeconds();
 void sendUpdatedGpsPosition();
 void getUartRegister();
 void setUartRegister();
+void getGpsStats();
 
 void menuUp();
 void menuDown();

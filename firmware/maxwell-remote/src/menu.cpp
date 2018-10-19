@@ -110,8 +110,12 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
                 []() -> String {
                     MicroNMEA* fix = getGpsFix();
                     long altitude;
-                    fix->getAltitude(altitude);
-                    return String("Altitude: ") + String((float)altitude / 1e3) + String("m");
+                    bool gotAltitude = fix->getAltitude(altitude);
+                    if(gotAltitude) {
+                        return String("Altitude: ") + String((float)altitude / 1e3) + String("m");
+                    } else {
+                        return String("Altitude: ?m");
+                    }
                 }
             ),
             MenuItem(

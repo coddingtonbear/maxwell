@@ -42,6 +42,7 @@ void setupCommands() {
     commands.addCommand("disable_esp", disableEsp);
     commands.addCommand("enable_esp", enableEsp);
     commands.addCommand("get_time", getTime);
+    commands.addCommand("get_gps_stats", getGpsStats);
 
     commands.addCommand("delay_bt_timeout", setBluetoothTimeoutSeconds);
 
@@ -862,4 +863,31 @@ void setUartRegister() {
         Output.print("Unrecognized channel: ");
         Output.println(channelId);
     }
+}
+
+void getGpsStats() {
+    MicroNMEA* fix = getGpsFix();
+
+    Output.print("Locked: ");
+    Output.println(fix->isValid() ? "Yes" : "No");
+    Output.print("Latitude: ");
+    Output.println(fix->getLatitude() / 1e6);
+    Output.print("Longitude: ");
+    Output.println(fix->getLongitude() / 1e6);
+    long altitude;
+    bool gotAltitude = fix->getAltitude(altitude);
+    Output.print("Altitude: ");
+    if(!gotAltitude) {
+        Output.print("(invalid) ");
+    }
+    Output.print((float)altitude / 1e3);
+    Output.println("m");
+    Output.print("Positioning System: ");
+    Output.println(fix->getNavSystem());
+    Output.print("Num Satellites: ");
+    Output.println(fix->getNumSatellites());
+    Output.print("Message Id: ");
+    Output.println(fix->getMessageID());
+    Output.print("Current sentence: ");
+    Output.println(fix->getSentence());
 }
