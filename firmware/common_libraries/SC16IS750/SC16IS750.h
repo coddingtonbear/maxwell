@@ -145,6 +145,7 @@ class SC16IS750 : public Stream
         void    writeBytes(uint8_t bytes[], uint8_t size);
         void    GPIOSetPinMode(uint8_t pin_number, uint8_t i_o);
         void    GPIOSetPinState(uint8_t pin_number, uint8_t pin_state);
+        uint8_t GPIOGetPinState(uint8_t pin_number);
         void    FIFOReset();
         void    sleep();
 
@@ -166,7 +167,6 @@ class SC16IS750 : public Stream
         int16_t SetBaudrate(uint32_t baudrate);
         void    SetLine(uint8_t data_length, uint8_t parity_select, uint8_t stop_length );
 		
-        uint8_t GPIOGetPinState(uint8_t pin_number);
         void    GPIOSetPortMode(uint8_t port_io);
         void    GPIOSetPortState(uint8_t port_state);
         void    ResetDevice(void);

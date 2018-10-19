@@ -24,7 +24,7 @@ Please keep the above information when you use this code in your project.
 #include "SC16IS750.h"
 
 
-SPISettings settings(2000000, MSBFIRST, SPI_MODE0);
+SPISettings settings(4000000, MSBFIRST, SPI_MODE0);
 //SPISettings settings(250000, MSBFIRST, SPI_MODE0);
 
 SC16IS750::SC16IS750(
