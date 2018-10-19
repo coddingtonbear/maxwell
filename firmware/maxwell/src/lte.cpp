@@ -50,11 +50,7 @@ void enableLTE() {
     LTEUart.flush();
     LTEUart.begin(9600);
     LTE.begin(LTEUart);
-    LTE.sendCommand("AT+CIPSHUT");
-    LTE.sendCommand("AT+CIPMUX=1");
-    LTE.sendCommand("AT+CSTT=\"hologram\"");
-    LTE.sendCommand("AT+CIICR");
-    LTE.sendCommand("AT+CIFSR");
+    LTE.enableGPRS(true);
     delay(10);
     lteEnabled = true;
 }

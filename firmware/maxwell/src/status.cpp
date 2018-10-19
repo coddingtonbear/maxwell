@@ -36,6 +36,7 @@ bool sendStatusUpdate() {
         position["latitude"] = String(latitude);
         position["longitude"] = String(longitude);
     }
+    //root["velocity_mph"] = currentSpeedMph.getValue();
     root["timestamp"] = Clock.getTime();
     root["uptime"] = millis();
 
