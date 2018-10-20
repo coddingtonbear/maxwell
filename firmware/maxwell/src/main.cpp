@@ -3,7 +3,6 @@
 #include <Arduino.h>
 #include <TimerFreeTone.h>
 #include <HardwareCAN.h>
-#include <TaskScheduler.h>
 #include <libmaple/iwdg.h>
 #include <SdFat.h>
 #include <SPI.h>
@@ -14,7 +13,6 @@
 #include "can_message_ids.h"
 #include "power.h"
 #include "neopixel.h"
-#include <RollingAverage.h>
 #include "serial_commands.h"
 #include "power.h"
 #include "can.h"
@@ -22,16 +20,12 @@
 #include "main.h"
 #include "lte.h"
 #include "status.h"
+#include "tasks.h"
+#include "bluetooth.h"
 
-uint32 speedCounter = 0;
-uint32 speedCounterPrev = 0;
-
-RollingAverage<double, 5> currentSpeedMph;
-uint32 lastStatisticsUpdate = 0;
 
 uint32 lastKeepalive = 0;
 uint32 lastBluetoothKeepalive = 0;
-bool bluetoothEnabled = true;
 
 bool autosleepEnabled = true;
 
@@ -40,74 +34,6 @@ SC16IS750 LTEUart = SC16IS750(
     SC16IS750_CHAN_A,
     14745600UL
 );
-
-Task taskVoltage(VOLTAGE_UPDATE_INTERVAL, TASK_FOREVER, &taskVoltageCallback);
-Task taskStatistics(
-    STATS_UPDATE_INTERVAL,
-    TASK_FOREVER,
-    &taskStatisticsCallback
-);
-Task taskVoltageWarning(
-    VOLTAGE_WARNING_INTERVAL,
-    TASK_FOREVER,
-    &taskVoltageWarningCallback
-);
-Task taskCanbusVoltageBatteryAnnounce(
-    CANBUS_VOLTAGE_BATTERY_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &taskCanbusVoltageBatteryAnnounceCallback
-);
-Task taskCanbusCurrentAnnounce(
-    CANBUS_CURRENT_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &taskCanbusCurrentAnnounceCallback
-);
-Task taskCanbusChargingStatusAnnounce(
-    CANBUS_CHARGING_STATUS_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &taskCanbusChargingStatusAnnounceCallback
-);
-Task taskCanbusSpeedAnnounce(
-    CANBUS_SPEED_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &taskCanbusSpeedAnnounceCallback
-);
-Task taskCanbusLedStatusAnnounce(
-    CANBUS_LED_STATUS_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &taskCanbusLedStatusAnnounceCallback
-);
-Task taskLoggerStatsInterval(
-    LOGGER_STATS_INTERVAL,
-    TASK_FOREVER,
-    &taskLoggerStatsIntervalCallback
-);
-Task taskCanbusStatusInterval(
-    CANBUS_STATUS_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &taskCanbusStatusIntervalCallback
-);
-Task taskCanbusCurrentTimestamp(
-    CANBUS_CURRENT_TIMESTAMP_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &taskCanbusCurrentTimestampCallback
-);
-Task taskLTEStatusAnnounce(
-    LTE_STATUS_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &taskLTEStatusAnnounceCallback
-);
-Task taskLTEStatusManager(
-    LTE_STATUS_MANAGER,
-    TASK_FOREVER,
-    &taskLTEStatusManagerCallback
-);
-Task taskLTETimestampSync(
-    LTE_TIMESTAMP_SYNC,
-    TASK_FOREVER,
-    &taskLTETimestampSyncCallback
-);
-Scheduler taskRunner;
 
 MultiSerial Output;
 
@@ -239,23 +165,9 @@ void setup() {
     wakeMessage.DLC = 0;
     CanBus.send(&wakeMessage);
 
-    ledSetup();
+    tasks::init();
 
-    taskRunner.init();
-    taskRunner.addTask(taskVoltage);
-    taskRunner.addTask(taskVoltageWarning);
-    taskRunner.addTask(taskCanbusVoltageBatteryAnnounce);
-    taskRunner.addTask(taskCanbusCurrentAnnounce);
-    taskRunner.addTask(taskCanbusChargingStatusAnnounce);
-    taskRunner.addTask(taskCanbusSpeedAnnounce);
-    taskRunner.addTask(taskStatistics);
-    taskRunner.addTask(taskCanbusLedStatusAnnounce);
-    taskRunner.addTask(taskLoggerStatsInterval);
-    taskRunner.addTask(taskCanbusStatusInterval);
-    taskRunner.addTask(taskCanbusCurrentTimestamp);
-    //taskRunner.addTask(taskLTEStatusAnnounce);
-    taskRunner.addTask(taskLTEStatusManager);
-    taskRunner.enableAll();
+    ledSetup();
 
     setupCommands();
     commandPrompt();
@@ -353,202 +265,6 @@ void beep(uint32_t frequency, uint32_t duration) {
     TimerFreeTone(PIN_BUZZER, frequency, duration);
 }
 
-void taskCanbusLedStatusAnnounceCallback() {
-    LedStatus ledStatus;
-    ledGetStatus(ledStatus);
-
-    CANLedStatus ledStatusMsg;
-    ledStatusMsg.enabled = ledStatus.enabled;
-    ledStatusMsg.cycle = ledStatus.cycle;
-    ledStatusMsg.brightness = ledStatus.brightness;
-    ledStatusMsg.interval = ledStatus.interval;
-
-    CanMsg status;
-    status.IDE = CAN_ID_STD;
-    status.RTR = CAN_RTR_DATA;
-    status.ID = CAN_LED_STATUS;
-    status.DLC = sizeof(ledStatusMsg);
-    unsigned char *ledStatusBytes = reinterpret_cast<unsigned char*>(&ledStatusMsg);
-    for(uint8 i = 0; i < sizeof(ledStatusMsg); i++) {
-        status.Data[i] = ledStatusBytes[i];
-    }
-    CanBus.send(&status);
-
-    CANLedStatusColor ledStatusColor;
-    ledStatusColor.red = ledStatus.red;
-    ledStatusColor.green = ledStatus.green;
-    ledStatusColor.blue = ledStatus.blue;
-    ledStatusColor.red2 = ledStatus.red2;
-    ledStatusColor.green2 = ledStatus.green2;
-    ledStatusColor.blue2 = ledStatus.blue2;
-
-    CanMsg statusColor;
-    statusColor.IDE = CAN_ID_STD;
-    statusColor.RTR = CAN_RTR_DATA;
-    statusColor.ID = CAN_LED_STATUS_COLOR;
-    statusColor.DLC = sizeof(byte) * 6;
-    unsigned char *ledStatusColorBytes = reinterpret_cast<unsigned char*>(&ledStatusColor);
-    for(uint8 i = 0; i < sizeof(ledStatusColor); i++) {
-        statusColor.Data[i] = ledStatusColorBytes[i];
-    }
-    CanBus.send(&statusColor);
-}
-
-void taskVoltageCallback() {
-    updatePowerMeasurements();
-
-    double voltage = getVoltage(VOLTAGE_BATTERY);
-    if(voltage < VOLTAGE_LEVEL_SHUTDOWN) {
-        Output.println("Low voltage; Shutdown initiated!");
-        sleep(false);
-    }
-}
-
-void taskStatisticsCallback() {
-    Statistics.put("Uptime (minutes)", (double)millis() / 60000);
-
-    lastStatisticsUpdate = millis();
-}
-
-void taskVoltageWarningCallback() {
-    double voltage = getVoltage(VOLTAGE_BATTERY);
-    if(voltage < VOLTAGE_LEVEL_WARNING) {
-        Output.print("Warning: low voltage (");
-        Output.print(voltage, 2);
-        Output.println(")");
-    }
-}
-void taskCanbusStatusIntervalCallback() {
-    LedStatus ledStatus;
-    ledGetStatus(ledStatus);
-    uint32 logErrorCode = Log.getErrorCode();
-
-    CANStatusMainMC status;
-    status.is_charging = getChargingStatus() == CHARGING_STATUS_CHARGING_NOW;
-    status.lighting_enabled = ledStatus.enabled;
-    status.charging_enabled = batteryChargingIsEnabled();
-    status.bt_enabled = bluetoothEnabled;
-    status.has_valid_time = (Clock.getTime() > 1000000000);
-    status.logging_now = !logErrorCode;
-    // ESP32 Status
-    status.wifi_enabled = false;
-    status.ble_enabled = false;
-    status.camera_connected = false;
-    status.recording_now = false;
-
-    CanMsg output;
-    output.IDE = CAN_ID_STD;
-    output.RTR = CAN_RTR_DATA;
-    output.ID = CAN_STATUS_MAIN_MC;
-    output.DLC = sizeof(status);
-
-    unsigned char *outputBytes = reinterpret_cast<unsigned char *>(&status);
-    for(uint8_t i = 0; i < sizeof(status); i++) {
-        output.Data[i] = outputBytes[i];
-    }
-
-    CanBus.send(&output);
-}
-
-void taskCanbusCurrentTimestampCallback() {
-    time_t currentTimestamp = Clock.getTime();
-
-    CanMsg output;
-    output.IDE = CAN_ID_STD;
-    output.RTR = CAN_RTR_DATA;
-    output.ID = CAN_CURRENT_TIMESTAMP;
-    output.DLC = sizeof(time_t);
-
-    unsigned char *outputBytes = reinterpret_cast<unsigned char *>(&currentTimestamp);
-    for(uint8_t i = 0; i < sizeof(currentTimestamp); i++) {
-        output.Data[i] = outputBytes[i];
-    }
-
-    CanBus.send(&output);
-}
-
-void taskCanbusVoltageBatteryAnnounceCallback() {
-    CanMsg message;
-    message.IDE = CAN_ID_STD;
-    message.RTR = CAN_RTR_DATA;
-    message.ID = CAN_VOLTAGE_BATTERY;
-    message.DLC = sizeof(double);
-
-    double voltage = getVoltage(VOLTAGE_BATTERY);
-    unsigned char *voltageBytes = reinterpret_cast<unsigned char*>(&voltage);
-    for(uint8 i = 0; i < sizeof(double); i++) {
-        message.Data[i] = voltageBytes[i];
-    }
-
-    CanBus.send(&message);
-}
-
-void taskCanbusCurrentAnnounceCallback() {
-    CanMsg message;
-    message.IDE = CAN_ID_STD;
-    message.RTR = CAN_RTR_DATA;
-    message.ID = CAN_AMPS_CURRENT;
-    message.DLC = sizeof(double);
-
-    double current = getCurrentUsage();
-    unsigned char *currentBytes = reinterpret_cast<unsigned char*>(&current);
-    for(uint8 i = 0; i < sizeof(double); i++) {
-        message.Data[i] = currentBytes[i];
-    }
-
-    CanBus.send(&message);
-}
-
-void taskCanbusChargingStatusAnnounceCallback() {
-    CanMsg message;
-    message.IDE = CAN_ID_STD;
-    message.RTR = CAN_RTR_DATA;
-    message.ID = CAN_CHARGING_STATUS;
-    message.DLC = sizeof(uint8_t);
-
-    uint8_t status = getChargingStatus();
-    unsigned char *statusBytes = reinterpret_cast<byte*>(&status);
-    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
-        message.Data[i] = statusBytes[i];
-    }
-
-    CanBus.send(&message);
-}
-
-void taskCanbusSpeedAnnounceCallback() {
-    CanMsg message;
-    message.IDE = CAN_ID_STD;
-    message.RTR = CAN_RTR_DATA;
-    message.ID = CAN_VELOCITY;
-    message.DLC = sizeof(double);
-
-    // There are 14 poles in the hub, and the outer tire is 80in in
-    // circumference; so every pole is 5.714in of travel.
-
-    uint32 pulseCount = speedCounter - speedCounterPrev;
-    double mph = (
-        pulseCount * (SPEED_WHEEL_RADIUS_INCHES / SPEED_PULSES_PER_ROTATION)
-        / CANBUS_SPEED_ANNOUNCE_INTERVAL
-    ) / SPEED_INCHES_PER_MILE * SPEED_SECONDS_PER_HOUR;
-    currentSpeedMph.addMeasurement(mph);
-
-    double currentSpeedTemp = currentSpeedMph.getValue();
-    unsigned char *speedBytes = reinterpret_cast<byte*>(&currentSpeedTemp);
-    for(uint8 i = 0; i < sizeof(double); i++) {
-        message.Data[i] = speedBytes[i];
-    }
-
-    if (
-        pulseCount > 0 ||
-        getChargingStatus() == CHARGING_STATUS_CHARGING_NOW
-    ) {
-        renewKeepalive();
-    }
-
-    speedCounterPrev = speedCounter;
-    CanBus.send(&message);
-}
-
 void loop() {
     iwdg_feed();
 
@@ -558,7 +274,7 @@ void loop() {
     }
     // If we're past the keepalive for bluetooth, deactivate bluetooth, too.
     if((millis() > (lastBluetoothKeepalive + BLUETOOTH_TIMEOUT)) && autosleepEnabled) {
-        enableBluetooth(false);
+        ble::enableBluetooth(false);
     }
     // If there are bytes on the serial buffer; keep the device alive
     if(Output.available()) {
@@ -569,8 +285,7 @@ void loop() {
 
     ledCycle();
 
-    // Misc. periodic tasks
-    taskRunner.execute();
+    tasks::loop();
 
     if(CanBus.available()) {
         CanMsg* canMsg;
@@ -668,11 +383,6 @@ void sleep(bool allowMovementWake) {
     }
 }
 
-void intSpeedUpdate() {
-    speedCounter++;
-}
-
-
 void renewKeepalive() {
     if(lastKeepalive < millis()) {
         setKeepalive(millis());
@@ -692,42 +402,10 @@ void enableAutosleep(bool enable) {
     autosleepEnabled = enable;
 }
 
-void enableBluetooth(bool enable) {
-    if(enable && !bluetoothEnabled) {
-        Log.log("Local bluetooth enabled");
-        Output.disableInterface(&BTSerial);
-        BTSerial.end();
-        digitalWrite(PIN_BT_DISABLE_, HIGH);
-        bluetoothEnabled = true;
-    } else if(!enable && bluetoothEnabled) {
-        Log.log("Local bluetooth disabled");
-        digitalWrite(PIN_BT_DISABLE_, LOW);
-        Output.enableInterface(&BTSerial);
-        Output.begin();
-        bluetoothEnabled = false;
-    }
-}
-
 void renewBluetoothKeepalive() {
     if(lastBluetoothKeepalive < millis()) {
         setBluetoothKeepalive(millis());
     }
-}
-
-void taskLoggerStatsIntervalCallback() {
-
-    for(uint8_t i = 0; i < Statistics.count(); i++) {
-        auto key = Statistics.keyAt(i);
-        auto value = Statistics.valueFor(key);
-
-        String message = "Stats: ";
-        message += key;
-        message += ": ";
-        message += String(value, 4);
-        Log.log(message);
-    }
-
-    Log.log("Stats: Speed Pulse Count: " + String(speedCounter));
 }
 
 bool syncTimestampWithLTE() {
@@ -757,19 +435,4 @@ void restoreBackupTime() {
 void saveBackupTime() {
     time_t currentTime = Clock.getTime();
     bkp_write(0, currentTime);
-}
-
-void taskLTEStatusAnnounceCallback() {
-    sendStatusUpdate();
-}
-
-void taskLTEStatusManagerCallback() {
-    asyncLteManager();
-}
-
-void taskLTETimestampSyncCallback() {
-    if(syncTimestampWithLTE()) {
-        // We've synced successfuly; we can disable now
-        taskLTETimestampSync.disable();
-    }
 }

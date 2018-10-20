@@ -13,6 +13,7 @@
 #include "power.h"
 #include "status.h"
 #include "lte.h"
+#include "bluetooth.h"
 
 SerialCommand commands(&Output);
 CANCommand canCommands;
@@ -528,7 +529,7 @@ void canEnableBluetooth() {
 
     uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
 
-    enableBluetooth(enabled);
+    ble::enableBluetooth(enabled);
 }
 
 void printStatistics() {
@@ -740,11 +741,11 @@ void logSearch() {
 }
 
 void cmdEnableBluetooth() {
-    enableBluetooth(true);
+    ble::enableBluetooth(true);
 }
 
 void cmdDisableBluetooth() {
-    enableBluetooth(false);
+    ble::enableBluetooth(false);
 }
 
 void setBluetoothTimeoutSeconds() {

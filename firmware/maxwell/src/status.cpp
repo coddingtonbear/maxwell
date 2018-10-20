@@ -8,6 +8,7 @@
 
 long longitude = 0;
 long latitude = 0;
+uint32 speedCounter = 0;
 
 void setGpsPosition(long _latitude, long _longitude) {
     longitude = _longitude;
@@ -20,6 +21,14 @@ long getLatitude() {
 
 long getLongitude() {
     return longitude;
+}
+
+void intSpeedUpdate() {
+    speedCounter++;
+}
+
+uint32 getSpeedCounter() {
+    return speedCounter;
 }
 
 bool sendStatusUpdate() {
