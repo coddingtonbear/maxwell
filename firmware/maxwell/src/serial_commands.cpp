@@ -936,9 +936,9 @@ void canReceivePosition() {
 
     CANGpsPosition pos = *(reinterpret_cast<CANGpsPosition*>(data));
 
-    setGpsPosition(pos.latitude, pos.longitude);
+    status::setGpsPosition(pos.latitude, pos.longitude);
 }
 
 void cmdSendStatusUpdate() {
-    sendStatusUpdate();
+    status::sendStatusUpdate();
 }

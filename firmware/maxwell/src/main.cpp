@@ -141,7 +141,7 @@ void setup() {
     digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
 
     pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
-    attachInterrupt(PIN_I_SPEED, intSpeedUpdate, RISING);
+    attachInterrupt(PIN_I_SPEED, status::intSpeedUpdate, RISING);
 
     initADCs();
     enableBatteryCharging(true);

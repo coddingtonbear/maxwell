@@ -1,5 +1,4 @@
 #include <TaskScheduler.h>
-#include <RollingAverage.h>
 
 #include "tasks.h"
 #include "can.h"
@@ -11,8 +10,6 @@
 #include "bluetooth.h"
 
 uint32 lastStatisticsUpdate = 0;
-uint32 speedCounterPrev = 0;
-RollingAverage<double, 5> currentSpeedMph;
 
 Task taskVoltage(VOLTAGE_UPDATE_INTERVAL, TASK_FOREVER, &tasks::taskVoltageCallback);
 Task taskStatistics(
@@ -274,30 +271,12 @@ void tasks::taskCanbusSpeedAnnounceCallback() {
     message.ID = CAN_VELOCITY;
     message.DLC = sizeof(double);
 
-    // There are 14 poles in the hub, and the outer tire is 80in in
-    // circumference; so every pole is 5.714in of travel.
-
-    uint32 pulseCount = getSpeedCounter() - speedCounterPrev;
-    double mph = (
-        pulseCount * (SPEED_WHEEL_RADIUS_INCHES / SPEED_PULSES_PER_ROTATION)
-        / CANBUS_SPEED_ANNOUNCE_INTERVAL
-    ) / SPEED_INCHES_PER_MILE * SPEED_SECONDS_PER_HOUR;
-    currentSpeedMph.addMeasurement(mph);
-
-    double currentSpeedTemp = currentSpeedMph.getValue();
+    double currentSpeedTemp = status::getSpeed();
     unsigned char *speedBytes = reinterpret_cast<byte*>(&currentSpeedTemp);
     for(uint8 i = 0; i < sizeof(double); i++) {
         message.Data[i] = speedBytes[i];
     }
 
-    if (
-        pulseCount > 0 ||
-        getChargingStatus() == CHARGING_STATUS_CHARGING_NOW
-    ) {
-        renewKeepalive();
-    }
-
-    speedCounterPrev = getSpeedCounter();
     CanBus.send(&message);
 }
 
@@ -313,12 +292,10 @@ void tasks::taskLoggerStatsIntervalCallback() {
         message += String(value, 4);
         Log.log(message);
     }
-
-    Log.log("Stats: Speed Pulse Count: " + String(getSpeedCounter()));
 }
 
 void tasks::taskLTEStatusAnnounceCallback() {
-    sendStatusUpdate();
+    status::sendStatusUpdate();
 }
 
 void tasks::taskLTEStatusManagerCallback() {

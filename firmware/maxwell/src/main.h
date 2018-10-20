@@ -23,28 +23,6 @@
 #define VOLTAGE_UPDATE_INTERVAL 1011
 #define VOLTAGE_WARNING_INTERVAL 600000
 
-#define STATS_UPDATE_INTERVAL 1000
-
-#define LOGGER_STATS_INTERVAL 10000
-
-// These are semi-random to make sure they don't collide too often
-#define CANBUS_CHARGING_STATUS_ANNOUNCE_INTERVAL 2201
-#define CANBUS_VOLTAGE_BATTERY_ANNOUNCE_INTERVAL 3111
-#define CANBUS_CURRENT_ANNOUNCE_INTERVAL 3313
-#define CANBUS_SPEED_ANNOUNCE_INTERVAL 1017
-#define CANBUS_LED_STATUS_ANNOUNCE_INTERVAL 4120
-#define CANBUS_STATUS_ANNOUNCE_INTERVAL 2641
-#define CANBUS_CURRENT_TIMESTAMP_ANNOUNCE_INTERVAL 9001
-#define LTE_STATUS_ANNOUNCE_INTERVAL 59000
-#define LTE_STATUS_MANAGER 1100
-#define LTE_TIMESTAMP_SYNC 5000
-
-#define SPEED_WHEEL_RADIUS_INCHES 80.0
-#define SPEED_PULSES_PER_ROTATION 14.0
-#define SPEED_INCHES_PER_MILE 63360
-#define SPEED_SECONDS_PER_HOUR 3.6e6
-#define SPEED_SMOOTHING_SAMPLES 5
-
 #define BLUETOOTH_TIMEOUT 120000
 #define INACTIVITY_SLEEP_DURATION 300000
 
@@ -56,7 +34,6 @@ void setup();
 void loop();
 
 String sendBluetoothCommand(String);
-void enableBluetooth(bool);
 void enableBatteryPower(bool);
 void enableAutosleep(bool);
 
@@ -77,21 +54,6 @@ void sleep(bool allowMovementWake=true);
 
 void intSpeedUpdate();
 
-void taskVoltageCallback();
-void taskVoltageWarningCallback();
-void taskCanbusVoltageBatteryAnnounceCallback();
-void taskCanbusVoltageDynamoAnnounceCallback();
-void taskCanbusCurrentAnnounceCallback();
-void taskCanbusChargingStatusAnnounceCallback();
-void taskCanbusSpeedAnnounceCallback();
-void taskStatisticsCallback();
-void taskCanbusLedStatusAnnounceCallback();
-void taskCanbusStatusIntervalCallback();
-void taskLoggerStatsIntervalCallback();
-void taskCanbusCurrentTimestampCallback();
-void taskLTEStatusAnnounceCallback();
-void taskLTEStatusManagerCallback();
-void taskLTETimestampSyncCallback();
 bool syncTimestampWithLTE();
 
 extern MultiSerial Output;

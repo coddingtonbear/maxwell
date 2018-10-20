@@ -1,37 +1,64 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
+#include <RollingAverage.h>
 
 #include "main.h"
 #include "power.h"
 #include "neopixel.h"
 #include "lte.h"
+#include "status.h"
 
 long longitude = 0;
 long latitude = 0;
 uint32 speedCounter = 0;
+uint32 speedCounterPrev = 0;
+uint32 lastSpeedRefresh = 0;
+RollingAverage<double, 5> currentSpeedMph;
 
-void setGpsPosition(long _latitude, long _longitude) {
+void status::setGpsPosition(long _latitude, long _longitude) {
     longitude = _longitude;
     latitude = _latitude;
 }
 
-long getLatitude() {
+long status::getLatitude() {
     return latitude;
 }
 
-long getLongitude() {
+long status::getLongitude() {
     return longitude;
 }
 
-void intSpeedUpdate() {
+void status::intSpeedUpdate() {
     speedCounter++;
 }
 
-uint32 getSpeedCounter() {
-    return speedCounter;
+void status::refreshSpeed() {
+    uint32 pulseCount = speedCounter - speedCounterPrev;
+
+    // There are 14 poles in the hub, and the outer tire is 80in in
+    // circumference; so every pole is 5.714in of travel.
+    double mph = (
+        pulseCount * (SPEED_WHEEL_RADIUS_INCHES / SPEED_PULSES_PER_ROTATION)
+        / (millis() - lastSpeedRefresh)
+    ) / SPEED_INCHES_PER_MILE * SPEED_SECONDS_PER_HOUR;
+    lastSpeedRefresh = millis();
+    currentSpeedMph.addMeasurement(mph);
+
+    if (
+        pulseCount > 0 ||
+        getChargingStatus() == CHARGING_STATUS_CHARGING_NOW
+    ) {
+        renewKeepalive();
+    }
+
+    speedCounterPrev = speedCounter;
 }
 
-bool sendStatusUpdate() {
+double status::getSpeed() {
+    return currentSpeedMph.getValue();
+}
+
+bool status::sendStatusUpdate() {
     if (!lteIsEnabled()) {
         Output.println("LTE is not enabled; could not send status update.");
         return false;
