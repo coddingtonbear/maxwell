@@ -123,7 +123,7 @@ SPIClass SPIBus(2);
 
 void setup() {
     afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
-    iwdg_init(IWDG_PRE_256, 2400);
+    iwdg_init(IWDG_PRE_256, 4095);
 
     // I2C_SCL has a pull-up to 3.3v naturally, so we can
     // use that line being pulled down at initialization to
