@@ -12,6 +12,105 @@ Adafruit_FONA_LTE LTE = Adafruit_FONA_LTE();
 
 bool lteEnabled = false;
 
+enum lte_state {
+    LTE_STATE_NULL,
+    LTE_STATE_OFF,
+    LTE_STATE_PRESSED,
+    LTE_STATE_RELEASED,
+    LTE_STATE_ON,
+};
+lte_state lteTargetStatus = LTE_STATE_NULL;
+lte_state nextLteTargetStatus = LTE_STATE_NULL;
+long minNextLteStatusTransition = 0;
+long maxNextLteStatusTransition = 0;
+
+bool asyncEnableLte(bool enabled) {
+    // If we aren't complete with our current transition, drop out
+    if(nextLteTargetStatus != LTE_STATE_NULL) {
+        return false;
+    }
+
+    // If we're already enabled, we don't need to do anything at all
+    if(enabled && lteIsPoweredOn()) {
+        return true;
+    } else if ((!enabled) && (!lteIsPoweredOn())) {
+        return true;
+    }
+
+    lteTargetStatus = enabled ? LTE_STATE_ON : LTE_STATE_OFF;
+
+    return true;
+}
+
+void asyncLteManager() {
+    if(minNextLteStatusTransition > millis()) {
+        #ifdef LTE_DEBUG
+            Output.print("LTE Transition wait for ");
+            Output.print(minNextLteStatusTransition - millis());
+            Output.println(" ms");
+        #endif
+        return;
+    }
+    if(maxNextLteStatusTransition > 0 && millis() > maxNextLteStatusTransition) {
+        #ifdef LTE_DEBUG
+            Output.println("LTE Transition timeout for target ");
+            Output.println(lteTargetStatus);
+        #endif
+        nextLteTargetStatus = LTE_STATE_NULL;
+        lteTargetStatus = LTE_STATE_NULL;
+        maxNextLteStatusTransition = 0;
+        return;
+    }
+
+    #ifdef LTE_DEBUG
+        Output.print("Processing LTE Target: ");
+        Output.println(lteTargetStatus);
+    #endif
+
+    if(lteTargetStatus == LTE_STATE_ON) {
+        if(nextLteTargetStatus == LTE_STATE_NULL) {
+            pressLTEPowerKey();
+            #ifdef LTE_DEBUG
+                Output.print("Pressing LTE Power key");
+            #endif
+            minNextLteStatusTransition = millis() + 2500;
+            nextLteTargetStatus = LTE_STATE_RELEASED;
+        } else if (nextLteTargetStatus == LTE_STATE_RELEASED) {
+            unpressLTEPowerKey();
+            #ifdef LTE_DEBUG
+                Output.print("Unpressing LTE Power key");
+            #endif
+            maxNextLteStatusTransition = millis() + 5000;
+            nextLteTargetStatus = LTE_STATE_ON;
+        } else if (nextLteTargetStatus == LTE_STATE_ON) {
+            #ifdef LTE_DEBUG
+                Output.print("Checking LTE Power status...");
+            #endif
+            if(lteIsPoweredOn()) {
+                #ifdef LTE_DEBUG
+                    Output.print("LTE powered on; enabling now...");
+                #endif
+                enableLTE();
+                lteTargetStatus = LTE_STATE_NULL;
+                nextLteTargetStatus = LTE_STATE_NULL;
+                maxNextLteStatusTransition = 0;
+            } else {
+                #ifdef LTE_DEBUG
+                    Output.print("LTE not yet powered on");
+                #endif
+            }
+            #ifdef LTE_DEBUG
+                Output.print("LTE enabled");
+            #endif
+        }
+    } else if (lteTargetStatus == LTE_STATE_OFF) {
+        disableLTE();
+        lteTargetStatus = LTE_STATE_NULL;
+        nextLteTargetStatus = LTE_STATE_NULL;
+        maxNextLteStatusTransition = 0;
+    }
+}
+
 bool lteIsPoweredOn() {
     return LTEUart.GPIOGetPinState(
         PIN_LTE_STATUS
@@ -62,7 +161,6 @@ bool lteIsEnabled() {
 void disableLTE() {
     LTEUart.println("\r\nAT+CPOWD=1\r\n");
     LTEUart.flush();
-    delay(2500);
     LTEUart.begin(115200);
     lteEnabled = false;
 }

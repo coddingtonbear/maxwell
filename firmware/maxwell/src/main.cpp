@@ -98,6 +98,16 @@ Task taskLTEStatusAnnounce(
     TASK_FOREVER,
     &taskLTEStatusAnnounceCallback
 );
+Task taskLTEStatusManager(
+    LTE_STATUS_MANAGER,
+    TASK_FOREVER,
+    &taskLTEStatusManagerCallback
+);
+Task taskLTETimestampSync(
+    LTE_TIMESTAMP_SYNC,
+    TASK_FOREVER,
+    &taskLTETimestampSyncCallback
+);
 Scheduler taskRunner;
 
 MultiSerial Output;
@@ -149,10 +159,7 @@ void setup() {
         LTEUart.GPIOSetPinState(PIN_LTE_OE, HIGH);
     }
 
-    // We need to press this ~2.5s before unpressing it
-    if(!lteIsPoweredOn()) {
-        pressLTEPowerKey();
-    }
+    asyncEnableLte();
 
     if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(18))) {
         Output.println("Error initializing SD Card");
@@ -248,20 +255,11 @@ void setup() {
     taskRunner.addTask(taskCanbusStatusInterval);
     taskRunner.addTask(taskCanbusCurrentTimestamp);
     //taskRunner.addTask(taskLTEStatusAnnounce);
+    taskRunner.addTask(taskLTEStatusManager);
     taskRunner.enableAll();
 
     setupCommands();
     commandPrompt();
-
-    // We need to press this ~2.5s after pressing it
-    delay(2000);
-    unpressLTEPowerKey();
-    //enableLTE();
-    if(!syncTimestampWithLTE()) {
-        Output.println(
-            "Synchronization of timestamp with LTE failed."
-        );
-    }
 
     Output.println("Ready.");
     Log.log("Ready");
@@ -771,4 +769,15 @@ void saveBackupTime() {
 
 void taskLTEStatusAnnounceCallback() {
     sendStatusUpdate();
+}
+
+void taskLTEStatusManagerCallback() {
+    asyncLteManager();
+}
+
+void taskLTETimestampSyncCallback() {
+    if(syncTimestampWithLTE()) {
+        // We've synced successfuly; we can disable now
+        taskLTETimestampSync.disable();
+    }
 }

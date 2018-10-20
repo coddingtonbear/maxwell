@@ -36,6 +36,8 @@
 #define CANBUS_STATUS_ANNOUNCE_INTERVAL 2641
 #define CANBUS_CURRENT_TIMESTAMP_ANNOUNCE_INTERVAL 9001
 #define LTE_STATUS_ANNOUNCE_INTERVAL 59000
+#define LTE_STATUS_MANAGER 1100
+#define LTE_TIMESTAMP_SYNC 5000
 
 #define SPEED_WHEEL_RADIUS_INCHES 80.0
 #define SPEED_PULSES_PER_ROTATION 14.0
@@ -89,6 +91,8 @@ void taskCanbusStatusIntervalCallback();
 void taskLoggerStatsIntervalCallback();
 void taskCanbusCurrentTimestampCallback();
 void taskLTEStatusAnnounceCallback();
+void taskLTEStatusManagerCallback();
+void taskLTETimestampSyncCallback();
 bool syncTimestampWithLTE();
 
 extern MultiSerial Output;
