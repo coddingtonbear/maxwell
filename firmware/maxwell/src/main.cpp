@@ -27,7 +27,6 @@ uint32 speedCounter = 0;
 uint32 speedCounterPrev = 0;
 
 RollingAverage<double, 5> currentSpeedMph;
-bool canDebug = 0;
 uint32 lastStatisticsUpdate = 0;
 
 uint32 lastKeepalive = 0;
@@ -238,7 +237,7 @@ void setup() {
     wakeMessage.RTR = CAN_RTR_DATA;
     wakeMessage.ID = CAN_MAIN_MC_WAKE;
     wakeMessage.DLC = 0;
-    canTx(&wakeMessage);
+    CanBus.send(&wakeMessage);
 
     ledSetup();
 
@@ -373,7 +372,7 @@ void taskCanbusLedStatusAnnounceCallback() {
     for(uint8 i = 0; i < sizeof(ledStatusMsg); i++) {
         status.Data[i] = ledStatusBytes[i];
     }
-    canTx(&status);
+    CanBus.send(&status);
 
     CANLedStatusColor ledStatusColor;
     ledStatusColor.red = ledStatus.red;
@@ -392,7 +391,7 @@ void taskCanbusLedStatusAnnounceCallback() {
     for(uint8 i = 0; i < sizeof(ledStatusColor); i++) {
         statusColor.Data[i] = ledStatusColorBytes[i];
     }
-    canTx(&statusColor);
+    CanBus.send(&statusColor);
 }
 
 void taskVoltageCallback() {
@@ -448,7 +447,7 @@ void taskCanbusStatusIntervalCallback() {
         output.Data[i] = outputBytes[i];
     }
 
-    canTx(&output);
+    CanBus.send(&output);
 }
 
 void taskCanbusCurrentTimestampCallback() {
@@ -465,7 +464,7 @@ void taskCanbusCurrentTimestampCallback() {
         output.Data[i] = outputBytes[i];
     }
 
-    canTx(&output);
+    CanBus.send(&output);
 }
 
 void taskCanbusVoltageBatteryAnnounceCallback() {
@@ -481,7 +480,7 @@ void taskCanbusVoltageBatteryAnnounceCallback() {
         message.Data[i] = voltageBytes[i];
     }
 
-    canTx(&message);
+    CanBus.send(&message);
 }
 
 void taskCanbusCurrentAnnounceCallback() {
@@ -497,7 +496,7 @@ void taskCanbusCurrentAnnounceCallback() {
         message.Data[i] = currentBytes[i];
     }
 
-    canTx(&message);
+    CanBus.send(&message);
 }
 
 void taskCanbusChargingStatusAnnounceCallback() {
@@ -513,7 +512,7 @@ void taskCanbusChargingStatusAnnounceCallback() {
         message.Data[i] = statusBytes[i];
     }
 
-    canTx(&message);
+    CanBus.send(&message);
 }
 
 void taskCanbusSpeedAnnounceCallback() {
@@ -547,7 +546,7 @@ void taskCanbusSpeedAnnounceCallback() {
     }
 
     speedCounterPrev = speedCounter;
-    canTx(&message);
+    CanBus.send(&message);
 }
 
 void loop() {
@@ -569,7 +568,6 @@ void loop() {
     commandLoop();
 
     ledCycle();
-    //gps.available(GPSSerial);  // Update GPS with serial data
 
     // Misc. periodic tasks
     taskRunner.execute();
@@ -585,7 +583,7 @@ void loop() {
                 command.Data[i] = canMsg->Data[i];
             }
 
-            if(canDebug) {
+            #ifdef CAN_DEBUG
                 Output.print("Can Message: [");
                 Output.print(canMsg->ID, HEX);
                 Output.print("](");
@@ -595,7 +593,7 @@ void loop() {
                     Output.print(canMsg->Data[i], HEX);
                 }
                 Output.println();
-            }
+            #endif
             Log.logCanIncoming(canMsg);
 
             handleCANCommand(&command);
@@ -603,9 +601,6 @@ void loop() {
             CanBus.free();
         }
     }
-
-    // Temporarily omitted to see if this is the source of existing
-    // reboot-related problems.
 }
 
 void sleep(bool allowMovementWake) {
@@ -633,7 +628,7 @@ void sleep(bool allowMovementWake) {
     sleepMsg.RTR = CAN_RTR_DATA;
     sleepMsg.ID = CAN_MAIN_MC_SLEEP;
     sleepMsg.DLC = 0;
-    canTx(&sleepMsg);
+    CanBus.send(&sleepMsg);
     CanBus.end();
 
     setGPIOModeToAllPins(GPIO_INPUT_FLOATING);
@@ -677,9 +672,6 @@ void intSpeedUpdate() {
     speedCounter++;
 }
 
-void enableCanDebug(bool enable) {
-    canDebug = enable;
-}
 
 void renewKeepalive() {
     if(lastKeepalive < millis()) {

@@ -60,7 +60,6 @@ void enableBluetooth(bool);
 void enableBatteryPower(bool);
 void enableAutosleep(bool);
 
-void enableCanDebug(bool);
 void renewKeepalive();
 void renewBluetoothKeepalive();
 void setKeepalive(uint32_t);

@@ -31,7 +31,6 @@ void canChargeEnable();
 void setLedInterval();
 void send_can();
 void emit_can();
-void debug_can();
 void getGpsCoordinates();
 void doSendCanMesage();
 void canEnableBluetooth();

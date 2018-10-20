@@ -2,6 +2,10 @@
 
 #include <HardwareCAN.h>
 
-void canTx(CanMsg*);
+class LoggedHardwareCAN : public HardwareCAN {
+    public:
+        LoggedHardwareCAN(CAN_Port*);
+        CAN_TX_MBX send(CanMsg* message);
+};
 
-extern HardwareCAN CanBus;
+extern LoggedHardwareCAN CanBus;

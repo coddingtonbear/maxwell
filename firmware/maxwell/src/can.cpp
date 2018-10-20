@@ -3,10 +3,15 @@
 #include "can.h"
 #include "main.h"
 
-void canTx(CanMsg* msg) {
-    CanBus.send(msg);
-    delay(50);
-    Log.logCanOutgoing(msg);
+//#define CAN_DEBUG
+
+LoggedHardwareCAN::LoggedHardwareCAN(CAN_Port* port) : HardwareCAN(port) {
 }
 
-HardwareCAN CanBus(CAN1_BASE);
+CAN_TX_MBX LoggedHardwareCAN::send(CanMsg* message) {
+    HardwareCAN::send(message);
+    delay(50);
+    Log.logCanOutgoing(message);
+}
+
+LoggedHardwareCAN CanBus(CAN1_BASE);

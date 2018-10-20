@@ -57,7 +57,6 @@ void setupCommands() {
     commands.addCommand("enable_bluetooth", cmdEnableBluetooth);
     commands.addCommand("delay_bt_timeout", setBluetoothTimeoutSeconds);
 
-    commands.addCommand("power_on_lte", toggleLTEPower);
     commands.addCommand("enable_lte", enableLTE);
     commands.addCommand("disable_lte", disableLTE);
     commands.addCommand("get_lte_status", getLTEStatus);
@@ -66,7 +65,6 @@ void setupCommands() {
     commands.addCommand("lte_command", lteCommand);
     commands.addCommand("lte_timestamp", showLTETimestamp);
 
-    commands.addCommand("debug_can", debug_can);
     commands.addCommand("send_can", send_can);
     commands.addCommand("emit_can", emit_can);
     canCommands.addCommand(CAN_TEST, emit_can);
@@ -384,7 +382,7 @@ void flash() {
     flashNoticeMsg.RTR = CAN_RTR_DATA;
     flashNoticeMsg.ID = CAN_MAIN_MC_FLASH_BEGIN;
     flashNoticeMsg.DLC = 0;
-    canTx(&flashNoticeMsg);
+    CanBus.send(&flashNoticeMsg);
 
     Output.println("Resetting device...");
     Output.flush();
@@ -446,7 +444,7 @@ void emit_can() {
     }
 
     testId++;
-    canTx(&testMsg);
+    CanBus.send(&testMsg);
 }
 
 void send_can() {
@@ -471,18 +469,7 @@ void send_can() {
         testMsg.DLC++;
     }
 
-    canTx(&testMsg);
-}
-
-void debug_can() {
-    bool enabled = 1;
-
-    char* enabledStr = commands.next();
-    if(enabledStr != NULL) {
-        enabled = atoi(enabledStr);
-    }
-
-    enableCanDebug(enabled);
+    CanBus.send(&testMsg);
 }
 
 void doSleep() {
