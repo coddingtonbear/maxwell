@@ -69,10 +69,10 @@ HardwareSerial* util::uartNumberToInterface(uint32_t uartNumber) {
 }
 
 bool util::syncTimestampWithLTE() {
-    if(!lteIsEnabled()){
+    if(!lte::isEnabled()){
         return false;
     }
-    time_t lteTimestamp = getLTETimestamp();
+    time_t lteTimestamp = lte::getTimestamp();
 
     if(lteTimestamp < 1) {
         return false;

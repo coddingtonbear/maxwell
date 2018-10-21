@@ -80,7 +80,7 @@ void setup() {
         LTEUart.GPIOSetPinState(PIN_LTE_OE, HIGH);
     }
 
-    asyncEnableLte();
+    lte::asyncEnable();
 
     if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(18))) {
         Output.println("Error initializing SD Card");

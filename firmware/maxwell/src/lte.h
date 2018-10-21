@@ -11,18 +11,20 @@
 #define ADAFRUIT_FONA_DEBUG
 #endif
 
-bool asyncEnableLte(bool enabled=true);
-void asyncLteManager();
+namespace lte {
+    void enable(bool _enabled=true);
 
-void toggleLTEPower();
-void pressLTEPowerKey();
-void unpressLTEPowerKey();
+    bool asyncEnable(bool enabled=true);
+    void asyncManagerLoop();
 
-bool lteIsPoweredOn();
-void enableLTE();
-bool lteIsEnabled();
-void disableLTE();
+    void togglePower();
+    void pressPowerKey();
+    void unpressPowerKey();
 
-time_t getLTETimestamp();
+    bool isPoweredOn();
+    bool isEnabled();
+
+    time_t getTimestamp();
+}
 
 extern Adafruit_FONA_LTE LTE;

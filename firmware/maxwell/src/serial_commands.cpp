@@ -856,7 +856,7 @@ void console::setUartRegister() {
 }
 
 void console::enableLTE() {
-    if(asyncEnableLte(true)) {
+    if(lte::asyncEnable(true)) {
         Output.println("Enabling LTE...");
     } else {
         Output.println("ERROR");
@@ -864,7 +864,7 @@ void console::enableLTE() {
 }
 
 void console::disableLTE() {
-    if(asyncEnableLte(false)) {
+    if(lte::asyncEnable(false)) {
         Output.println("Disabling LTE...");
     } else {
         Output.println("ERROR");
@@ -872,7 +872,7 @@ void console::disableLTE() {
 }
 
 void console::getLTEStatus() {
-    if (!lteIsEnabled()) {
+    if (!lte::isEnabled()) {
         Output.println("LTE is not enabled");
         Output.flush();
         return;
@@ -888,7 +888,7 @@ void console::getLTEStatus() {
 }
 
 void console::getLTERSSI() {
-    if (!lteIsEnabled()) {
+    if (!lte::isEnabled()) {
         Output.println("LTE is not enabled");
         return;
     }
@@ -907,7 +907,7 @@ void console::getLTERSSI() {
 }
 
 void console::sendTextMessage() {
-    if (!lteIsEnabled()) {
+    if (!lte::isEnabled()) {
         Output.println("LTE is not enabled");
         return;
     }
@@ -941,7 +941,7 @@ void console::sendTextMessage() {
 }
 
 void console::lteCommand() {
-    if (!lteIsEnabled()) {
+    if (!lte::isEnabled()) {
         Output.println("LTE is not enabled");
         return;
     }
@@ -961,11 +961,11 @@ void console::lteCommand() {
 }
 
 void console::showLTETimestamp() {
-    if (!lteIsEnabled()) {
+    if (!lte::isEnabled()) {
         Output.println("LTE is not enabled");
         return;
     }
-    time_t timestamp = getLTETimestamp();
+    time_t timestamp = lte::getTimestamp();
 
     Output.println(timestamp);
 }

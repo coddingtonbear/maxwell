@@ -300,7 +300,7 @@ void tasks::taskLTEStatusAnnounceCallback() {
 }
 
 void tasks::taskLTEStatusManagerCallback() {
-    asyncLteManager();
+    lte::asyncManagerLoop();
 }
 
 void tasks::taskLTETimestampSyncCallback() {

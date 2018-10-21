@@ -59,7 +59,7 @@ double status::getSpeed() {
 }
 
 bool status::sendStatusUpdate() {
-    if (!lteIsEnabled()) {
+    if (!lte::isEnabled()) {
         Output.println("LTE is not enabled; could not send status update.");
         return false;
     }

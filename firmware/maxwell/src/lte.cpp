@@ -24,16 +24,16 @@ lte_state nextLteTargetStatus = LTE_STATE_NULL;
 long minNextLteStatusTransition = 0;
 long maxNextLteStatusTransition = 0;
 
-bool asyncEnableLte(bool enabled) {
+bool lte::asyncEnable(bool enabled) {
     // If we aren't complete with our current transition, drop out
     if(nextLteTargetStatus != LTE_STATE_NULL) {
         return false;
     }
 
     // If we're already enabled, we don't need to do anything at all
-    if(enabled && lteIsPoweredOn()) {
+    if(enabled && isPoweredOn()) {
         return true;
-    } else if ((!enabled) && (!lteIsPoweredOn())) {
+    } else if ((!enabled) && (!isPoweredOn())) {
         return true;
     }
 
@@ -42,7 +42,7 @@ bool asyncEnableLte(bool enabled) {
     return true;
 }
 
-void asyncLteManager() {
+void lte::asyncManagerLoop() {
     if(minNextLteStatusTransition > millis()) {
         #ifdef LTE_DEBUG
             Output.print("LTE Transition wait for ");
@@ -69,14 +69,14 @@ void asyncLteManager() {
 
     if(lteTargetStatus == LTE_STATE_ON) {
         if(nextLteTargetStatus == LTE_STATE_NULL) {
-            pressLTEPowerKey();
+            pressPowerKey();
             #ifdef LTE_DEBUG
                 Output.print("Pressing LTE Power key");
             #endif
             minNextLteStatusTransition = millis() + 2500;
             nextLteTargetStatus = LTE_STATE_RELEASED;
         } else if (nextLteTargetStatus == LTE_STATE_RELEASED) {
-            unpressLTEPowerKey();
+            unpressPowerKey();
             #ifdef LTE_DEBUG
                 Output.print("Unpressing LTE Power key");
             #endif
@@ -86,11 +86,11 @@ void asyncLteManager() {
             #ifdef LTE_DEBUG
                 Output.print("Checking LTE Power status...");
             #endif
-            if(lteIsPoweredOn()) {
+            if(isPoweredOn()) {
                 #ifdef LTE_DEBUG
                     Output.print("LTE powered on; enabling now...");
                 #endif
-                enableLTE();
+                enable();
                 lteTargetStatus = LTE_STATE_NULL;
                 nextLteTargetStatus = LTE_STATE_NULL;
                 maxNextLteStatusTransition = 0;
@@ -104,68 +104,68 @@ void asyncLteManager() {
             #endif
         }
     } else if (lteTargetStatus == LTE_STATE_OFF) {
-        disableLTE();
+        enable(false);
         lteTargetStatus = LTE_STATE_NULL;
         nextLteTargetStatus = LTE_STATE_NULL;
         maxNextLteStatusTransition = 0;
     }
 }
 
-bool lteIsPoweredOn() {
+bool lte::isPoweredOn() {
     return LTEUart.GPIOGetPinState(
         PIN_LTE_STATUS
     ) == 1;
 }
 
-void pressLTEPowerKey() {
+void lte::pressPowerKey() {
     LTEUart.GPIOSetPinMode(PIN_LTE_PWRKEY, OUTPUT);
     LTEUart.GPIOSetPinState(PIN_LTE_PWRKEY, LOW);
 }
 
-void unpressLTEPowerKey() {
+void lte::unpressPowerKey() {
     LTEUart.GPIOSetPinMode(PIN_LTE_PWRKEY, INPUT);
 }
 
-void toggleLTEPower() {
-    pressLTEPowerKey();
+void lte::togglePower() {
+    pressPowerKey();
     iwdg_feed();
     delay(2500);
     iwdg_feed();
-    unpressLTEPowerKey();
+    unpressPowerKey();
 }
 
-void enableLTE() {
-    if(!lteIsPoweredOn()) {
-        toggleLTEPower();
+void lte::enable(bool _enable) {
+    if(_enable) {
+        if(!isPoweredOn()) {
+            lte::togglePower();
+        }
+
+        LTE.setNetworkSettings(F("hologram"));
+        // Disable Echo
+        LTEUart.println("ATE0");
+        delay(10);
+        // Set baud to 9600
+        LTEUart.println("AT+IPR=9600");
+        delay(10);
+        LTEUart.flush();
+        LTEUart.begin(9600);
+        LTE.begin(LTEUart);
+        LTE.enableGPRS(true);
+        delay(10);
+        lteEnabled = true;
+    } else {
+        LTEUart.println("\r\nAT+CPOWD=1\r\n");
+        LTEUart.flush();
+        LTEUart.begin(115200);
+        lteEnabled = false;
     }
-
-    LTE.setNetworkSettings(F("hologram"));
-    // Disable Echo
-    LTEUart.println("ATE0");
-    delay(10);
-    // Set baud to 9600
-    LTEUart.println("AT+IPR=9600");
-    delay(10);
-    LTEUart.flush();
-    LTEUart.begin(9600);
-    LTE.begin(LTEUart);
-    LTE.enableGPRS(true);
-    delay(10);
-    lteEnabled = true;
 }
 
-bool lteIsEnabled() {
+bool lte::isEnabled() {
     return lteEnabled;
 }
 
-void disableLTE() {
-    LTEUart.println("\r\nAT+CPOWD=1\r\n");
-    LTEUart.flush();
-    LTEUart.begin(115200);
-    lteEnabled = false;
-}
-
-time_t getLTETimestamp() {
+time_t lte::getTimestamp() {
     char reply[128];
 
     LTE.getReply("AT+CCLK?", reply);
@@ -176,9 +176,6 @@ time_t getLTETimestamp() {
     char result = ms.Match(
         "+CCLK: \"([%d]+)/([%d]+)/([%d]+),([%d]+):([%d]+):([%d]+)([\\+\\-])([%d]+)\""
     );
-    //char result = ms.Match(
-    //    "+CCLK: \"([%d]+)/"
-    //);
     if(!result) {
         return 0;
     }
