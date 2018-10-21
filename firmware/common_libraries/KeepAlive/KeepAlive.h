@@ -14,5 +14,3 @@ class KeepAlive{
         uint32_t timeoutInterval;
         uint32_t timeout;
 };
-
-#include "KeepAlive_Impl.h"
