@@ -163,7 +163,7 @@ void setup() {
 
     tasks::init();
 
-    ledSetup();
+    neopixel::init();
 
     setupCommands();
     commandPrompt();
@@ -184,7 +184,7 @@ void loop() {
     }
     commandLoop();
 
-    ledCycle();
+    neopixel::loop();
 
     tasks::loop();
 

@@ -88,7 +88,7 @@ bool status::sendStatusUpdate() {
     power["current_amps"] = power::getCurrentUsage();
 
     LedStatus ledStatus;
-    ledGetStatus(ledStatus);
+    neopixel::getStatus(ledStatus);
     JsonObject& leds = root.createNestedObject("leds");
     leds["color_1"] = "#" + String(ledStatus.red, HEX) + String(ledStatus.green, HEX) + String(ledStatus.blue, HEX);
     leds["color_2"] = "#" + String(ledStatus.red2, HEX) + String(ledStatus.green2, HEX) + String(ledStatus.blue2, HEX);

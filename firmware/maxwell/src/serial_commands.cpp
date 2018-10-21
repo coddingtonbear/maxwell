@@ -78,23 +78,25 @@ void console::init() {
 }
 
 void can::init() {
-    canCommands.addCommand(CAN_CMD_BEEP, canBeep);
+    canCommands.addCommand(CAN_CMD_BEEP, can::beep);
 
-    canCommands.addCommand(CAN_CMD_LED_CYCLE, canSetLedCycle);
-    canCommands.addCommand(CAN_CMD_LED_COLOR, canSetLedColor);
-    canCommands.addCommand(CAN_CMD_LED_BRIGHTNESS, canSetLedBrightness);
-    canCommands.addCommand(CAN_CMD_LED_INTERVAL, canSetLedInterval);
-    canCommands.addCommand(CAN_CMD_LED_ENABLE, canLedEnable);
-    canCommands.addCommand(CAN_CMD_LED_PRESET, canLedPreset);
+    canCommands.addCommand(CAN_CMD_LED_CYCLE, can::setLedCycle);
+    canCommands.addCommand(CAN_CMD_LED_COLOR, can::setLedColor);
+    canCommands.addCommand(CAN_CMD_LED_BRIGHTNESS, can::setLedBrightness);
+    canCommands.addCommand(CAN_CMD_LED_INTERVAL, can::setLedInterval);
+    canCommands.addCommand(CAN_CMD_LED_ENABLE, can::ledEnable);
+    canCommands.addCommand(CAN_CMD_LED_PRESET, can::ledPreset);
 
     canCommands.addCommand(CAN_CMD_MAIN_MC_RESET, can::reset);
     canCommands.addCommand(CAN_CMD_MAIN_MC_SLEEP, can::sleep);
-    canCommands.addCommand(CAN_CMD_CHARGE_ENABLE, canChargeEnable);
+    canCommands.addCommand(CAN_CMD_CHARGE_ENABLE, can::chargeEnable);
 
     canCommands.addCommand(CAN_CMD_MAIN_MC_FLASH, can::flash);
-    canCommands.addCommand(CAN_CMD_AUTOSLEEP_ENABLE, canAutosleepEnable);
+    canCommands.addCommand(CAN_CMD_AUTOSLEEP_ENABLE, can::autosleepEnable);
 
-    canCommands.addCommand(CAN_GPS_POSITION, canReceivePosition);
+    canCommands.addCommand(CAN_GPS_POSITION, can::receivePosition);
+
+    canCommands.addCommand(CAN_CMD_BT_ENABLE, can::enableBluetooth);
 }
 
 void setupCommands() {
@@ -114,56 +116,56 @@ void handleCANCommand(CANCommand::CANMessage* command) {
     canCommands.processCANMessage(command);
 }
 
-void canSetLedCycle() {
+void can::setLedCycle() {
     uint8_t data[8];
     canCommands.getData(data);
     byte cycleType = data[0];
 
-    ledSetCycle(cycleType);
+    neopixel::setCycle(cycleType);
 }
 
-void canSetLedColor() {
+void can::setLedColor() {
     uint8_t data[8];
     canCommands.getData(data);
 
     CANLedStatusColor color = *(reinterpret_cast<CANLedStatusColor*>(data));
 
-    ledSetColor(color.red, color.green, color.blue);
-    ledSetSecondaryColor(color.red2, color.green2, color.blue2);
+    neopixel::setColor(color.red, color.green, color.blue);
+    neopixel::setSecondaryColor(color.red2, color.green2, color.blue2);
 }
 
-void canSetLedBrightness() {
+void can::setLedBrightness() {
     uint8_t data[8];
     canCommands.getData(data);
 
-    ledSetMaxBrightness(data[0]);
+    neopixel::setMaxBrightness(data[0]);
 }
 
-void canSetLedInterval() {
+void can::setLedInterval() {
     uint8_t data[8];
     canCommands.getData(data);
 
     uint32_t interval = *(reinterpret_cast<uint32_t*>(data));
 
-    ledSetInterval(interval);
+    neopixel::setInterval(interval);
 }
 
-void canLedEnable() {
+void can::ledEnable() {
     uint8_t data[8];
     canCommands.getData(data);
 
     uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
 
-    ledEnable(enabled);
+    neopixel::enable(enabled);
 }
 
-void canLedPreset() {
+void can::ledPreset() {
     uint8_t data[8];
     canCommands.getData(data);
 
     uint8_t preset = *(reinterpret_cast<uint8_t*>(data));
 
-    ledActivatePreset(preset);
+    neopixel::activatePreset(preset);
 }
 
 void console::led() {
@@ -188,19 +190,19 @@ void console::led() {
         String cycleName = String(cycleNameBytes);
 
         if (cycleName == "off") {
-            ledSetCycle(LED_CYCLE_OFF);
+            neopixel::setCycle(LED_CYCLE_OFF);
         } else if (cycleName == "on") {
-            ledSetCycle(LED_CYCLE_ON);
+            neopixel::setCycle(LED_CYCLE_ON);
         } else if(cycleName == "random") {
-            ledSetCycle(LED_CYCLE_RANDOM);
+            neopixel::setCycle(LED_CYCLE_RANDOM);
         } else if(cycleName == "motion") {
-            ledSetCycle(LED_CYCLE_MOTION);
+            neopixel::setCycle(LED_CYCLE_MOTION);
         } else if(cycleName == "blink") {
-            ledSetCycle(LED_CYCLE_BLINK);
+            neopixel::setCycle(LED_CYCLE_BLINK);
         } else if(cycleName == "twinkle") {
-            ledSetCycle(LED_CYCLE_TWINKLE);
+            neopixel::setCycle(LED_CYCLE_TWINKLE);
         } else if(cycleName == "rainbow") {
-            ledSetCycle(LED_CYCLE_RAINBOW);
+            neopixel::setCycle(LED_CYCLE_RAINBOW);
         } else {
             Output.println("Unkonwn cycle name");
         }
@@ -214,7 +216,7 @@ void console::led() {
             );
             return;
         }
-        ledSetColor(
+        neopixel::setColor(
             atoi(redBytes),
             atoi(greenBytes),
             atoi(blueBytes)
@@ -229,7 +231,7 @@ void console::led() {
             );
             return;
         }
-        ledSetSecondaryColor(
+        neopixel::setSecondaryColor(
             atoi(redBytes),
             atoi(greenBytes),
             atoi(blueBytes)
@@ -237,7 +239,7 @@ void console::led() {
     } else if (subcommand == "segment") {
         char* segmentBytes = commands.next();
 
-        ledSetSegmentSize(atoi(segmentBytes));
+        neopixel::setSegmentSize(atoi(segmentBytes));
     } else if (subcommand == "interval") {
         char* intervalBytes = commands.next();
         if(intervalBytes == NULL) {
@@ -247,7 +249,7 @@ void console::led() {
             return;
         }
 
-        ledSetInterval(atoi(intervalBytes));
+        neopixel::setInterval(atoi(intervalBytes));
     } else if (subcommand == "brightness") {
         char* brightnessBytes = commands.next();
         if(brightnessBytes == NULL) {
@@ -257,7 +259,7 @@ void console::led() {
             return;
         }
 
-        ledSetMaxBrightness(atoi(brightnessBytes));
+        neopixel::setMaxBrightness(atoi(brightnessBytes));
     } else if (subcommand == "preset") {
         char* presetNameBytes = commands.next();
         if(presetNameBytes == NULL) {
@@ -269,14 +271,14 @@ void console::led() {
         String presetName = String(presetNameBytes);
 
         if(presetName == "safety") {
-            ledActivatePreset(LED_PRESET_SAFETY);
+            neopixel::activatePreset(LED_PRESET_SAFETY);
         } else {
             Output.println("Unknown preset.");
         }
     } else if (subcommand == "disable") {
-        ledEnable(false);
+        neopixel::enable(false);
     } else if (subcommand == "ensable") {
-        ledEnable(true);
+        neopixel::enable(true);
     }
 }
 
@@ -325,7 +327,7 @@ void console::beep() {
     util::beep(frequency, duration);
 }
 
-void canBeep() {
+void can::beep() {
     uint8_t data[8];
     canCommands.getData(data);
 
@@ -547,7 +549,7 @@ void console::bridgeUART() {
     }
 }
 
-void canEnableBluetooth() {
+void can::enableBluetooth() {
     uint8_t data[8];
     canCommands.getData(data);
 
@@ -566,7 +568,7 @@ void console::printStatistics() {
     }
 }
 
-void canChargeEnable() {
+void can::chargeEnable() {
     uint8_t data[8];
     canCommands.getData(data);
 
@@ -575,7 +577,7 @@ void canChargeEnable() {
     power::enableBatteryCharging(enabled);
 }
 
-void canAutosleepEnable() {
+void can::autosleepEnable() {
     uint8_t data[8];
     canCommands.getData(data);
 
@@ -973,7 +975,7 @@ void console::showLTETimestamp() {
     Output.println(timestamp);
 }
 
-void canReceivePosition() {
+void can::receivePosition() {
     uint8_t data[8];
     canCommands.getData(data);
 

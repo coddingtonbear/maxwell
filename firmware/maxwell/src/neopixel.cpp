@@ -26,11 +26,11 @@ uint8_t phaseCount = 0;
 uint8_t segmentSize = 1;
 unsigned long lastCycle = 0;
 
-void ledSetup() {
+void neopixel::init() {
     pixels.begin();
 }
 
-void ledGetStatus(LedStatus& ledStatus) {
+void neopixel::getStatus(LedStatus& ledStatus) {
     ledStatus.red = (uint8_t)colorRed;
     ledStatus.green = (uint8_t)colorGreen;
     ledStatus.blue = (uint8_t)colorBlue;
@@ -44,16 +44,16 @@ void ledGetStatus(LedStatus& ledStatus) {
     ledStatus.interval = interval;
 }
 
-void ledActivatePreset(uint32 preset) {
+void neopixel::activatePreset(uint32 preset) {
     if(preset == LED_PRESET_SAFETY) {
-        ledSetCycle(LED_CYCLE_MOTION);
-        ledSetColor(255, 100, 0);
-        ledSetSecondaryColor(255, 255, 255);
-        ledSetMaxBrightness(32);
+        setCycle(LED_CYCLE_MOTION);
+        setColor(255, 100, 0);
+        setSecondaryColor(255, 255, 255);
+        setMaxBrightness(32);
     }
 }
 
-void ledSetCycle(uint32 _cycle) {
+void neopixel::setCycle(uint32 _cycle) {
     cycle = _cycle;
 
     if(cycle == LED_CYCLE_MOTION) {
@@ -69,36 +69,36 @@ void ledSetCycle(uint32 _cycle) {
         interval = 25;
     }
 
-    ledEnable(true);
+    enable(true);
 }
 
-void ledSetSegmentSize(uint32 _size) {
+void neopixel::setSegmentSize(uint32 _size) {
     segmentSize = _size;
 }
 
-void ledSetInterval(uint32 _interval) {
+void neopixel::setInterval(uint32 _interval) {
     interval = _interval;
 }
 
-void ledSetColor(uint8_t _red, uint8_t _green, uint8_t _blue) {
+void neopixel::setColor(uint8_t _red, uint8_t _green, uint8_t _blue) {
     colorRed = _red;
     colorGreen = _green;
     colorBlue = _blue;
     color = pixels.Color(_red, _green, _blue);
 }
 
-void ledSetSecondaryColor(uint8_t _red, uint8_t _green, uint8_t _blue) {
+void neopixel::setSecondaryColor(uint8_t _red, uint8_t _green, uint8_t _blue) {
     secondaryColorRed = _red;
     secondaryColorGreen = _green;
     secondaryColorBlue = _blue;
     secondaryColor = pixels.Color(_red, _green, _blue);
 }
 
-void ledSetMaxBrightness(uint8_t _brightness) {
+void neopixel::setMaxBrightness(uint8_t _brightness) {
     pixels.setBrightness(_brightness);
 }
 
-void ledCycle() {
+void neopixel::loop() {
     if(! enabled) {
         return;
     }
@@ -206,7 +206,7 @@ void ledCycle() {
 }
 
 
-void ledEnable(bool enable) {
+void neopixel::enable(bool enable) {
     enabled = enable;
     digitalWrite(PIN_ENABLE_BATT_POWER, enabled);
 }

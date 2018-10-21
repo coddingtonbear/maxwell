@@ -20,18 +20,20 @@ struct LedStatus {
     uint32_t interval;
 };
 
-void ledSetup();
-void ledCycle();
+namespace neopixel {
+    void init();
+    void loop();
 
-void ledSetCycle(uint32 _cycle);
-void ledActivatePreset(uint32 preset);
-void ledSetInterval(uint32 _interval);
-void ledSetSegmentSize(uint32 _size);
-void ledSetColor(uint8_t _red, uint8_t _green, uint8_t blue);
-void ledSetSecondaryColor(uint8_t _red, uint8_t _green, uint8_t blue);
-void ledSetMaxBrightness(uint8_t);
-void ledGetStatus(LedStatus&);
+    void enable(bool);
 
-void ledEnable(bool);
-uint32 lowestCommonDenominator(uint32, uint32);
-uint32 adjustedColor(uint32, uint32, uint32);
+    void getStatus(LedStatus&);
+
+    void activatePreset(uint32 preset);
+
+    void setCycle(uint32 _cycle);
+    void setInterval(uint32 _interval);
+    void setSegmentSize(uint32 _size);
+    void setColor(uint8_t _red, uint8_t _green, uint8_t blue);
+    void setSecondaryColor(uint8_t _red, uint8_t _green, uint8_t blue);
+    void setMaxBrightness(uint8_t);
+}

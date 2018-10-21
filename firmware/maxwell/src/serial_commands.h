@@ -8,10 +8,25 @@ void handleCANCommand(CANCommand::CANMessage* command);
 namespace can {
     void init();
 
-    void sleep();
+    void beep();
+
+    void setLedCycle();
+    void setLedColor();
+    void setLedBrightness();
+    void setLedInterval();
+    void ledEnable();
+    void ledPreset();
+
     void reset();
+    void sleep();
+    void chargeEnable();
 
     void flash();
+    void autosleepEnable();
+
+    void receivePosition();
+
+    void enableBluetooth();
 };
 
 namespace console {
@@ -68,19 +83,3 @@ namespace console {
 
     void sendStatusUpdate();
 };
-
-void canBeep();
-void canSetLedCycle();
-void canSetLedColor();
-void canSetLedColor2();
-void canSetLedBrightness();
-void canSetLedInterval();
-void canLedEnable();
-void canLedPreset();
-void canEnableBluetooth();
-void canChargeEnable();
-void setLedInterval();
-void getGpsCoordinates();
-void doSendCanMesage();
-void canAutosleepEnable();
-void canReceivePosition();

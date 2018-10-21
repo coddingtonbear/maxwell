@@ -105,7 +105,7 @@ void tasks::loop() {
 
 void tasks::taskCanbusLedStatusAnnounceCallback() {
     LedStatus ledStatus;
-    ledGetStatus(ledStatus);
+    neopixel::getStatus(ledStatus);
 
     CANLedStatus ledStatusMsg;
     ledStatusMsg.enabled = ledStatus.enabled;
@@ -170,7 +170,7 @@ void tasks::taskVoltageWarningCallback() {
 }
 void tasks::taskCanbusStatusIntervalCallback() {
     LedStatus ledStatus;
-    ledGetStatus(ledStatus);
+    neopixel::getStatus(ledStatus);
     uint32 logErrorCode = Log.getErrorCode();
 
     CANStatusMainMC status;
