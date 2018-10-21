@@ -48,7 +48,7 @@ void status::refreshSpeed() {
         pulseCount > 0 ||
         getChargingStatus() == CHARGING_STATUS_CHARGING_NOW
     ) {
-        renewKeepalive();
+        refreshSleepTimeout();
     }
 
     speedCounterPrev = speedCounter;

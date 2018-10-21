@@ -749,10 +749,13 @@ void cmdDisableBluetooth() {
 }
 
 void setBluetoothTimeoutSeconds() {
-    char* seconds = commands.next();
-    if(seconds != NULL) {
-        setBluetoothKeepalive(millis() + (atoi(seconds) * 1000));
+    char* seconds_str = commands.next();
+    uint32_t seconds = 60 * 60;
+    if(seconds_str != NULL) {
+        seconds = atoi(seconds_str);
     }
+
+    delayBluetoothTimeout(millis() + (seconds * 1000));
 }
 
 void sdErrorState() {

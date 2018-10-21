@@ -8,6 +8,8 @@
 #include <SPI.h>
 #include <ArduinoJson.h>
 #include <SC16IS750.h>
+#include <KeepAlive.h>
+#include <multiserial.h>
 
 #include "multiserial.h"
 #include "can_message_ids.h"
@@ -27,8 +29,6 @@
 uint32 lastKeepalive = 0;
 uint32 lastBluetoothKeepalive = 0;
 
-bool autosleepEnabled = true;
-
 SC16IS750 LTEUart = SC16IS750(
     PIN_SPI_CS_B,
     SC16IS750_CHAN_A,
@@ -46,6 +46,9 @@ Logger Log(&filesystem);
 RTClock Clock(RTCSEL_LSE);
 
 SPIClass SPIBus(2);
+
+KeepAlive SleepTimeout(INACTIVITY_SLEEP_DURATION);
+KeepAlive BluetoothTimeout(BLUETOOTH_TIMEOUT);
 
 void setup() {
     afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
@@ -269,17 +272,17 @@ void loop() {
     iwdg_feed();
 
     // If we're past the keepalive duration; go to sleep
-    if((millis() > (lastKeepalive + INACTIVITY_SLEEP_DURATION)) && autosleepEnabled) {
+    if(SleepTimeout.isTimedOut()) {
         sleep();
     }
     // If we're past the keepalive for bluetooth, deactivate bluetooth, too.
-    if((millis() > (lastBluetoothKeepalive + BLUETOOTH_TIMEOUT)) && autosleepEnabled) {
+    if(BluetoothTimeout.isTimedOut()) {
         ble::enableBluetooth(false);
     }
     // If there are bytes on the serial buffer; keep the device alive
     if(Output.available()) {
-        renewKeepalive();
-        renewBluetoothKeepalive();
+        SleepTimeout.refresh();
+        BluetoothTimeout.refresh();
     }
     commandLoop();
 
@@ -383,29 +386,9 @@ void sleep(bool allowMovementWake) {
     }
 }
 
-void renewKeepalive() {
-    if(lastKeepalive < millis()) {
-        setKeepalive(millis());
-    }
-}
-
-void setBluetoothKeepalive(uint32_t newValue) {
-    lastBluetoothKeepalive = newValue;
-}
-
-void setKeepalive(uint32_t newValue) {
-    lastKeepalive = newValue;
-}
-
 void enableAutosleep(bool enable) {
     Log.log("Autosleep enabled: " + String(enable));
-    autosleepEnabled = enable;
-}
-
-void renewBluetoothKeepalive() {
-    if(lastBluetoothKeepalive < millis()) {
-        setBluetoothKeepalive(millis());
-    }
+    SleepTimeout.enable(enable);
 }
 
 bool syncTimestampWithLTE() {
@@ -435,4 +418,12 @@ void restoreBackupTime() {
 void saveBackupTime() {
     time_t currentTime = Clock.getTime();
     bkp_write(0, currentTime);
+}
+
+void refreshSleepTimeout() {
+    SleepTimeout.refresh();
+}
+
+void delayBluetoothTimeout(uint32_t value) {
+    BluetoothTimeout.delayUntil(value);
 }

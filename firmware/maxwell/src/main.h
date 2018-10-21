@@ -37,13 +37,11 @@ String sendBluetoothCommand(String);
 void enableBatteryPower(bool);
 void enableAutosleep(bool);
 
-void renewKeepalive();
-void renewBluetoothKeepalive();
-void setKeepalive(uint32_t);
-void setBluetoothKeepalive(uint32_t);
-
 void restoreBackupTime();
 void saveBackupTime();
+
+void refreshSleepTimeout();
+void delayBluetoothTimeout(uint32_t);
 
 void beep(uint32_t, uint32_t);
 
@@ -51,8 +49,6 @@ void bridgeUART(HardwareSerial*, uint32_t);
 void bridgeUART(SC16IS750*);
 HardwareSerial* uartNumberToInterface(uint32_t);
 void sleep(bool allowMovementWake=true);
-
-void intSpeedUpdate();
 
 bool syncTimestampWithLTE();
 
