@@ -165,8 +165,11 @@ void setup() {
 
     neopixel::init();
 
-    setupCommands();
-    commandPrompt();
+    // Set up console and can command manager
+    can::init();
+    console::init();
+
+    console::prompt();
 
     Output.println("Ready.");
     Log.log("Ready");
@@ -182,7 +185,7 @@ void loop() {
         power::refreshSleepTimeout();
         ble::refreshTimeout();
     }
-    commandLoop();
+    console::loop();
 
     neopixel::loop();
 
@@ -212,7 +215,7 @@ void loop() {
             #endif
             Log.logCanIncoming(canMsg);
 
-            handleCANCommand(&command);
+            can::handle(&command);
 
             CanBus.free();
         }

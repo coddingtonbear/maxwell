@@ -1,12 +1,8 @@
 #pragma once
 
-void setupCommands();
-void commandPrompt();
-void commandLoop();
-void handleCANCommand(CANCommand::CANMessage* command);
-
 namespace can {
     void init();
+    void handle(CANCommand::CANMessage* command);
 
     void beep();
 
@@ -32,6 +28,8 @@ namespace can {
 namespace console {
     void init();
     void unrecognized(const char *command);
+    void prompt();
+    void loop();
 
     void uptime();
     void hello();

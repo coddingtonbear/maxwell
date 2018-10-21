@@ -99,20 +99,15 @@ void can::init() {
     canCommands.addCommand(CAN_CMD_BT_ENABLE, can::enableBluetooth);
 }
 
-void setupCommands() {
-    console::init();
-    can::init();
-}
-
-void commandPrompt() {
+void console::prompt() {
     commands.prompt();
 }
 
-void commandLoop() {
+void console::loop() {
     commands.readSerial();
 }
 
-void handleCANCommand(CANCommand::CANMessage* command) {
+void can::handle(CANCommand::CANMessage* command) {
     canCommands.processCANMessage(command);
 }
 
