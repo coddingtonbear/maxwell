@@ -69,11 +69,11 @@ bool status::sendStatusUpdate() {
 
     if(latitude && longitude) {
         JsonObject& position = root.createNestedObject("position");
-        position["latitude"] = String(latitude);
-        position["longitude"] = String(longitude);
+        position["latitude"] = (double)latitude / 1e6;
+        position["longitude"] = (double)longitude / 1e6;
     }
-    //root["velocity_mph"] = currentSpeedMph.getValue();
-    root["timestamp"] = Clock.getTime();
+    root["velocity_mph"] = currentSpeedMph.getValue();
+    root["timestamp"] = (uint)Clock.getTime();
     root["uptime"] = millis();
 
     uint32 errCode = Log.getErrorCode();

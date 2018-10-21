@@ -18,6 +18,8 @@ namespace tasks {
     void init();
     void loop();
 
+    void enableLTEStatusManager(bool _enable=true);
+
     void taskVoltageCallback();
     void taskVoltageWarningCallback();
     void taskCanbusVoltageBatteryAnnounceCallback();

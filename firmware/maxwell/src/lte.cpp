@@ -7,6 +7,7 @@
 #include "main.h"
 #include "pin_map.h"
 #include "lte.h"
+#include "tasks.h"
 
 Adafruit_FONA_LTE LTE = Adafruit_FONA_LTE();
 
@@ -32,6 +33,8 @@ bool lte::asyncEnable(bool enabled) {
 
     lteTargetStatus = enabled ? LTE_STATE_ON : LTE_STATE_OFF;
 
+    tasks::enableLTEStatusManager();
+
     return true;
 }
 
@@ -52,6 +55,7 @@ void lte::asyncManagerLoop() {
         nextLteTargetStatus = LTE_STATE_NULL;
         lteTargetStatus = LTE_STATE_NULL;
         maxNextLteStatusTransition = 0;
+        tasks::enableLTEStatusManager(false);
         return;
     }
 
@@ -86,6 +90,7 @@ void lte::asyncManagerLoop() {
                 enable();
                 lteTargetStatus = LTE_STATE_NULL;
                 nextLteTargetStatus = LTE_STATE_NULL;
+                tasks::enableLTEStatusManager(false);
                 maxNextLteStatusTransition = 0;
             } else {
                 #ifdef LTE_DEBUG
@@ -101,6 +106,7 @@ void lte::asyncManagerLoop() {
         lteTargetStatus = LTE_STATE_NULL;
         nextLteTargetStatus = LTE_STATE_NULL;
         maxNextLteStatusTransition = 0;
+        tasks::enableLTEStatusManager(false);
     }
 }
 

@@ -5,7 +5,7 @@
 #define LTE_ENABLED true
 #define LTE_DISABLED false
 
-//#define LTE_DEBUG
+#define LTE_DEBUG
 
 #ifdef LTE_DEBUG
 #define ADAFRUIT_FONA_DEBUG
