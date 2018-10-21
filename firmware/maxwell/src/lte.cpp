@@ -30,13 +30,6 @@ bool lte::asyncEnable(bool enabled) {
         return false;
     }
 
-    // If we're already enabled, we don't need to do anything at all
-    if(enabled && isPoweredOn()) {
-        return true;
-    } else if ((!enabled) && (!isPoweredOn())) {
-        return true;
-    }
-
     lteTargetStatus = enabled ? LTE_STATE_ON : LTE_STATE_OFF;
 
     return true;
