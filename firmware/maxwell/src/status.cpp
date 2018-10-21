@@ -46,9 +46,9 @@ void status::refreshSpeed() {
 
     if (
         pulseCount > 0 ||
-        getChargingStatus() == CHARGING_STATUS_CHARGING_NOW
+        power::getChargingStatus() == CHARGING_STATUS_CHARGING_NOW
     ) {
-        refreshSleepTimeout();
+        power::refreshSleepTimeout();
     }
 
     speedCounterPrev = speedCounter;
@@ -84,8 +84,8 @@ bool status::sendStatusUpdate() {
     }
 
     JsonObject& power = root.createNestedObject("power");
-    power["battery_voltage"] = getVoltage(VOLTAGE_BATTERY);
-    power["current_amps"] = getCurrentUsage();
+    power["battery_voltage"] = power::getVoltage(VOLTAGE_BATTERY);
+    power["current_amps"] = power::getCurrentUsage();
 
     LedStatus ledStatus;
     ledGetStatus(ledStatus);

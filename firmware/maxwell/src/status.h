@@ -16,4 +16,4 @@ namespace status {
     double getSpeed();
 
     bool sendStatusUpdate();
-}
+};

@@ -11,17 +11,26 @@
 #define CHARGING_STATUS_FULLY_CHARGED 2
 #define CHARGING_STATUS_SHUTDOWN 3
 
-void initADCs();
-int getRawVoltageAdcValue(uint source);
-double getVoltage(uint source);
-double getCurrentUsage();
-uint8_t getChargingStatus();
-bool batteryChargingIsEnabled();
-void enableBatteryCharging(bool);
-double convertAdcToVoltage(uint32_t value);
+#define MOVEMENT_WAKE_ENABLED false
 
-void updatePowerMeasurements();
-uint32 calc_adc_SQR3(uint8*);
-uint8 dma_transfer_finished();
-void adc_to_ready();
-void set_dma();
+namespace power {
+    void initADCs();
+    int getRawVoltageAdcValue(uint source);
+    double getVoltage(uint source);
+    double getCurrentUsage();
+    uint8_t getChargingStatus();
+    bool batteryChargingIsEnabled();
+    void enableBatteryCharging(bool);
+    double convertAdcToVoltage(uint32_t value);
+
+    void updatePowerMeasurements();
+    uint32 calc_adc_SQR3(uint8*);
+    uint8 dma_transfer_finished();
+    void adc_to_ready();
+    void set_dma();
+
+    void sleep();
+    void checkSleepTimeout();
+    void enableAutosleep(bool);
+    void refreshSleepTimeout();
+};

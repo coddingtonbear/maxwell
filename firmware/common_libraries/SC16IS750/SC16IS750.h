@@ -22,6 +22,7 @@ Please keep the above information when you use this code in your project.
 #pragma once
 
 #include "Arduino.h"
+#include "SPI.h"
 
 //Device Address
 

@@ -1,11 +1,18 @@
 #include <Arduino.h>
 #include <RollingAverage.h>
+#include <STM32Sleep.h>
+#include <KeepAlive.h>
+#include <libmaple/adc.h>
+#include <libmaple/dma.h>
+#include <libmaple/iwdg.h>
+
 #include "main.h"
 #include "pin_map.h"
 #include "power.h"
-
-#include <libmaple/adc.h>
-#include <libmaple/dma.h>
+#include "lte.h"
+#include "util.h"
+#include "can_message_ids.h"
+#include "can.h"
 
 long int lastUpdated = 0;
 
@@ -22,7 +29,9 @@ uint32 adcbuf[POWER_SAMPLE_COUNT+1];
 uint8 ADC1_Sequence[] = {10, 0, 0, 0, 0, 0};
 uint8 ADC2_Sequence[] = {11, 0, 0, 0, 0, 0};
 
-void initADCs() {
+KeepAlive SleepTimeout(INACTIVITY_SLEEP_DURATION);
+
+void power::initADCs() {
     // Note: much of this was lifted from 
     // http://www.stm32duino.com/viewtopic.php?f=3&t=757&p=8474#p8474
 
@@ -52,7 +61,7 @@ void initADCs() {
 }
 
 // calculate values for SQR3. Function could be extended to also work for SQR2 and SQR1. As is, you can sequence only 6 sequences per ADC
-uint32 calc_adc_SQR3(uint8 adc_sequence[6]){
+uint32 power::calc_adc_SQR3(uint8 adc_sequence[6]){
   int SQR3=0;
 
   for (int i=0;i<6;i++)     // There are 6 available sequences in SQR3 (SQR2 also 6, and 4 in SQR1).
@@ -64,7 +73,7 @@ uint32 calc_adc_SQR3(uint8 adc_sequence[6]){
 } 
 
 // set only the registers that need to be reset before each conversion
-void adc_to_ready() {
+void power::adc_to_ready() {
   ADC1->regs->CR2 = ( ADC_CR2_CONT | ADC_CR2_DMA | ADC_CR2_EXTSEL | ADC_CR2_EXTTRIG); //0xe0102; cont conversion, DMA, right aligned, disable external; EXTSEL, exttrig=0,jswstart=0
   ADC2->regs->CR2 = ( ADC_CR2_CONT | ADC_CR2_EXTSEL | ADC_CR2_EXTTRIG); //0xe0002; 
   ADC1->regs->CR2 |= ADC_CR2_ADON;  // it is critical to enable ADC (bit 0=1) independently of all other changes to the CR2 register
@@ -72,7 +81,7 @@ void adc_to_ready() {
 }
 
 // check for DMA transfer finished, resetting isr bit
-uint8 dma_transfer_finished() {
+uint8 power::dma_transfer_finished() {
   if(dma_get_isr_bits(DMA1,DMA_CH1)==0x07) {
     int result=dma_get_irq_cause(DMA1,DMA_CH1);//<--clears isr bits
     return 1;
@@ -81,7 +90,7 @@ uint8 dma_transfer_finished() {
 }
 
 // initialize DMA1, Channel1 (ADC)
-void set_dma() {
+void power::set_dma() {
   dma_init(DMA1);
   dma_setup_transfer(DMA1, DMA_CH1, &ADC1->regs->DR, DMA_SIZE_32BITS,
                      adcbuf, DMA_SIZE_32BITS, DMA_MINC_MODE);
@@ -91,7 +100,7 @@ void set_dma() {
   dma_enable(DMA1, DMA_CH1);   
 }
 
-void updatePowerMeasurements() {
+void power::updatePowerMeasurements() {
     double tempVoltage;
     double tempBattVoltage;
     double tempSenseVoltage;
@@ -149,7 +158,7 @@ void updatePowerMeasurements() {
     lastChargingStatusSample = millis();
 }
 
-double getVoltage(uint source) {
+double power::getVoltage(uint source) {
     double result = 0;
 
     switch(source) {
@@ -164,19 +173,19 @@ double getVoltage(uint source) {
     return result;
 }
 
-double convertAdcToVoltage(uint32_t value) {
+double power::convertAdcToVoltage(uint32_t value) {
     return value * 2.5 * 2 / 4096;
 }
 
-double getCurrentUsage() {
+double power::getCurrentUsage() {
     return currentAmps.getValue();
 }
 
-bool batteryChargingIsEnabled() {
+bool power::batteryChargingIsEnabled() {
     return batteryChargingEnabled;
 }
 
-void enableBatteryCharging(bool enable) {
+void power::enableBatteryCharging(bool enable) {
     if(enable) {
         digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
         batteryChargingEnabled = true;
@@ -186,7 +195,7 @@ void enableBatteryCharging(bool enable) {
     }
 }
 
-uint8_t getChargingStatus() {
+uint8_t power::getChargingStatus() {
     // Use ADC3 because we're using a dual simultaneous sampling
     // mode for ADC1/2 for measuring power/current, and by default
     // analogRead uses ADC1
@@ -198,5 +207,85 @@ uint8_t getChargingStatus() {
         return CHARGING_STATUS_FULLY_CHARGED;
     } else {
         return CHARGING_STATUS_SHUTDOWN;
+    }
+}
+
+void power::enableAutosleep(bool enable) {
+    Log.log("Autosleep enabled: " + String(enable));
+    SleepTimeout.enable(enable);
+}
+
+void power::refreshSleepTimeout() {
+    SleepTimeout.refresh();
+}
+
+void power::checkSleepTimeout() {
+    if(SleepTimeout.isTimedOut()) {
+        power::sleep();
+    }
+}
+
+void power::sleep() {
+    Log.log("Sleep requested");
+    #if MOVEMENT_WAKE_ENABLED
+        Log.log("Movement wake enabled");
+    #endif
+
+    util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
+
+    // Stop LTE module
+    disableLTE();
+    LTEUart.GPIOSetPinMode(PIN_LTE_OE, INPUT);
+    LTEUart.sleep();
+
+    // Stop logging
+    Log.end();
+    filesystem.card()->spiStop();
+
+    Output.end();
+
+    // Disable canbus
+    CanMsg sleepMsg;
+    sleepMsg.IDE = CAN_ID_STD;
+    sleepMsg.RTR = CAN_RTR_DATA;
+    sleepMsg.ID = CAN_MAIN_MC_SLEEP;
+    sleepMsg.DLC = 0;
+    CanBus.send(&sleepMsg);
+    CanBus.end();
+
+    setGPIOModeToAllPins(GPIO_INPUT_FLOATING);
+    // Turn of CAN transceiver
+    pinMode(PIN_CAN_RS, OUTPUT);
+    digitalWrite(PIN_CAN_RS, HIGH);
+    // Disable buzzer
+    pinMode(PIN_BUZZER, OUTPUT);
+    digitalWrite(PIN_BUZZER, LOW);
+    //pinMode(PIN_ESP_BOOT_FLASH_, OUTPUT);
+    //digitalWrite(PIN_ESP_BOOT_FLASH_, LOW);
+    // Disable Bluetooth
+    pinMode(PIN_BT_DISABLE_, OUTPUT);
+    digitalWrite(PIN_BT_DISABLE_, LOW);
+    // Disable neopixel battery drain
+    pinMode(PIN_ENABLE_BATT_POWER, OUTPUT);
+    digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
+    // Enable battery charging
+    pinMode(PIN_ENABLE_BATT_CHARGE_, OUTPUT);
+    digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
+    // Configure wake conditions
+    attachInterrupt(PIN_I_POWER_ON, nvic_sys_reset, RISING);
+    #if MOVEMENT_WAKE_ENABLED
+        pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
+        attachInterrupt(PIN_I_SPEED, nvic_sys_reset, RISING);
+    #endif
+
+    systick_disable();
+    adc_disable_all();
+    disableAllPeripheralClocks();
+    bkp_init();
+    bkp_enable_writes();
+    while(true) {
+        iwdg_feed();
+        saveBackupTime();
+        sleepAndWakeUp(STOP, &Clock, 14);
     }
 }

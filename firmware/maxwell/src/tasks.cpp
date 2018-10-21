@@ -8,6 +8,7 @@
 #include "status.h"
 #include "lte.h"
 #include "bluetooth.h"
+#include "util.h"
 
 uint32 lastStatisticsUpdate = 0;
 
@@ -144,12 +145,12 @@ void tasks::taskCanbusLedStatusAnnounceCallback() {
 }
 
 void tasks::taskVoltageCallback() {
-    updatePowerMeasurements();
+    power::updatePowerMeasurements();
 
-    double voltage = getVoltage(VOLTAGE_BATTERY);
+    double voltage = power::getVoltage(VOLTAGE_BATTERY);
     if(voltage < VOLTAGE_LEVEL_SHUTDOWN) {
         Output.println("Low voltage; Shutdown initiated!");
-        sleep(false);
+        power::sleep();
     }
 }
 
@@ -160,7 +161,7 @@ void tasks::taskStatisticsCallback() {
 }
 
 void tasks::taskVoltageWarningCallback() {
-    double voltage = getVoltage(VOLTAGE_BATTERY);
+    double voltage = power::getVoltage(VOLTAGE_BATTERY);
     if(voltage < VOLTAGE_LEVEL_WARNING) {
         Output.print("Warning: low voltage (");
         Output.print(voltage, 2);
@@ -173,9 +174,9 @@ void tasks::taskCanbusStatusIntervalCallback() {
     uint32 logErrorCode = Log.getErrorCode();
 
     CANStatusMainMC status;
-    status.is_charging = getChargingStatus() == CHARGING_STATUS_CHARGING_NOW;
+    status.is_charging = power::getChargingStatus() == CHARGING_STATUS_CHARGING_NOW;
     status.lighting_enabled = ledStatus.enabled;
-    status.charging_enabled = batteryChargingIsEnabled();
+    status.charging_enabled = power::batteryChargingIsEnabled();
     status.bt_enabled = ble::bluetoothIsEnabled();
     status.has_valid_time = (Clock.getTime() > 1000000000);
     status.logging_now = !logErrorCode;
@@ -223,7 +224,7 @@ void tasks::taskCanbusVoltageBatteryAnnounceCallback() {
     message.ID = CAN_VOLTAGE_BATTERY;
     message.DLC = sizeof(double);
 
-    double voltage = getVoltage(VOLTAGE_BATTERY);
+    double voltage = power::getVoltage(VOLTAGE_BATTERY);
     unsigned char *voltageBytes = reinterpret_cast<unsigned char*>(&voltage);
     for(uint8 i = 0; i < sizeof(double); i++) {
         message.Data[i] = voltageBytes[i];
@@ -239,7 +240,7 @@ void tasks::taskCanbusCurrentAnnounceCallback() {
     message.ID = CAN_AMPS_CURRENT;
     message.DLC = sizeof(double);
 
-    double current = getCurrentUsage();
+    double current = power::getCurrentUsage();
     unsigned char *currentBytes = reinterpret_cast<unsigned char*>(&current);
     for(uint8 i = 0; i < sizeof(double); i++) {
         message.Data[i] = currentBytes[i];
@@ -255,7 +256,7 @@ void tasks::taskCanbusChargingStatusAnnounceCallback() {
     message.ID = CAN_CHARGING_STATUS;
     message.DLC = sizeof(uint8_t);
 
-    uint8_t status = getChargingStatus();
+    uint8_t status = power::getChargingStatus();
     unsigned char *statusBytes = reinterpret_cast<byte*>(&status);
     for(uint8 i = 0; i < sizeof(uint8_t); i++) {
         message.Data[i] = statusBytes[i];
@@ -303,7 +304,7 @@ void tasks::taskLTEStatusManagerCallback() {
 }
 
 void tasks::taskLTETimestampSyncCallback() {
-    if(syncTimestampWithLTE()) {
+    if(util::syncTimestampWithLTE()) {
         // We've synced successfuly; we can disable now
         taskLTETimestampSync.disable();
     }

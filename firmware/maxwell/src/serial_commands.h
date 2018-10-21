@@ -5,21 +5,36 @@ void commandPrompt();
 void commandLoop();
 void handleCANCommand(CANCommand::CANMessage* command);
 
-void unrecognized(const char *command);
-void uptime();
-void reset();
+namespace can {
+    void init();
+
+    void sleep();
+    void reset();
+};
+
+namespace console {
+    void init();
+    void unrecognized(const char *command);
+
+    void uptime();
+    void hello();
+    void beep();
+    void led();
+    void bridgeUART();
+    void printStatistics();
+
+    void voltageMeasurement();
+    void charge();
+    void isChargingNow();
+    void currentUsage();
+
+    void sleep();
+    void bleCmd();
+    void reset();
+};
+
 void flash();
-void doSleep();
-void hello();
-void bluetooth();
-void voltageMeasurement();
-void isChargingNow();
-void currentUsage();
-void doBeep();
-void doBridgeUART();
 void canBeep();
-void charge();
-void led();
 void canSetLedCycle();
 void canSetLedColor();
 void canSetLedColor2();
@@ -38,7 +53,6 @@ void cmdDisableAutosleep();
 void cmdEnableAutosleep();
 void canAutosleepEnable();
 void setBluetoothTimeoutSeconds();
-void printStatistics();
 void logStatus();
 void logList();
 void logPrint();

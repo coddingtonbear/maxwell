@@ -1,14 +1,12 @@
 #include <CANCommand.h>
-#include <STM32Sleep.h>
+#include "main.h"
 #include <Arduino.h>
-#include <TimerFreeTone.h>
 #include <HardwareCAN.h>
 #include <libmaple/iwdg.h>
 #include <SdFat.h>
 #include <SPI.h>
 #include <ArduinoJson.h>
 #include <SC16IS750.h>
-#include <KeepAlive.h>
 #include <multiserial.h>
 
 #include "multiserial.h"
@@ -24,10 +22,8 @@
 #include "status.h"
 #include "tasks.h"
 #include "bluetooth.h"
+#include "util.h"
 
-
-uint32 lastKeepalive = 0;
-uint32 lastBluetoothKeepalive = 0;
 
 SC16IS750 LTEUart = SC16IS750(
     PIN_SPI_CS_B,
@@ -46,9 +42,6 @@ Logger Log(&filesystem);
 RTClock Clock(RTCSEL_LSE);
 
 SPIClass SPIBus(2);
-
-KeepAlive SleepTimeout(INACTIVITY_SLEEP_DURATION);
-KeepAlive BluetoothTimeout(BLUETOOTH_TIMEOUT);
 
 void setup() {
     afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
@@ -146,10 +139,10 @@ void setup() {
     pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
     attachInterrupt(PIN_I_SPEED, status::intSpeedUpdate, RISING);
 
-    initADCs();
-    enableBatteryCharging(true);
+    power::initADCs();
+    power::enableBatteryCharging(true);
 
-    TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
+    util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
 
     //GPSSerial.begin(9600);
     //gpsWake();
@@ -179,110 +172,15 @@ void setup() {
     Log.log("Ready");
 }
 
-String sendBluetoothCommand(String command) {
-    String result;
-
-    Output.flush();
-
-    delay(250);
-    digitalWrite(PIN_BT_KEY, HIGH);
-    delay(250);
-    Output.println(command);
-    Output.flush();
-    delay(250);
-    digitalWrite(PIN_BT_KEY, LOW);
-    delay(250);
-
-    uint32 started = millis();
-
-    Output.flush();
-    while(millis() < started + 1000) {
-        while(Output.available() > 0) {
-            result += (char)Output.read();
-        }
-    }
-    Output.flush();
-    delay(100);
-
-    return result;
-}
-
-void bridgeUART(HardwareSerial* bridged, uint32_t baud) {
-    bridged->begin(baud);
-
-    while(true) {
-        iwdg_feed();
-        if (Output.available()) {
-            uint8_t value = Output.read();
-
-            if (value == 4) {
-                break;
-            }
-            bridged->write(value);
-        }
-        if (bridged->available()) {
-            Output.write(bridged->read());
-        }
-    }
-
-    Output.begin();
-}
-
-void bridgeUART(SC16IS750* bridged) {
-    while(true) {
-        iwdg_feed();
-        if (Output.available()) {
-            uint8_t value = Output.read();
-
-            if (value == 4) {
-                break;
-            }
-            bridged->write(value);
-        }
-        if (bridged->available()) {
-            Output.write(bridged->read());
-        }
-    }
-
-    Output.begin();
-}
-
-HardwareSerial* uartNumberToInterface(uint32_t uartNumber) {
-    HardwareSerial* uart;
-    if(uartNumber == 1) {
-        uart = &BTSerial;
-    } else if (uartNumber == 2) {
-        uart = &UART2;
-    } else if (uartNumber == 3) {
-        uart = &UART3;
-    } else if (uartNumber == 4) {
-        uart = &UART4;
-    } else if (uartNumber == 5) {
-        uart = &UART5;
-    }
-
-    return uart;
-}
-
-void beep(uint32_t frequency, uint32_t duration) {
-    TimerFreeTone(PIN_BUZZER, frequency, duration);
-}
-
 void loop() {
     iwdg_feed();
 
-    // If we're past the keepalive duration; go to sleep
-    if(SleepTimeout.isTimedOut()) {
-        sleep();
-    }
-    // If we're past the keepalive for bluetooth, deactivate bluetooth, too.
-    if(BluetoothTimeout.isTimedOut()) {
-        ble::enableBluetooth(false);
-    }
+    power::checkSleepTimeout();
+    ble::checkTimeout();
     // If there are bytes on the serial buffer; keep the device alive
     if(Output.available()) {
-        SleepTimeout.refresh();
-        BluetoothTimeout.refresh();
+        power::refreshSleepTimeout();
+        ble::refreshTimeout();
     }
     commandLoop();
 
@@ -321,93 +219,6 @@ void loop() {
     }
 }
 
-void sleep(bool allowMovementWake) {
-    Log.log("Sleep requested");
-    if(allowMovementWake) {
-        Log.log("Movement wake enabled");
-    }
-
-    TimerFreeTone(PIN_BUZZER, CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
-
-    // Stop LTE module
-    disableLTE();
-    LTEUart.GPIOSetPinMode(PIN_LTE_OE, INPUT);
-    LTEUart.sleep();
-
-    // Stop logging
-    Log.end();
-    filesystem.card()->spiStop();
-
-    Output.end();
-
-    // Disable canbus
-    CanMsg sleepMsg;
-    sleepMsg.IDE = CAN_ID_STD;
-    sleepMsg.RTR = CAN_RTR_DATA;
-    sleepMsg.ID = CAN_MAIN_MC_SLEEP;
-    sleepMsg.DLC = 0;
-    CanBus.send(&sleepMsg);
-    CanBus.end();
-
-    setGPIOModeToAllPins(GPIO_INPUT_FLOATING);
-    // Turn of CAN transceiver
-    pinMode(PIN_CAN_RS, OUTPUT);
-    digitalWrite(PIN_CAN_RS, HIGH);
-    // Disable buzzer
-    pinMode(PIN_BUZZER, OUTPUT);
-    digitalWrite(PIN_BUZZER, LOW);
-    //pinMode(PIN_ESP_BOOT_FLASH_, OUTPUT);
-    //digitalWrite(PIN_ESP_BOOT_FLASH_, LOW);
-    // Disable Bluetooth
-    pinMode(PIN_BT_DISABLE_, OUTPUT);
-    digitalWrite(PIN_BT_DISABLE_, LOW);
-    // Disable neopixel battery drain
-    pinMode(PIN_ENABLE_BATT_POWER, OUTPUT);
-    digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
-    // Enable battery charging
-    pinMode(PIN_ENABLE_BATT_CHARGE_, OUTPUT);
-    digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
-    // Configure wake conditions
-    attachInterrupt(PIN_I_POWER_ON, nvic_sys_reset, RISING);
-    if (allowMovementWake && MOVEMENT_WAKE_ENABLED) {
-        pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
-        attachInterrupt(PIN_I_SPEED, nvic_sys_reset, RISING);
-    }
-
-    systick_disable();
-    adc_disable_all();
-    disableAllPeripheralClocks();
-    bkp_init();
-    bkp_enable_writes();
-    while(true) {
-        iwdg_feed();
-        saveBackupTime();
-        sleepAndWakeUp(STOP, &Clock, 14);
-    }
-}
-
-void enableAutosleep(bool enable) {
-    Log.log("Autosleep enabled: " + String(enable));
-    SleepTimeout.enable(enable);
-}
-
-bool syncTimestampWithLTE() {
-    if(!lteIsEnabled()){
-        return false;
-    }
-    time_t lteTimestamp = getLTETimestamp();
-
-    if(lteTimestamp < 1) {
-        return false;
-    }
-
-    // Now convert to my timezone
-    lteTimestamp += (TIMEZONE_OFFSET_MINUTES * 60);
-
-    Clock.setTime(lteTimestamp);
-    return true;
-}
-
 void restoreBackupTime() {
     uint16_t backedUp = bkp_read(0);
     uint16_t uptime = millis() / 1000;
@@ -420,10 +231,3 @@ void saveBackupTime() {
     bkp_write(0, currentTime);
 }
 
-void refreshSleepTimeout() {
-    SleepTimeout.refresh();
-}
-
-void delayBluetoothTimeout(uint32_t value) {
-    BluetoothTimeout.delayUntil(value);
-}

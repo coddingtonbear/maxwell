@@ -14,6 +14,7 @@
 #include "status.h"
 #include "lte.h"
 #include "bluetooth.h"
+#include "util.h"
 
 SerialCommand commands(&Output);
 CANCommand canCommands;
@@ -22,36 +23,26 @@ SdFile openFile;
 
 uint8_t testId = 0;
 
-void setupCommands() {
-    commands.addCommand("uptime", uptime);
-    commands.addCommand("ping", hello);
-    commands.addCommand("beep", doBeep);
-    canCommands.addCommand(CAN_CMD_BEEP, canBeep);
-    commands.addCommand("led", led);
-    canCommands.addCommand(CAN_CMD_LED_CYCLE, canSetLedCycle);
-    canCommands.addCommand(CAN_CMD_LED_COLOR, canSetLedColor);
-    canCommands.addCommand(CAN_CMD_LED_BRIGHTNESS, canSetLedBrightness);
-    canCommands.addCommand(CAN_CMD_LED_INTERVAL, canSetLedInterval);
-    canCommands.addCommand(CAN_CMD_LED_ENABLE, canLedEnable);
-    canCommands.addCommand(CAN_CMD_LED_PRESET, canLedPreset);
-    commands.addCommand("bridge_uart", doBridgeUART);
-    commands.addCommand("stats", printStatistics);
+void console::init() {
+    commands.setDefaultHandler(console::unrecognized);
 
-    commands.addCommand("voltage", voltageMeasurement);
-    commands.addCommand("charge", charge);
-    commands.addCommand("charging_status", isChargingNow);
-    commands.addCommand("current", currentUsage);
+    commands.addCommand("uptime", console::uptime);
+    commands.addCommand("ping", console::hello);
+    commands.addCommand("beep", console::beep);
+    commands.addCommand("led", console::led);
+    commands.addCommand("bridge_uart", console::bridgeUART);
+    commands.addCommand("stats", console::printStatistics);
 
-    commands.addCommand("sleep", doSleep);
-    commands.addCommand("btcmd", bluetooth);
-    commands.addCommand("reset", reset);
-    canCommands.addCommand(CAN_CMD_MAIN_MC_RESET, reset);
-    canCommands.addCommand(CAN_CMD_MAIN_MC_SLEEP, doSleep);
-    canCommands.addCommand(CAN_CMD_CHARGE_ENABLE, canChargeEnable);
+    commands.addCommand("voltage", console::voltageMeasurement);
+    commands.addCommand("charge", console::charge);
+    commands.addCommand("charging_status", console::isChargingNow);
+    commands.addCommand("current", console::currentUsage);
+
+    commands.addCommand("sleep", console::sleep);
+    commands.addCommand("btcmd", console::bleCmd);
+    commands.addCommand("reset", console::reset);
 
     commands.addCommand("flash", flash);
-    canCommands.addCommand(CAN_CMD_MAIN_MC_FLASH, flash);
-    canCommands.addCommand(CAN_CMD_AUTOSLEEP_ENABLE, canAutosleepEnable);
     commands.addCommand("enable_autosleep", cmdEnableAutosleep);
     commands.addCommand("disable_autosleep", cmdEnableAutosleep);
     commands.addCommand("disable_bluetooth", cmdDisableBluetooth);
@@ -68,7 +59,6 @@ void setupCommands() {
 
     commands.addCommand("send_can", send_can);
     commands.addCommand("emit_can", emit_can);
-    canCommands.addCommand(CAN_TEST, emit_can);
 
     commands.addCommand("set_uart_register", setUartRegister);
     commands.addCommand("get_uart_register", getUartRegister);
@@ -84,10 +74,33 @@ void setupCommands() {
     commands.addCommand("set_time", setTime);
     commands.addCommand("get_time", getTime);
     commands.addCommand("send_status", cmdSendStatusUpdate);
+}
+
+void can::init() {
+    canCommands.addCommand(CAN_CMD_BEEP, canBeep);
+
+    canCommands.addCommand(CAN_CMD_LED_CYCLE, canSetLedCycle);
+    canCommands.addCommand(CAN_CMD_LED_COLOR, canSetLedColor);
+    canCommands.addCommand(CAN_CMD_LED_BRIGHTNESS, canSetLedBrightness);
+    canCommands.addCommand(CAN_CMD_LED_INTERVAL, canSetLedInterval);
+    canCommands.addCommand(CAN_CMD_LED_ENABLE, canLedEnable);
+    canCommands.addCommand(CAN_CMD_LED_PRESET, canLedPreset);
+
+    canCommands.addCommand(CAN_CMD_MAIN_MC_RESET, can::reset);
+    canCommands.addCommand(CAN_CMD_MAIN_MC_SLEEP, can::sleep);
+    canCommands.addCommand(CAN_CMD_CHARGE_ENABLE, canChargeEnable);
+
+    canCommands.addCommand(CAN_CMD_MAIN_MC_FLASH, flash);
+    canCommands.addCommand(CAN_CMD_AUTOSLEEP_ENABLE, canAutosleepEnable);
+
+    canCommands.addCommand(CAN_TEST, emit_can);
 
     canCommands.addCommand(CAN_GPS_POSITION, canReceivePosition);
+}
 
-    commands.setDefaultHandler(unrecognized);
+void setupCommands() {
+    console::init();
+    can::init();
 }
 
 void commandPrompt() {
@@ -154,7 +167,7 @@ void canLedPreset() {
     ledActivatePreset(preset);
 }
 
-void led() {
+void console::led() {
     char* subcommandBytes = commands.next();
     if(subcommandBytes == NULL) {
         Output.println(
@@ -268,7 +281,7 @@ void led() {
     }
 }
 
-void reset() {
+void console::reset() {
     Output.println(
         "Disconnect within 5 seconds to prevent booting into Flash mode..."
     );
@@ -293,7 +306,11 @@ void reset() {
     nvic_sys_reset();
 }
 
-void doBeep() {
+void can::reset() {
+    nvic_sys_reset();
+}
+
+void console::beep() {
     int frequency = 554;
     int duration = 100;
     
@@ -306,7 +323,7 @@ void doBeep() {
         duration = atoi(durationString);
     }
 
-    beep(frequency, duration);
+    util::beep(frequency, duration);
 }
 
 void canBeep() {
@@ -321,14 +338,14 @@ void canBeep() {
     tone(PIN_BUZZER, frequency, duration);
 }
 
-void charge() {
+void console::charge() {
     int enable = 1;
     char* state = commands.next();
     if(state != NULL) {
         enable = atoi(state);
     }
 
-    enableBatteryCharging(enable);
+    power::enableBatteryCharging(enable);
     if(enable) {
         Output.println("Battery charging enabled.");
     } else {
@@ -336,8 +353,8 @@ void charge() {
     }
 }
 
-void isChargingNow() {
-    uint8_t chargingStatus = getChargingStatus();
+void console::isChargingNow() {
+    uint8_t chargingStatus = power::getChargingStatus();
 
     switch (chargingStatus) {
         case CHARGING_STATUS_CHARGING_NOW:
@@ -352,28 +369,28 @@ void isChargingNow() {
     }
 }
 
-void currentUsage() {
-    Output.println(getCurrentUsage(), 6);
+void console::currentUsage() {
+    Output.println(power::getCurrentUsage(), 6);
 }
 
-void voltageMeasurement() {
+void console::voltageMeasurement() {
     String source = String((char*)commands.next());
 
     if(source == "battery") {
-        Output.println(getVoltage(VOLTAGE_BATTERY), 6);
+        Output.println(power::getVoltage(VOLTAGE_BATTERY), 6);
     } else if(source == "sense") {
-        Output.println(getVoltage(VOLTAGE_SENSE), 6);
+        Output.println(power::getVoltage(VOLTAGE_SENSE), 6);
     } else {
         Output.println("Unknown source: " + source);
     }
 }
 
-void unrecognized(const char *command) {
+void console::unrecognized(const char *command) {
     Output.print("Unknown command: ");
     Output.println(command);
 }
 
-void uptime() {
+void console::uptime() {
     Output.println(millis());
 }
 
@@ -396,7 +413,7 @@ void flash() {
     nvic_sys_reset();
 }
 
-void hello() {
+void console::hello() {
     char *arg;
     arg = commands.next();
 
@@ -408,7 +425,7 @@ void hello() {
     Output.println();
 }
 
-void bluetooth() {
+void console::bleCmd() {
     String btcommand;
 
     char *arg;
@@ -426,7 +443,7 @@ void bluetooth() {
         btcommand += String(arg);
     }
 
-    String result = sendBluetoothCommand(btcommand);
+    String result = ble::sendCommand(btcommand);
 
     Output.print(result);
 }
@@ -473,11 +490,15 @@ void send_can() {
     CanBus.send(&testMsg);
 }
 
-void doSleep() {
-    sleep();
+void console::sleep() {
+    power::sleep();
 }
 
-void doBridgeUART() {
+void can::sleep() {
+    power::sleep();
+}
+
+void console::bridgeUART() {
     char* uartNumberString = commands.next();
     uint8_t uartNumber;
     uint baud;
@@ -495,12 +516,12 @@ void doBridgeUART() {
         Output.print("Bridging with UART ");
         Output.println(uartNumber);
         Output.println("==========");
-        bridgeUART(&uart);
+        util::bridgeUART(&uart);
         Output.println();
         Output.println("==========");
         Output.println("Bridge teardown completed");
     } else {
-        HardwareSerial* uart = uartNumberToInterface(uartNumber);
+        HardwareSerial* uart = util::uartNumberToInterface(uartNumber);
 
         char* baudString = commands.next();
         if(baudString != NULL) {
@@ -516,7 +537,7 @@ void doBridgeUART() {
         Output.print(baud);
         Output.println(" bps");
         Output.println("==========");
-        bridgeUART(uart, baud);
+        util::bridgeUART(uart, baud);
         Output.println();
         Output.println("==========");
         Output.println("Bridge teardown completed");
@@ -532,7 +553,7 @@ void canEnableBluetooth() {
     ble::enableBluetooth(enabled);
 }
 
-void printStatistics() {
+void console::printStatistics() {
     for(uint8_t i = 0; i < Statistics.count(); i++) {
         auto key = Statistics.keyAt(i);
         auto value = Statistics.valueFor(key);
@@ -548,7 +569,7 @@ void canChargeEnable() {
 
     uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
 
-    enableBatteryCharging(enabled);
+    power::enableBatteryCharging(enabled);
 }
 
 void canAutosleepEnable() {
@@ -557,15 +578,15 @@ void canAutosleepEnable() {
 
     uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
 
-    enableAutosleep(enabled);
+    power::enableAutosleep(enabled);
 }
 
 void cmdEnableAutosleep() {
-    enableAutosleep(true);
+    power::enableAutosleep(true);
 }
 
 void cmdDisableAutosleep() {
-    enableAutosleep(false);
+    power::enableAutosleep(false);
 }
 
 void logStatus() {
@@ -755,7 +776,7 @@ void setBluetoothTimeoutSeconds() {
         seconds = atoi(seconds_str);
     }
 
-    delayBluetoothTimeout(millis() + (seconds * 1000));
+    ble::delayTimeout(millis() + (seconds * 1000));
 }
 
 void sdErrorState() {
