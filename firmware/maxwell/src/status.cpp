@@ -100,8 +100,8 @@ bool status::sendStatusUpdate() {
     char output[2048];
     root.printTo(output);
 
-    uint16_t statusCode;
-    uint16_t length;
+    uint16_t statusCode = 0;
+    uint16_t length = 0;
     if(!LTE.HTTP_POST_start(
         "dweet.io/dweet/for/coddingtonbear-maxwell",
         F("application/json"),

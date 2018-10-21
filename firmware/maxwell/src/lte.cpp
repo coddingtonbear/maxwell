@@ -31,7 +31,16 @@ bool lte::asyncEnable(bool enabled) {
         return false;
     }
 
-    lteTargetStatus = enabled ? LTE_STATE_ON : LTE_STATE_OFF;
+
+    if(enabled) {
+        // If already powered; skip pressing the power button
+        lteTargetStatus = LTE_STATE_ON;
+        if(lte::isPoweredOn()) {
+            nextLteTargetStatus = LTE_STATE_ON;
+        }
+    } else {
+        lteTargetStatus = LTE_STATE_OFF;
+    }
 
     tasks::enableLTEStatusManager();
 
