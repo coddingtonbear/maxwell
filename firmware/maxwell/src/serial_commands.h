@@ -10,6 +10,8 @@ namespace can {
 
     void sleep();
     void reset();
+
+    void flash();
 };
 
 namespace console {
@@ -31,9 +33,42 @@ namespace console {
     void sleep();
     void bleCmd();
     void reset();
+
+    void flash();
+    void enableAutosleep();
+    void disableAutosleep();
+    void disableBluetooth();
+    void enableBluetooth();
+    void setBluetoothTimeoutSeconds();
+
+    void enableLTE();
+    void disableLTE();
+    void getLTEStatus();
+    void getLTERSSI();
+    void lteCommand();
+    void sendTextMessage();
+    void showLTETimestamp();
+
+    void sendCan();
+    void emitCan();
+
+    void getUartRegister();
+    void setUartRegister();
+
+    void logStatus();
+    void logList();
+    void logDelete();
+    void logDeleteAll();
+    void logPrint();
+    void logSearch();
+    void sdErrorState();
+
+    void setTime();
+    void getTime();
+
+    void sendStatusUpdate();
 };
 
-void flash();
 void canBeep();
 void canSetLedCycle();
 void canSetLedColor();
@@ -42,34 +77,10 @@ void canSetLedBrightness();
 void canSetLedInterval();
 void canLedEnable();
 void canLedPreset();
+void canEnableBluetooth();
 void canChargeEnable();
 void setLedInterval();
-void send_can();
-void emit_can();
 void getGpsCoordinates();
 void doSendCanMesage();
-void canEnableBluetooth();
-void cmdDisableAutosleep();
-void cmdEnableAutosleep();
 void canAutosleepEnable();
-void setBluetoothTimeoutSeconds();
-void logStatus();
-void logList();
-void logPrint();
-void logDelete();
-void logDeleteAll();
-void logSearch();
-void cmdDisableBluetooth();
-void cmdEnableBluetooth();
-void sdErrorState();
-void setTime();
-void getTime();
-void getUartRegister();
-void setUartRegister();
-void getLTEStatus();
-void getLTERSSI();
-void lteCommand();
-void sendTextMessage();
-void showLTETimestamp();
 void canReceivePosition();
-void cmdSendStatusUpdate();

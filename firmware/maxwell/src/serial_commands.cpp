@@ -42,38 +42,39 @@ void console::init() {
     commands.addCommand("btcmd", console::bleCmd);
     commands.addCommand("reset", console::reset);
 
-    commands.addCommand("flash", flash);
-    commands.addCommand("enable_autosleep", cmdEnableAutosleep);
-    commands.addCommand("disable_autosleep", cmdEnableAutosleep);
-    commands.addCommand("disable_bluetooth", cmdDisableBluetooth);
-    commands.addCommand("enable_bluetooth", cmdEnableBluetooth);
-    commands.addCommand("delay_bt_timeout", setBluetoothTimeoutSeconds);
+    commands.addCommand("flash", console::flash);
+    commands.addCommand("enable_autosleep", console::enableAutosleep);
+    commands.addCommand("disable_autosleep", console::disableAutosleep);
+    commands.addCommand("disable_bluetooth", console::disableBluetooth);
+    commands.addCommand("enable_bluetooth", console::enableBluetooth);
+    commands.addCommand("delay_bt_timeout", console::setBluetoothTimeoutSeconds);
 
-    commands.addCommand("enable_lte", enableLTE);
-    commands.addCommand("disable_lte", disableLTE);
-    commands.addCommand("get_lte_status", getLTEStatus);
-    commands.addCommand("get_lte_rssi", getLTERSSI);
-    commands.addCommand("send_text_message", sendTextMessage);
-    commands.addCommand("lte_command", lteCommand);
-    commands.addCommand("lte_timestamp", showLTETimestamp);
+    commands.addCommand("enable_lte", console::enableLTE);
+    commands.addCommand("disable_lte", console::disableLTE);
+    commands.addCommand("get_lte_status", console::getLTEStatus);
+    commands.addCommand("get_lte_rssi", console::getLTERSSI);
+    commands.addCommand("send_text_message", console::sendTextMessage);
+    commands.addCommand("lte_command", console::lteCommand);
+    commands.addCommand("lte_timestamp", console::showLTETimestamp);
 
-    commands.addCommand("send_can", send_can);
-    commands.addCommand("emit_can", emit_can);
+    commands.addCommand("send_can", console::sendCan);
+    commands.addCommand("emit_can", console::emitCan);
 
-    commands.addCommand("set_uart_register", setUartRegister);
-    commands.addCommand("get_uart_register", getUartRegister);
+    commands.addCommand("set_uart_register", console::setUartRegister);
+    commands.addCommand("get_uart_register", console::getUartRegister);
 
-    commands.addCommand("log_status", logStatus);
-    commands.addCommand("list_logs", logList);
-    commands.addCommand("delete_log", logDelete);
-    commands.addCommand("delete_all_logs", logDeleteAll);
-    commands.addCommand("print_log", logPrint);
-    commands.addCommand("search_log", logSearch);
-    commands.addCommand("sd_error_state", sdErrorState);
+    commands.addCommand("log_status", console::logStatus);
+    commands.addCommand("list_logs", console::logList);
+    commands.addCommand("delete_log", console::logDelete);
+    commands.addCommand("delete_all_logs", console::logDeleteAll);
+    commands.addCommand("print_log", console::logPrint);
+    commands.addCommand("search_log", console::logSearch);
+    commands.addCommand("sd_error_state", console::sdErrorState);
 
-    commands.addCommand("set_time", setTime);
-    commands.addCommand("get_time", getTime);
-    commands.addCommand("send_status", cmdSendStatusUpdate);
+    commands.addCommand("set_time", console::setTime);
+    commands.addCommand("get_time", console::getTime);
+
+    commands.addCommand("send_status", console::sendStatusUpdate);
 }
 
 void can::init() {
@@ -90,10 +91,8 @@ void can::init() {
     canCommands.addCommand(CAN_CMD_MAIN_MC_SLEEP, can::sleep);
     canCommands.addCommand(CAN_CMD_CHARGE_ENABLE, canChargeEnable);
 
-    canCommands.addCommand(CAN_CMD_MAIN_MC_FLASH, flash);
+    canCommands.addCommand(CAN_CMD_MAIN_MC_FLASH, can::flash);
     canCommands.addCommand(CAN_CMD_AUTOSLEEP_ENABLE, canAutosleepEnable);
-
-    canCommands.addCommand(CAN_TEST, emit_can);
 
     canCommands.addCommand(CAN_GPS_POSITION, canReceivePosition);
 }
@@ -394,7 +393,11 @@ void console::uptime() {
     Output.println(millis());
 }
 
-void flash() {
+void can::flash() {
+    ble::sendCommand("flash");
+}
+
+void console::flash() {
     CanMsg flashNoticeMsg;
     flashNoticeMsg.IDE = CAN_ID_STD;
     flashNoticeMsg.RTR = CAN_RTR_DATA;
@@ -448,7 +451,7 @@ void console::bleCmd() {
     Output.print(result);
 }
 
-void emit_can() {
+void console::emitCan() {
     byte* canIdBytes = reinterpret_cast<byte*>(&testId);
 
     CanMsg testMsg;
@@ -465,7 +468,7 @@ void emit_can() {
     CanBus.send(&testMsg);
 }
 
-void send_can() {
+void console::sendCan() {
     CanMsg testMsg;
     testMsg.IDE = CAN_ID_STD;
     testMsg.RTR = CAN_RTR_DATA;
@@ -581,15 +584,15 @@ void canAutosleepEnable() {
     power::enableAutosleep(enabled);
 }
 
-void cmdEnableAutosleep() {
+void console::enableAutosleep() {
     power::enableAutosleep(true);
 }
 
-void cmdDisableAutosleep() {
+void console::disableAutosleep() {
     power::enableAutosleep(false);
 }
 
-void logStatus() {
+void console::logStatus() {
     uint32 errCode = Log.getErrorCode();
     uint32 messageCount = Log.getLogCount();
 
@@ -602,7 +605,7 @@ void logStatus() {
     Output.println("Filename: " + String(Log.getLogFileName()));
 }
 
-void logList() {
+void console::logList() {
     filesystem.vwd()->rewind();
     char filename[50];
     while(openFile.openNext(filesystem.vwd(), O_READ)) {
@@ -618,7 +621,7 @@ void logList() {
     }
 }
 
-void logDelete() {
+void console::logDelete() {
     char* filenameBytes = commands.next();
 
     if(!openFile.open(&filesystem, filenameBytes, O_READ | O_WRITE)) {
@@ -629,7 +632,7 @@ void logDelete() {
     Output.println("Deleted");
 }
 
-void logDeleteAll() {
+void console::logDeleteAll() {
     filesystem.vwd()->rewind();
     char filename[50];
     char* currentLogFilename = Log.getLogFileName();
@@ -653,7 +656,7 @@ void logDeleteAll() {
     }
 }
 
-void logPrint() {
+void console::logPrint() {
     char* filenameBytes = commands.next();
     char* afterByteBytes = commands.next();
     char* lengthBytes = commands.next();
@@ -694,7 +697,7 @@ void logPrint() {
     openFile.close();
 }
 
-void logSearch() {
+void console::logSearch() {
     char* filenameBytes = commands.next();
     char* findBytes;
     char findBuffer[100];
@@ -761,15 +764,15 @@ void logSearch() {
     Output.println(" matches found.");
 }
 
-void cmdEnableBluetooth() {
+void console::enableBluetooth() {
     ble::enableBluetooth(true);
 }
 
-void cmdDisableBluetooth() {
+void console::disableBluetooth() {
     ble::enableBluetooth(false);
 }
 
-void setBluetoothTimeoutSeconds() {
+void console::setBluetoothTimeoutSeconds() {
     char* seconds_str = commands.next();
     uint32_t seconds = 60 * 60;
     if(seconds_str != NULL) {
@@ -779,25 +782,25 @@ void setBluetoothTimeoutSeconds() {
     ble::delayTimeout(millis() + (seconds * 1000));
 }
 
-void sdErrorState() {
+void console::sdErrorState() {
     filesystem.initErrorPrint(&Output);
 }
 
-void setTime() {
+void console::setTime() {
     char* timestampBytes = commands.next();
     uint32_t timestamp = atoi(timestampBytes);
 
     Clock.setTime(timestamp);
 }
 
-void getTime() {
+void console::getTime() {
     time_t time = Clock.getTime();
 
     Output.print("Current time: ");
     Output.println(String((uint32)time));
 }
 
-void getUartRegister() {
+void console::getUartRegister() {
     char* registerId = commands.next();
     if(!registerId) {
         Output.println("Must supply register ID");
@@ -830,7 +833,7 @@ void getUartRegister() {
     }
 }
 
-void setUartRegister() {
+void console::setUartRegister() {
     char* registerId = commands.next();
     if(!registerId) {
         Output.println("Must supply register ID");
@@ -855,7 +858,23 @@ void setUartRegister() {
     LTEUart.WriteRegister(registerIdInt, valueInt);
 }
 
-void getLTEStatus() {
+void console::enableLTE() {
+    if(asyncEnableLte(true)) {
+        Output.println("Enabling LTE...");
+    } else {
+        Output.println("ERROR");
+    }
+}
+
+void console::disableLTE() {
+    if(asyncEnableLte(false)) {
+        Output.println("Disabling LTE...");
+    } else {
+        Output.println("ERROR");
+    }
+}
+
+void console::getLTEStatus() {
     if (!lteIsEnabled()) {
         Output.println("LTE is not enabled");
         Output.flush();
@@ -871,7 +890,7 @@ void getLTEStatus() {
     if (n == 5) Output.println(F("Registered roaming"));
 }
 
-void getLTERSSI() {
+void console::getLTERSSI() {
     if (!lteIsEnabled()) {
         Output.println("LTE is not enabled");
         return;
@@ -890,7 +909,7 @@ void getLTERSSI() {
     Output.print(r); Output.println(F(" dBm"));
 }
 
-void sendTextMessage() {
+void console::sendTextMessage() {
     if (!lteIsEnabled()) {
         Output.println("LTE is not enabled");
         return;
@@ -924,7 +943,7 @@ void sendTextMessage() {
     }
 }
 
-void lteCommand() {
+void console::lteCommand() {
     if (!lteIsEnabled()) {
         Output.println("LTE is not enabled");
         return;
@@ -944,7 +963,7 @@ void lteCommand() {
     }
 }
 
-void showLTETimestamp() {
+void console::showLTETimestamp() {
     if (!lteIsEnabled()) {
         Output.println("LTE is not enabled");
         return;
@@ -963,6 +982,6 @@ void canReceivePosition() {
     status::setGpsPosition(pos.latitude, pos.longitude);
 }
 
-void cmdSendStatusUpdate() {
+void console::sendStatusUpdate() {
     status::sendStatusUpdate();
 }
