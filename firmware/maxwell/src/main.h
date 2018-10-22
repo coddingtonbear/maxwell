@@ -34,8 +34,6 @@ void loop();
 void restoreBackupTime();
 void saveBackupTime();
 
-void delayBluetoothTimeout(uint32_t);
-
 extern MultiSerial Output;
 extern HashMap<String, double> Statistics;
 extern RTClock Clock;
