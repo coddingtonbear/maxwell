@@ -144,10 +144,7 @@ void setup() {
 
     util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
 
-    //GPSSerial.begin(9600);
-    //gpsWake();
     delay(100);
-    //gpsPMTK(161, ",0");  // Disable the GPS
 
     CanBus.map(CAN_GPIO_PB8_PB9);
     CanBus.begin(CAN_SPEED_1000, CAN_MODE_NORMAL);
