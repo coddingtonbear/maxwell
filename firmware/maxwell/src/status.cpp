@@ -1,12 +1,16 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <RollingAverage.h>
+#include <Adafruit_MQTT.h>
+#include <Adafruit_MQTT_FONA.h>
 
 #include "main.h"
 #include "power.h"
 #include "neopixel.h"
 #include "lte.h"
 #include "status.h"
+
+#include "private.h"
 
 long longitude = 0;
 long latitude = 0;
@@ -64,67 +68,90 @@ bool status::sendStatusUpdate() {
         return false;
     }
 
-    StaticJsonBuffer<2048> jsonBuffer;
-    JsonObject& root = jsonBuffer.createObject();
-
-    if(latitude && longitude) {
-        JsonObject& position = root.createNestedObject("position");
-        position["latitude"] = (double)latitude / 1e6;
-        position["longitude"] = (double)longitude / 1e6;
+    if(!LTE.TCPconnect(MQTT_SERVER, MQTT_SERVERPORT)) {
+        Output.println("Could not establish TCP connection to MQTT server.");
+        return false;
     }
-    root["velocity_mph"] = currentSpeedMph.getValue();
-    root["timestamp"] = (uint)Clock.getTime();
-    root["uptime"] = millis();
+    if(!LTE.MQTTconnect("MQIsdp", MQTT_CLIENT, MQTT_USERNAME, MQTT_KEY)) {
+        Output.println("Could not establish MQTT connection to broker.");
+        return false;
+    }
+
+    uint8_t published = 0;
+    if(latitude && longitude) {
+        published += LTE.MQTTpublish(
+            "/position/latitude",
+            String((double)latitude / 1e6).c_str()
+        );
+        published += LTE.MQTTpublish(
+            "/position/longitude",
+            String((double)longitude / 1e6).c_str()
+        );
+    }
+    published += LTE.MQTTpublish(
+        "/position/velocity_mph",
+        String(currentSpeedMph.getValue()).c_str()
+    );
+    published += LTE.MQTTpublish(
+        "/timestamp",
+        String((uint32_t)Clock.getTime()).c_str()
+    );
+    published += LTE.MQTTpublish("/uptime", String(millis()).c_str());
 
     uint32 errCode = Log.getErrorCode();
     if(errCode) {
-        root["logging"] = false;
+        published += LTE.MQTTpublish("/logging", "false");
     } else {
-        root["logging"] = true;
+        published += LTE.MQTTpublish("/logging", "true");
     }
 
-    JsonObject& power = root.createNestedObject("power");
-    power["battery_voltage"] = power::getVoltage(VOLTAGE_BATTERY);
-    power["current_amps"] = power::getCurrentUsage();
+    published += LTE.MQTTpublish(
+        "/power/battery_voltage",
+        String(power::getVoltage(VOLTAGE_BATTERY)).c_str()
+    );
+    published += LTE.MQTTpublish(
+        "/power/current_amps",
+        String(power::getCurrentUsage()).c_str()
+    );
 
     LedStatus ledStatus;
     neopixel::getStatus(ledStatus);
-    JsonObject& leds = root.createNestedObject("leds");
-    leds["color_1"] = "#" + String(ledStatus.red, HEX) + String(ledStatus.green, HEX) + String(ledStatus.blue, HEX);
-    leds["color_2"] = "#" + String(ledStatus.red2, HEX) + String(ledStatus.green2, HEX) + String(ledStatus.blue2, HEX);
-    leds["enabled"] = ledStatus.enabled;
-    leds["cycle"] = ledStatus.cycle;
-    leds["brightness"] = ledStatus.brightness;
-    leds["interval"] = ledStatus.interval;
 
-    char output[2048];
-    root.printTo(output);
+    published += LTE.MQTTpublish(
+        "/leds/color_1",
+        ("#" + String(ledStatus.red, HEX) + String(ledStatus.green, HEX) + String(ledStatus.blue, HEX)).c_str()
+    );
+    published += LTE.MQTTpublish(
+        "/leds/color_2",
+        ("#" + String(ledStatus.red2, HEX) + String(ledStatus.green2, HEX) + String(ledStatus.blue2, HEX)).c_str()
+    );
+    published += LTE.MQTTpublish(
+        "/leds/enabled",
+        String(ledStatus.enabled).c_str()
+    );
+    published += LTE.MQTTpublish(
+        "/leds/cycle_id",
+        String(ledStatus.cycle).c_str()
+    );
+    published += LTE.MQTTpublish(
+        "/leds/brightness",
+        String(ledStatus.brightness).c_str()
+    );
+    published += LTE.MQTTpublish(
+        "/leds/interval_ms",
+        String(ledStatus.interval).c_str()
+    );
 
-    uint16_t statusCode = 0;
-    uint16_t length = 0;
-    if(!LTE.HTTP_POST_start(
-        "dweet.io/dweet/for/coddingtonbear-maxwell",
-        F("application/json"),
-        (uint8_t*)output,
-        strlen(output),
-        &statusCode,
-        &length)
-    ) {
-        Output.print("Failed to post: ");
-        Output.println(statusCode);
+    #ifdef STATUS_DEBUG
+        Output.print("Published ");
+        Output.print(published);
+        Output.println(" statistics.");
+    #endif
+
+    if(!LTE.TCPclose()) {
+        Output.println("Could not close TCP connection to MQTT server.");
         return false;
     }
-    while(length > 0) {
-        while(LTE.available()) {
-            LTE.read();
-            length--;
 
-            if(!length) {
-                break;
-            }
-        }
-    }
-    Output.print("Status update completed: ");
-    Output.println(statusCode);
-    LTE.HTTP_POST_end();
+    return true;
 }

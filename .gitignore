@@ -9,6 +9,7 @@ hardware/*-bak
 hardware/*-cache*
 hardware/*_saved*
 hardware/*_autosave*
+firmware/maxwell/src/private.h
 *.gbr
 *.gbj
 *.gbrjob

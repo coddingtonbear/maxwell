@@ -7,10 +7,6 @@
 
 #define LTE_DEBUG
 
-#ifdef LTE_DEBUG
-#define ADAFRUIT_FONA_DEBUG
-#endif
-
 namespace lte {
     void enable(bool _enabled=true);
 

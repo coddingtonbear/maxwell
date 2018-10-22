@@ -6,6 +6,14 @@
 #define SPEED_SECONDS_PER_HOUR 3.6e6
 #define SPEED_SMOOTHING_SAMPLES 5
 
+#define MQTT_SERVER ""
+#define MQTT_SERVERPORT 0
+#define MQTT_USERNAME ""
+#define MQTT_KEY ""
+#define MQTT_CLIENT "maxwell"
+
+#define STATUS_DEBUG
+
 namespace status {
     void setGpsPosition(long, long);
     long getLatitude();
