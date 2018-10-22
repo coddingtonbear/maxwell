@@ -31,7 +31,7 @@ U 1 1 5A1FCF85
 P 2450 3600
 F 0 "Y2" V 2404 3731 50  0000 L CNN
 F 1 "8M" V 2495 3731 50  0000 L CNN
-F 2 "cpavlina/kicad-pcblib/smd-non-ipc.pretty:Abracon-ABM2" H 2450 3600 50  0001 C CNN
+F 2 "coddingtonbear:Abracon-ABM2" H 2450 3600 50  0001 C CNN
 F 3 "" H 2450 3600 50  0001 C CNN
 	1    2450 3600
 	0    1    1    0   
@@ -42,7 +42,7 @@ U 1 1 5A1FCF8C
 P 2300 3450
 F 0 "C6" V 2048 3450 50  0000 C CNN
 F 1 "22p" V 2139 3450 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" H 2338 3300 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" H 2338 3300 50  0001 C CNN
 F 3 "" H 2300 3450 50  0001 C CNN
 	1    2300 3450
 	0    1    1    0   
@@ -53,7 +53,7 @@ U 1 1 5A1FCF93
 P 2300 3750
 F 0 "C7" V 2048 3750 50  0000 C CNN
 F 1 "22p" V 2139 3750 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" H 2338 3600 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" H 2338 3600 50  0001 C CNN
 F 3 "" H 2300 3750 50  0001 C CNN
 	1    2300 3750
 	0    1    1    0   
@@ -82,7 +82,7 @@ U 1 1 5A1FCFB1
 P 2300 5250
 F 0 "C8" V 2048 5250 50  0000 C CNN
 F 1 "22p" V 2139 5250 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" H 2338 5100 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" H 2338 5100 50  0001 C CNN
 F 3 "" H 2300 5250 50  0001 C CNN
 	1    2300 5250
 	0    1    1    0   
@@ -93,7 +93,7 @@ U 1 1 5A1FCFB8
 P 2300 5550
 F 0 "C9" V 2048 5550 50  0000 C CNN
 F 1 "22p" V 2139 5550 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" H 2338 5400 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" H 2338 5400 50  0001 C CNN
 F 3 "" H 2300 5550 50  0001 C CNN
 	1    2300 5550
 	0    1    1    0   
@@ -150,7 +150,7 @@ U 1 1 5A1FCFDF
 P 2650 2250
 F 0 "R10" V 2443 2250 50  0000 C CNN
 F 1 "10k" V 2534 2250 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 2580 2250 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" V 2580 2250 50  0001 C CNN
 F 3 "" H 2650 2250 50  0001 C CNN
 	1    2650 2250
 	0    1    1    0   
@@ -176,7 +176,7 @@ U 1 1 5A1FCFEE
 P 5500 1500
 F 0 "C10" H 5385 1454 50  0000 R CNN
 F 1 "100n" H 5385 1545 50  0000 R CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" H 5538 1350 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" H 5538 1350 50  0001 C CNN
 F 3 "" H 5500 1500 50  0001 C CNN
 	1    5500 1500
 	-1   0    0    1   
@@ -187,7 +187,7 @@ U 1 1 5A1FCFF5
 P 5600 1500
 F 0 "C11" H 5485 1454 50  0000 R CNN
 F 1 "100n" H 5485 1545 50  0000 R CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" H 5638 1350 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" H 5638 1350 50  0001 C CNN
 F 3 "" H 5600 1500 50  0001 C CNN
 	1    5600 1500
 	-1   0    0    1   
@@ -198,7 +198,7 @@ U 1 1 5A1FCFFC
 P 5700 1500
 F 0 "C12" H 5585 1454 50  0000 R CNN
 F 1 "100n" H 5585 1545 50  0000 R CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" H 5738 1350 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" H 5738 1350 50  0001 C CNN
 F 3 "" H 5700 1500 50  0001 C CNN
 	1    5700 1500
 	-1   0    0    1   
@@ -209,7 +209,7 @@ U 1 1 5A1FD003
 P 5800 1500
 F 0 "C13" H 5685 1454 50  0000 R CNN
 F 1 "100n" H 5685 1545 50  0000 R CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" H 5838 1350 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" H 5838 1350 50  0001 C CNN
 F 3 "" H 5800 1500 50  0001 C CNN
 	1    5800 1500
 	-1   0    0    1   
@@ -296,7 +296,7 @@ U 1 1 5A2732F7
 P 2700 3600
 F 0 "R33" V 2493 3600 50  0000 C CNN
 F 1 "1M" V 2584 3600 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 2630 3600 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" V 2630 3600 50  0001 C CNN
 F 3 "" H 2700 3600 50  0001 C CNN
 	1    2700 3600
 	-1   0    0    1   
@@ -375,7 +375,7 @@ U 1 1 5A83FFBF
 P 7000 1500
 F 0 "U1" H 7050 1013 60  0000 C CNN
 F 1 "MCP1501" H 7050 1119 60  0000 C CNN
-F 2 "adamgreig/agg-kicad/agg.pretty:SOT-23-6" H 7000 1500 60  0001 C CNN
+F 2 "Package_TO_SOT_SMD:TSOT-23-6_HandSoldering" H 7000 1500 60  0001 C CNN
 F 3 "" H 7000 1500 60  0001 C CNN
 	1    7000 1500
 	-1   0    0    1   
@@ -469,7 +469,7 @@ U 1 1 5A848A7F
 P 6050 1250
 F 0 "R11" V 5843 1250 50  0000 C CNN
 F 1 "50" V 5934 1250 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 5980 1250 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" V 5980 1250 50  0001 C CNN
 F 3 "" H 6050 1250 50  0001 C CNN
 	1    6050 1250
 	0    1    1    0   
@@ -493,7 +493,7 @@ U 1 1 5A8C64C3
 P 2550 5400
 F 0 "Y1" V 2504 5566 50  0000 L CNN
 F 1 "32.768k" V 2595 5566 50  0000 L CNN
-F 2 "KiCad/Crystals.pretty:Crystal_SMD_SeikoEpson_MC306-4pin_8.0x3.2mm" H 2550 5400 50  0001 C CNN
+F 2 "Crystal:Crystal_SMD_SeikoEpson_MC306-4Pin_8.0x3.2mm_HandSoldering" H 2550 5400 50  0001 C CNN
 F 3 "" H 2550 5400 50  0001 C CNN
 	1    2550 5400
 	0    1    1    0   
@@ -567,7 +567,7 @@ U 1 1 5A8B48F3
 P 9450 4350
 F 0 "J15" H 9529 4392 50  0000 L CNN
 F 1 "GPIO" H 9529 4301 50  0000 L CNN
-F 2 "KiCad/Pin_Headers.pretty:Pin_Header_Straight_1x03_Pitch2.54mm" H 9450 4350 50  0001 C CNN
+F 2 "coddingtonbear:JST_XH_B03B-XH-A_03x2.50mm_Straight_LargePads" H 9450 4350 50  0001 C CNN
 F 3 "~" H 9450 4350 50  0001 C CNN
 	1    9450 4350
 	1    0    0    -1  

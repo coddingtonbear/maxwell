@@ -22,7 +22,7 @@ U 1 1 5A178B78
 P 2350 3400
 F 0 "J6" H 2430 3392 50  0000 L CNN
 F 1 "Programmer" H 2430 3301 50  0000 L CNN
-F 2 "KiCad/Pin_Headers.pretty:Pin_Header_Straight_1x04_Pitch2.54mm" H 2350 3400 50  0001 C CNN
+F 2 "coddingtonbear:Pin_Header_Straight_1x04_Pitch2.54mm_LargePads" H 2350 3400 50  0001 C CNN
 F 3 "" H 2350 3400 50  0001 C CNN
 	1    2350 3400
 	1    0    0    -1  
@@ -61,7 +61,7 @@ U 1 1 5A179266
 P 1400 3600
 F 0 "R8" V 1193 3600 50  0000 C CNN
 F 1 "10k" V 1284 3600 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 1330 3600 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" V 1330 3600 50  0001 C CNN
 F 3 "" H 1400 3600 50  0001 C CNN
 	1    1400 3600
 	0    1    1    0   
@@ -81,7 +81,7 @@ U 1 1 5A179C62
 P 1400 3300
 F 0 "R7" V 1193 3300 50  0000 C CNN
 F 1 "10k" V 1284 3300 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 1330 3300 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" V 1330 3300 50  0001 C CNN
 F 3 "" H 1400 3300 50  0001 C CNN
 	1    1400 3300
 	0    1    1    0   
@@ -111,7 +111,7 @@ U 1 1 5A227BE3
 P 1550 5950
 F 0 "U2" H 1550 6428 50  0000 C CNN
 F 1 "SN65HVD233" H 1550 6337 50  0000 C CNN
-F 2 "adamgreig/agg-kicad/agg.pretty:SOIC-8" H 1550 5450 50  0001 C CNN
+F 2 "coddingtonbear:SOIC-8_3.9x4.9mm_P1.27mm_LargePads" H 1550 5450 50  0001 C CNN
 F 3 "" H 1450 6350 50  0001 C CNN
 	1    1550 5950
 	1    0    0    -1  
@@ -124,7 +124,7 @@ U 1 1 5A2285B9
 P 1000 6300
 F 0 "R1" H 1070 6346 50  0000 L CNN
 F 1 "10k" H 1070 6255 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 930 6300 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" V 930 6300 50  0001 C CNN
 F 3 "" H 1000 6300 50  0001 C CNN
 	1    1000 6300
 	1    0    0    -1  
@@ -178,7 +178,7 @@ U 1 1 5A22B0AC
 P 1700 5350
 F 0 "C4" V 1448 5350 50  0000 C CNN
 F 1 "0.1u" V 1539 5350 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" H 1738 5200 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" H 1738 5200 50  0001 C CNN
 F 3 "" H 1700 5350 50  0001 C CNN
 	1    1700 5350
 	0    1    1    0   
@@ -208,7 +208,7 @@ U 1 1 5A249244
 P 4000 3900
 F 0 "BZ1" H 4153 3929 50  0000 L CNN
 F 1 "Buzzer" H 4153 3838 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:12mm_buzzer" V 3975 4000 50  0001 C CNN
+F 2 "coddingtonbear:12mm_buzzer" V 3975 4000 50  0001 C CNN
 F 3 "" V 3975 4000 50  0001 C CNN
 	1    4000 3900
 	1    0    0    -1  
@@ -219,7 +219,7 @@ U 1 1 5A249471
 P 3800 4200
 F 0 "Q1" V 4143 4200 50  0000 C CNN
 F 1 "BSS138" V 4052 4200 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:SOT-23_LargePads" H 4000 4125 50  0001 L CIN
+F 2 "coddingtonbear:SOT-23_LargePads" H 4000 4125 50  0001 L CIN
 F 3 "" H 3800 4200 50  0001 L CNN
 	1    3800 4200
 	1    0    0    -1  
@@ -232,7 +232,7 @@ U 1 1 5A24A6D8
 P 2150 4550
 F 0 "J3" H 2230 4592 50  0000 L CNN
 F 1 "Neopixel" H 2230 4501 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:JST_XH_B03B-XH-A_03x2.50mm_Straight_LargePads" H 2150 4550 50  0001 C CNN
+F 2 "coddingtonbear:JST_XH_B03B-XH-A_03x2.50mm_Straight_LargePads" H 2150 4550 50  0001 C CNN
 F 3 "" H 2150 4550 50  0001 C CNN
 	1    2150 4550
 	1    0    0    -1  
@@ -260,7 +260,7 @@ U 1 1 5A25E0A2
 P 2750 5950
 F 0 "J1" H 2830 5992 50  0000 L CNN
 F 1 "Canbus 1" H 2830 5901 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:JST_XH_B05B-XH-A_05x2.50mm_Straight_LargePads" H 2750 5950 50  0001 C CNN
+F 2 "coddingtonbear:JST_XH_B05B-XH-A_05x2.50mm_Straight_LargePads" H 2750 5950 50  0001 C CNN
 F 3 "" H 2750 5950 50  0001 C CNN
 	1    2750 5950
 	1    0    0    -1  
@@ -271,7 +271,7 @@ U 1 1 5A25E262
 P 2750 6550
 F 0 "J2" H 2830 6592 50  0000 L CNN
 F 1 "Canbus 2" H 2830 6501 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:JST_XH_B05B-XH-A_05x2.50mm_Straight_LargePads" H 2750 6550 50  0001 C CNN
+F 2 "coddingtonbear:JST_XH_B05B-XH-A_05x2.50mm_Straight_LargePads" H 2750 6550 50  0001 C CNN
 F 3 "" H 2750 6550 50  0001 C CNN
 	1    2750 6550
 	1    0    0    -1  
@@ -294,7 +294,7 @@ U 1 1 5A271748
 P 1600 4550
 F 0 "R31" H 1670 4596 50  0000 L CNN
 F 1 "330" H 1670 4505 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 1530 4550 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" V 1530 4550 50  0001 C CNN
 F 3 "" H 1600 4550 50  0001 C CNN
 	1    1600 4550
 	0    1    1    0   
@@ -307,7 +307,7 @@ U 1 1 5A2AAAD0
 P 3900 4600
 F 0 "R4" V 3693 4600 50  0000 C CNN
 F 1 ">35" V 3784 4600 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 3830 4600 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" V 3830 4600 50  0001 C CNN
 F 3 "" H 3900 4600 50  0001 C CNN
 	1    3900 4600
 	-1   0    0    1   
@@ -333,7 +333,7 @@ U 1 1 5A2B653B
 P 2000 6600
 F 0 "R37" H 2070 6646 50  0000 L CNN
 F 1 "120" H 2070 6555 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 1930 6600 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" V 1930 6600 50  0001 C CNN
 F 3 "" H 2000 6600 50  0001 C CNN
 	1    2000 6600
 	1    0    0    -1  
@@ -447,7 +447,7 @@ U 1 1 5A8A1E56
 P 3050 1400
 F 0 "R5" H 3120 1446 50  0000 L CNN
 F 1 "100k" H 3120 1355 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 2980 1400 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" V 2980 1400 50  0001 C CNN
 F 3 "" H 3050 1400 50  0001 C CNN
 	1    3050 1400
 	1    0    0    -1  
@@ -460,7 +460,7 @@ U 1 1 5A8A1F0C
 P 3050 2650
 F 0 "R9" H 3120 2696 50  0000 L CNN
 F 1 "100k" H 3120 2605 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 2980 2650 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" V 2980 2650 50  0001 C CNN
 F 3 "" H 3050 2650 50  0001 C CNN
 	1    3050 2650
 	1    0    0    -1  
@@ -520,7 +520,7 @@ U 1 1 5A872F71
 P 7950 1550
 F 0 "J5" H 8029 1542 50  0000 L CNN
 F 1 "SPI2_A" H 8029 1451 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:JST_XH_B06B-XH-A_06x2.50mm_Straight_LargePads" H 7950 1550 50  0001 C CNN
+F 2 "coddingtonbear:JST_XH_B06B-XH-A_06x2.50mm_Straight_LargePads" H 7950 1550 50  0001 C CNN
 F 3 "~" H 7950 1550 50  0001 C CNN
 	1    7950 1550
 	1    0    0    -1  
@@ -531,7 +531,7 @@ U 1 1 5A87305D
 P 8350 1550
 F 0 "J10" H 8430 1542 50  0000 L CNN
 F 1 "SPI2_B" H 8430 1451 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:JST_XH_B06B-XH-A_06x2.50mm_Straight_LargePads" H 8350 1550 50  0001 C CNN
+F 2 "coddingtonbear:JST_XH_B06B-XH-A_06x2.50mm_Straight_LargePads" H 8350 1550 50  0001 C CNN
 F 3 "~" H 8350 1550 50  0001 C CNN
 	1    8350 1550
 	1    0    0    -1  
@@ -558,7 +558,7 @@ U 1 1 5A881CB5
 P 9400 3500
 F 0 "U5" V 9322 4728 60  0000 L CNN
 F 1 "ESP-32S" V 9428 4728 60  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:ESP-32S" H 9750 4850 60  0001 C CNN
+F 2 "coddingtonbear:ESP-32S" H 9750 4850 60  0001 C CNN
 F 3 "" H 8950 3950 60  0001 C CNN
 	1    9400 3500
 	1    0    0    -1  
@@ -580,7 +580,7 @@ U 1 1 5A885158
 P 8050 3000
 F 0 "R6" H 8120 3046 50  0000 L CNN
 F 1 "10k" H 8120 2955 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 7980 3000 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" V 7980 3000 50  0001 C CNN
 F 3 "" H 8050 3000 50  0001 C CNN
 	1    8050 3000
 	0    1    1    0   
@@ -643,7 +643,7 @@ U 1 1 5A8ACC4B
 P 2550 2050
 F 0 "J11" H 2630 2042 50  0000 L CNN
 F 1 "BACKUP" H 2630 1951 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:JST_XH_B02B-XH-A_02x2.50mm_Straight_LargePads" H 2550 2050 50  0001 C CNN
+F 2 "coddingtonbear:JST_XH_B02B-XH-A_02x2.50mm_Straight_LargePads" H 2550 2050 50  0001 C CNN
 F 3 "~" H 2550 2050 50  0001 C CNN
 	1    2550 2050
 	1    0    0    -1  
@@ -710,7 +710,7 @@ U 1 1 5A8B4267
 P 4450 5700
 F 0 "J12" H 4530 5692 50  0000 L CNN
 F 1 "UART4" H 4530 5601 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:JST_XH_B04B-XH-A_04x2.50mm_Straight_LargePads" H 4450 5700 50  0001 C CNN
+F 2 "coddingtonbear:JST_XH_B04B-XH-A_04x2.50mm_Straight_LargePads" H 4450 5700 50  0001 C CNN
 F 3 "~" H 4450 5700 50  0001 C CNN
 	1    4450 5700
 	1    0    0    -1  
@@ -721,7 +721,7 @@ U 1 1 5A8B42C9
 P 4450 6200
 F 0 "J13" H 4530 6192 50  0000 L CNN
 F 1 "UART5" H 4530 6101 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:JST_XH_B04B-XH-A_04x2.50mm_Straight_LargePads" H 4450 6200 50  0001 C CNN
+F 2 "coddingtonbear:JST_XH_B04B-XH-A_04x2.50mm_Straight_LargePads" H 4450 6200 50  0001 C CNN
 F 3 "~" H 4450 6200 50  0001 C CNN
 	1    4450 6200
 	1    0    0    -1  
@@ -766,7 +766,7 @@ U 1 1 5A8B5837
 P 5800 5750
 F 0 "J14" H 5880 5742 50  0000 L CNN
 F 1 "I2C1" H 5880 5651 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:JST_XH_B04B-XH-A_04x2.50mm_Straight_LargePads" H 5800 5750 50  0001 C CNN
+F 2 "coddingtonbear:JST_XH_B04B-XH-A_04x2.50mm_Straight_LargePads" H 5800 5750 50  0001 C CNN
 F 3 "~" H 5800 5750 50  0001 C CNN
 	1    5800 5750
 	1    0    0    -1  
@@ -788,7 +788,7 @@ U 1 1 5A8B5F63
 P 5400 6150
 F 0 "R2" V 5193 6150 50  0000 C CNN
 F 1 "2.2k" V 5284 6150 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 5330 6150 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" V 5330 6150 50  0001 C CNN
 F 3 "" H 5400 6150 50  0001 C CNN
 	1    5400 6150
 	-1   0    0    1   
@@ -799,7 +799,7 @@ U 1 1 5A8B5FC6
 P 5550 6150
 F 0 "R16" V 5343 6150 50  0000 C CNN
 F 1 "2.2k" V 5434 6150 50  0000 C CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" V 5480 6150 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" V 5480 6150 50  0001 C CNN
 F 3 "" H 5550 6150 50  0001 C CNN
 	1    5550 6150
 	-1   0    0    1   
@@ -894,7 +894,7 @@ U 1 1 5B327200
 P 7900 2750
 F 0 "C5" H 8015 2796 50  0000 L CNN
 F 1 "0.1u" H 8015 2705 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:0805_Milling" H 7938 2600 50  0001 C CNN
+F 2 "coddingtonbear:0805_Milling" H 7938 2600 50  0001 C CNN
 F 3 "" H 7900 2750 50  0001 C CNN
 	1    7900 2750
 	1    0    0    -1  
@@ -983,7 +983,7 @@ U 1 1 5B336731
 P 5500 2100
 F 0 "J16" H 5579 2092 50  0000 L CNN
 F 1 "ESP_BM" H 5579 2001 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:Pin_Header_Straight_1x02_Pitch1.27mm_JMP" H 5500 2100 50  0001 C CNN
+F 2 "coddingtonbear:Pin_Header_Straight_1x02_Pitch1.27mm_JMP" H 5500 2100 50  0001 C CNN
 F 3 "~" H 5500 2100 50  0001 C CNN
 	1    5500 2100
 	1    0    0    -1  
@@ -1005,7 +1005,7 @@ U 1 1 5B336C11
 P 6600 2200
 F 0 "J17" H 6680 2242 50  0000 L CNN
 F 1 "ESP_PROG" H 6680 2151 50  0000 L CNN
-F 2 "coddingtonbear/coddingtonbear.pretty:JST_XH_B03B-XH-A_03x2.50mm_Straight_LargePads" H 6600 2200 50  0001 C CNN
+F 2 "coddingtonbear:JST_XH_B03B-XH-A_03x2.50mm_Straight_LargePads" H 6600 2200 50  0001 C CNN
 F 3 "" H 6600 2200 50  0001 C CNN
 	1    6600 2200
 	1    0    0    -1  

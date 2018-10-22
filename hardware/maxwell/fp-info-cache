@@ -1,4 +1,4 @@
-14823876472050287
+15068136581468287
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (http://www.bulgin.com/media/bulgin/data/Battery_holders.pdf)
@@ -59,6 +59,20 @@ Battery
 BatteryHolder_Keystone_1058_1x2032
 http://www.keyelco.com/product-pdf.cfm?p=14028
 Keystone type 1058 coin cell retainer
+0
+2
+2
+Battery
+BatteryHolder_Keystone_1060_1x2032
+http://www.keyelco.com/product-pdf.cfm?p=726
+CR2032 BR2032 BatteryHolder Battery
+0
+2
+2
+Battery
+BatteryHolder_Keystone_2462_2xAA
+2xAA cell battery holder, Keystone P/N 2462, https://www.keyelco.com/product-pdf.cfm?p=1027
+AA battery cell holder
 0
 2
 2
@@ -167,6 +181,13 @@ Seiko MS621F
 0
 2
 2
+Battery
+Battery_CR1225
+CR1225 battery
+battery CR1225 coin cell
+0
+0
+0
 Button_Switch_Keyboard
 SW_Cherry_MX1A_1.00u_PCB
 Cherry MX keyswitch, MX1A, 1.00u, PCB mount, http://cherryamericas.com/wp-content/uploads/2014/12/mx_cat.pdf
@@ -1701,6 +1722,13 @@ switch SPDT
 7
 3
 Button_Switch_THT
+SW_E-Switch_EG1271_DPDT
+E-Switch sub miniature slide switch, EG series, DPDT, http://spec_sheets.e-switch.com/specs/P040047.pdf
+switch DPDT
+0
+6
+6
+Button_Switch_THT
 SW_E-Switch_EG2219_DPDT_Angled
 E-Switch slide switch, EG series, DPDT, right angle, http://spec_sheets.e-switch.com/specs/P040170.pdf
 switch DPDT
@@ -1904,6 +1932,13 @@ Murata Buzzer Beeper
 2
 2
 Buzzer_Beeper
+Buzzer_TDK_PS1240P02BT_D12.2mm_H6.5mm
+Buzzer, D12.2mm height 6.5mm, https://product.tdk.com/info/en/catalog/datasheets/piezoelectronic_buzzer_ps_en.pdf
+buzzer
+0
+2
+2
+Buzzer_Beeper
 MagneticBuzzer_CUI_CST-931RP-A
 CST-931RP-A, http://www.cui.com/product/resource/cst-931rp-a.pdf
 CST-931RP-A
@@ -1917,6 +1952,13 @@ Kingstate KCG0601
 0
 2
 2
+Buzzer_Beeper
+MagneticBuzzer_Kobitone_254-EMB84Q-RO
+MagneticBuzzer Kobitone 254-EMB84Q-RO https://www.mouser.es/datasheet/2/209/KT-400385-1171904.pdf
+MagneticBuzzer Kobitone 254-EMB84Q-RO
+0
+3
+3
 Buzzer_Beeper
 MagneticBuzzer_ProjectsUnlimited_AI-4228-TWT-R
 Buzzer, Elektromagnetic Beeper, Summer, 3-28V-DC,
@@ -5579,6 +5621,13 @@ coddingtonbear
 10
 6
 coddingtonbear
+Abracon-ABM2
+
+
+0
+2
+2
+coddingtonbear
 ASFL1
 ASFL1
 asfl1
@@ -5659,6 +5708,13 @@ coddingtonbear
 DO-214AC
 
 
+0
+2
+2
+coddingtonbear
+D_SOD-123_LargePads
+SOD-123
+SOD-123
 0
 2
 2
@@ -5838,6 +5894,13 @@ SM-CRYSTAL-ABS25_LargePads
 4
 4
 coddingtonbear
+SMA_Amphenol_132134_Vertical_Largepads
+https://www.amphenolrf.com/downloads/dl/file/id/2187/product/2843/132134_customer_drawing.pdf
+SMA THT Female Jack Vertical ExtendedLegs
+0
+5
+2
+coddingtonbear
 SMD_RED_TACTILE_SWITCH
 
 
@@ -5851,6 +5914,27 @@ SO4
 0
 4
 4
+coddingtonbear
+SO-4_Optocoupler_Milling
+
+
+0
+4
+4
+coddingtonbear
+SOIC-8_3.9x4.9mm_P1.27mm_LargePads
+8-Lead Plastic Small Outline (SN) - Narrow, 3.90 mm Body [SOIC] (see Microchip Packaging Specification 00000049BS.pdf)
+SOIC 1.27
+0
+8
+8
+coddingtonbear
+SOIC-14_3.9x8.7mm_P1.27mm_LargePads
+14-Lead Plastic Small Outline (SL) - Narrow, 3.90 mm Body [SOIC] (see Microchip Packaging Specification 00000049BS.pdf)
+SOIC 1.27
+0
+14
+14
 coddingtonbear
 SOT-23_LargePads
 
@@ -5872,6 +5956,20 @@ TAB
 0
 2
 1
+coddingtonbear
+Thermal_Relief_Via_Milling
+
+
+0
+1
+1
+coddingtonbear
+TSSOP-24_4.4x7.8mm_P0.65mm_LargePads
+TSSOP24: plastic thin shrink small outline package; 24 leads; body width 4.4 mm; (see NXP SSOP-TSSOP-VSO-REFLOW.pdf and sot355-1_po.pdf)
+SSOP 0.65
+0
+24
+24
 coddingtonbear
 UJ2-MIBH-4-SMT
 
@@ -5907,6 +6005,13 @@ banana socket
 0
 3
 3
+Connector
+CalTest_CT3151
+Right-angle standard banana jack, http://www.caltestelectronics.com/images/attachments/P315100rH_drawing.pdf
+banana jack horizontal
+0
+4
+1
 Connector
 CUI_PD-30
 3 pin connector, PD-30, http://www.cui.com/product/resource/pd-30.pdf
@@ -5991,6 +6096,20 @@ tag connect programming header pogo pins
 0
 14
 14
+Connector_Audio
+Jack_3.5mm_CUI_SJ1-3533NG_Horizontal
+TRS 3.5mm, horizontal, through-hole, https://www.cui.com/product/resource/sj1-353xng.pdf
+TRS audio jack stereo horizontal
+0
+3
+3
+Connector_Audio
+Jack_3.5mm_CUI_SJ1-3533NG_Horizontal_CircularHoles
+TRS 3.5mm, horizontal, through-hole, , circular holeshttps://www.cui.com/product/resource/sj1-353xng.pdf
+TRS audio jack stereo horizontal circular
+0
+3
+3
 Connector_Audio
 Jack_3.5mm_Neutric_NMJ6HCD2_Horizontal
 NMJ6HCD2, TRS 1/4\\\\\\\\ (http://www.neutrik.com/zoolu-website/media/download/2890/Drawing+NMJ6HCD2)
@@ -6144,6 +6263,27 @@ BNC female PCB mount 4 pin straight chassis connector http://www.te.com/usa-en/p
 BNC female PCB mount 4 pin straight chassis connector 
 0
 5
+2
+Connector_Coaxial
+MMCX_Molex_73415-0961_Horizontal_0.8mm-PCB
+Molex MMCX Horizontal Coaxial https://www.molex.com/pdm_docs/sd/734150961_sd.pdf
+Molex MMCX Horizontal Coaxial
+0
+3
+2
+Connector_Coaxial
+MMCX_Molex_73415-0961_Horizontal_1.0mm-PCB
+Molex MMCX Horizontal Coaxial https://www.molex.com/pdm_docs/sd/734150961_sd.pdf
+Molex MMCX Horizontal Coaxial
+0
+3
+2
+Connector_Coaxial
+MMCX_Molex_73415-0961_Horizontal_1.6mm-PCB
+Molex MMCX Horizontal Coaxial https://www.molex.com/pdm_docs/sd/734150961_sd.pdf
+Molex MMCX Horizontal Coaxial
+0
+3
 2
 Connector_Coaxial
 MMCX_Molex_73415-1471_Vertical
@@ -16855,6 +16995,13 @@ connector multicomp MC9A MC9A22
 0
 60
 60
+Connector_PCBEdge
+4UCON_10156_2x40_P1.27mm_Socket_Horizontal
+4UCON 10156 Card edge socket with 80 contacts (40 each side), through-hole, http://www.4uconnector.com/online/object/4udrawing/10156.pdf
+4UCON 10156 Card edge socket with 80 contacts
+0
+80
+80
 Connector_PCBEdge
 BUS_AT
 AT ISA 16 bits Bus Edge Connector
@@ -35651,6 +35798,20 @@ RJ45 Magjack
 14
 13
 Connector_RJ
+RJ45_Cetus_J1B1211CCD_Horizontal
+1 Port RJ45 Magjack Connector Through Hole 10/100 Base-T, Cetus, used and distributed by WIZnet (https://wizwiki.net/wiki/lib/exe/fetch.php?media=products:wiz550web:wiz550webds_kr:j1b1211ccd.pdf)
+RJ45 Magjack
+0
+14
+13
+Connector_RJ
+RJ45_Plug_Metz_AJP92A8813
+plug, ethernet, 8P8C, RJ45 Plug
+AJP92A8813 8P8C RJ45 ethernet plug
+0
+8
+8
+Connector_RJ
 RJ45_Wuerth_7499010121A_Horizontal
 10/100Base-TX RJ45 ethernet magnetic transformer connector horizontal https://katalog.we-online.de/pbs/datasheet/7499010121A.pdf
 RJ45 ethernet magnetic
@@ -38786,6 +38947,13 @@ SAS mini connector
 0
 44
 44
+Connector_SATA_SAS
+SATA_Amphenol_10029364-001LF_Horizontal
+https://cdn.amphenol-icc.com/media/wysiwyg/files/drawing/10029364.pdf
+SATA
+0
+24
+23
 Connector_TE-Connectivity
 TE_AMPSEAL_1-776087-x_3Rows_23_P0.4mm_Horizontal
 Connector
@@ -39690,6 +39858,20 @@ ACDC-Converter 20W   Meanwell IRM-20
 4
 4
 Converter_ACDC
+Converter_ACDC_RECOM_RAC01-xxSGB_THT
+https://www.recom-power.com/pdf/Powerline-AC-DC/RAC01-GB.pdf
+recom power ac dc rac01xxgb rac01-05sgb rac01-12sgb
+0
+4
+4
+Converter_ACDC
+Converter_ACDC_RECOM_RAC04-xxSGx_THT
+https://www.recom-power.com/pdf/Powerline-AC-DC/RAC04-GA.pdf
+recom power ac dc
+0
+5
+5
+Converter_ACDC
 Converter_ACDC_TRACO_TMLM-04_THT
 ACDC-Converter, TRACO, TMLM Series 04 https://www.tracopower.com/products/tmlm.pdf
 ACDC-Converter TRACO TMLM Series 04
@@ -39830,6 +40012,20 @@ Isolated 2W Single Output SM DC/DC Converters
 5
 5
 Converter_DCDC
+Converter_DCDC_muRata_OKI-78SR_Horizontal
+https://power.murata.com/data/power/oki-78sr.pdf
+78sr3.3 78sr5 78sr9 78sr12 78srXX
+0
+3
+3
+Converter_DCDC
+Converter_DCDC_muRata_OKI-78SR_Vertical
+https://power.murata.com/data/power/oki-78sr.pdf
+78sr3.3 78sr5 78sr9 78sr12 78srXX
+0
+3
+3
+Converter_DCDC
 Converter_DCDC_RECOM_R-78B-2.0_THT
 DCDC-Converter, RECOM, RECOM_R-78B-2.0, SIP-3, pitch 2.54mm, package size 11.5x8.5x17.5mm^3, https://www.recom-power.com/pdf/Innoline/R-78Bxx-2.0.pdf
 dc-dc recom buck sip-3 pitch 2.54mm
@@ -39838,8 +40034,8 @@ dc-dc recom buck sip-3 pitch 2.54mm
 3
 Converter_DCDC
 Converter_DCDC_RECOM_R-78E-0.5_THT
-DCDC-Converter, RECOM, 500mA, https://www.recom-power.com/pdf/Innoline/R-78Exx-0.5.pdf
-dc-dc recom buck sip3
+DCDC-Converter, RECOM, RECOM_R-78E-0.5, SIP-3, pitch 2.54mm, package size 11.6x8.5x10.4mm^3, https://www.recom-power.com/pdf/Innoline/R-78Exx-0.5.pdf
+dc-dc recom buck sip-3 pitch 2.54mm
 0
 3
 3
@@ -39858,15 +40054,8 @@ dc-dc recom buck sip-3 pitch 2.54mm
 3
 3
 Converter_DCDC
-Converter_DCDC_RECOM_R-78HBxx-0.5_THT
-Non isolated DC/DC converter THT, https://www.recom-power.com/pdf/Innoline/R-78HBxx-0.5_L.pdf
-Non isolated DC/DC converter THT
-0
-3
-3
-Converter_DCDC
 Converter_DCDC_RECOM_R-78S-0.1_THT
-DCDC-Converter, RECOM, RECOM_R-78S-0.1, SIP-4, pitch 2.54mm, package size 11.5x8.5x17.5mm^3, https://www.recom-power.com/pdf/Innoline/R-78Sxx-0.1.pdf
+DCDC-Converter, RECOM, RECOM_R-78S-0.1, SIP-4, pitch 2.54mm, package size 11.6x8.5x10.4mm^3, https://www.recom-power.com/pdf/Innoline/R-78Sxx-0.1.pdf
 dc-dc recom buck sip-4 pitch 2.54mm
 0
 4
@@ -39955,6 +40144,13 @@ DCDC-Converter TRACO TSR-1
 0
 3
 3
+Converter_DCDC
+Converter_DCDC_XP_POWER_JTExxxxDxx_THT
+DCDC-Converter, XP POWER, Type JTE06 Series,  Dual Output
+DCDC-Converter XP_POWER JTE06 Dual
+0
+8
+8
 Crystal
 Crystal_AT310_D3.0mm_L10.0mm_Horizontal
 Crystal THT AT310 10.0mm-10.5mm length 3.0mm diameter
@@ -41023,6 +41219,13 @@ Crystal
 Crystal_SMD_TXC_9HT11-2Pin_2.0x1.2mm_HandSoldering
 SMD Crystal TXC 9HT11 http://txccrystal.com/images/pdf/9ht11.pdf, hand-soldering, 2.0x1.2mm^2 package
 SMD SMT crystal hand-soldering
+0
+2
+2
+Crystal
+Crystal_SMD_TXC_AX_8045-2Pin_8.0x4.5mm
+http://www.txccrystal.com/images/pdf/ax-automotive.pdf
+SMD SMT crystal
 0
 2
 2
@@ -43414,6 +43617,97 @@ resistor handsolder
 2
 2
 Fuse
+Fuse_BelFuse_0ZRE0005FF_L8.3mm_W3.8mm
+Fuse 0ZRE0005FF, BelFuse, Radial Leaded PTC, https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-0zre-series.pdf
+0ZRE BelFuse radial PTC
+0
+2
+2
+Fuse
+Fuse_BelFuse_0ZRE0008FF_L8.3mm_W3.8mm
+Fuse 0ZRE0008FF, BelFuse, Radial Leaded PTC,https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-0zre-series.pdf
+0ZRE BelFuse radial PTC
+0
+2
+2
+Fuse
+Fuse_BelFuse_0ZRE0012FF_L8.3mm_W3.8mm
+Fuse 0ZRE0012FF, BelFuse, Radial Leaded PTC,https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-0zre-series.pdf
+0ZRE BelFuse radial PTC
+0
+2
+2
+Fuse
+Fuse_BelFuse_0ZRE0016FF_L9.9mm_W3.8mm
+Fuse 0ZRE0016FF, BelFuse, Radial Leaded PTC,https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-0zre-series.pdf
+0ZRE BelFuse radial PTC
+0
+2
+2
+Fuse
+Fuse_BelFuse_0ZRE0025FF_L9.6mm_W3.8mm
+Fuse 0ZRE0025FF, BelFuse, Radial Leaded PTC,https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-0zre-series.pdf
+0ZRE BelFuse radial PTC
+0
+2
+2
+Fuse
+Fuse_BelFuse_0ZRE0033FF_L11.4mm_W3.8mm
+Fuse 0ZRE0033FF, BelFuse, Radial Leaded PTC,https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-0zre-series.pdf
+0ZRE BelFuse radial PTC
+0
+2
+2
+Fuse
+Fuse_BelFuse_0ZRE0040FF_L11.5mm_W3.8mm
+Fuse 0ZRE0040FF, BelFuse, Radial Leaded PTC,https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-0zre-series.pdf
+0ZRE BelFuse radial PTC
+0
+2
+2
+Fuse
+Fuse_BelFuse_0ZRE0055FF_L14.0mm_W4.1mm
+Fuse 0ZRE0055FF, BelFuse, Radial Leaded PTC,https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-0zre-series.pdf
+0ZRE BelFuse radial PTC
+0
+2
+2
+Fuse
+Fuse_BelFuse_0ZRE0075FF_L11.5mm_W4.8mm
+Fuse 0ZRE0075FF, BelFuse, Radial Leaded PTC,https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-0zre-series.pdf
+0ZRE BelFuse radial PTC
+0
+2
+2
+Fuse
+Fuse_BelFuse_0ZRE0100FF_L18.7mm_W5.1mm
+Fuse 0ZRE0100FF, BelFuse, Radial Leaded PTC,https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-0zre-series.pdf
+0ZRE BelFuse radial PTC
+0
+2
+2
+Fuse
+Fuse_BelFuse_0ZRE0125FF_L21.2mm_W5.3mm
+Fuse 0ZRE0125FF, BelFuse, Radial Leaded PTC,https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-0zre-series.pdf
+0ZRE BelFuse radial PTC
+0
+2
+2
+Fuse
+Fuse_BelFuse_0ZRE0150FF_L23.4mm_W5.3mm
+Fuse 0ZRE0150FF, BelFuse, Radial Leaded PTC,https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-0zre-series.pdf
+0ZRE BelFuse radial PTC
+0
+2
+2
+Fuse
+Fuse_BelFuse_0ZRE0200FF_L24.9mm_W6.1mm
+Fuse 0ZRE0200FF, BelFuse, Radial Leaded PTC,https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-0zre-series.pdf
+0ZRE BelFuse radial PTC
+0
+2
+2
+Fuse
 Fuse_Blade_ATO_directSolder
 car blade fuse direct solder
 car blade fuse
@@ -43424,6 +43718,195 @@ Fuse
 Fuse_Blade_Mini_directSolder
 car blade fuse mini, direct solder
 car blade fuse mini
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RG300
+PTC Resettable Fuse, Ihold = 3.0A, Itrip=5.1A, http://www.bourns.com/docs/Product-Datasheets/mfrg.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RG400
+PTC Resettable Fuse, Ihold = 4.0A, Itrip=6.8A, http://www.bourns.com/docs/Product-Datasheets/mfrg.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RG500
+PTC Resettable Fuse, Ihold = 5.0A, Itrip=8.5A, http://www.bourns.com/docs/Product-Datasheets/mfrg.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RG600
+PTC Resettable Fuse, Ihold = 6.0A, Itrip=10.2A, http://www.bourns.com/docs/Product-Datasheets/mfrg.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RG650
+PTC Resettable Fuse, Ihold = 6.5A, Itrip=11.1A, http://www.bourns.com/docs/Product-Datasheets/mfrg.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RG700
+PTC Resettable Fuse, Ihold = 7.0A, Itrip=11.9A, http://www.bourns.com/docs/Product-Datasheets/mfrg.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RG800
+PTC Resettable Fuse, Ihold = 8.0A, Itrip=13.6A, http://www.bourns.com/docs/Product-Datasheets/mfrg.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RG900
+PTC Resettable Fuse, Ihold = 9.0A, Itrip=15.3A, http://www.bourns.com/docs/Product-Datasheets/mfrg.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RG1000
+PTC Resettable Fuse, Ihold = 10.0A, Itrip=17.0A, http://www.bourns.com/docs/Product-Datasheets/mfrg.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RG1100
+PTC Resettable Fuse, Ihold = 11.0A, Itrip=18.7A, http://www.bourns.com/docs/Product-Datasheets/mfrg.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT050
+PTC Resettable Fuse, Ihold = 0.5A, Itrip=0.92A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT070
+PTC Resettable Fuse, Ihold = 0.7A, Itrip=1.4A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT100
+PTC Resettable Fuse, Ihold = 1.0A, Itrip=1.8A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT200
+PTC Resettable Fuse, Ihold = 2.0A, Itrip=3.8A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT300
+PTC Resettable Fuse, Ihold = 3.0A, Itrip=6.0A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT400
+PTC Resettable Fuse, Ihold = 4.0A, Itrip=7.5A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT500
+PTC Resettable Fuse, Ihold = 5.0A, Itrip=9.0A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT550
+PTC Resettable Fuse, Ihold = 5.5A, Itrip=10.0A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT600
+PTC Resettable Fuse, Ihold = 6.0A, Itrip=10.8A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT650
+PTC Resettable Fuse, Ihold = 6.5A, Itrip=12.0A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT700
+PTC Resettable Fuse, Ihold = 7.0A, Itrip=13.0A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT750
+PTC Resettable Fuse, Ihold = 7.5A, Itrip=13.1A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT800
+PTC Resettable Fuse, Ihold = 8.0A, Itrip=15.0A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT900
+PTC Resettable Fuse, Ihold = 9.0A, Itrip=16.5A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT1000
+PTC Resettable Fuse, Ihold = 10.0A, Itrip=18.5A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT1100
+PTC Resettable Fuse, Ihold = 11.0A, Itrip=20.0A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
+0
+2
+2
+Fuse
+Fuse_Bourns_MF-RHT1300
+PTC Resettable Fuse, Ihold = 13.0A, Itrip=24.0A, http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+ptc resettable fuse polyfuse THT
 0
 2
 2
@@ -43818,6 +44301,13 @@ Bourns SRR1260 series SMD inductor http://www.bourns.com/docs/product-datasheets
 Bourns SRR1260 SMD inductor
 0
 4
+2
+Inductor_SMD
+L_Bourns_SRR1210A
+Bourns SRR1210A series SMD inductor https://www.bourns.com/docs/Product-Datasheets/SRR1210A.pdf
+Bourns SRR1210A SMD inductor
+0
+2
 2
 Inductor_SMD
 L_Bourns_SRR1260
@@ -46865,6 +47355,13 @@ LED Cree PLCC-4
 4
 4
 LED_SMD
+LED_Cree-PLCC6_4.7x1.5mm
+4.7mm x 1.5mm PLCC6 LED, http://www.cree.com/led-components/media/documents/1381-QLS6AFKW.pdf
+LED Cree PLCC-6
+0
+6
+6
+LED_SMD
 LED_Cree-XB
 http://www.cree.com/~/media/Files/Cree/LED-Components-and-Modules/XLamp/Data-and-Binning/XLampXBD.pdf
 LED Cree XB
@@ -47022,6 +47519,13 @@ LED_SMD
 LED_RGB_PLCC-6
 RGB LED PLCC-6
 RGB LED PLCC-6
+0
+6
+6
+LED_SMD
+LED_ROHM_SMLVN6
+https://www.rohm.com/datasheet/SMLVN6RGB1U
+LED ROHM SMLVN6
 0
 6
 6
@@ -48804,6 +49308,13 @@ Resistor LDR
 2
 2
 OptoDevice
+Sharp_GP2Y0A41SK0F
+http://www.sharp-world.com/products/device/lineup/data/pdf/datasheet/gp2y0a41sk_e.pdf
+Distance Sensor Sharp
+0
+2
+2
+OptoDevice
 Sharp_IS471F
 Sharp OPIC IS471F, see http://pdf.datasheetcatalog.com/datasheet/Sharp/mXvrzty.pdf
 Sharp OPIC IS471F
@@ -49602,6 +50113,27 @@ BGA 265 0.8
 265
 265
 Package_BGA
+UCBGA-36_2.5x2.5mm_Layout6x6_P0.4mm
+UCBGA-36, 6x6 raster, 2.5x2.5mm package, pitch 0.4mm; https://www.latticesemi.com/view_document?document_id=213
+BGA 36 0.4
+0
+36
+36
+Package_BGA
+UCBGA-49_3x3mm_Layout7x7_P0.4mm
+UCBGA-49, 7x7 raster, 3x3mm package, pitch 0.4mm; https://www.latticesemi.com/view_document?document_id=213
+BGA 49 0.4
+0
+49
+49
+Package_BGA
+UCBGA-81_4x4mm_Layout9x9_P0.4mm
+UCBGA-81, 9x9 raster, 4x4mm package, pitch 0.4mm; https://www.latticesemi.com/view_document?document_id=213
+BGA 81 0.4
+0
+81
+81
+Package_BGA
 UFBGA-15_3.0x3.0mm_Layout4x4_P0.65mm
 UFBGA-15, 4x4, 3x3mm package, pitch 0.65mm
 UFBGA-15
@@ -49804,6 +50336,20 @@ LFCSP 48
 0
 49
 49
+Package_CSP
+pSemi_CSP-16_1.64x2.04mm_P0.4mm
+pSemi CSP-16 1.64x2.04x0.285mm (http://www.psemi.com/pdf/datasheets/pe29101ds.pdf, http://www.psemi.com/pdf/app_notes/an77.pdf)
+psemi csp 16
+0
+16
+16
+Package_CSP
+pSemi_CSP-16_1.64x2.04mm_P0.4mm_Pad0.18mm
+pSemi CSP-16 1.64x2.04x0.285mm (http://www.psemi.com/pdf/datasheets/pe29101ds.pdf, http://www.psemi.com/pdf/app_notes/an77.pdf)
+psemi csp 16
+0
+16
+16
 Package_CSP
 ST_WLCSP-25_Die425
 WLCSP-25, 5x5 raster, 2.097x2.493mm package, pitch 0.4mm; see section 7.6 of http://www.st.com/resource/en/datasheet/stm32l031f6.pdf
@@ -50092,6 +50638,13 @@ WLCSP-6_1.4x1.0mm_P0.4mm
 6
 6
 Package_CSP
+WLCSP-8_1.58x1.63x0.35mm_Layout3x5_P0.35x0.4mm_Ball0.25mm_Pad0.25mm_NSMD
+WLCSP/XFBGA 8-pin package, staggered pins, http://www.adestotech.com/wp-content/uploads/DS-AT25DF041B_040.pdf
+WLCSP WLCSP-8 XFBGA XFBGA-8  CSP BGA Chip-Scale Glass-Top
+0
+8
+8
+Package_CSP
 WLCSP-12_1.56x1.56mm_P0.4mm
 WLCSP 12 1.56x1.56 https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMM150-DS001-01.pdf
 BMM150 WLCSP
@@ -50217,6 +50770,13 @@ DFN 0.4
 0
 6
 6
+Package_DFN_QFN
+DFN-8-1EP_2x2mm_P0.5mm_EP0.9x1.5mm
+DFN, 8 Pin (http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-8127-AVR-8-bit-Microcontroller-ATtiny4-ATtiny5-ATtiny9-ATtiny10_Datasheet.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+DFN DFN_QFN
+0
+13
+9
 Package_DFN_QFN
 DFN-8-1EP_2x2mm_P0.5mm_EP1.05x1.75mm
 DFN8 2x2, 0.5P; CASE 506CN (see ON Semiconductor 506CN.PDF)
@@ -50631,6 +51191,20 @@ DFN MLF 0.65
 15
 9
 Package_DFN_QFN
+MLF-20-1EP_4x4mm_P0.5mm_EP2.6x2.6mm
+MLF, 20 Pin (http://ww1.microchip.com/downloads/en/DeviceDoc/doc8246.pdf (page 263)), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+MLF DFN_QFN
+0
+25
+21
+Package_DFN_QFN
+MLF-20-1EP_4x4mm_P0.5mm_EP2.6x2.6mm_ThermalVias
+MLF, 20 Pin (http://ww1.microchip.com/downloads/en/DeviceDoc/doc8246.pdf (page 263)), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+MLF DFN_QFN
+0
+30
+21
+Package_DFN_QFN
 MLPQ-16-1EP_4x4mm_P0.65mm_EP2.8x2.8mm
 Micro Leadframe Package, 16 pin with exposed pad
 MLPQ- 0.65
@@ -50651,6 +51225,13 @@ DFN 0.5
 0
 8
 8
+Package_DFN_QFN
+OnSemi_VCT-28_3.5x3.5mm_P0.4mm
+OnSemi  VCT, 28 Pin (http://www.onsemi.com/pub/Collateral/601AE.PDF), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+OnSemi VCT DFN_QFN
+0
+28
+28
 Package_DFN_QFN
 Panasonic_HQFN-16-1EP_4x4mm_P0.65mm_EP2.9x2.9mm
 Panasonic HQFN-16, 4x4x0.85mm (https://industrial.panasonic.com/content/data/SC/ds/ds7/c0/PKG_HQFN016-A-0404XZL_EN.pdf)
@@ -50692,6 +51273,20 @@ QFN-16-1EP_3x3mm_P0.5mm_EP2.7x2.7mm_ThermalVias
 QFN 0.5
 0
 27
+17
+Package_DFN_QFN
+QFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm
+QFN, 16 Pin (http://www.thatcorp.com/datashts/THAT_1580_Datasheet.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+QFN DFN_QFN
+0
+21
+17
+Package_DFN_QFN
+QFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm_ThermalVias
+QFN, 16 Pin (http://www.thatcorp.com/datashts/THAT_1580_Datasheet.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+QFN DFN_QFN
+0
+31
 17
 Package_DFN_QFN
 QFN-16-1EP_4x4mm_P0.65mm_EP2.5x2.5mm
@@ -50888,6 +51483,20 @@ UH Package; 24-Lead Plastic QFN (5mm x 5mm); (see Linear Technology (UH24) QFN 0
 QFN 0.65
 0
 34
+25
+Package_DFN_QFN
+QFN-24-1EP_5x5mm_P0.65mm_EP3.4x3.4mm
+QFN, 24 Pin (http://www.thatcorp.com/datashts/THAT_5173_Datasheet.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+QFN DFN_QFN
+0
+29
+25
+Package_DFN_QFN
+QFN-24-1EP_5x5mm_P0.65mm_EP3.4x3.4mm_ThermalVias
+QFN, 24 Pin (http://www.thatcorp.com/datashts/THAT_5173_Datasheet.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+QFN DFN_QFN
+0
+39
 25
 Package_DFN_QFN
 QFN-28-1EP_3x6mm_P0.5mm_EP1.7x4.75mm
@@ -51095,6 +51704,20 @@ QFN DFN_QFN
 Package_DFN_QFN
 QFN-32-1EP_7x7mm_P0.65mm_EP4.65x4.65mm_ThermalVias
 QFN, 32 Pin (http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-8209-8-bit%20AVR%20ATmega16M1-32M1-64M1_Datasheet.pdf (Page 426)), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+QFN DFN_QFN
+0
+75
+33
+Package_DFN_QFN
+QFN-32-1EP_7x7mm_P0.65mm_EP5.4x5.4mm
+QFN, 32 Pin (http://www.thatcorp.com/datashts/THAT_5171_Datasheet.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+QFN DFN_QFN
+0
+49
+33
+Package_DFN_QFN
+QFN-32-1EP_7x7mm_P0.65mm_EP5.4x5.4mm_ThermalVias
+QFN, 32 Pin (http://www.thatcorp.com/datashts/THAT_5171_Datasheet.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
 QFN DFN_QFN
 0
 75
@@ -51359,6 +51982,20 @@ QFN DFN_QFN
 91
 49
 Package_DFN_QFN
+QFN-48-1EP_7x7mm_P0.5mm_EP5.45x5.45mm
+QFN, 48 Pin (http://www.thatcorp.com/datashts/THAT_626x_Datasheet.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+QFN DFN_QFN
+0
+65
+49
+Package_DFN_QFN
+QFN-48-1EP_7x7mm_P0.5mm_EP5.45x5.45mm_ThermalVias
+QFN, 48 Pin (http://www.thatcorp.com/datashts/THAT_626x_Datasheet.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+QFN DFN_QFN
+0
+91
+49
+Package_DFN_QFN
 QFN-52-1EP_7x8mm_P0.5mm_EP5.41x6.45mm
 UKG Package; 52-Lead Plastic QFN (7mm x 8mm); (see Linear Technology QFN_52_05-08-1729.pdf)
 QFN 0.5
@@ -51513,6 +52150,13 @@ QFN DFN_QFN
 111
 69
 Package_DFN_QFN
+QFN-76-1EP_9x9mm_P0.4mm_EP3.8x3.8mm
+76-Lead Plastic Quad Flat, No Lead Package - 9x9 mm Body [QFN]; see section 3.2 of https://www.marvell.com/documents/bqcwxsoiqfjkcjdjhkvc/
+QFN 0.4
+0
+78
+77
+Package_DFN_QFN
 Qorvo_DFN-8-1EP_2x2mm_P0.5mm
 DFN 8 2x2mm, 0.5mm http://www.qorvo.com/products/d/da000896
 DFN 0.5 Qorvo 2x2mm
@@ -51596,6 +52240,20 @@ QFN DFN_QFN
 0
 43
 29
+Package_DFN_QFN
+Texas_RGE0024H_EP2.7x2.7mm
+Texas  QFN, 24 Pin (http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=42&zoom=200,-13,779), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+Texas QFN DFN_QFN
+0
+29
+25
+Package_DFN_QFN
+Texas_RGE0024H_EP2.7x2.7mm_ThermalVias
+Texas  QFN, 24 Pin (http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=42&zoom=200,-13,779), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+Texas QFN DFN_QFN
+0
+39
+25
 Package_DFN_QFN
 Texas_RUM0016A
 16 Pin WQFN - 4x4x0.8 mm Body; (see Texas Instruments Package Specification RUM0016A)
@@ -51744,6 +52402,13 @@ RHA QFN 0.5mm
 95
 41
 Package_DFN_QFN
+Texas_S-PVQFN-N40_EP4.6x4.6mm_ThermalVias
+40-Pin Plastic Quad Flatpack No-Lead Package, Body 6.0x6.0x0.9mm, Pad 4.6x4.6mm, Texas Instruments (see http://www.ti.com/lit/ds/symlink/dac7750.pdf)
+RHA QFN 0.5mm
+0
+107
+41
+Package_DFN_QFN
 Texas_S-PVQFN-N40_EP4.15x4.15mm
 40-Pin Plastic Quad Flatpack No-Lead Package, Body 6.0x6.0x0.9mm, Pad 4.15x4.15mm, Texas Instruments (see http://www.ti.com/lit/ds/symlink/msp430g2755.pdf)
 RHA QFN 0.5mm
@@ -51849,6 +52514,20 @@ MultiRow QFN
 126
 105
 Package_DFN_QFN
+TQFN-24-1EP_4x4mm_P0.5mm_EP2.8x2.8mm_PullBack
+TQFN, 24 Pin (https://ams.com/documents/20143/36005/AS1115_DS000206_1-00.pdf/3d3e6d35-b184-1329-adf9-2d769eb2404f), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+TQFN DFN_QFN
+0
+29
+25
+Package_DFN_QFN
+TQFN-24-1EP_4x4mm_P0.5mm_EP2.8x2.8mm_PullBack_ThermalVias
+TQFN, 24 Pin (https://ams.com/documents/20143/36005/AS1115_DS000206_1-00.pdf/3d3e6d35-b184-1329-adf9-2d769eb2404f), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+TQFN DFN_QFN
+0
+39
+25
+Package_DFN_QFN
 UDFN-4_1x1mm_P0.65mm
 UDFN-4_1x1mm_P0.65mm
 UDFN-4_1x1mm_P0.65mm
@@ -51940,6 +52619,20 @@ DFN 0.5
 11
 9
 Package_DFN_QFN
+VQFN-20-1EP_3x3mm_P0.45mm_EP1.55x1.55mm
+VQFN, 20 Pin (http://ww1.microchip.com/downloads/en/DeviceDoc/doc8246.pdf (page 264)), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+VQFN DFN_QFN
+0
+25
+21
+Package_DFN_QFN
+VQFN-20-1EP_3x3mm_P0.45mm_EP1.55x1.55mm_ThermalVias
+VQFN, 20 Pin (http://ww1.microchip.com/downloads/en/DeviceDoc/doc8246.pdf (page 264)), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+VQFN DFN_QFN
+0
+30
+21
+Package_DFN_QFN
 VQFN-24-1EP_4x4mm_P0.5mm_EP2.45x2.45mm
 VQFN, 24 Pin (http://www.ti.com/lit/ds/symlink/msp430f1101a.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
 VQFN DFN_QFN
@@ -51967,6 +52660,20 @@ VQFN DFN_QFN
 0
 48
 29
+Package_DFN_QFN
+WDFN-8-1EP_2x2.2mm_P0.5mm_EP0.80x0.54
+https://www.onsemi.com/pub/Collateral/511BN.PDF
+WDFN-8 1EP 2.2X2.0 0.5P
+0
+9
+9
+Package_DFN_QFN
+WDFN-8-1EP_3x2mm_P0.5mm_EP1.3x1.4mm
+WDFN, 8 Pin (http://ww1.microchip.com/downloads/en/DeviceDoc/8L_TDFN_2x3_MNY_C04-0129E-MNY.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+WDFN DFN_QFN
+0
+13
+9
 Package_DFN_QFN
 WDFN-8_2x2mm_P0.5mm
 DFN8 2x2, 0.5P; No exposed pad (http://www.onsemi.com/pub/Collateral/NCP4308-D.PDF)
@@ -54032,6 +54739,13 @@ ST HLGA LGA
 0
 10
 10
+Package_LGA
+Texas_SIL0010A_MicroSiP-10-1EP_3.8x3mm_P0.6mm_EP0.7x2.9mm_ThermalVias
+Texas SIL0010A MicroSiP, 10 Pin (http://www.ti.com/lit/ml/mpds579b/mpds579b.pdf), generated with kicad-footprint-generator ipc_lga_layoutBorder_generator.py
+Texas MicroSiP LGA
+0
+18
+11
 Package_QFP
 HTQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm
 64-Lead Plastic Thin Quad Flatpack (PT) - 10x10x1 mm Body, 2.00 mm Footprint [HTQFP] thermal pad
@@ -54390,6 +55104,20 @@ QFP 0.5
 48
 48
 Package_QFP
+TQFP-52-1EP_10x10mm_P0.65mm_EP6.5x6.5mm
+TQFP, 52 Pin (http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tqfp_edsv/sv_52_1.pdf), generated with kicad-footprint-generator ipc_qfp_generator.py
+TQFP QFP
+0
+78
+53
+Package_QFP
+TQFP-52-1EP_10x10mm_P0.65mm_EP6.5x6.5mm_ThermalVias
+TQFP, 52 Pin (http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/tqfp_edsv/sv_52_1.pdf), generated with kicad-footprint-generator ipc_qfp_generator.py
+TQFP QFP
+0
+79
+53
+Package_QFP
 TQFP-64-1EP_10x10mm_P0.5mm_EP8x8mm
 64-Lead Plastic Thin Quad Flatpack (PT) - 10x10x1 mm Body, 2.00 mm Footprint [TQFP] thermal pad
 QFP 0.5 
@@ -54740,12 +55468,47 @@ HTSSOP 0.65
 29
 21
 Package_SO
+HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_Mask2.75x3.43mm
+HTSSOP, 20 Pin (http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=37&zoom=160,-90,3), generated with kicad-footprint-generator ipc_gullwing_generator.py
+HTSSOP SO
+0
+26
+21
+Package_SO
+HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_Mask2.75x3.43mm_ThermalVias
+HTSSOP, 20 Pin (http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=37&zoom=160,-90,3), generated with kicad-footprint-generator ipc_gullwing_generator.py
+HTSSOP SO
+0
+42
+21
+Package_SO
+HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_Mask2.75x3.43mm_ThermalVias_HandSolder
+HTSSOP, 20 Pin (http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=37&zoom=160,-90,3), generated with kicad-footprint-generator ipc_gullwing_generator.py
+HTSSOP SO
+0
+42
+21
+Package_SO
 HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_ThermalVias
 20-Lead Plastic Thin Shrink Small Outline (ST)-4.4 mm Body [HTSSOP], with thermal pad with vias
 HTSSOP 0.65
 0
 45
 21
+Package_SO
+HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.4x7.8mm_Mask2.4x4.68mm
+HTSSOP, 24 Pin (http://www.ti.com/lit/ds/symlink/tps703.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+HTSSOP SO
+0
+28
+25
+Package_SO
+HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.4x7.8mm_Mask2.4x4.68mm_ThermalVias
+HTSSOP, 24 Pin (http://www.ti.com/lit/ds/symlink/tps703.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+HTSSOP SO
+0
+47
+25
 Package_SO
 HTSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP3.4x9.5mm
 HTSSOP28: plastic thin shrink small outline package; 28 leads; body width 4.4 mm; thermal pad
@@ -55258,6 +56021,13 @@ SOIC 1.27
 8
 8
 Package_SO
+SOJ-36_10.16x23.49mm_P1.27mm
+SOJ, 36 Pin (http://www.issi.com/WW/pdf/61-64C5128AL.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOJ SO
+0
+36
+36
+Package_SO
 SOP-4_3.8x4.1mm_P2.54mm
 Specialized footprint for IXYS CPC1017N solid state relay similar to SO-4 http://www.ixysic.com/home/pdfs.nsf/www/CPC1017N.pdf/$file/CPC1017N.pdf
 SO SOIC 2.54
@@ -55273,6 +56043,13 @@ SOP 1.27
 4
 Package_SO
 SOP-16_4.4x10.4mm_P1.27mm
+16-Lead Plastic Small Outline http://www.vishay.com/docs/49633/sg2098.pdf
+SOP 1.27
+0
+16
+16
+Package_SO
+SOP-16_7.5x10.4mm_P1.27mm
 16-Lead Plastic Small Outline http://www.vishay.com/docs/49633/sg2098.pdf
 SOP 1.27
 0
@@ -55349,9 +56126,23 @@ SSOP-8 2.95x2.8mm Pitch 0.65mm
 8
 8
 Package_SO
+SSOP-8_3.9x5.05mm_P1.27mm
+SSOP, 8 Pin (http://www.fujitsu.com/downloads/MICRO/fsa/pdf/products/memory/fram/MB85RS16-DS501-00014-6v0-E.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SSOP SO
+0
+8
+8
+Package_SO
 SSOP-8_3.95x5.21x3.27mm_P1.27mm
 SSOP-8 3.95x5.21x3.27mm Pitch 1.27mm
 SSOP-8 3.95x5.21x3.27mm 1.27mm
+0
+8
+8
+Package_SO
+SSOP-8_5.25x5.24mm_P1.27mm
+SSOP, 8 Pin (http://www.fujitsu.com/ca/en/Images/MB85RS2MT-DS501-00023-1v0-E.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SSOP SO
 0
 8
 8
@@ -55446,6 +56237,13 @@ SSOP 0.65
 0
 28
 28
+Package_SO
+SSOP-32_11.305x20.495mm_P1.27mm
+SSOP, 32 Pin (http://www.issi.com/WW/pdf/61-64C5128AL.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SSOP SO
+0
+32
+32
 Package_SO
 SSOP-44_5.3x12.8mm_P0.5mm
 44-Lead Plastic Shrink Small Outline (SS)-5.30 mm Body [SSOP] (http://cds.linear.com/docs/en/datasheet/680313fa.pdf)
@@ -55587,6 +56385,13 @@ TSOP I 28 pins
 28
 28
 Package_SO
+TSOP-I-32_11.8x8mm_P0.5mm
+TSOP-I, 32 Pin (http://www.issi.com/WW/pdf/61-64C5128AL.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+TSOP-I SO
+0
+32
+32
+Package_SO
 TSOP-I-32_18.4x8mm_P0.5mm
 TSOP I, 32 pins, 18.4x8mm body (https://www.micron.com/~/media/documents/products/technical-note/nor-flash/tn1225_land_pad_design.pdf, http://www.fujitsu.com/downloads/MICRO/fma/pdfmcu/f32pm25.pdf)
 TSOP I 32
@@ -55614,6 +56419,13 @@ TSOP-II 32
 0
 32
 32
+Package_SO
+TSOP-II-44_10.16x18.41mm_P0.8mm
+TSOP-II, 44 Pin (http://www.issi.com/WW/pdf/61-64C5128AL.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
+TSOP-II SO
+0
+44
+44
 Package_SO
 TSOP-II-54_22.2x10.16mm_P0.8mm
 54-lead TSOP typ II package
@@ -55748,6 +56560,13 @@ SSOP 0.5
 56
 56
 Package_SO
+Vishay_PowerPAK_SO-8
+www.vishay.com/docs/73152/si7336adp.pdf
+Vishay PowerPAK SO-8
+0
+9
+5
+Package_SO
 VSO-40_7.6x15.4mm_P0.762mm
 VSO40: plastic very small outline package; 40 leads (see NXP SSOP-TSSOP-VSO-REFLOW.pdf and sot158-1_po.pdf)
 SSOP 0.762
@@ -55824,6 +56643,20 @@ ROHM VML0806
 0
 3
 3
+Package_SON
+SON-8-1EP_3x2mm_P0.5mm_EP1.4x1.6mm
+SON, 8 Pin (http://www.fujitsu.com/downloads/MICRO/fsa/pdf/products/memory/fram/MB85RS16-DS501-00014-6v0-E.pdf), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+SON DFN_QFN
+0
+13
+9
+Package_SON
+Texas_DQK
+Texas WSON-6 DQK, http://www.ti.com/lit/ds/symlink/csd16301q2.pdf
+Texas WSON6 2x2mm
+0
+10
+8
 Package_SON
 Texas_DSC0010J
 3x3mm Body, 0.5mm Pitch, DSC0010J, WSON, http://www.ti.com/lit/ds/symlink/tps61201.pdf
@@ -55929,6 +56762,20 @@ VSON 0.65
 0
 12
 5
+Package_SON
+VSON-10-1EP_3x3mm_P0.5mm_EP1.2x2mm
+VSON, 10 Pin (http://rohmfs.rohm.com/en/products/databook/datasheet/ic/power/switching_regulator/bd8314nuv-e.pdf (Page 20)), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+VSON
+0
+15
+11
+Package_SON
+VSON-10-1EP_3x3mm_P0.5mm_EP1.2x2mm_ThermalVias
+VSON, 10 Pin (http://rohmfs.rohm.com/en/products/databook/datasheet/ic/power/switching_regulator/bd8314nuv-e.pdf (Page 20)), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+VSON
+0
+18
+11
 Package_SON
 VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm
 VSON 10 Thermal on 11 3x3mm Pitch 0.5mm http://chip.tomsk.ru/chip/chipdoc.nsf/Package/D8A64DD165C2AAD9472579400024FC41!OpenDocument
@@ -56069,6 +56916,13 @@ ATPAK
 0
 7
 3
+Package_TO_SOT_SMD
+Diodes_SOT-553
+Diodes SOT-553, https://www.diodes.com/assets/Package-Files/SOT553.pdf
+SOT-553
+0
+5
+5
 Package_TO_SOT_SMD
 HVSOF5
 HVSOF5, http://rohmfs.rohm.com/en/techdata_basic/ic/package/hvsof5_1-e.pdf
@@ -56462,6 +57316,13 @@ SOT-383FL
 8
 8
 Package_TO_SOT_SMD
+SOT-416
+SOT-416, https://www.nxp.com/docs/en/package-information/SOT416.pdf
+SOT-416
+0
+3
+3
+Package_TO_SOT_SMD
 SOT-543
 SOT-543 4 lead surface package
 SOT-543 SC-107A EMD4
@@ -56500,6 +57361,13 @@ Package_TO_SOT_SMD
 SOT-723
 http://toshiba.semicon-storage.com/info/docget.jsp?did=5879&prodName=RN1104MFV
 sot 723
+0
+3
+3
+Package_TO_SOT_SMD
+SOT-883
+SOT-883, https://assets.nexperia.com/documents/outline-drawing/SOT883.pdf
+SOT-883
 0
 3
 3
@@ -59514,6 +60382,13 @@ Relay DPDT IM-relay FRT5
 10
 10
 Relay_THT
+Relay_DPDT_Fujitsu_FTR-F1C
+https://www.fujitsu.com/downloads/MICRO/fcai/relays/ftr-f1.pdf
+relay dpdt fujitsu tht
+0
+8
+8
+Relay_THT
 Relay_DPDT_Omron_G5V-2
 http://omronfs.omron.com/en_US/ecb/products/pdf/en-g5v2.pdf
 Omron G5V-2 Relay DPDT
@@ -59576,6 +60451,13 @@ Relay DPDT Schrack-RT2 RM5mm 16A 250V AC Relay
 0
 8
 8
+Relay_THT
+Relay_DPST_Fujitsu_FTR-F1A
+https://www.fujitsu.com/downloads/MICRO/fcai/relays/ftr-f1.pdf
+relay dpst fujitsu tht
+0
+6
+6
 Relay_THT
 Relay_DPST_Schrack-RT2-FormA_RM5mm
 Relay DPST Schrack-RT2 RM5mm 16A 250V AC Form A http://www.te.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv&DocNm=RT2_reflow&DocType=DS&DocLang=EN
@@ -60151,6 +61033,13 @@ resistor array
 4
 4
 Resistor_SMD
+R_Array_Convex_2x0606
+Precision Thin Film Chip Resistor Array, VISHAY (see http://www.vishay.com/docs/28770/acasat.pdf)
+resistor array
+0
+4
+4
+Resistor_SMD
 R_Array_Convex_2x1206
 Chip Resistor Network, ROHM MNR32 (see mnr_g.pdf)
 resistor array
@@ -60167,6 +61056,13 @@ resistor array
 Resistor_SMD
 R_Array_Convex_4x0603
 Chip Resistor Network, ROHM MNR14 (see mnr_g.pdf)
+resistor array
+0
+8
+8
+Resistor_SMD
+R_Array_Convex_4x0612
+Precision Thin Film Chip Resistor Array, VISHAY (see http://www.vishay.com/docs/28770/acasat.pdf)
 resistor array
 0
 8
@@ -60266,6 +61162,27 @@ Resistor_SMD
 R_Shunt_Ohmite_LVK25
 4 contacts shunt resistor,https://www.ohmite.com/assets/docs/res_lvk.pdf
 4 contacts resistor smd
+0
+4
+4
+Resistor_SMD
+R_Shunt_Vishay_WSK2512_6332Metric_T1.19mm
+Shunt Resistor SMD 2512 (6332 Metric), 2.6mm thick, Vishay WKS2512, Terminal length (T) 1.19mm, 5 to 200 milli Ohm (http://http://www.vishay.com/docs/30108/wsk.pdf)
+resistor shunt WSK2512
+0
+4
+4
+Resistor_SMD
+R_Shunt_Vishay_WSK2512_6332Metric_T2.21mm
+Shunt Resistor SMD 2512 (6332 Metric), 2.6mm thick, Vishay WKS2512, Terminal length (T) 2.21mm, 1 to 4.9 milli Ohm (http://http://www.vishay.com/docs/30108/wsk.pdf)
+resistor shunt WSK2512
+0
+4
+4
+Resistor_SMD
+R_Shunt_Vishay_WSK2512_6332Metric_T2.66mm
+Shunt Resistor SMD 2512 (6332 Metric), 2.6mm thick, Vishay WKS2512, Terminal length (T) 2.66mm, 0.5 to 0.99 milli Ohm (http://http://www.vishay.com/docs/30108/wsk.pdf)
+resistor shunt WSK2512
 0
 4
 4
@@ -61187,6 +62104,13 @@ BLE module
 11
 11
 RF_Module
+MonoWireless_TWE-L-WX
+https://www.mono-wireless.com/jp/products/TWE-LITE/MW-PDS-TWELITE-JP.pdf
+TWE-L-WX
+0
+32
+32
+RF_Module
 nRF24L01_Breakout
 nRF24L01 breakout board
 nRF24L01 adapter breakout
@@ -61321,133 +62245,133 @@ RF transceiver SMD style
 12
 RF_Shielding
 Laird_Technologies_97-2002_25.40x25.40mm
-Laird Technologies 97-2002 EZ PEEL Shielding Cabinet One Piece SMD 25.40x25.40mm
+Laird Technologies 97-2002 EZ PEEL Shielding Cabinet One Piece SMD 25.40x25.40mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 8
 1
 RF_Shielding
 Laird_Technologies_97-2003_12.70x13.37mm
-Laird Technologies 97-2003 EZ PEEL Shielding Cabinet One Piece SMD 12.70x13.37mm
+Laird Technologies 97-2003 EZ PEEL Shielding Cabinet One Piece SMD 12.70x13.37mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 8
 1
 RF_Shielding
 Laird_Technologies_BMI-S-101_13.66x12.70mm
-Laird Technologies BMI-S-101 Shielding Cabinet One Piece SMD 13.66x12.70mm
+Laird Technologies BMI-S-101 Shielding Cabinet One Piece SMD 13.66x12.70mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 16
 1
 RF_Shielding
 Laird_Technologies_BMI-S-102_16.50x16.50mm
-Laird Technologies BMI-S-102 Shielding Cabinet One Piece SMD 16.50x16.50mm
+Laird Technologies BMI-S-102 Shielding Cabinet One Piece SMD 16.50x16.50mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 16
 1
 RF_Shielding
 Laird_Technologies_BMI-S-103_26.21x26.21mm
-Laird Technologies BMI-S-103 Shielding Cabinet One Piece SMD 26.21x26.21mm
+Laird Technologies BMI-S-103 Shielding Cabinet One Piece SMD 26.21x26.21mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 24
 1
 RF_Shielding
 Laird_Technologies_BMI-S-104_32.00x32.00mm
-Laird Technologies BMI-S-104 Shielding Cabinet One Piece SMD 32.00x32.00mm
+Laird Technologies BMI-S-104 Shielding Cabinet One Piece SMD 32.00x32.00mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 28
 1
 RF_Shielding
 Laird_Technologies_BMI-S-105_38.10x25.40mm
-Laird Technologies BMI-S-105 Shielding Cabinet One Piece SMD 38.10x25.40mm
+Laird Technologies BMI-S-105 Shielding Cabinet One Piece SMD 38.10x25.40mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 28
 1
 RF_Shielding
 Laird_Technologies_BMI-S-106_36.83x33.68mm
-Laird Technologies BMI-S-106 Shielding Cabinet One Piece SMD 36.83x33.68mm
+Laird Technologies BMI-S-106 Shielding Cabinet One Piece SMD 36.83x33.68mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 28
 1
 RF_Shielding
 Laird_Technologies_BMI-S-107_44.37x44.37mm
-Laird Technologies BMI-S-107 Shielding Cabinet One Piece SMD 44.37x44.37mm
+Laird Technologies BMI-S-107 Shielding Cabinet One Piece SMD 44.37x44.37mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 36
 1
 RF_Shielding
 Laird_Technologies_BMI-S-201-F_13.66x12.70mm
-Laird Technologies BMI-S-201-F Shielding Cabinet Two Piece SMD 13.66x12.70mm
+Laird Technologies BMI-S-201-F Shielding Cabinet Two Piece SMD 13.66x12.70mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 16
 1
 RF_Shielding
 Laird_Technologies_BMI-S-202-F_16.50x16.50mm
-Laird Technologies BMI-S-202-F Shielding Cabinet Two Piece SMD 16.50x16.50mm
+Laird Technologies BMI-S-202-F Shielding Cabinet Two Piece SMD 16.50x16.50mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 16
 1
 RF_Shielding
 Laird_Technologies_BMI-S-203-F_26.21x26.21mm
-Laird Technologies BMI-S-203-F Shielding Cabinet Two Piece SMD 26.21x26.21mm
+Laird Technologies BMI-S-203-F Shielding Cabinet Two Piece SMD 26.21x26.21mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 24
 1
 RF_Shielding
 Laird_Technologies_BMI-S-204-F_32.00x32.00mm
-Laird Technologies BMI-S-204-F Shielding Cabinet Two Piece SMD 32.00x32.00mm
+Laird Technologies BMI-S-204-F Shielding Cabinet Two Piece SMD 32.00x32.00mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 28
 1
 RF_Shielding
 Laird_Technologies_BMI-S-205-F_38.10x25.40mm
-Laird Technologies BMI-S-205-F Shielding Cabinet Two Piece SMD 38.10x25.40mm
+Laird Technologies BMI-S-205-F Shielding Cabinet Two Piece SMD 38.10x25.40mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 28
 1
 RF_Shielding
 Laird_Technologies_BMI-S-206-F_36.83x33.68mm
-Laird Technologies BMI-S-206-F Shielding Cabinet Two Piece SMD 36.83x33.68mm
+Laird Technologies BMI-S-206-F Shielding Cabinet Two Piece SMD 36.83x33.68mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 28
 1
 RF_Shielding
 Laird_Technologies_BMI-S-207-F_44.37x44.37mm
-Laird Technologies BMI-S-207-F Shielding Cabinet Two Piece SMD 44.37x44.37mm
+Laird Technologies BMI-S-207-F Shielding Cabinet Two Piece SMD 44.37x44.37mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 36
 1
 RF_Shielding
 Laird_Technologies_BMI-S-208-F_39.60x39.60mm
-Laird Technologies BMI-S-208-F Shielding Cabinet Two Piece SMD 39.60x39.60mm
+Laird Technologies BMI-S-208-F Shielding Cabinet Two Piece SMD 39.60x39.60mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 32
 1
 RF_Shielding
 Laird_Technologies_BMI-S-209-F_29.36x18.50mm
-Laird Technologies BMI-S-209-F Shielding Cabinet Two Piece SMD 29.36x18.50mm
+Laird Technologies BMI-S-209-F Shielding Cabinet Two Piece SMD 29.36x18.50mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 20
 1
 RF_Shielding
 Laird_Technologies_BMI-S-210-F_44.00x30.50mm
-Laird Technologies BMI-S-210-F Shielding Cabinet Two Piece SMD 44.00x30.50mm
+Laird Technologies BMI-S-210-F Shielding Cabinet Two Piece SMD 44.00x30.50mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
 Shielding Cabinet
 0
 32
@@ -61670,6 +62594,13 @@ Allegro SIP-4
 4
 4
 Sensor_Current
+Diodes_SIP-3_AmmoPack
+Diodes SIP3 Ammo Pack, https://www.diodes.com/assets/Package-Files/SIP-3-Ammo-Pack.pdf
+SIP3 Ammo Pack
+0
+3
+3
+Sensor_Current
 LEM_HO8-NP
 LEM HO 8/15/25-NP Current Transducer (https://www.lem.com/sites/default/files/products_datasheets/ho-np-0000_series.pdf)
 current transducer
@@ -61844,6 +62775,13 @@ THT DIP DIL ZIF 25.4mm 1000mil Socket
 0
 40
 40
+Socket
+Wells_648-0482211SA01
+https://www.farnell.com/cad/316865.pdf?_ga=2.37208032.177107060.1530611323-249019997.1498114824
+48pin TSOP Socket
+0
+48
+48
 Symbol
 CE-Logo_8.5x6mm_SilkScreen
 CE marking
@@ -62768,6 +63706,13 @@ terminal block bornier6
 0
 6
 6
+TerminalBlock
+TerminalBlock_Wuerth_691311400102_P7.62mm
+https://katalog.we-online.de/em/datasheet/6913114001xx.pdf
+Wuerth WR-TBL Series 3114 terminal block pitch 7.62mm
+0
+2
+2
 TerminalBlock_4Ucon
 TerminalBlock_4Ucon_1x02_P3.50mm_Horizontal
 Terminal Block 4Ucon ItemNo. 19963, 2 pins, pitch 3.5mm, size 7.7x7mm^2, drill diamater 1.2mm, pad diameter 2.4mm, see http://www.4uconnector.com/online/object/4udrawing/19963.pdf, script-generated using https://github.com/pointhi/kicad-footprint-generator/scripts/TerminalBlock_4Ucon
@@ -66241,37 +67186,51 @@ test point THT pad
 1
 1
 Transformer_SMD
+Pulse_P0926NL
+SMT Gate Drive Transformer, 1:1:1, 8.0x6.3x5.3mm (https://productfinder.pulseeng.com/products/datasheets/SPM2007_61.pdf)
+pulse pa0926nl
+0
+6
+6
+Transformer_SMD
+Pulse_PA1323NL
+SMT Gate Drive Transformer, 1:1, 9.5x7.1x5.3mm (https://productfinder.pulseeng.com/products/datasheets/SPM2007_61.pdf)
+pulse pa1323nl
+0
+6
+6
+Transformer_SMD
 Pulse_PA2001NL
 SMT Gate Drive Transformer, 1:1, 8.6x6.7x2.5mm (https://productfinder.pulseeng.com/products/datasheets/P663.pdf)
-pulse pa2001nl
+pulse pa2001nl pe-68386nl
 0
 4
 4
 Transformer_SMD
 Pulse_PA2002NL-PA2008NL-PA2009NL
-SMT Gate Drive Transformer, 1:1:1 or 2:1:1 or 2.5:1:1, 9.0x8.6x7.6mm (https://productfinder.pulseeng.com/products/datasheets/P663.pdf)
-pulse pa2002nl pa2008nl pa2009nl
+SMT Gate Drive Transformer, 1:1:1 or 2:1:1 or 2.5:1:1 or 1:1, 9.0x8.6x7.6mm (https://productfinder.pulseeng.com/products/datasheets/P663.pdf)
+pulse pa2002nl pa2008nl pa2009nl p0544nl pa0184nl pa0297nl pa0510nl
 0
 6
 6
 Transformer_SMD
 Pulse_PA2004NL
 SMT Gate Drive Transformer, 1:1:1, 8.6x6.7x3.6mm (https://productfinder.pulseeng.com/products/datasheets/P663.pdf)
-pulse pa2004nl
+pulse pa2004nl pa0264nl
 0
 6
 6
 Transformer_SMD
 Pulse_PA2005NL
 SMT Gate Drive Transformer, 1:1:1, 11.8x8.8x4.0mm (https://productfinder.pulseeng.com/products/datasheets/P663.pdf)
-pulse pa2005nl
+pulse pa2005nl pa0173nl
 0
 6
 6
 Transformer_SMD
 Pulse_PA2006NL
 SMT Gate Drive Transformer, 1:1, 11.8x8.8x4.0mm (https://productfinder.pulseeng.com/products/datasheets/P663.pdf)
-pulse pa2006nl
+pulse pa2006nl pa0186nl
 0
 4
 4
@@ -66279,6 +67238,20 @@ Transformer_SMD
 Pulse_PA2007NL
 SMT Gate Drive Transformer, 1:1, 9.0x8.6x7.6mm (https://productfinder.pulseeng.com/products/datasheets/P663.pdf)
 pulse pa2007nl
+0
+4
+4
+Transformer_SMD
+Pulse_PA2777NL
+SMT Gate Drive Transformer, 1:1, 7.1x6.1x5.5mm (https://productfinder.pulseeng.com/products/datasheets/SPM2007_61.pdf)
+pulse pa2777nl
+0
+8
+8
+Transformer_SMD
+Pulse_PA3493NL
+SMT Gate Drive Transformer, 1.25:1, 10.9x9.7x2.7mm (https://productfinder.pulseeng.com/products/datasheets/SPM2007_61.pdf)
+pulse pa3493nl
 0
 4
 4
