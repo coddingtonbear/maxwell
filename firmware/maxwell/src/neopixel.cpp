@@ -50,6 +50,11 @@ void neopixel::activatePreset(uint32 preset) {
         setColor(255, 100, 0);
         setSecondaryColor(255, 255, 255);
         setMaxBrightness(32);
+    } else if (preset == LED_PRESET_HALLOWEEN) {
+        setCycle(LED_CYCLE_MOTION);
+        setColor(255, 50, 0);
+        setSecondaryColor(0, 0, 0);
+        setMaxBrightness(32);
     }
 }
 
