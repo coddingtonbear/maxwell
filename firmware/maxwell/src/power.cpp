@@ -234,9 +234,11 @@ void power::sleep() {
     util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
 
     // Stop LTE module
-    lte::enable(false);
-    LTEUart.GPIOSetPinMode(PIN_LTE_OE, INPUT);
-    LTEUart.sleep();
+    if(LTEUart.ping()) {
+        lte::enable(false);
+        LTEUart.GPIOSetPinMode(PIN_LTE_OE, INPUT);
+        LTEUart.sleep();
+    }
 
     // Stop logging
     Log.end();
