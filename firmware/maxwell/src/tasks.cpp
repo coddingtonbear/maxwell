@@ -94,8 +94,9 @@ void tasks::init() {
     taskRunner.addTask(taskLoggerStatsInterval);
     taskRunner.addTask(taskCanbusStatusInterval);
     taskRunner.addTask(taskCanbusCurrentTimestamp);
-    taskRunner.addTask(taskLTEStatusAnnounce);
-    taskRunner.addTask(taskLTEStatusManager);
+    //taskRunner.addTask(taskLTEStatusAnnounce);
+    //taskRunner.addTask(taskLTEStatusManager);
+    //taskRunner.addTask(taskLTETimestampSync);
     taskRunner.enableAll();
 }
 
