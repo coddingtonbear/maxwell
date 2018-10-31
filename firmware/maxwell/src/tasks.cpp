@@ -23,6 +23,11 @@ Task taskVoltageWarning(
     TASK_FOREVER,
     &tasks::taskVoltageWarningCallback
 );
+Task taskSpeedRefresh(
+    SPEED_REFRESH_INTERVAL,
+    TASK_FOREVER,
+    &tasks::taskSpeedRefreshCallback
+);
 Task taskCanbusVoltageBatteryAnnounce(
     CANBUS_VOLTAGE_BATTERY_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
@@ -85,6 +90,7 @@ void tasks::init() {
     taskRunner.init();
     taskRunner.addTask(taskVoltage);
     taskRunner.addTask(taskVoltageWarning);
+    taskRunner.addTask(taskSpeedRefresh);
     taskRunner.addTask(taskCanbusVoltageBatteryAnnounce);
     taskRunner.addTask(taskCanbusCurrentAnnounce);
     taskRunner.addTask(taskCanbusChargingStatusAnnounce);
@@ -319,3 +325,6 @@ void tasks::taskLTETimestampSyncCallback() {
     }
 }
 
+void tasks::taskSpeedRefreshCallback() {
+    status::refreshSpeed();
+}

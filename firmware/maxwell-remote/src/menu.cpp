@@ -284,6 +284,10 @@ MenuItem powerMenu("Power", &powerMenuList);
                     MenuItem(
                         "Safety",
                         makePresetMenuItem(LED_PRESET_SAFETY)
+                    ),
+                    MenuItem(
+                        "Halloween",
+                        makePresetMenuItem(LED_PRESET_HALLOWEEN)
                     )
                 };
             MenuList presetMenuList(presetOptions, COUNT_OF(presetOptions));
