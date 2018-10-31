@@ -119,7 +119,8 @@ class SC16IS750 : public Stream
         SC16IS750(
             uint8_t addr = SC16IS750_ADDRESS_AD,
             uint8_t chan = SC16IS750_CHAN_A,
-            unsigned long crystal_frequency = 14745600UL
+            unsigned long crystal_frequency = 14745600UL,
+            SPIClass *bus=&SPI
         );
         void setSpiBus(SPIClass*);
         void begin(uint32_t baud=0, bool reset=false);

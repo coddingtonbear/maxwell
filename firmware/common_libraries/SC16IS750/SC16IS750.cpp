@@ -30,7 +30,8 @@ SPISettings settings(4000000, MSBFIRST, SPI_MODE0);
 SC16IS750::SC16IS750(
     uint8_t addr_sspin,
     uint8_t chan,
-    unsigned long crystal_freq
+    unsigned long crystal_freq,
+    SPIClass *bus
 ){
     crystal_frequency = crystal_freq;
     channel = chan;
@@ -39,7 +40,7 @@ SC16IS750::SC16IS750(
     digitalWrite(device_address_sspin, HIGH);
     pinMode(device_address_sspin, OUTPUT);
 
-    spiBus = &SPI;
+    spiBus = bus;
 }
 
 void SC16IS750::setSpiBus(SPIClass* bus) {
