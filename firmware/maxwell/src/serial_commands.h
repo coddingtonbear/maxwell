@@ -61,6 +61,9 @@ namespace console {
     void lteCommand();
     void sendTextMessage();
     void showLTETimestamp();
+    void getLTELogStatus();
+    void connectLTELogger();
+    void disconnectLTELogger();
 
     void sendCan();
     void emitCan();

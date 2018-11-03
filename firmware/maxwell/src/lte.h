@@ -5,10 +5,10 @@
 #define LTE_ENABLED true
 #define LTE_DISABLED false
 
-#define LTE_DEBUG
+//#define LTE_DEBUG
 
 namespace lte {
-    void enable(bool _enabled=true);
+    bool enable(bool _enabled=true);
 
     bool asyncEnable(bool enabled=true);
     void asyncManagerLoop();
@@ -21,6 +21,8 @@ namespace lte {
     bool isEnabled();
 
     time_t getTimestamp();
+
+    bool getLteConnectionStatus(char*);
 }
 
 extern Adafruit_FONA_LTE LTE;

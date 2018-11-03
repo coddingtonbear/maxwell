@@ -8,11 +8,17 @@
 #include "pin_map.h"
 #include "lte.h"
 #include "tasks.h"
+#include "status.h"
 
 Adafruit_FONA_LTE LTE = Adafruit_FONA_LTE();
 
 bool lteEnabled = false;
 
+enum lte_log_status {
+    CONNECTED,
+    DISCONNECTED,
+    UNKNOWN
+};
 enum lte_state {
     LTE_STATE_NULL,
     LTE_STATE_OFF,
@@ -86,7 +92,7 @@ void lte::asyncManagerLoop() {
             #ifdef LTE_DEBUG
                 Output.print("Unpressing LTE Power key");
             #endif
-            maxNextLteStatusTransition = millis() + 5000;
+            maxNextLteStatusTransition = millis() + 30000;
             nextLteTargetStatus = LTE_STATE_ON;
         } else if (nextLteTargetStatus == LTE_STATE_ON) {
             #ifdef LTE_DEBUG
@@ -96,7 +102,10 @@ void lte::asyncManagerLoop() {
                 #ifdef LTE_DEBUG
                     Output.print("LTE powered on; enabling now...");
                 #endif
-                enable();
+                bool result = enable();
+                if(!result) {
+                    return;
+                }
                 lteTargetStatus = LTE_STATE_NULL;
                 nextLteTargetStatus = LTE_STATE_NULL;
                 tasks::enableLTEStatusManager(false);
@@ -142,7 +151,7 @@ void lte::togglePower() {
     unpressPowerKey();
 }
 
-void lte::enable(bool _enable) {
+bool lte::enable(bool _enable) {
     if(_enable) {
         if(!isPoweredOn()) {
             lte::togglePower();
@@ -158,14 +167,24 @@ void lte::enable(bool _enable) {
         LTEUart.flush();
         LTEUart.begin(9600);
         LTE.begin(LTEUart);
-        LTE.enableGPRS(true);
+        bool result = LTE.enableGPRS(true);
+        if(!result) {
+            LTE.enableGPRS(false);
+            return false;
+        }
         delay(10);
         lteEnabled = true;
+        return true;
     } else {
-        LTEUart.println("\r\nAT+CPOWD=1\r\n");
+        if(status::statusConnectionConnected()) {
+            status::connectStatusConnection(false);
+        }
+        LTE.sendCommand("AT+CIPSHUT");
+        LTE.sendCommand("AT+CPOWD=1");
         LTEUart.flush();
         LTEUart.begin(115200);
         lteEnabled = false;
+        return true;
     }
 }
 
@@ -225,4 +244,24 @@ time_t lte::getTimestamp() {
     composedTime += (offset * 15 * 60);
 
     return composedTime;
+}
+
+bool lte::getLteConnectionStatus(char* buffer)  {
+    char reply[128];
+
+    uint8_t length = 0;
+    length = LTE.getMultilineReply("AT+CIPSTATUS", reply, 100);
+
+    MatchState ms;
+    ms.Target(reply);
+
+    char result = ms.Match(
+        "STATE: (.*)\n"
+    );
+    if(!result) {
+        return false;
+    }
+    ms.GetCapture(buffer, 0);
+
+    return true;
 }

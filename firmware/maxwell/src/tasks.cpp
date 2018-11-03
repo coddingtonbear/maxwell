@@ -100,10 +100,13 @@ void tasks::init() {
     taskRunner.addTask(taskLoggerStatsInterval);
     taskRunner.addTask(taskCanbusStatusInterval);
     taskRunner.addTask(taskCanbusCurrentTimestamp);
-    //taskRunner.addTask(taskLTEStatusAnnounce);
-    //taskRunner.addTask(taskLTEStatusManager);
-    //taskRunner.addTask(taskLTETimestampSync);
+    taskRunner.addTask(taskLTEStatusAnnounce);
+    taskRunner.addTask(taskLTEStatusManager);
+    taskRunner.addTask(taskLTETimestampSync);
     taskRunner.enableAll();
+
+    // This will be automatically enabled when necessary
+    taskLTEStatusManager.disable();
 }
 
 void tasks::enableLTEStatusManager(bool _enable) {

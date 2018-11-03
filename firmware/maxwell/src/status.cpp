@@ -62,96 +62,138 @@ double status::getSpeed() {
     return currentSpeedMph.getValue();
 }
 
+bool status::sendStatusUpdateLine(String key, String value) {
+    String finalMessage = key + "=" + value;
+
+    LTE.sendCommand(
+        (char*)(
+            String("AT+CIPSEND=")
+            + String(finalMessage.length() + 2)
+        ).c_str(),
+        25
+    );
+    LTE.sendCommand(
+        (char*)finalMessage.c_str(),
+        25
+    );
+}
+
 bool status::sendStatusUpdate() {
     if (!lte::isEnabled()) {
         Output.println("LTE is not enabled; could not send status update.");
         return false;
     }
 
-    if(!LTE.TCPconnect(MQTT_SERVER, MQTT_SERVERPORT)) {
-        Output.println("Could not establish TCP connection to MQTT server.");
-        return false;
-    }
-    if(!LTE.MQTTconnect("MQIsdp", MQTT_CLIENT, MQTT_USERNAME, MQTT_KEY)) {
-        Output.println("Could not establish MQTT connection to broker.");
-        return false;
+    if(!status::statusConnectionConnected()) {
+        status::connectStatusConnection();
     }
 
-    uint8_t published = 0;
     if(latitude && longitude) {
-        published += LTE.MQTTpublish(
-            "/position/latitude",
-            String((double)latitude / 1e6).c_str()
-        );
-        published += LTE.MQTTpublish(
-            "/position/longitude",
-            String((double)longitude / 1e6).c_str()
+        status::sendStatusUpdateLine(
+            "position",
+            String((double)latitude / 1e6)
+            + "|"
+            + String((double)longitude / 1e5)
         );
     }
-    published += LTE.MQTTpublish(
-        "/position/velocity_mph",
-        String(currentSpeedMph.getValue()).c_str()
+    status::sendStatusUpdateLine(
+        "velocity",
+        String(currentSpeedMph.getValue())
     );
-    published += LTE.MQTTpublish(
-        "/timestamp",
-        String((uint32_t)Clock.getTime()).c_str()
+    status::sendStatusUpdateLine(
+        "timestamp",
+        String((uint32_t)Clock.getTime())
     );
-    published += LTE.MQTTpublish("/uptime", String(millis()).c_str());
-
+    status::sendStatusUpdateLine(
+        "uptime",
+        String(millis())
+    );
     uint32 errCode = Log.getErrorCode();
     if(errCode) {
-        published += LTE.MQTTpublish("/logging", "false");
+        status::sendStatusUpdateLine(
+            "sd_logging",
+            String("0")
+        );
     } else {
-        published += LTE.MQTTpublish("/logging", "true");
+        status::sendStatusUpdateLine(
+            "sd_logging",
+            String("1")
+        );
     }
-
-    published += LTE.MQTTpublish(
-        "/power/battery_voltage",
-        String(power::getVoltage(VOLTAGE_BATTERY)).c_str()
+    status::sendStatusUpdateLine(
+        "power.battery_voltage",
+        String(power::getVoltage(VOLTAGE_BATTERY))
     );
-    published += LTE.MQTTpublish(
-        "/power/current_amps",
-        String(power::getCurrentUsage()).c_str()
+    status::sendStatusUpdateLine(
+        "power.current_amps",
+        String(power::getCurrentUsage())
     );
 
     LedStatus ledStatus;
     neopixel::getStatus(ledStatus);
+    status::sendStatusUpdateLine(
+        "led.color.1",
+        ("#" + String(ledStatus.red, HEX) + String(ledStatus.green, HEX) + String(ledStatus.blue, HEX))
+    );
+    status::sendStatusUpdateLine(
+        "led.color.2",
+        ("#" + String(ledStatus.red2, HEX) + String(ledStatus.green2, HEX) + String(ledStatus.blue2, HEX))
+    );
+    status::sendStatusUpdateLine(
+        "led.enabled",
+        String(ledStatus.enabled)
+    );
+    status::sendStatusUpdateLine(
+        "led.cycle_id",
+        String(ledStatus.cycle)
+    );
+    status::sendStatusUpdateLine(
+        "led.brightness",
+        String(ledStatus.brightness)
+    );
+    status::sendStatusUpdateLine(
+        "led.interval",
+        String(ledStatus.interval)
+    );
+}
 
-    published += LTE.MQTTpublish(
-        "/leds/color_1",
-        ("#" + String(ledStatus.red, HEX) + String(ledStatus.green, HEX) + String(ledStatus.blue, HEX)).c_str()
-    );
-    published += LTE.MQTTpublish(
-        "/leds/color_2",
-        ("#" + String(ledStatus.red2, HEX) + String(ledStatus.green2, HEX) + String(ledStatus.blue2, HEX)).c_str()
-    );
-    published += LTE.MQTTpublish(
-        "/leds/enabled",
-        String(ledStatus.enabled).c_str()
-    );
-    published += LTE.MQTTpublish(
-        "/leds/cycle_id",
-        String(ledStatus.cycle).c_str()
-    );
-    published += LTE.MQTTpublish(
-        "/leds/brightness",
-        String(ledStatus.brightness).c_str()
-    );
-    published += LTE.MQTTpublish(
-        "/leds/interval_ms",
-        String(ledStatus.interval).c_str()
-    );
 
-    #ifdef STATUS_DEBUG
-        Output.print("Published ");
-        Output.print(published);
-        Output.println(" statistics.");
-    #endif
-
-    if(!LTE.TCPclose()) {
-        Output.println("Could not close TCP connection to MQTT server.");
+bool status::connectStatusConnection(bool enabled) {
+    if(!lte::isEnabled()) {
         return false;
     }
 
+    if(enabled) {
+        LTE.sendCommand("AT+CIPSHUT");
+        LTE.sendCommand("AT+CIPMUX=0");
+        LTE.sendCommand("AT+CIPRXGET=1");
+        LTE.sendCommand(
+            (char*)(
+                String("AT+CIPSTART=\"TCP\",\"")
+                + String(STATUS_HOST)
+                + String("\",\"")
+                + String(STATUS_PORT)
+                + String("\"")
+            ).c_str()
+        );
+    } else {
+        LTE.sendCommand("AT+CIPCLOSE");
+    }
+
     return true;
+}
+
+bool status::statusConnectionConnected() {
+    if(!lte::isEnabled()) {
+        return false;
+    }
+
+    char buffer[20];
+    lte::getLteConnectionStatus(buffer);
+
+    if(strcmp(buffer, "CONNECT OK") == 0) {
+        return true;
+    }
+
+    return false;
 }

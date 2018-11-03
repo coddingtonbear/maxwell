@@ -220,6 +220,7 @@ class Adafruit_FONA : public FONAStreamType {
 
   // Helper functions to verify responses.
   boolean sendCommand(char *send, uint16_t timeout = FONA_DEFAULT_TIMEOUT_MS);
+  boolean getMultilineReply(char *send, char *reply, uint16_t timeout = FONA_DEFAULT_TIMEOUT_MS);
   boolean getReply(char *send, char *reply, uint16_t timeout = FONA_DEFAULT_TIMEOUT_MS);
   boolean expectReply(FONAFlashStringPtr reply, uint16_t timeout = 10000);
   boolean sendCheckReply(char *send, char *reply, uint16_t timeout = FONA_DEFAULT_TIMEOUT_MS);
@@ -245,6 +246,7 @@ class Adafruit_FONA : public FONAStreamType {
   void flushInput();
   uint16_t readRaw(uint16_t b);
   uint8_t readline(uint16_t timeout = FONA_DEFAULT_TIMEOUT_MS, boolean multiline = false);
+  uint8_t getMultilineReply(char *send, uint16_t timeout = FONA_DEFAULT_TIMEOUT_MS);
   uint8_t getReply(char *send, uint16_t timeout = FONA_DEFAULT_TIMEOUT_MS);
   uint8_t getReply(FONAFlashStringPtr send, uint16_t timeout = FONA_DEFAULT_TIMEOUT_MS);
   uint8_t getReply(FONAFlashStringPtr prefix, char *suffix, uint16_t timeout = FONA_DEFAULT_TIMEOUT_MS);

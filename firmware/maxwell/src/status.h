@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Arduino.h>
+
 #define SPEED_WHEEL_RADIUS_INCHES 80.0
 #define SPEED_PULSES_PER_ROTATION 14.0
 #define SPEED_INCHES_PER_MILE 63360
@@ -23,5 +25,8 @@ namespace status {
     void refreshSpeed();
     double getSpeed();
 
+    bool connectStatusConnection(bool enabled=true);
+    bool sendStatusUpdateLine(String, String);
     bool sendStatusUpdate();
+    bool statusConnectionConnected();
 };

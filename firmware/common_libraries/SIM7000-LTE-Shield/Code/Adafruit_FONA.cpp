@@ -2668,6 +2668,23 @@ uint8_t Adafruit_FONA::readline(uint16_t timeout, boolean multiline) {
   return replyidx;
 }
 
+uint8_t Adafruit_FONA::getMultilineReply(char *send, uint16_t timeout) {
+  flushInput();
+
+
+  DEBUG_PRINT(F("\t---> ")); DEBUG_PRINTLN(send);
+
+
+  mySerial->println(send);
+  mySerial->flush();
+
+  uint8_t l = readline(timeout, true);
+
+  DEBUG_PRINT (F("\t<--- ")); DEBUG_PRINTLN(replybuffer);
+
+  return l;
+}
+
 uint8_t Adafruit_FONA::getReply(char *send, uint16_t timeout) {
   flushInput();
 
@@ -2788,6 +2805,16 @@ boolean Adafruit_FONA::sendCommand(char *send, uint16_t timeout)
   if (! getReply(send, timeout) ) {
 	  return false;
   }
+  return true;
+}
+
+boolean Adafruit_FONA::getMultilineReply(char *send, char *reply, uint16_t timeout)
+{
+  if (! getMultilineReply(send, timeout) ) {
+    return false;
+  }
+
+  strcpy(reply, replybuffer);
   return true;
 }
 

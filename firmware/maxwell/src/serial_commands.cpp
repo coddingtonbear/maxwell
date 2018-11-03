@@ -74,7 +74,10 @@ void console::init() {
     commands.addCommand("set_time", console::setTime);
     commands.addCommand("get_time", console::getTime);
 
-    commands.addCommand("send_status", console::sendStatusUpdate);
+    commands.addCommand("lte_logger_emit", console::sendStatusUpdate);
+    commands.addCommand("lte_logger_status", console::getLTELogStatus);
+    commands.addCommand("lte_logger_connect", console::connectLTELogger);
+    commands.addCommand("lte_logger_disconnect", console::disconnectLTELogger);
 }
 
 void can::init() {
@@ -395,6 +398,10 @@ void can::flash() {
 }
 
 void console::flash() {
+    if(lte::isEnabled()) {
+        lte::enable(false);
+    }
+
     CanMsg flashNoticeMsg;
     flashNoticeMsg.IDE = CAN_ID_STD;
     flashNoticeMsg.RTR = CAN_RTR_DATA;
@@ -981,4 +988,43 @@ void can::receivePosition() {
 
 void console::sendStatusUpdate() {
     status::sendStatusUpdate();
+}
+
+void console::getLTELogStatus() {
+    if (!lte::isEnabled()) {
+        Output.println("LTE is not enabled");
+        return;
+    }
+
+    char buffer[20];
+
+    if(lte::getLteConnectionStatus(buffer)) {
+        Output.println(buffer);
+    } else {
+        Output.println("Error");
+    }
+}
+
+
+void console::connectLTELogger() {
+    if (!lte::isEnabled()) {
+        Output.println("LTE is not enabled");
+        return;
+    }
+
+    if(status::statusConnectionConnected()) {
+        Output.println("Already connected");
+        return;
+    }
+
+    status::connectStatusConnection(true);
+}
+
+void console::disconnectLTELogger() {
+    if(!status::statusConnectionConnected()) {
+        Output.println("Already disconnected");
+        return;
+    }
+
+    status::connectStatusConnection(false);
 }

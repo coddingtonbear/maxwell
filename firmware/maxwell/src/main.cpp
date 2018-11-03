@@ -166,6 +166,8 @@ void setup() {
     can::init();
     console::init();
 
+    lte::asyncEnable();
+
     console::prompt();
 
     Output.println("Ready.");
