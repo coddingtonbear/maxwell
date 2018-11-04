@@ -11,6 +11,7 @@
 #define CANBUS_LED_STATUS_ANNOUNCE_INTERVAL 4120
 #define CANBUS_STATUS_ANNOUNCE_INTERVAL 2641
 #define CANBUS_CURRENT_TIMESTAMP_ANNOUNCE_INTERVAL 9001
+#define LTE_STATUS_COLLECT_INTERVAL 3200
 #define LTE_STATUS_ANNOUNCE_INTERVAL 9000
 #define LTE_STATUS_MANAGER 1100
 #define LTE_TIMESTAMP_SYNC 5000
@@ -33,6 +34,7 @@ namespace tasks {
     void taskCanbusStatusIntervalCallback();
     void taskLoggerStatsIntervalCallback();
     void taskCanbusCurrentTimestampCallback();
+    void taskLTEStatusCollectCallback();
     void taskLTEStatusAnnounceCallback();
     void taskLTEStatusManagerCallback();
     void taskLTETimestampSyncCallback();

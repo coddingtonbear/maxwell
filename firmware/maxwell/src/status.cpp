@@ -190,47 +190,9 @@ bool status::connectStatusConnection(bool enabled) {
     }
 
     if(enabled) {
-        char atCipstart[128];
-        sprintf(
-            atCipstart,
-            "AT+CIPSTART=\"TCP\",\"%s\",\"%s\"",
-            STATUS_HOST,
-            STATUS_PORT
-        );
-        AsyncDuplex::Command commands[] = {
-            AsyncDuplex::Command(
-                "AT+CIPSHUT",
-                "OK"
-            ),
-            AsyncDuplex::Command(
-                "AT+CIPMUX=0",
-                "OK"
-            ),
-            AsyncDuplex::Command(
-                "AT+CIPRXGET=1",
-                "OK"
-            ),
-            AsyncDuplex::Command(
-                atCipstart,
-                "OK"
-            ),
-            AsyncDuplex::Command(
-                "AT+CIPSTATUS",
-                "CONNECT OK",
-                NULL,
-                NULL,
-                10000
-            )
-        };
-        return LTE.executeChain(
-            commands,
-            sizeof(commands)/sizeof(commands[0])
-        );
+        lte::connectTo(STATUS_HOST, STATUS_PORT);
     } else {
-        return LTE.execute(
-            "AT+CIPCLOSE",
-            ""
-        );
+        return lte::disconnectConnection();
     }
 }
 
@@ -240,7 +202,7 @@ bool status::statusConnectionConnected() {
     }
 
     char buffer[20];
-    lte::getLteConnectionStatus(buffer);
+    lte::getConnectionStatus(buffer);
 
     if(strcmp(buffer, "CONNECT OK") == 0) {
         return true;

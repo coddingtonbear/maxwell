@@ -1070,7 +1070,7 @@ void console::getLTELogStatus() {
 
     char buffer[20];
 
-    if(lte::getLteConnectionStatus(buffer)) {
+    if(lte::getConnectionStatus(buffer)) {
         Output.println(buffer);
     } else {
         Output.println("Error");

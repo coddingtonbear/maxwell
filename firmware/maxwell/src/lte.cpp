@@ -33,6 +33,8 @@ lte_state nextLteTargetStatus = LTE_STATE_NULL;
 long minNextLteStatusTransition = 0;
 long maxNextLteStatusTransition = 0;
 
+char connectionStatus[32] = {'\0'};
+
 void lte::loop() {
     LTE.loop();
 }
@@ -286,18 +288,71 @@ time_t lte::getTimestamp() {
     return timestamp;
 }
 
-bool lte::getLteConnectionStatus(char* buffer)  {
-    bool success = false;
+bool lte::getConnectionStatus(char* buffer)  {
+    strcpy(buffer, connectionStatus);
+    return true;
+}
+
+bool lte::connectTo(char* host, uint16_t port) {
+    char atCipstart[128];
+    sprintf(
+        atCipstart,
+        "AT+CIPSTART=\"TCP\",\"%s\",\"%s\"",
+        host,
+        port
+    );
+    AsyncDuplex::Command commands[] = {
+        AsyncDuplex::Command(
+            "AT+CIPSHUT",
+            ".+\n",
+            [](MatchState ms) {
+                connectionStatus[0] = '\0';
+            }
+        ),
+        AsyncDuplex::Command(
+            "AT+CIPMUX=0",
+            "OK"
+        ),
+        AsyncDuplex::Command(
+            "AT+CIPRXGET=1",
+            "OK"
+        ),
+        AsyncDuplex::Command(
+            atCipstart,
+            "OK"
+        ),
+        AsyncDuplex::Command(
+            "AT+CIPSTATUS",
+            "(CONNECT OK)",
+            [](MatchState ms) {
+                ms.GetCapture(connectionStatus, 0);
+            },
+            NULL,
+            10000
+        )
+    };
+    return LTE.executeChain(
+        commands,
+        sizeof(commands)/sizeof(commands[0])
+    );
+}
+
+bool lte::disconnectConnection() {
+    LTE.execute(
+        "AT+CIPSHUT",
+        ".+\n",
+        [](MatchState ms) {
+            connectionStatus[0] = '\0';
+        }
+    );
+}
+
+bool lte::collectStatusInformation() {
     LTE.execute(
         "AT+CIPSTATUS",
         "STATE: (.*)\r",
-        AsyncDuplex::Timing::ANY,
-        [&buffer, &success](MatchState ms) {
-            success = true;
-            ms.GetCapture(buffer, 0);
+        [](MatchState ms) {
+            ms.GetCapture(connectionStatus, 0);
         }
     );
-    LTE.wait(5000, iwdg_feed);
-
-    return success;
 }

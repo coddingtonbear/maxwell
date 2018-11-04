@@ -23,8 +23,11 @@ namespace lte {
     bool isEnabled();
 
     time_t getTimestamp();
+    bool collectStatusInformation();
 
-    bool getLteConnectionStatus(char*);
+    bool connectTo(char* host, uint16_t port);
+    bool disconnectConnection();
+    bool getConnectionStatus(char*);
 }
 
 extern AsyncModem::SIM7000 LTE;

@@ -16,98 +16,105 @@
 
 uint32 lastStatisticsUpdate = 0;
 
+Scheduler taskRunner;
+
 Task taskVoltage(VOLTAGE_UPDATE_INTERVAL, TASK_FOREVER, &tasks::taskVoltageCallback);
 Task taskStatistics(
     STATS_UPDATE_INTERVAL,
     TASK_FOREVER,
-    &tasks::taskStatisticsCallback
+    &tasks::taskStatisticsCallback,
+    &taskRunner
 );
 Task taskVoltageWarning(
     VOLTAGE_WARNING_INTERVAL,
     TASK_FOREVER,
-    &tasks::taskVoltageWarningCallback
+    &tasks::taskVoltageWarningCallback,
+    &taskRunner
 );
 Task taskSpeedRefresh(
     SPEED_REFRESH_INTERVAL,
     TASK_FOREVER,
-    &tasks::taskSpeedRefreshCallback
+    &tasks::taskSpeedRefreshCallback,
+    &taskRunner
 );
 Task taskCanbusVoltageBatteryAnnounce(
     CANBUS_VOLTAGE_BATTERY_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
-    &tasks::taskCanbusVoltageBatteryAnnounceCallback
+    &tasks::taskCanbusVoltageBatteryAnnounceCallback,
+    &taskRunner
 );
 Task taskCanbusCurrentAnnounce(
     CANBUS_CURRENT_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
-    &tasks::taskCanbusCurrentAnnounceCallback
+    &tasks::taskCanbusCurrentAnnounceCallback,
+    &taskRunner
 );
 Task taskCanbusChargingStatusAnnounce(
     CANBUS_CHARGING_STATUS_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
-    &tasks::taskCanbusChargingStatusAnnounceCallback
+    &tasks::taskCanbusChargingStatusAnnounceCallback,
+    &taskRunner
 );
 Task taskCanbusSpeedAnnounce(
     CANBUS_SPEED_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
-    &tasks::taskCanbusSpeedAnnounceCallback
+    &tasks::taskCanbusSpeedAnnounceCallback,
+    &taskRunner
 );
 Task taskCanbusLedStatusAnnounce(
     CANBUS_LED_STATUS_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
-    &tasks::taskCanbusLedStatusAnnounceCallback
+    &tasks::taskCanbusLedStatusAnnounceCallback,
+    &taskRunner
 );
 Task taskLoggerStatsInterval(
     LOGGER_STATS_INTERVAL,
     TASK_FOREVER,
-    &tasks::taskLoggerStatsIntervalCallback
+    &tasks::taskLoggerStatsIntervalCallback,
+    &taskRunner
 );
 Task taskCanbusStatusInterval(
     CANBUS_STATUS_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
-    &tasks::taskCanbusStatusIntervalCallback
+    &tasks::taskCanbusStatusIntervalCallback,
+    &taskRunner
 );
 Task taskCanbusCurrentTimestamp(
     CANBUS_CURRENT_TIMESTAMP_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
-    &tasks::taskCanbusCurrentTimestampCallback
+    &tasks::taskCanbusCurrentTimestampCallback,
+    &taskRunner
+);
+Task taskLTEStatusCollectCallback(
+    LTE_STATUS_COLLECT_INTERVAL,
+    TASK_FOREVER,
+    &tasks::taskLTEStatusCollectCallback,
+    &taskRunner
 );
 Task taskLTEStatusAnnounce(
     LTE_STATUS_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
-    &tasks::taskLTEStatusAnnounceCallback
+    &tasks::taskLTEStatusAnnounceCallback,
+    &taskRunner
 );
 Task taskLTEStatusManager(
     LTE_STATUS_MANAGER,
     TASK_FOREVER,
-    &tasks::taskLTEStatusManagerCallback
+    &tasks::taskLTEStatusManagerCallback,
+    &taskRunner
 );
 Task taskLTETimestampSync(
     LTE_TIMESTAMP_SYNC,
     TASK_FOREVER,
-    &tasks::taskLTETimestampSyncCallback
+    &tasks::taskLTETimestampSyncCallback,
+    &taskRunner
 );
 
-Scheduler taskRunner;
-
 void tasks::init() {
-    taskRunner.init();
-    taskRunner.addTask(taskVoltage);
-    taskRunner.addTask(taskVoltageWarning);
-    taskRunner.addTask(taskSpeedRefresh);
-    taskRunner.addTask(taskCanbusVoltageBatteryAnnounce);
-    taskRunner.addTask(taskCanbusCurrentAnnounce);
-    taskRunner.addTask(taskCanbusChargingStatusAnnounce);
-    taskRunner.addTask(taskCanbusSpeedAnnounce);
-    taskRunner.addTask(taskStatistics);
-    taskRunner.addTask(taskCanbusLedStatusAnnounce);
-    taskRunner.addTask(taskLoggerStatsInterval);
-    //taskRunner.addTask(taskCanbusStatusInterval);
-    taskRunner.addTask(taskCanbusCurrentTimestamp);
-    taskRunner.addTask(taskLTEStatusAnnounce);
-    taskRunner.addTask(taskLTEStatusManager);
-    taskRunner.addTask(taskLTETimestampSync);
     taskRunner.enableAll();
+
+    // temporarily disabled
+    taskCanbusStatusInterval.disable();
 
     // This will be automatically enabled when necessary
     taskLTEStatusManager.disable();
@@ -344,4 +351,8 @@ void tasks::taskLTETimestampSyncCallback() {
 
 void tasks::taskSpeedRefreshCallback() {
     status::refreshSpeed();
+}
+
+void tasks::taskLTEStatusCollectCallback() {
+    lte::collectStatusInformation();
 }
