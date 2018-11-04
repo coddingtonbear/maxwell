@@ -18,7 +18,7 @@
 
 
  */
-
+#pragma once
 
 // Maximum of captures we can return. 
 // Increase if you need more, decrease to save memory.
