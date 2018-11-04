@@ -1015,7 +1015,7 @@ void console::lteCommand() {
     }
 
     if(
-        LTE.asyncExecute(
+        LTE.execute(
             command,
             "",
             AsyncDuplex::Timing::NEXT,

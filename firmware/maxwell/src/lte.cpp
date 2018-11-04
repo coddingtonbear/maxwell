@@ -218,8 +218,8 @@ bool lte::enable(bool _enable) {
         if(status::statusConnectionConnected()) {
             status::connectStatusConnection(false);
         }
-        LTE.asyncExecute("AT+CIPSHUT", "OK");
-        return LTE.asyncExecute(
+        LTE.execute("AT+CIPSHUT", "OK");
+        return LTE.execute(
             "AT+CPOWD=1",
             "POWER DOWN",
             AsyncDuplex::Timing::ANY,
@@ -236,7 +236,7 @@ bool lte::isEnabled() {
 
 time_t lte::getTimestamp() {
     time_t timestamp = 0;
-    LTE.asyncExecute(
+    LTE.execute(
         "AT+CCLK?",
         "+CCLK: \"([%d]+)/([%d]+)/([%d]+),([%d]+):([%d]+):([%d]+)([\\+\\-])([%d]+)\"",
         AsyncDuplex::Timing::ANY,
@@ -288,7 +288,7 @@ time_t lte::getTimestamp() {
 
 bool lte::getLteConnectionStatus(char* buffer)  {
     bool success = false;
-    LTE.asyncExecute(
+    LTE.execute(
         "AT+CIPSTATUS",
         "STATE: (.*)\r",
         AsyncDuplex::Timing::ANY,

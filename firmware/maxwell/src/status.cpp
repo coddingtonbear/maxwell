@@ -170,7 +170,7 @@ bool status::sendStatusUpdate() {
     uint16_t statusUpdateLength = strlen(statusUpdate);
     sprintf(cipsend, "AT+CIPSEND", statusUpdateLength);
 
-    LTE.asyncExecute(
+    LTE.execute(
         cipsend,
         "",
         [statusUpdateLength](MatchState ms) {
@@ -222,12 +222,12 @@ bool status::connectStatusConnection(bool enabled) {
                 10000
             )
         };
-        return LTE.asyncExecuteChain(
+        return LTE.executeChain(
             commands,
             sizeof(commands)/sizeof(commands[0])
         );
     } else {
-        return LTE.asyncExecute(
+        return LTE.execute(
             "AT+CIPCLOSE",
             ""
         );
@@ -247,4 +247,8 @@ bool status::statusConnectionConnected() {
     }
 
     return false;
+}
+
+uint32_t status::getLastStatusUpdateTime() {
+    return lastStatusUpdate;
 }

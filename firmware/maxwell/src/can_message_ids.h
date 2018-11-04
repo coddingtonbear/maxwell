@@ -68,9 +68,11 @@ struct CANStatusMainMC {
 
     bool lighting_enabled:1;
     bool charging_enabled:1;
-    bool esp_enabled:1;
     bool bt_enabled:1;
+    bool lte_enabled:1;
+    bool lte_connected:1;
 
     bool has_valid_time:1;
     bool logging_now:1;
+    bool logging_lte:1;
 };

@@ -28,4 +28,5 @@ namespace status {
     bool connectStatusConnection(bool enabled=true);
     bool sendStatusUpdate();
     bool statusConnectionConnected();
+    uint32_t getLastStatusUpdateTime();
 };

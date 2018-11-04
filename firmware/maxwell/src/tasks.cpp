@@ -2,6 +2,7 @@
 #undef min
 #undef max
 #include <TaskScheduler.h>
+#include <libmaple/iwdg.h>
 
 #include "tasks.h"
 #include "can.h"
@@ -101,7 +102,7 @@ void tasks::init() {
     taskRunner.addTask(taskStatistics);
     taskRunner.addTask(taskCanbusLedStatusAnnounce);
     taskRunner.addTask(taskLoggerStatsInterval);
-    taskRunner.addTask(taskCanbusStatusInterval);
+    //taskRunner.addTask(taskCanbusStatusInterval);
     taskRunner.addTask(taskCanbusCurrentTimestamp);
     taskRunner.addTask(taskLTEStatusAnnounce);
     taskRunner.addTask(taskLTEStatusManager);
@@ -199,8 +200,23 @@ void tasks::taskCanbusStatusIntervalCallback() {
     status.lighting_enabled = ledStatus.enabled;
     status.charging_enabled = power::batteryChargingIsEnabled();
     status.bt_enabled = ble::bluetoothIsEnabled();
+    status.lte_enabled = lte::isEnabled();
+
+    status.lte_connected = false;
+    AsyncModem::SIM7000::NETWORK_STATUS netStatus;
+    if(LTE.getNetworkStatus(&netStatus)) {
+        LTE.wait(500, iwdg_feed);
+        if(
+            (netStatus == AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_HOME)
+            || (netStatus == AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_ROAMING)
+        ) {
+            status.lte_connected = true;
+        }
+    }
+
     status.has_valid_time = (Clock.getTime() > 1000000000);
     status.logging_now = !logErrorCode;
+    status.logging_lte = millis() - status::getLastStatusUpdateTime() < 60000;
 
     CanMsg output;
     output.IDE = CAN_ID_STD;
