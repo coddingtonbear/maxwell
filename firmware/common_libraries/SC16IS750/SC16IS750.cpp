@@ -429,7 +429,7 @@ void SC16IS750::FIFOEnable(uint8_t fifo_enable)
 
 void SC16IS750::FIFOReset()
 {
-     uint8_t temp_fcr = 0;
+     uint8_t temp_fcr = 0x01;  // 0x01 -- FIFO Enabled
 
     temp_fcr |= 0x04;
     temp_fcr |= 0x02;

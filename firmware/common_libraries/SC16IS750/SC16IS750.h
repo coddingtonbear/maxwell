@@ -152,8 +152,6 @@ class SC16IS750 : public Stream
         void    sleep();
 
         uint8_t gpioState = 0;
-        
-    
     private:
         SPIClass* spiBus;
         unsigned long crystal_frequency;
