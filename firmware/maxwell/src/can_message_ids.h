@@ -70,12 +70,7 @@ struct CANStatusMainMC {
     bool charging_enabled:1;
     bool esp_enabled:1;
     bool bt_enabled:1;
-    bool ble_enabled:1;
-    bool wifi_enabled:1;
 
     bool has_valid_time:1;
     bool logging_now:1;
-
-    bool camera_connected:1;
-    bool recording_now:1;
 };

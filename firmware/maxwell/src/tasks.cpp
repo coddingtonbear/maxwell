@@ -201,11 +201,6 @@ void tasks::taskCanbusStatusIntervalCallback() {
     status.bt_enabled = ble::bluetoothIsEnabled();
     status.has_valid_time = (Clock.getTime() > 1000000000);
     status.logging_now = !logErrorCode;
-    // ESP32 Status
-    status.wifi_enabled = false;
-    status.ble_enabled = false;
-    status.camera_connected = false;
-    status.recording_now = false;
 
     CanMsg output;
     output.IDE = CAN_ID_STD;
