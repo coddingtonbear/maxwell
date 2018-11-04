@@ -26,7 +26,6 @@ namespace status {
     double getSpeed();
 
     bool connectStatusConnection(bool enabled=true);
-    bool sendStatusUpdateLine(String, String);
     bool sendStatusUpdate();
     bool statusConnectionConnected();
 };

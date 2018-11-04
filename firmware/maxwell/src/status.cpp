@@ -1,8 +1,8 @@
 #include <Arduino.h>
+#undef min
+#undef max
 #include <ArduinoJson.h>
 #include <RollingAverage.h>
-#include <Adafruit_MQTT.h>
-#include <Adafruit_MQTT_FONA.h>
 
 #include "main.h"
 #include "power.h"
@@ -18,6 +18,8 @@ uint32 speedCounter = 0;
 uint32 speedCounterPrev = 0;
 uint32 lastSpeedRefresh = 0;
 RollingAverage<double, 5> currentSpeedMph;
+
+uint32_t lastStatusUpdate = 0;
 
 void status::setGpsPosition(long _latitude, long _longitude) {
     longitude = _longitude;
@@ -62,25 +64,16 @@ double status::getSpeed() {
     return currentSpeedMph.getValue();
 }
 
-bool status::sendStatusUpdateLine(String key, String value) {
-    String finalMessage = key + "=" + value;
-
-    LTE.sendCommand(
-        (char*)(
-            String("AT+CIPSEND=")
-            + String(finalMessage.length() + 2)
-        ).c_str(),
-        25
-    );
-    LTE.sendCommand(
-        (char*)finalMessage.c_str(),
-        25
-    );
+void appendStatusUpdateLine(char* dest, const char* field, const char* value) {
+    char statusUpdateLine[128];
+    sprintf(statusUpdateLine, "%s=%s\r\n", field, value);
+    strcat(dest, statusUpdateLine);
 }
+
+char statusUpdate[1024] = {'\0'};
 
 bool status::sendStatusUpdate() {
     if (!lte::isEnabled()) {
-        Output.println("LTE is not enabled; could not send status update.");
         return false;
     }
 
@@ -88,72 +81,105 @@ bool status::sendStatusUpdate() {
         status::connectStatusConnection();
     }
 
+    statusUpdate[0] = '\0';
+
     if(latitude && longitude) {
-        status::sendStatusUpdateLine(
-            "position",
-            String((double)latitude / 1e6)
-            + "|"
-            + String((double)longitude / 1e5)
+        char positionBuffer[32];
+        sprintf(
+            positionBuffer,
+            "position=%.5f|%.5f\r\n",
+            (float)latitude / 1e6,
+            (float)longitude / 1e6
         );
+        appendStatusUpdateLine(statusUpdate, "position", positionBuffer);
     }
-    status::sendStatusUpdateLine(
+    appendStatusUpdateLine(
+        statusUpdate,
         "velocity",
-        String(currentSpeedMph.getValue())
+        String(currentSpeedMph.getValue()).c_str()
     );
-    status::sendStatusUpdateLine(
+    appendStatusUpdateLine(
+        statusUpdate,
         "timestamp",
-        String((uint32_t)Clock.getTime())
+        String((uint32_t)Clock.getTime()).c_str()
     );
-    status::sendStatusUpdateLine(
+    appendStatusUpdateLine(
+        statusUpdate,
         "uptime",
-        String(millis())
+        String(millis()).c_str()
     );
     uint32 errCode = Log.getErrorCode();
     if(errCode) {
-        status::sendStatusUpdateLine(
+        appendStatusUpdateLine(
+            statusUpdate,
             "sd_logging",
-            String("0")
+            String("0").c_str()
         );
     } else {
-        status::sendStatusUpdateLine(
+        appendStatusUpdateLine(
+            statusUpdate,
             "sd_logging",
-            String("1")
+            String("1").c_str()
         );
     }
-    status::sendStatusUpdateLine(
+    appendStatusUpdateLine(
+        statusUpdate,
         "power.battery_voltage",
-        String(power::getVoltage(VOLTAGE_BATTERY))
+        String(power::getVoltage(VOLTAGE_BATTERY)).c_str()
     );
-    status::sendStatusUpdateLine(
+    appendStatusUpdateLine(
+        statusUpdate,
         "power.current_amps",
-        String(power::getCurrentUsage())
+        String(power::getCurrentUsage()).c_str()
     );
 
     LedStatus ledStatus;
     neopixel::getStatus(ledStatus);
-    status::sendStatusUpdateLine(
+    appendStatusUpdateLine(
+        statusUpdate,
         "led.color.1",
-        ("#" + String(ledStatus.red, HEX) + String(ledStatus.green, HEX) + String(ledStatus.blue, HEX))
+        ("#" + String(ledStatus.red, HEX) + String(ledStatus.green, HEX) + String(ledStatus.blue, HEX)).c_str()
     );
-    status::sendStatusUpdateLine(
+    appendStatusUpdateLine(
+        statusUpdate,
         "led.color.2",
-        ("#" + String(ledStatus.red2, HEX) + String(ledStatus.green2, HEX) + String(ledStatus.blue2, HEX))
+        ("#" + String(ledStatus.red2, HEX) + String(ledStatus.green2, HEX) + String(ledStatus.blue2, HEX)).c_str()
     );
-    status::sendStatusUpdateLine(
+    appendStatusUpdateLine(
+        statusUpdate,
         "led.enabled",
-        String(ledStatus.enabled)
+        String(ledStatus.enabled).c_str()
     );
-    status::sendStatusUpdateLine(
+    appendStatusUpdateLine(
+        statusUpdate,
         "led.cycle_id",
-        String(ledStatus.cycle)
+        String(ledStatus.cycle).c_str()
     );
-    status::sendStatusUpdateLine(
+    appendStatusUpdateLine(
+        statusUpdate,
         "led.brightness",
-        String(ledStatus.brightness)
+        String(ledStatus.brightness).c_str()
     );
-    status::sendStatusUpdateLine(
+    appendStatusUpdateLine(
+        statusUpdate,
         "led.interval",
-        String(ledStatus.interval)
+        String(ledStatus.interval).c_str()
+    );
+
+    char cipsend[32];
+    uint16_t statusUpdateLength = strlen(statusUpdate);
+    sprintf(cipsend, "AT+CIPSEND", statusUpdateLength);
+
+    LTE.asyncExecute(
+        cipsend,
+        "",
+        [statusUpdateLength](MatchState ms) {
+            for(uint16_t pos = 0; pos < statusUpdateLength; pos++) {
+                LTE.write(statusUpdate[pos]);
+            }
+            LTE.write(0x1a);
+            lastStatusUpdate = millis();
+        }
     );
 }
 
@@ -164,23 +190,48 @@ bool status::connectStatusConnection(bool enabled) {
     }
 
     if(enabled) {
-        LTE.sendCommand("AT+CIPSHUT");
-        LTE.sendCommand("AT+CIPMUX=0");
-        LTE.sendCommand("AT+CIPRXGET=1");
-        LTE.sendCommand(
-            (char*)(
-                String("AT+CIPSTART=\"TCP\",\"")
-                + String(STATUS_HOST)
-                + String("\",\"")
-                + String(STATUS_PORT)
-                + String("\"")
-            ).c_str()
+        char atCipstart[128];
+        sprintf(
+            atCipstart,
+            "AT+CIPSTART=\"TCP\",\"%s\",\"%s\"",
+            STATUS_HOST,
+            STATUS_PORT
+        );
+        AsyncDuplex::Command commands[] = {
+            AsyncDuplex::Command(
+                "AT+CIPSHUT",
+                "OK"
+            ),
+            AsyncDuplex::Command(
+                "AT+CIPMUX=0",
+                "OK"
+            ),
+            AsyncDuplex::Command(
+                "AT+CIPRXGET=1",
+                "OK"
+            ),
+            AsyncDuplex::Command(
+                atCipstart,
+                "OK"
+            ),
+            AsyncDuplex::Command(
+                "AT+CIPSTATUS",
+                "CONNECT OK",
+                NULL,
+                NULL,
+                10000
+            )
+        };
+        return LTE.asyncExecuteChain(
+            commands,
+            sizeof(commands)/sizeof(commands[0])
         );
     } else {
-        LTE.sendCommand("AT+CIPCLOSE");
+        return LTE.asyncExecute(
+            "AT+CIPCLOSE",
+            ""
+        );
     }
-
-    return true;
 }
 
 bool status::statusConnectionConnected() {

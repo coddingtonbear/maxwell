@@ -1,3 +1,6 @@
+#include <Arduino.h>
+#undef min
+#undef max
 #include <TaskScheduler.h>
 
 #include "tasks.h"

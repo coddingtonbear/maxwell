@@ -1,6 +1,8 @@
 #include <Arduino.h>
+#undef min
+#undef max
 #include <libmaple/iwdg.h>
-#include <Adafruit_FONA.h>
+#include <AsyncModem.h>
 #include <Regexp.h>
 #include <Time.h>
 
@@ -10,7 +12,7 @@
 #include "tasks.h"
 #include "status.h"
 
-Adafruit_FONA_LTE LTE = Adafruit_FONA_LTE();
+AsyncModem::SIM7000 LTE = AsyncModem::SIM7000();
 
 bool lteEnabled = false;
 
@@ -30,6 +32,10 @@ lte_state lteTargetStatus = LTE_STATE_NULL;
 lte_state nextLteTargetStatus = LTE_STATE_NULL;
 long minNextLteStatusTransition = 0;
 long maxNextLteStatusTransition = 0;
+
+void lte::loop() {
+    LTE.loop();
+}
 
 bool lte::asyncEnable(bool enabled) {
     // If we aren't complete with our current transition, drop out
@@ -75,7 +81,7 @@ void lte::asyncManagerLoop() {
     }
 
     #ifdef LTE_DEBUG
-        Output.print("Processing LTE Target: ");
+        Output.println("Processing LTE Target: ");
         Output.println(lteTargetStatus);
     #endif
 
@@ -83,41 +89,52 @@ void lte::asyncManagerLoop() {
         if(nextLteTargetStatus == LTE_STATE_NULL) {
             pressPowerKey();
             #ifdef LTE_DEBUG
-                Output.print("Pressing LTE Power key");
+                Output.println("Pressing LTE Power key");
             #endif
             minNextLteStatusTransition = millis() + 2500;
             nextLteTargetStatus = LTE_STATE_RELEASED;
         } else if (nextLteTargetStatus == LTE_STATE_RELEASED) {
             unpressPowerKey();
             #ifdef LTE_DEBUG
-                Output.print("Unpressing LTE Power key");
+                Output.println("Unpressing LTE Power key");
             #endif
             maxNextLteStatusTransition = millis() + 30000;
             nextLteTargetStatus = LTE_STATE_ON;
         } else if (nextLteTargetStatus == LTE_STATE_ON) {
             #ifdef LTE_DEBUG
-                Output.print("Checking LTE Power status...");
+                Output.println("Checking LTE Power status...");
             #endif
             if(isPoweredOn()) {
+                // Wait until the modem has fully-processed all
+                // tasks.
+                if(LTE.getQueueLength() > 0) {
+                    #ifdef LTE_DEBUG
+                        Output.println("LTE modem busy; checking in a moment...");
+                    #endif
+                    return;
+                }
                 #ifdef LTE_DEBUG
-                    Output.print("LTE powered on; enabling now...");
+                    Output.println("LTE powered on; enabling now...");
                 #endif
                 bool result = enable();
                 if(!result) {
+                    #ifdef LTE_DEBUG
+                        Output.println("Failed to enqueue task to enable LTE!");
+                    #endif
                     return;
                 }
                 lteTargetStatus = LTE_STATE_NULL;
                 nextLteTargetStatus = LTE_STATE_NULL;
                 tasks::enableLTEStatusManager(false);
                 maxNextLteStatusTransition = 0;
+                #ifdef LTE_DEBUG
+                    Output.println("LTE enablement queued");
+                #endif
             } else {
                 #ifdef LTE_DEBUG
-                    Output.print("LTE not yet powered on");
+                    Output.println("LTE not yet powered on");
                 #endif
             }
-            #ifdef LTE_DEBUG
-                Output.print("LTE enabled");
-            #endif
         }
     } else if (lteTargetStatus == LTE_STATE_OFF) {
         enable(false);
@@ -151,40 +168,65 @@ void lte::togglePower() {
     unpressPowerKey();
 }
 
+uint8_t lteEnableAttempts = 0;
+
+void lteEnabledSuccess(MatchState ms) {
+    lteEnabled = true;
+    lteEnableAttempts = 0;
+}
+
+void lteEnabledFailure(AsyncDuplex::Command* cmd) {
+    lteEnableAttempts++;
+    if(lteEnableAttempts < 3) {
+        LTE.enableGPRS(
+            "hologram",
+            NULL,
+            NULL,
+            lteEnabledSuccess,
+            lteEnabledFailure
+        );
+    } else {
+        lteEnableAttempts = 0;
+    }
+}
+
 bool lte::enable(bool _enable) {
     if(_enable) {
         if(!isPoweredOn()) {
             lte::togglePower();
         }
 
-        LTE.setNetworkSettings(F("hologram"));
-        // Disable Echo
-        LTEUart.println("ATE0");
-        delay(10);
-        // Set baud to 9600
-        LTEUart.println("AT+IPR=9600");
-        delay(10);
-        LTEUart.flush();
-        LTEUart.begin(9600);
-        LTE.begin(LTEUart);
-        bool result = LTE.enableGPRS(true);
-        if(!result) {
-            LTE.enableGPRS(false);
-            return false;
-        }
-        delay(10);
-        lteEnabled = true;
-        return true;
+        #ifdef LTE_DEBUG
+            Output.println("Running LTE.begin now...");
+            Output.flush();
+            delay(100);
+        #endif
+        LTE.begin(&LTEUart, &Output);
+        #ifdef LTE_DEBUG
+            Output.println("LTE begin queued...");
+            Output.flush();
+            delay(100);
+        #endif
+        return LTE.enableGPRS(
+            "hologram",
+            NULL,
+            NULL,
+            lteEnabledSuccess,
+            lteEnabledFailure
+        );
     } else {
         if(status::statusConnectionConnected()) {
             status::connectStatusConnection(false);
         }
-        LTE.sendCommand("AT+CIPSHUT");
-        LTE.sendCommand("AT+CPOWD=1");
-        LTEUart.flush();
-        LTEUart.begin(115200);
-        lteEnabled = false;
-        return true;
+        LTE.asyncExecute("AT+CIPSHUT", "OK");
+        return LTE.asyncExecute(
+            "AT+CPOWD=1",
+            "POWER DOWN",
+            AsyncDuplex::Timing::ANY,
+            [](MatchState ms) {
+                lteEnabled = false;
+            }
+        );
     }
 }
 
@@ -193,75 +235,69 @@ bool lte::isEnabled() {
 }
 
 time_t lte::getTimestamp() {
-    char reply[128];
+    time_t timestamp = 0;
+    LTE.asyncExecute(
+        "AT+CCLK?",
+        "+CCLK: \"([%d]+)/([%d]+)/([%d]+),([%d]+):([%d]+):([%d]+)([\\+\\-])([%d]+)\"",
+        AsyncDuplex::Timing::ANY,
+        [&timestamp](MatchState ms){
+            char year_str[3];
+            char month_str[3];
+            char day_str[3];
+            char hour_str[3];
+            char minute_str[3];
+            char second_str[3];
+            char zone_dir_str[2];
+            char zone_str[3];
 
-    LTE.getReply("AT+CCLK?", reply);
+            ms.GetCapture(year_str, 0);
+            ms.GetCapture(month_str, 1);
+            ms.GetCapture(day_str, 2);
+            ms.GetCapture(hour_str, 3);
+            ms.GetCapture(minute_str, 4);
+            ms.GetCapture(second_str, 5);
+            ms.GetCapture(zone_dir_str, 6);
+            ms.GetCapture(zone_str, 7);
 
-    MatchState ms;
-    ms.Target(reply);
+            tmElements_t timeEts;
+            timeEts.Hour = atoi(hour_str);
+            timeEts.Minute = atoi(minute_str);
+            timeEts.Second = atoi(second_str);
+            timeEts.Day = atoi(day_str);
+            timeEts.Month = atoi(month_str);
+            timeEts.Year = (2000 + atoi(year_str)) - 1970;
 
-    char result = ms.Match(
-        "+CCLK: \"([%d]+)/([%d]+)/([%d]+),([%d]+):([%d]+):([%d]+)([\\+\\-])([%d]+)\""
+            time_t composedTime = makeTime(timeEts);
+
+            // I'm not at _all_ sure what this offset is for; it
+            // doesn't seem to be useful for more than converting
+            // to UTC, and the raw timestamp isn't local.
+            int offset = atoi(zone_str);
+            if(zone_dir_str[0] == '-') {
+                offset = -1 * offset;
+            }
+            composedTime += (offset * 15 * 60);
+
+            timestamp = composedTime;
+        }
     );
-    if(!result) {
-        return 0;
-    }
-    char year_str[3];
-    char month_str[3];
-    char day_str[3];
-    char hour_str[3];
-    char minute_str[3];
-    char second_str[3];
-    char zone_dir_str[2];
-    char zone_str[3];
+    LTE.wait(5000, iwdg_feed);
 
-    ms.GetCapture(year_str, 0);
-    ms.GetCapture(month_str, 1);
-    ms.GetCapture(day_str, 2);
-    ms.GetCapture(hour_str, 3);
-    ms.GetCapture(minute_str, 4);
-    ms.GetCapture(second_str, 5);
-    ms.GetCapture(zone_dir_str, 6);
-    ms.GetCapture(zone_str, 7);
-
-    tmElements_t timeEts;
-    timeEts.Hour = atoi(hour_str);
-    timeEts.Minute = atoi(minute_str);
-    timeEts.Second = atoi(second_str);
-    timeEts.Day = atoi(day_str);
-    timeEts.Month = atoi(month_str);
-    timeEts.Year = (2000 + atoi(year_str)) - 1970;
-
-    time_t composedTime = makeTime(timeEts);
-
-    // I'm not at _all_ sure what this offset is for; it
-    // doesn't seem to be useful for more than converting
-    // to UTC, and the raw timestamp isn't local.
-    int offset = atoi(zone_str);
-    if(zone_dir_str[0] == '-') {
-        offset = -1 * offset;
-    }
-    composedTime += (offset * 15 * 60);
-
-    return composedTime;
+    return timestamp;
 }
 
 bool lte::getLteConnectionStatus(char* buffer)  {
-    char reply[128];
-
-    uint8_t length = 0;
-    length = LTE.getMultilineReply("AT+CIPSTATUS", reply, 100);
-
-    MatchState ms;
-    ms.Target(reply);
-
-    char result = ms.Match(
-        "STATE: (.*)\n"
+    bool success = false;
+    LTE.asyncExecute(
+        "AT+CIPSTATUS",
+        "STATE: (.*)\r",
+        AsyncDuplex::Timing::ANY,
+        [&buffer, &success](MatchState ms) {
+            success = true;
+            ms.GetCapture(buffer, 0);
+        }
     );
-    if(!result) {
-        return false;
-    }
-    ms.GetCapture(buffer, 0);
+    LTE.wait(5000, iwdg_feed);
 
-    return true;
+    return success;
 }

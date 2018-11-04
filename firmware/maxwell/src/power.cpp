@@ -1,4 +1,6 @@
 #include <Arduino.h>
+#undef min
+#undef max
 #include <RollingAverage.h>
 #include <STM32Sleep.h>
 #include <KeepAlive.h>

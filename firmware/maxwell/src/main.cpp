@@ -1,6 +1,8 @@
 #include <CANCommand.h>
 #include "main.h"
 #include <Arduino.h>
+#undef min
+#undef max
 #include <HardwareCAN.h>
 #include <libmaple/iwdg.h>
 #include <SdFat.h>
@@ -79,8 +81,6 @@ void setup() {
         LTEUart.GPIOSetPinState(PIN_LTE_DTR, LOW);
         LTEUart.GPIOSetPinState(PIN_LTE_OE, HIGH);
     }
-
-    lte::asyncEnable();
 
     if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(18))) {
         Output.println("Error initializing SD Card");
@@ -184,10 +184,10 @@ void loop() {
         power::refreshSleepTimeout();
         ble::refreshTimeout();
     }
+
+    lte::loop();
     console::loop();
-
     neopixel::loop();
-
     tasks::loop();
 
     if(CanBus.available()) {

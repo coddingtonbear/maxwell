@@ -1,4 +1,6 @@
 #include <Arduino.h>
+#undef min
+#undef max
 #include <libmaple/iwdg.h>
 #include <SerialCommand.h>
 #include <CANCommand.h>
@@ -884,14 +886,37 @@ void console::getLTEStatus() {
         Output.flush();
         return;
     }
-    uint8_t n = LTE.getNetworkStatus();
 
-    if (n == 0) Output.println(F("Not registered"));
-    if (n == 1) Output.println(F("Registered (home)"));
-    if (n == 2) Output.println(F("Not registered (searching)"));
-    if (n == 3) Output.println(F("Denied"));
-    if (n == 4) Output.println(F("Unknown"));
-    if (n == 5) Output.println(F("Registered roaming"));
+    AsyncModem::SIM7000::NETWORK_STATUS status;
+    if(LTE.getNetworkStatus(&status)) {
+        LTE.wait(1000, iwdg_feed);
+
+        switch(status) {
+            case AsyncModem::SIM7000::NETWORK_STATUS::NOT_REGISTERED:
+                Output.println(F("Not registered"));
+                break;
+            case AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_HOME:
+                Output.println(F("Registered (home)"));
+                break;
+            case AsyncModem::SIM7000::NETWORK_STATUS::REGISTRATION_DENIED:
+                Output.println(F("Registration Denied"));
+                break;
+            case AsyncModem::SIM7000::NETWORK_STATUS::UNKNOWN:
+                Output.println(F("Unknown"));
+                break;
+            case AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_ROAMING:
+                Output.println(F("Registered (roaming)"));
+                break;
+            case AsyncModem::SIM7000::NETWORK_STATUS::NOT_YET_READY:
+                Output.println(F("Network status not yet available; please wait."));
+                break;
+            case AsyncModem::SIM7000::NETWORK_STATUS::UNEXPECTED_RESULT:
+                Output.println(F("Unexpected result from network status."));
+                break;
+        }
+    } else {
+        Output.println("Error: LTE queue full.");
+    }
 }
 
 void console::getLTERSSI() {
@@ -900,17 +925,29 @@ void console::getLTERSSI() {
         return;
     }
     // read the RSSI
-    uint8_t n = LTE.getRSSI();
-    int8_t r;
+    int8_t rssi;
+    if(LTE.getRSSI(&rssi)) {
+        LTE.wait(1000, iwdg_feed);
 
-    Output.print(F("RSSI = ")); Output.print(n); Output.print(": ");
-    if (n == 0) r = -115;
-    if (n == 1) r = -111;
-    if (n == 31) r = -52;
-    if ((n >= 2) && (n <= 30)) {
-        r = map(n, 2, 30, -110, -54);
+        if(rssi == -1) {
+            Output.println("RSSI not yet available; please wait.");
+        }
+
+        uint8_t r;
+        Output.print(F("RSSI = "));
+        Output.print(rssi);
+        Output.print(": ");
+        if (rssi == 0) r = -115;
+        if (rssi == 1) r = -111;
+        if (rssi == 31) r = -52;
+        if ((rssi >= 2) && (rssi <= 30)) {
+            r = map(rssi, 2, 30, -110, -54);
+        }
+        Output.print(r);
+        Output.println(F(" dBm"));
+    } else {
+        Output.println("Error: LTE queue full.");
     }
-    Output.print(r); Output.println(F(" dBm"));
 }
 
 void console::sendTextMessage() {
@@ -940,10 +977,21 @@ void console::sendTextMessage() {
         return;
     }
 
-    if(LTE.sendSMS(msisdn, messageFinal)) {
-        Output.println("OK");
+    if(
+        LTE.sendSMS(
+            msisdn,
+            messageFinal,
+            [](MatchState ms) {
+                Output.println("SMS sent successfully.");
+            },
+            [](AsyncDuplex::Command* cmd) {
+                Output.println("Error: SMS send failed.");
+            }
+        )
+    ) {
+        Output.println("SMS queued.");
     } else {
-        Output.println("Failed");
+        Output.println("Error: LTE queue full.");
     }
 }
 
@@ -960,10 +1008,34 @@ void console::lteCommand() {
 
     char reply[4096];
 
-    if(LTE.getReply(command, reply)) {
-        Output.println(reply);
+    LTE.wait(5000, iwdg_feed);
+    if(LTE.getQueueLength()) {
+        Output.println("Error: LTE modem busy; please try again later.");
+        return;
+    }
+
+    if(
+        LTE.asyncExecute(
+            command,
+            "",
+            AsyncDuplex::Timing::NEXT,
+            [](MatchState ms) {
+                // We don't know what they're looking for, so let's
+                // just wait 5s until we can be sure we've probably
+                // received the output.
+                uint32_t started = millis();
+                while(started + 5000 > millis()) {
+                    iwdg_feed();
+                    delay(500);
+                }
+                char buffer[256];
+                LTE.getResponse(buffer, 256);
+                Output.println(buffer);
+            }
+        )
+    ) {
     } else {
-        Output.println("Failed");
+        Output.println("Error: LTE queue full.");
     }
 }
 

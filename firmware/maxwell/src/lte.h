@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Adafruit_FONA.h>
+#include <AsyncModem.h>
 
 #define LTE_ENABLED true
 #define LTE_DISABLED false
@@ -8,6 +8,8 @@
 //#define LTE_DEBUG
 
 namespace lte {
+    void loop();
+
     bool enable(bool _enabled=true);
 
     bool asyncEnable(bool enabled=true);
@@ -25,4 +27,4 @@ namespace lte {
     bool getLteConnectionStatus(char*);
 }
 
-extern Adafruit_FONA_LTE LTE;
+extern AsyncModem::SIM7000 LTE;
