@@ -299,10 +299,10 @@ bool lte::getConnectionStatus(char* buffer)  {
 }
 
 bool lte::connectTo(char* host, uint16_t port) {
-    char atCipstart[128];
+    char atCipstart[128] = {'\0'};
     sprintf(
         atCipstart,
-        "AT+CIPSTART=\"TCP\",\"%s\",\"%s\"",
+        "AT+CIPSTART=\"TCP\",\"%s\",\"%d\"",
         host,
         port
     );
