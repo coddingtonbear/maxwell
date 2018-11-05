@@ -197,6 +197,7 @@ void DisplayManager::refresh() {
 
         CANStatusMainMC status = getStatusMainMc();
         int rightPosition = 0;
+        /*
         if(status.recording_now) {
             display.drawXBM(
                 DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
@@ -221,6 +222,7 @@ void DisplayManager::refresh() {
             }
             rightPosition += ICON_HEIGHT;
         }
+        */
         if(gpsFixValid()) {
             display.drawXBM(
                 DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,

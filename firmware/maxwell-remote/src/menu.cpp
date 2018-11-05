@@ -137,24 +137,8 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
             MenuItem(
                 []() -> String {
                     CANStatusMainMC status = getStatusMainMc();
-                    return String("Main ESP: ") + String(
-                        status.esp_enabled ? "Yes" : "No"
-                    );
-                }
-            ),
-            MenuItem(
-                []() -> String {
-                    CANStatusMainMC status = getStatusMainMc();
                     return String("Main BT: ") + String(
                         status.bt_enabled ? "Yes" : "No"
-                    );
-                }
-            ),
-            MenuItem(
-                []() -> String {
-                    CANStatusMainMC status = getStatusMainMc();
-                    return String("Main BLE: ") + String(
-                        status.ble_enabled ? "Yes" : "No"
                     );
                 }
             ),
@@ -166,6 +150,7 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
                     );
                 }
             ),
+            /*
             MenuItem(
                 []() -> String {
                     CANStatusMainMC status = getStatusMainMc();
@@ -197,7 +182,7 @@ std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
                         status.lighting_enabled ? "Yes" : "No"
                     );
                 }
-            ),
+            ),*/
             MenuItem(
                 []() -> String {
                     CANStatusMainMC status = getStatusMainMc();
@@ -586,6 +571,7 @@ MenuItem lightingMenu("Lighting", &lightingMenuList);
                 };
             MenuList cameraConnectionList(cameraConnectionItems, COUNT_OF(cameraConnectionItems));
         MenuItem cameraMenuItems[] = {
+            /*
             MenuItem(
                 []() -> String {
                     CANStatusMainMC status = getStatusMainMc();
@@ -594,7 +580,7 @@ MenuItem lightingMenu("Lighting", &lightingMenuList);
                     );
                 },
                 &cameraConnectionList
-            ),
+            ),*/
             MenuItem(
                 "Delete Media",
                 deleteCameraMedia
