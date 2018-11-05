@@ -11,6 +11,7 @@
 #include "lte.h"
 #include "tasks.h"
 #include "status.h"
+#include "util.h"
 
 AsyncModem::SIM7000 LTE = AsyncModem::SIM7000();
 
@@ -33,7 +34,9 @@ lte_state nextLteTargetStatus = LTE_STATE_NULL;
 long minNextLteStatusTransition = 0;
 long maxNextLteStatusTransition = 0;
 
+AsyncModem::SIM7000::NETWORK_STATUS networkStatus = AsyncModem::SIM7000::NETWORK_STATUS::NOT_YET_READY;
 char connectionStatus[32] = {'\0'};
+time_t millisOffset = 0;
 
 void lte::loop() {
     LTE.loop();
@@ -175,6 +178,7 @@ uint8_t lteEnableAttempts = 0;
 void lteEnabledSuccess(MatchState ms) {
     lteEnabled = true;
     lteEnableAttempts = 0;
+    lte::refreshTimestamp();
 }
 
 void lteEnabledFailure(AsyncDuplex::Command* cmd) {
@@ -220,14 +224,16 @@ bool lte::enable(bool _enable) {
         if(status::statusConnectionConnected()) {
             status::connectStatusConnection(false);
         }
-        LTE.execute("AT+CIPSHUT", "OK");
         return LTE.execute(
             "AT+CPOWD=1",
             "POWER DOWN",
-            AsyncDuplex::Timing::ANY,
             [](MatchState ms) {
                 lteEnabled = false;
-            }
+            },
+            [](AsyncDuplex::Command* cmd) {
+                Output.println("Could not power down LTE modem!");
+            },
+            5000
         );
     }
 }
@@ -236,13 +242,12 @@ bool lte::isEnabled() {
     return lteEnabled;
 }
 
-time_t lte::getTimestamp() {
-    time_t timestamp = 0;
+bool lte::refreshTimestamp() {
     LTE.execute(
         "AT+CCLK?",
         "+CCLK: \"([%d]+)/([%d]+)/([%d]+),([%d]+):([%d]+):([%d]+)([\\+\\-])([%d]+)\"",
         AsyncDuplex::Timing::ANY,
-        [&timestamp](MatchState ms){
+        [](MatchState ms){
             char year_str[3];
             char month_str[3];
             char day_str[3];
@@ -271,21 +276,21 @@ time_t lte::getTimestamp() {
 
             time_t composedTime = makeTime(timeEts);
 
-            // I'm not at _all_ sure what this offset is for; it
-            // doesn't seem to be useful for more than converting
-            // to UTC, and the raw timestamp isn't local.
             int offset = atoi(zone_str);
             if(zone_dir_str[0] == '-') {
                 offset = -1 * offset;
             }
-            composedTime += (offset * 15 * 60);
+            composedTime -= (offset * 15 * 60);
 
-            timestamp = composedTime;
+            millisOffset = composedTime - millis();
+
+            util::syncTimestampWithLTE();
         }
     );
-    LTE.wait(5000, iwdg_feed);
+}
 
-    return timestamp;
+time_t lte::getTimestamp() {
+    return millis() + millisOffset;
 }
 
 bool lte::getConnectionStatus(char* buffer)  {
@@ -347,6 +352,10 @@ bool lte::disconnectConnection() {
     );
 }
 
+AsyncModem::SIM7000::NETWORK_STATUS lte::getNetworkStatus() {
+    return networkStatus;
+}
+
 bool lte::collectStatusInformation() {
     LTE.execute(
         "AT+CIPSTATUS",
@@ -355,4 +364,5 @@ bool lte::collectStatusInformation() {
             ms.GetCapture(connectionStatus, 0);
         }
     );
+    LTE.getNetworkStatus(&networkStatus);
 }

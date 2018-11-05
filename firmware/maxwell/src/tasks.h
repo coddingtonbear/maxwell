@@ -1,10 +1,8 @@
 #pragma once
 
 // These are semi-random to make sure they don't collide too often
-#define STATS_UPDATE_INTERVAL 1000
 #define LOGGER_STATS_INTERVAL 10000
 #define SPEED_REFRESH_INTERVAL 500
-#define CANBUS_CHARGING_STATUS_ANNOUNCE_INTERVAL 2201
 #define CANBUS_VOLTAGE_BATTERY_ANNOUNCE_INTERVAL 3111
 #define CANBUS_CURRENT_ANNOUNCE_INTERVAL 3313
 #define CANBUS_SPEED_ANNOUNCE_INTERVAL 600
@@ -14,7 +12,9 @@
 #define LTE_STATUS_COLLECT_INTERVAL 3200
 #define LTE_STATUS_ANNOUNCE_INTERVAL 9000
 #define LTE_STATUS_MANAGER 1100
-#define LTE_TIMESTAMP_SYNC 5000
+#define VOLTAGE_UPDATE_INTERVAL 1011
+
+#define VOLTAGE_LEVEL_SHUTDOWN 2.75
 
 namespace tasks {
     void init();
@@ -23,13 +23,10 @@ namespace tasks {
     void enableLTEStatusManager(bool _enable=true);
 
     void taskVoltageCallback();
-    void taskVoltageWarningCallback();
     void taskCanbusVoltageBatteryAnnounceCallback();
     void taskCanbusVoltageDynamoAnnounceCallback();
     void taskCanbusCurrentAnnounceCallback();
-    void taskCanbusChargingStatusAnnounceCallback();
     void taskCanbusSpeedAnnounceCallback();
-    void taskStatisticsCallback();
     void taskCanbusLedStatusAnnounceCallback();
     void taskCanbusStatusIntervalCallback();
     void taskLoggerStatsIntervalCallback();
@@ -37,6 +34,5 @@ namespace tasks {
     void taskLTEStatusCollectCallback();
     void taskLTEStatusAnnounceCallback();
     void taskLTEStatusManagerCallback();
-    void taskLTETimestampSyncCallback();
     void taskSpeedRefreshCallback();
 };

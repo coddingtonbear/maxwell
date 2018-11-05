@@ -19,18 +19,6 @@ uint32 lastStatisticsUpdate = 0;
 Scheduler taskRunner;
 
 Task taskVoltage(VOLTAGE_UPDATE_INTERVAL, TASK_FOREVER, &tasks::taskVoltageCallback);
-Task taskStatistics(
-    STATS_UPDATE_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskStatisticsCallback,
-    &taskRunner
-);
-Task taskVoltageWarning(
-    VOLTAGE_WARNING_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskVoltageWarningCallback,
-    &taskRunner
-);
 Task taskSpeedRefresh(
     SPEED_REFRESH_INTERVAL,
     TASK_FOREVER,
@@ -47,12 +35,6 @@ Task taskCanbusCurrentAnnounce(
     CANBUS_CURRENT_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
     &tasks::taskCanbusCurrentAnnounceCallback,
-    &taskRunner
-);
-Task taskCanbusChargingStatusAnnounce(
-    CANBUS_CHARGING_STATUS_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskCanbusChargingStatusAnnounceCallback,
     &taskRunner
 );
 Task taskCanbusSpeedAnnounce(
@@ -73,7 +55,7 @@ Task taskLoggerStatsInterval(
     &tasks::taskLoggerStatsIntervalCallback,
     &taskRunner
 );
-Task taskCanbusStatusInterval(
+Task taskCanbusEmitStatus(
     CANBUS_STATUS_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
     &tasks::taskCanbusStatusIntervalCallback,
@@ -85,13 +67,13 @@ Task taskCanbusCurrentTimestamp(
     &tasks::taskCanbusCurrentTimestampCallback,
     &taskRunner
 );
-Task taskLTEStatusCollectCallback(
+Task taskLTEStatusCollect(
     LTE_STATUS_COLLECT_INTERVAL,
     TASK_FOREVER,
     &tasks::taskLTEStatusCollectCallback,
     &taskRunner
 );
-Task taskLTEStatusAnnounce(
+Task taskLTEStatusEmit(
     LTE_STATUS_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
     &tasks::taskLTEStatusAnnounceCallback,
@@ -103,21 +85,15 @@ Task taskLTEStatusManager(
     &tasks::taskLTEStatusManagerCallback,
     &taskRunner
 );
-Task taskLTETimestampSync(
-    LTE_TIMESTAMP_SYNC,
-    TASK_FOREVER,
-    &tasks::taskLTETimestampSyncCallback,
-    &taskRunner
-);
 
 void tasks::init() {
     taskRunner.enableAll();
 
-    // temporarily disabled
-    taskCanbusStatusInterval.disable();
-
     // This will be automatically enabled when necessary
     taskLTEStatusManager.disable();
+    taskLTEStatusCollect.disable();
+    taskLTEStatusEmit.disable();
+    taskCanbusEmitStatus.disable();
 }
 
 void tasks::enableLTEStatusManager(bool _enable) {
@@ -183,20 +159,6 @@ void tasks::taskVoltageCallback() {
     }
 }
 
-void tasks::taskStatisticsCallback() {
-    Statistics.put("Uptime (minutes)", (double)millis() / 60000);
-
-    lastStatisticsUpdate = millis();
-}
-
-void tasks::taskVoltageWarningCallback() {
-    double voltage = power::getVoltage(VOLTAGE_BATTERY);
-    if(voltage < VOLTAGE_LEVEL_WARNING) {
-        Output.print("Warning: low voltage (");
-        Output.print(voltage, 2);
-        Output.println(")");
-    }
-}
 void tasks::taskCanbusStatusIntervalCallback() {
     LedStatus ledStatus;
     neopixel::getStatus(ledStatus);
@@ -210,15 +172,12 @@ void tasks::taskCanbusStatusIntervalCallback() {
     status.lte_enabled = lte::isEnabled();
 
     status.lte_connected = false;
-    AsyncModem::SIM7000::NETWORK_STATUS netStatus;
-    if(LTE.getNetworkStatus(&netStatus)) {
-        LTE.wait(500, iwdg_feed);
-        if(
-            (netStatus == AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_HOME)
-            || (netStatus == AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_ROAMING)
-        ) {
-            status.lte_connected = true;
-        }
+    AsyncModem::SIM7000::NETWORK_STATUS netStatus = lte::getNetworkStatus();
+    if(
+        (netStatus == AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_HOME)
+        || (netStatus == AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_ROAMING)
+    ) {
+        status.lte_connected = true;
     }
 
     status.has_valid_time = (Clock.getTime() > 1000000000);
@@ -288,22 +247,6 @@ void tasks::taskCanbusCurrentAnnounceCallback() {
     CanBus.send(&message);
 }
 
-void tasks::taskCanbusChargingStatusAnnounceCallback() {
-    CanMsg message;
-    message.IDE = CAN_ID_STD;
-    message.RTR = CAN_RTR_DATA;
-    message.ID = CAN_CHARGING_STATUS;
-    message.DLC = sizeof(uint8_t);
-
-    uint8_t status = power::getChargingStatus();
-    unsigned char *statusBytes = reinterpret_cast<byte*>(&status);
-    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
-        message.Data[i] = statusBytes[i];
-    }
-
-    CanBus.send(&message);
-}
-
 void tasks::taskCanbusSpeedAnnounceCallback() {
     CanMsg message;
     message.IDE = CAN_ID_STD;
@@ -320,18 +263,9 @@ void tasks::taskCanbusSpeedAnnounceCallback() {
     CanBus.send(&message);
 }
 
-void tasks::taskLoggerStatsIntervalCallback() {
-
-    for(uint8_t i = 0; i < Statistics.count(); i++) {
-        auto key = Statistics.keyAt(i);
-        auto value = Statistics.valueFor(key);
-
-        String message = "Stats: ";
-        message += key;
-        message += ": ";
-        message += String(value, 4);
-        Log.log(message);
-    }
+void tasks::taskLoggerStatsIntervalCallback()
+{
+    // Nothing for now
 }
 
 void tasks::taskLTEStatusAnnounceCallback() {
@@ -342,17 +276,12 @@ void tasks::taskLTEStatusManagerCallback() {
     lte::asyncManagerLoop();
 }
 
-void tasks::taskLTETimestampSyncCallback() {
-    if(util::syncTimestampWithLTE()) {
-        // We've synced successfuly; we can disable now
-        taskLTETimestampSync.disable();
-    }
-}
-
 void tasks::taskSpeedRefreshCallback() {
     status::refreshSpeed();
 }
 
 void tasks::taskLTEStatusCollectCallback() {
-    lte::collectStatusInformation();
+    if(lte::isEnabled()){
+        lte::collectStatusInformation();
+    }
 }

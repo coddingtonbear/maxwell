@@ -402,6 +402,7 @@ void can::flash() {
 void console::flash() {
     if(lte::isEnabled()) {
         lte::enable(false);
+        LTE.wait(6000, iwdg_feed);
     }
 
     CanMsg flashNoticeMsg;

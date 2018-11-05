@@ -77,13 +77,11 @@ bool util::syncTimestampWithLTE() {
     }
     time_t lteTimestamp = lte::getTimestamp();
 
-    if(lteTimestamp < 1) {
+    if(lteTimestamp < 100000) {
         return false;
     }
 
-    // Now convert to my timezone
-    lteTimestamp += (TIMEZONE_OFFSET_MINUTES * 60);
-
     Clock.setTime(lteTimestamp);
+
     return true;
 }

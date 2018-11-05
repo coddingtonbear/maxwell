@@ -229,6 +229,8 @@ void power::checkSleepTimeout() {
 
 void power::sleep() {
     Log.log("Sleep requested");
+    Output.println("Sleeping now");
+    Output.flush();
     #if MOVEMENT_WAKE_ENABLED
         Log.log("Movement wake enabled");
     #endif
@@ -238,6 +240,7 @@ void power::sleep() {
     // Stop LTE module
     if(LTEUart.ping()) {
         lte::enable(false);
+        LTE.wait(6000, iwdg_feed);
         LTEUart.GPIOSetPinMode(PIN_LTE_OE, INPUT);
         LTEUart.sleep();
     }
