@@ -190,9 +190,20 @@ bool status::connectStatusConnection(bool enabled) {
     }
 
     if(enabled) {
-        lte::connectTo(STATUS_HOST, STATUS_PORT);
+        return lte::connectTo(STATUS_HOST, STATUS_PORT);
     } else {
-        return lte::disconnectConnection();
+        return LTE.execute(
+            "AT+CIPSEND=3",
+            "",
+            [](MatchState ms) {
+                LTE.write(0x04);  // EOT
+                LTE.write('\r');
+                LTE.write('\n');
+
+                LTE.write(0x1a);
+                lte::disconnectConnection();
+            }
+        );
     }
 }
 

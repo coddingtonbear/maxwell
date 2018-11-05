@@ -15,6 +15,7 @@
 #include "util.h"
 #include "can_message_ids.h"
 #include "can.h"
+#include "status.h"
 
 long int lastUpdated = 0;
 
@@ -239,6 +240,7 @@ void power::sleep() {
 
     // Stop LTE module
     if(LTEUart.ping()) {
+        status::connectStatusConnection(false);
         lte::enable(false);
         LTE.wait(6000, iwdg_feed);
         LTEUart.GPIOSetPinMode(PIN_LTE_OE, INPUT);
