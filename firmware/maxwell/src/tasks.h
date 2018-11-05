@@ -16,6 +16,8 @@
 
 #define VOLTAGE_LEVEL_SHUTDOWN 2.75
 
+//#define TASK_DEBUG
+
 namespace tasks {
     void init();
     void loop();

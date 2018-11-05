@@ -888,35 +888,35 @@ void console::getLTEStatus() {
         return;
     }
 
-    AsyncModem::SIM7000::NETWORK_STATUS status;
-    if(LTE.getNetworkStatus(&status)) {
-        LTE.wait(1000, iwdg_feed);
-
-        switch(status) {
-            case AsyncModem::SIM7000::NETWORK_STATUS::NOT_REGISTERED:
-                Output.println(F("Not registered"));
-                break;
-            case AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_HOME:
-                Output.println(F("Registered (home)"));
-                break;
-            case AsyncModem::SIM7000::NETWORK_STATUS::REGISTRATION_DENIED:
-                Output.println(F("Registration Denied"));
-                break;
-            case AsyncModem::SIM7000::NETWORK_STATUS::UNKNOWN:
-                Output.println(F("Unknown"));
-                break;
-            case AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_ROAMING:
-                Output.println(F("Registered (roaming)"));
-                break;
-            case AsyncModem::SIM7000::NETWORK_STATUS::NOT_YET_READY:
-                Output.println(F("Network status not yet available; please wait."));
-                break;
-            case AsyncModem::SIM7000::NETWORK_STATUS::UNEXPECTED_RESULT:
-                Output.println(F("Unexpected result from network status."));
-                break;
-        }
-    } else {
-        Output.println("Error: LTE queue full.");
+    AsyncModem::SIM7000::NETWORK_STATUS status= LTE.getNetworkStatus();
+    switch(status) {
+        case AsyncModem::SIM7000::NETWORK_STATUS::NOT_REGISTERED:
+            Output.println(F("Not registered"));
+            break;
+        case AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_HOME:
+            Output.println(F("Registered (home)"));
+            break;
+        case AsyncModem::SIM7000::NETWORK_STATUS::REGISTRATION_DENIED:
+            Output.println(F("Registration Denied"));
+            break;
+        case AsyncModem::SIM7000::NETWORK_STATUS::UNKNOWN:
+            Output.println(F("Unknown"));
+            break;
+        case AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_ROAMING:
+            Output.println(F("Registered (roaming)"));
+            break;
+        case AsyncModem::SIM7000::NETWORK_STATUS::SEARCHING:
+            Output.println(F("Searching"));
+            break;
+        case AsyncModem::SIM7000::NETWORK_STATUS::NOT_YET_READY:
+            Output.println(F("Network status not yet available; please wait."));
+            break;
+        case AsyncModem::SIM7000::NETWORK_STATUS::UNEXPECTED_RESULT:
+            Output.println(F("Unexpected result from network status."));
+            break;
+        default:
+            Output.println(F("Unexpected result from LTE manager module."));
+            break;
     }
 }
 

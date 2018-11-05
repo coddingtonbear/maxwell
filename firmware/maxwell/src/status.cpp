@@ -21,6 +21,12 @@ RollingAverage<double, 5> currentSpeedMph;
 
 uint32_t lastStatusUpdate = 0;
 
+extern "C" char* sbrk(int incr);
+static int32_t status::getFreeMemory() {
+  char top = 't';
+  return &top - reinterpret_cast<char*>(sbrk(0));
+}
+
 void status::setGpsPosition(long _latitude, long _longitude) {
     longitude = _longitude;
     latitude = _latitude;
@@ -80,7 +86,6 @@ bool status::sendStatusUpdate() {
     if(!status::statusConnectionConnected()) {
         status::connectStatusConnection();
     }
-
     statusUpdate[0] = '\0';
 
     if(latitude && longitude) {
@@ -168,7 +173,7 @@ bool status::sendStatusUpdate() {
 
     char cipsend[32];
     uint16_t statusUpdateLength = strlen(statusUpdate);
-    sprintf(cipsend, "AT+CIPSEND", statusUpdateLength);
+    sprintf(cipsend, "AT+CIPSEND=%d", statusUpdateLength);
 
     LTE.execute(
         cipsend,

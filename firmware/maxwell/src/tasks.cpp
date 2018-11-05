@@ -18,7 +18,12 @@ uint32 lastStatisticsUpdate = 0;
 
 Scheduler taskRunner;
 
-Task taskVoltage(VOLTAGE_UPDATE_INTERVAL, TASK_FOREVER, &tasks::taskVoltageCallback);
+Task taskVoltage(
+    VOLTAGE_UPDATE_INTERVAL,
+    TASK_FOREVER,
+    &tasks::taskVoltageCallback,
+    &taskRunner
+);
 Task taskSpeedRefresh(
     SPEED_REFRESH_INTERVAL,
     TASK_FOREVER,
@@ -91,9 +96,6 @@ void tasks::init() {
 
     // This will be automatically enabled when necessary
     taskLTEStatusManager.disable();
-    taskLTEStatusCollect.disable();
-    taskLTEStatusEmit.disable();
-    taskCanbusEmitStatus.disable();
 }
 
 void tasks::enableLTEStatusManager(bool _enable) {
@@ -109,6 +111,9 @@ void tasks::loop() {
 }
 
 void tasks::taskCanbusLedStatusAnnounceCallback() {
+    #ifdef TASK_DEBUG
+        Output.println("<Task: LED Status Announce>");
+    #endif
     LedStatus ledStatus;
     neopixel::getStatus(ledStatus);
 
@@ -150,6 +155,9 @@ void tasks::taskCanbusLedStatusAnnounceCallback() {
 }
 
 void tasks::taskVoltageCallback() {
+    #ifdef TASK_DEBUG
+        Output.println("<Task: Voltage>");
+    #endif
     power::updatePowerMeasurements();
 
     double voltage = power::getVoltage(VOLTAGE_BATTERY);
@@ -160,6 +168,9 @@ void tasks::taskVoltageCallback() {
 }
 
 void tasks::taskCanbusStatusIntervalCallback() {
+    #ifdef TASK_DEBUG
+        Output.println("<Task: CANBUS status emit>");
+    #endif
     LedStatus ledStatus;
     neopixel::getStatus(ledStatus);
     uint32 logErrorCode = Log.getErrorCode();
@@ -199,6 +210,9 @@ void tasks::taskCanbusStatusIntervalCallback() {
 }
 
 void tasks::taskCanbusCurrentTimestampCallback() {
+    #ifdef TASK_DEBUG
+        Output.println("<Task: CANBUS current timestamp emit>");
+    #endif
     time_t currentTimestamp = Clock.getTime();
 
     CanMsg output;
@@ -216,6 +230,9 @@ void tasks::taskCanbusCurrentTimestampCallback() {
 }
 
 void tasks::taskCanbusVoltageBatteryAnnounceCallback() {
+    #ifdef TASK_DEBUG
+        Output.println("<Task: CANBUS battery voltage emit>");
+    #endif
     CanMsg message;
     message.IDE = CAN_ID_STD;
     message.RTR = CAN_RTR_DATA;
@@ -232,6 +249,9 @@ void tasks::taskCanbusVoltageBatteryAnnounceCallback() {
 }
 
 void tasks::taskCanbusCurrentAnnounceCallback() {
+    #ifdef TASK_DEBUG
+        Output.println("<Task: CANBUS current emit>");
+    #endif
     CanMsg message;
     message.IDE = CAN_ID_STD;
     message.RTR = CAN_RTR_DATA;
@@ -247,7 +267,11 @@ void tasks::taskCanbusCurrentAnnounceCallback() {
     CanBus.send(&message);
 }
 
+
 void tasks::taskCanbusSpeedAnnounceCallback() {
+    #ifdef TASK_DEBUG
+        Output.println("<Task: CANBUS speed emit>");
+    #endif
     CanMsg message;
     message.IDE = CAN_ID_STD;
     message.RTR = CAN_RTR_DATA;
@@ -255,32 +279,49 @@ void tasks::taskCanbusSpeedAnnounceCallback() {
     message.DLC = sizeof(double);
 
     double currentSpeedTemp = status::getSpeed();
+    #ifdef TASK_DEBUG
+        Output.println(currentSpeedTemp);
+    #endif
     unsigned char *speedBytes = reinterpret_cast<byte*>(&currentSpeedTemp);
     for(uint8 i = 0; i < sizeof(double); i++) {
         message.Data[i] = speedBytes[i];
     }
-
     CanBus.send(&message);
 }
 
 void tasks::taskLoggerStatsIntervalCallback()
 {
+    #ifdef TASK_DEBUG
+        Output.println("<Task: Logger stats interval>");
+    #endif
     // Nothing for now
 }
 
 void tasks::taskLTEStatusAnnounceCallback() {
+    #ifdef TASK_DEBUG
+        Output.println("<Task: LTE Logger Emit>");
+    #endif
     status::sendStatusUpdate();
 }
 
 void tasks::taskLTEStatusManagerCallback() {
+    #ifdef TASK_DEBUG
+        Output.println("<Task: LTE Status Manager Iteration>");
+    #endif
     lte::asyncManagerLoop();
 }
 
 void tasks::taskSpeedRefreshCallback() {
+    #ifdef TASK_DEBUG
+        Output.println("<Task: Recalculate Velocity>");
+    #endif
     status::refreshSpeed();
 }
 
 void tasks::taskLTEStatusCollectCallback() {
+    #ifdef TASK_DEBUG
+        Output.println("<Task: LTE Status Collection>");
+    #endif
     if(lte::isEnabled()){
         lte::collectStatusInformation();
     }

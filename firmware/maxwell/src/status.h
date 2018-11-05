@@ -17,6 +17,8 @@
 #define STATUS_DEBUG
 
 namespace status {
+    static int32_t getFreeMemory();
+
     void setGpsPosition(long, long);
     long getLatitude();
     long getLongitude();

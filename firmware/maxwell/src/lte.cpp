@@ -34,7 +34,6 @@ lte_state nextLteTargetStatus = LTE_STATE_NULL;
 long minNextLteStatusTransition = 0;
 long maxNextLteStatusTransition = 0;
 
-AsyncModem::SIM7000::NETWORK_STATUS networkStatus = AsyncModem::SIM7000::NETWORK_STATUS::NOT_YET_READY;
 char connectionStatus[32] = {'\0'};
 time_t millisOffset = 0;
 
@@ -196,6 +195,8 @@ void lteEnabledFailure(AsyncDuplex::Command* cmd) {
     }
 }
 
+uint8_t ltePowerDownAttempts = 0;
+
 bool lte::enable(bool _enable) {
     if(_enable) {
         if(!isPoweredOn()) {
@@ -231,9 +232,15 @@ bool lte::enable(bool _enable) {
                 lteEnabled = false;
             },
             [](AsyncDuplex::Command* cmd) {
-                Output.println("Could not power down LTE modem!");
+                ltePowerDownAttempts++;
+
+                if(ltePowerDownAttempts < 3) {
+                    LTE.execute(cmd);
+                } else {
+                    Output.println("Could not power down LTE modem!");
+                }
             },
-            5000
+            1000
         );
     }
 }
@@ -353,7 +360,7 @@ bool lte::disconnectConnection() {
 }
 
 AsyncModem::SIM7000::NETWORK_STATUS lte::getNetworkStatus() {
-    return networkStatus;
+    return LTE.getNetworkStatus();
 }
 
 bool lte::collectStatusInformation() {
@@ -364,5 +371,4 @@ bool lte::collectStatusInformation() {
             ms.GetCapture(connectionStatus, 0);
         }
     );
-    LTE.getNetworkStatus(&networkStatus);
 }
