@@ -193,7 +193,10 @@ void tasks::taskCanbusStatusIntervalCallback() {
 
     status.has_valid_time = (Clock.getTime() > 1000000000);
     status.logging_now = !logErrorCode;
-    status.logging_lte = millis() - status::getLastStatusUpdateTime() < 60000;
+    status.logging_lte = (
+        ((millis() - status::getLastStatusUpdateTime()) < 60000)
+        && status::getLastStatusUpdateTime() > 0
+    );
 
     CanMsg output;
     output.IDE = CAN_ID_STD;

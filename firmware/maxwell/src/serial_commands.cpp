@@ -102,6 +102,10 @@ void can::init() {
     canCommands.addCommand(CAN_GPS_POSITION, can::receivePosition);
 
     canCommands.addCommand(CAN_CMD_BT_ENABLE, can::enableBluetooth);
+
+    #ifdef DEBUG_CAN_MESSAGES
+        canCommands.setDefaultHandler(can::unrecognized);
+    #endif
 }
 
 void console::prompt() {
@@ -389,6 +393,17 @@ void console::voltageMeasurement() {
 void console::unrecognized(const char *command) {
     Output.print("Unknown command: ");
     Output.println(command);
+}
+
+void can::unrecognized(CANCommand::CANMessage* msg) {
+    Output.print("Unknown CAN message: ");
+    Output.println(msg->ID, HEX);
+    Output.print("\tData: ");
+    for(uint8_t i = 0; i < msg->DLC; i++) {
+        Output.print(msg->Data[i], HEX);
+        Output.print(' ');
+    }
+    Output.println();
 }
 
 void console::uptime() {

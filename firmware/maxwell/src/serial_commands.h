@@ -1,3 +1,7 @@
+#include <CANCommand.h>
+
+//#define DEBUG_CAN_MESSAGES
+
 #pragma once
 
 namespace can {
@@ -23,6 +27,8 @@ namespace can {
     void receivePosition();
 
     void enableBluetooth();
+
+    void unrecognized(CANCommand::CANMessage*);
 };
 
 namespace console {

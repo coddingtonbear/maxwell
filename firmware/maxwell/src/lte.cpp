@@ -195,8 +195,6 @@ void lteEnabledFailure(AsyncDuplex::Command* cmd) {
     }
 }
 
-uint8_t ltePowerDownAttempts = 0;
-
 bool lte::enable(bool _enable) {
     if(_enable) {
         if(!isPoweredOn()) {
@@ -232,15 +230,21 @@ bool lte::enable(bool _enable) {
                 lteEnabled = false;
             },
             [](AsyncDuplex::Command* cmd) {
-                ltePowerDownAttempts++;
-
-                if(ltePowerDownAttempts < 3) {
-                    LTE.execute(cmd);
-                } else {
-                    Output.println("Could not power down LTE modem!");
+                // I'm not exactly sure why this happens, but
+                // sometimes I don't get the "POWER DOWN" message;
+                // we can, though, check the status pin to see if
+                // it did fully power off.
+                if(lte::isPoweredOn()) {
+                    for(uint8_t i = 0; i < 3; i++) {
+                        util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
+                        delay(250);
+                    }
+                    Output.println(
+                        "Could not power down LTE modem!"
+                    );
                 }
             },
-            1000
+            5000
         );
     }
 }

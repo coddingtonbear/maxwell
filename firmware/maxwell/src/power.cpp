@@ -240,7 +240,7 @@ void power::sleep() {
 
     // Stop LTE module
     if(LTEUart.ping()) {
-        status::connectStatusConnection(false);
+        LTE.wait(5000, iwdg_feed);
         lte::enable(false);
         LTE.wait(6000, iwdg_feed);
         LTEUart.GPIOSetPinMode(PIN_LTE_OE, INPUT);

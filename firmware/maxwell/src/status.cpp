@@ -92,7 +92,7 @@ bool status::sendStatusUpdate() {
         char positionBuffer[32];
         sprintf(
             positionBuffer,
-            "position=%.5f|%.5f\r\n",
+            "%.9f|%.9f",
             (float)latitude / 1e6,
             (float)longitude / 1e6
         );
