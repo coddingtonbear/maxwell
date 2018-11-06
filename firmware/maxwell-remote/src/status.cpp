@@ -10,7 +10,6 @@ double voltageDynamo;
 double voltageSense;
 double current;
 double velocity;
-uint8_t chargingStatus;
 
 bool gpsFixAvailable;
 
@@ -18,10 +17,6 @@ char nmeaBuffer[255];
 MicroNMEA nmea(nmeaBuffer, sizeof(nmeaBuffer));
 
 CANStatusMainMC status;
-
-void setChargingStatus(uint8_t value) {
-    chargingStatus = value;
-}
 
 void setStatusParameter(uint32 canMsgId, double value) {
     switch (canMsgId) {
@@ -73,10 +68,6 @@ double getDoubleStatusParameter(uint32 canMsgId) {
 
 CANStatusMainMC getStatusMainMc() {
     return status;
-}
-
-uint8_t getChargingStatus() {
-    return chargingStatus;
 }
 
 void gpsPMTK(uint cmd, String data) {

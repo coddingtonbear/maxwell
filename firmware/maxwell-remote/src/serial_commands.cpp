@@ -71,7 +71,6 @@ void setupCommands() {
     canCommands.addCommand(CAN_VELOCITY, receiveCanDouble);
     canCommands.addCommand(CAN_VOLTAGE_BATTERY, receiveCanDouble);
     canCommands.addCommand(CAN_AMPS_CURRENT, receiveCanDouble);
-    canCommands.addCommand(CAN_CHARGING_STATUS, receiveCanChargingStatus);
     canCommands.addCommand(CAN_CURRENT_TIMESTAMP, canSetTime);
     canCommands.addCommand(CAN_STATUS_MAIN_MC, canReceiveStatus);
 }
@@ -354,13 +353,6 @@ void receiveCanDouble() {
     double value = *(reinterpret_cast<double*>(data));
 
     setStatusParameter(msgId, value);
-}
-
-void receiveCanChargingStatus() {
-    static uint8_t data[8];
-    canCommands.getData(data);
-
-    setChargingStatus(data[0]);
 }
 
 CANLedStatusColor getLedColors() {
@@ -782,7 +774,7 @@ void sendUpdatedGpsPosition() {
     CanMsg status;
     status.IDE = CAN_ID_STD;
     status.RTR = CAN_RTR_DATA;
-    status.ID = CAN_LED_STATUS;
+    status.ID = CAN_GPS_POSITION;
     status.DLC = sizeof(position);
     unsigned char *positionBytes = reinterpret_cast<unsigned char*>(&position);
     for(uint8 i = 0; i < sizeof(position); i++) {

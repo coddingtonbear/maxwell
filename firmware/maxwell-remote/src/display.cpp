@@ -172,33 +172,51 @@ void DisplayManager::refresh() {
         }
         showMenu();
     } else {
-        uint8_t chargingStatus = getChargingStatus();
-        if(chargingStatus == CHARGING_STATUS_CHARGING_NOW) {
+        CANStatusMainMC status = getStatusMainMc();
+        int leftPosition = 0;
+        if(status.is_charging) {
             if(statusPhase % 2 == 0) {
                 display.drawXBM(
-                    0, 0,
+                    0, leftPosition,
                     ICON_WIDTH, ICON_HEIGHT,
                     batteryFull
                 );
             } else {
                 display.drawXBM(
-                    0, 0,
+                    0, leftPosition,
                     ICON_WIDTH, ICON_HEIGHT,
                     batteryHalf
                 );
             }
-        } else if(chargingStatus == CHARGING_STATUS_FULLY_CHARGED) {
+            leftPosition += ICON_HEIGHT + 2;
+        }
+        if(gpsFixValid()) {
             display.drawXBM(
-                0, 0,
+                DISPLAY_WIDTH - ICON_WIDTH - 1, leftPosition,
                 ICON_WIDTH, ICON_HEIGHT,
-                batteryFull
+                gps
             );
+            leftPosition += ICON_HEIGHT + 2;
         }
 
-        CANStatusMainMC status = getStatusMainMc();
         int rightPosition = 0;
+        if(status.logging_lte) {
+            display.drawXBM(
+                DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
+                ICON_WIDTH, ICON_HEIGHT,
+                reporting
+            );
+            rightPosition += ICON_HEIGHT + 2;
+        } else if(status.lte_connected) {
+            display.drawXBM(
+                DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
+                ICON_WIDTH, ICON_HEIGHT,
+                lte
+            );
+            rightPosition += ICON_HEIGHT + 2;
+        }
         /*
-        if(status.recording_now) {
+        } else if(status.recording_now) {
             display.drawXBM(
                 DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
                 ICON_WIDTH, ICON_HEIGHT,
@@ -223,13 +241,6 @@ void DisplayManager::refresh() {
             rightPosition += ICON_HEIGHT;
         }
         */
-        if(gpsFixValid()) {
-            display.drawXBM(
-                DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
-                ICON_WIDTH, ICON_HEIGHT,
-                gps
-            );
-        }
 
         if(autosleep && !sleeping) {
             sleep();
