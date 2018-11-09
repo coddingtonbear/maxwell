@@ -3,7 +3,7 @@
 #include <RTClock.h>
 #include <SC16IS750.h>
 
-#define UTC_OFFSET -7
+#define UTC_OFFSET -8
 
 #define DISPLAY_REFRESH_INTERVAL 100
 #define GPS_REFRESH_INTERVAL 1720

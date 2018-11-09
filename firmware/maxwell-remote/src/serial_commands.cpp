@@ -39,8 +39,6 @@ void setupCommands() {
     commands.addCommand("sleep", sleep);
     commands.addCommand("uptime", uptime);
     commands.addCommand("btcmd", bluetooth);
-    commands.addCommand("disable_esp", disableEsp);
-    commands.addCommand("enable_esp", enableEsp);
     commands.addCommand("get_time", getTime);
     commands.addCommand("get_gps_stats", getGpsStats);
 
@@ -439,70 +437,6 @@ void receiveLedStatusColor() {
     ledBlue2 = colors.blue2;
 }
 
-void disableEsp() {
-    CanMsg message;
-    message.IDE = CAN_ID_STD;
-    message.RTR = CAN_RTR_DATA;
-    message.ID = CAN_CMD_ESP_ENABLE;
-    message.DLC = sizeof(uint8_t);
-
-    uint8_t enabled = 0;
-    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
-    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
-        message.Data[i] = enabledBytes[i];
-    }
-
-    CanBus.send(&message);
-}
-
-void enableEsp() {
-    CanMsg message;
-    message.IDE = CAN_ID_STD;
-    message.RTR = CAN_RTR_DATA;
-    message.ID = CAN_CMD_ESP_ENABLE;
-    message.DLC = sizeof(uint8_t);
-
-    uint8_t enabled = 1;
-    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
-    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
-        message.Data[i] = enabledBytes[i];
-    }
-
-    CanBus.send(&message);
-}
-
-void disableBle() {
-    CanMsg message;
-    message.IDE = CAN_ID_STD;
-    message.RTR = CAN_RTR_DATA;
-    message.ID = CAN_CMD_BLE_ENABLE;
-    message.DLC = sizeof(uint8_t);
-
-    uint8_t enabled = 0;
-    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
-    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
-        message.Data[i] = enabledBytes[i];
-    }
-
-    CanBus.send(&message);
-}
-
-void enableBle() {
-    CanMsg message;
-    message.IDE = CAN_ID_STD;
-    message.RTR = CAN_RTR_DATA;
-    message.ID = CAN_CMD_BLE_ENABLE;
-    message.DLC = sizeof(uint8_t);
-
-    uint8_t enabled = 1;
-    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
-    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
-        message.Data[i] = enabledBytes[i];
-    }
-
-    CanBus.send(&message);
-}
-
 void connectCamera() {
     CanMsg message;
     message.IDE = CAN_ID_STD;
@@ -629,6 +563,38 @@ void disableBatteryCharging() {
     CanBus.send(&message);
 }
 
+void enableLTE() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_LTE_ENABLE;
+    message.DLC = sizeof(uint8_t);
+
+    uint8_t enabled = 1;
+    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
+    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
+        message.Data[i] = enabledBytes[i];
+    }
+
+    CanBus.send(&message);
+}
+
+void disableLTE() {
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_CMD_LTE_ENABLE;
+    message.DLC = sizeof(uint8_t);
+
+    uint8_t enabled = 0;
+    unsigned char *enabledBytes = reinterpret_cast<byte*>(&enabled);
+    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
+        message.Data[i] = enabledBytes[i];
+    }
+
+    CanBus.send(&message);
+}
+
 void enableBluetooth() {
     CanMsg message;
     message.IDE = CAN_ID_STD;
@@ -663,8 +629,6 @@ void disableBluetooth() {
 
 void lowPowerMode() {
     disableBluetooth();
-    delay(100);
-    disableEsp();
     delay(100);
     disableLocalBluetooth();
     Display.setAutosleep(true);

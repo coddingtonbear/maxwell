@@ -613,17 +613,17 @@ MenuItem cameraMenu("Camera", &cameraMenuList);
                 };
             MenuList baseBluetoothMenuList(baseBluetoothMenuItems, COUNT_OF(baseBluetoothMenuItems));
 
-                MenuItem espMenuItems[] = {
+                MenuItem baseLTEMenuItems[] = {
                     MenuItem(
                         "Disable",
-                        disableBle
+                        disableLTE
                     ),
                     MenuItem(
                         "Enable",
-                        enableBle
+                        enableLTE
                     )
                 };
-            MenuList espMenuList(espMenuItems, COUNT_OF(espMenuItems));
+            MenuList baseLTEMenuList(baseLTEMenuItems, COUNT_OF(baseLTEMenuItems));
 
         MenuItem commsMenuItems[] = {
             MenuItem(
@@ -635,9 +635,9 @@ MenuItem cameraMenu("Camera", &cameraMenuList);
                 &baseBluetoothMenuList
             ),
             MenuItem(
-                "Base BLE",
-                &espMenuList
-            )
+                "Base LTE",
+                &baseLTEMenuList
+            ),
         };
     MenuList commsMenuList(commsMenuItems, COUNT_OF(commsMenuItems));
 MenuItem commsMenu("Bluetooth", &commsMenuList);

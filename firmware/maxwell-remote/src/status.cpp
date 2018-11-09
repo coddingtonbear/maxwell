@@ -16,7 +16,7 @@ bool gpsFixAvailable;
 char nmeaBuffer[255];
 MicroNMEA nmea(nmeaBuffer, sizeof(nmeaBuffer));
 
-CANStatusMainMC status;
+CANStatusMainMC mainMcStatus;
 
 void setStatusParameter(uint32 canMsgId, double value) {
     switch (canMsgId) {
@@ -39,7 +39,7 @@ void setStatusParameter(uint32 canMsgId, double value) {
 }
 
 void setStatusMainMc(CANStatusMainMC _status) {
-    status = _status;
+    mainMcStatus = _status;
 }
 
 double getDoubleStatusParameter(uint32 canMsgId) {
@@ -67,7 +67,8 @@ double getDoubleStatusParameter(uint32 canMsgId) {
 }
 
 CANStatusMainMC getStatusMainMc() {
-    return status;
+    CANStatusMainMC copied = mainMcStatus;
+    return copied;
 }
 
 void gpsPMTK(uint cmd, String data) {
