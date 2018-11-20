@@ -14,8 +14,8 @@ void util::beep(uint32_t frequency, uint32_t duration) {
     TimerFreeTone(PIN_BUZZER, frequency, duration);
 }
 
-void util::safeDelay(uint32_t delay) {
-    uint32_t until = millis() + delay;
+void util::safeDelay(uint32_t delaySeconds) {
+    uint32_t until = millis() + delaySeconds;
     while(millis() < until) {
         iwdg_feed();
         delay(100);
