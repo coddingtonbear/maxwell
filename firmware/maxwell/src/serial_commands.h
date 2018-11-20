@@ -27,6 +27,7 @@ namespace can {
     void receivePosition();
 
     void enableBluetooth();
+    void enableLTE();
 
     void unrecognized(CANCommand::CANMessage*);
 };

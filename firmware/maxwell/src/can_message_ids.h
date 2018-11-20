@@ -35,12 +35,12 @@
 #define CAN_CMD_LED_BRIGHTNESS 0xB3  // byte
 #define CAN_CMD_LED_ENABLE 0xB5  // byte
 #define CAN_CMD_LED_PRESET 0xB6  // byte
-#define CAN_CMD_ESP_ENABLE 0xB4  // byte
 #define CAN_CMD_BT_ENABLE 0xB8  // byte
 #define CAN_CMD_AUTOSLEEP_ENABLE 0xB9 // byte
 #define CAN_CMD_BLE_ENABLE 0xBA  // byte
 #define CAN_CMD_CONNECT_CAMERA 0xBB  // byte
 #define CAN_CMD_DELETE_CAMERA_MEDIA 0xBC // --
+#define CAN_CMD_LTE_ENABLE 0xBD // byte
 
 struct CANLedStatus {
     bool enabled:1;

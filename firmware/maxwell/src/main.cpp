@@ -58,6 +58,8 @@ void setup() {
         skipSerialInit = true;
     }
 
+    util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
+
     if(!skipSerialInit) {
         Output.addInterface(&BTSerial);
     }
@@ -141,8 +143,6 @@ void setup() {
 
     power::initADCs();
     power::enableBatteryCharging(true);
-
-    util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
 
     delay(100);
 

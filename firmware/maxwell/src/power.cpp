@@ -236,17 +236,6 @@ void power::sleep() {
         Log.log("Movement wake enabled");
     #endif
 
-    util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
-
-    // Stop LTE module
-    if(LTEUart.ping()) {
-        LTE.wait(5000, iwdg_feed);
-        lte::enable(false);
-        LTE.wait(6000, iwdg_feed);
-        LTEUart.GPIOSetPinMode(PIN_LTE_OE, INPUT);
-        LTEUart.sleep();
-    }
-
     // Stop logging
     Log.end();
     filesystem.card()->spiStop();
@@ -260,12 +249,30 @@ void power::sleep() {
     sleepMsg.ID = CAN_MAIN_MC_SLEEP;
     sleepMsg.DLC = 0;
     CanBus.send(&sleepMsg);
+
+    util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
+
+    // Disable neopixels before waiting for LTE modem shutdown
+    digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
+
+    // Stop LTE module
+    if(LTEUart.ping()) {
+        LTE.wait(5000, iwdg_feed);
+        lte::enable(false);
+        LTE.wait(6000, iwdg_feed);
+        LTEUart.GPIOSetPinMode(PIN_LTE_OE, INPUT);
+        LTEUart.flush();
+        LTEUart.sleep();
+    }
     CanBus.end();
 
     setGPIOModeToAllPins(GPIO_INPUT_FLOATING);
     // Turn of CAN transceiver
     pinMode(PIN_CAN_RS, OUTPUT);
     digitalWrite(PIN_CAN_RS, HIGH);
+    // Disable neopixels (again since we just floated all of the pins)
+    pinMode(PIN_ENABLE_BATT_POWER, OUTPUT);
+    digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
     // Disable buzzer
     pinMode(PIN_BUZZER, OUTPUT);
     digitalWrite(PIN_BUZZER, LOW);
@@ -274,9 +281,6 @@ void power::sleep() {
     // Disable Bluetooth
     pinMode(PIN_BT_DISABLE_, OUTPUT);
     digitalWrite(PIN_BT_DISABLE_, LOW);
-    // Disable neopixel battery drain
-    pinMode(PIN_ENABLE_BATT_POWER, OUTPUT);
-    digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
     // Enable battery charging
     pinMode(PIN_ENABLE_BATT_CHARGE_, OUTPUT);
     digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
@@ -294,7 +298,6 @@ void power::sleep() {
     bkp_enable_writes();
     while(true) {
         iwdg_feed();
-        saveBackupTime();
-        sleepAndWakeUp(STOP, &Clock, 14);
+        sleepAndWakeUp(STOP, &Clock, 20);
     }
 }

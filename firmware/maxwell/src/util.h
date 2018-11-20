@@ -5,6 +5,7 @@
 
 namespace util {
     void beep(uint32_t, uint32_t);
+    void safeDelay(uint32_t);
 
     void bridgeUART(HardwareSerial*, uint32_t);
     void bridgeUART(SC16IS750*);

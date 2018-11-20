@@ -230,21 +230,25 @@ bool lte::enable(bool _enable) {
                 lteEnabled = false;
             },
             [](AsyncDuplex::Command* cmd) {
-                // I'm not exactly sure why this happens, but
-                // sometimes I don't get the "POWER DOWN" message;
-                // we can, though, check the status pin to see if
-                // it did fully power off.
                 if(lte::isPoweredOn()) {
-                    for(uint8_t i = 0; i < 3; i++) {
-                        util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
-                        delay(250);
+                    // If we're _still_ powered-on,
+                    // send the "urgent shutdown" command
+                    LTE.execute("AT+CPOWD=0");
+                    util::safeDelay(10000);
+                    // If we're _still_ powered-on
+                    // 10s later, beep to warn
+                    if(lte::isPoweredOn()) {
+                        for(uint8_t i = 0; i < 10; i++) {
+                            util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
+                            delay(100);
+                        }
+                        Output.println(
+                            "Could not power down LTE modem!"
+                        );
                     }
-                    Output.println(
-                        "Could not power down LTE modem!"
-                    );
                 }
             },
-            5000
+            10000
         );
     }
 }
@@ -291,7 +295,7 @@ bool lte::refreshTimestamp() {
             if(zone_dir_str[0] == '-') {
                 offset = -1 * offset;
             }
-            composedTime -= (offset * 15 * 60);
+            composedTime += (offset * 15 * 60);
 
             millisOffset = composedTime - millis();
 

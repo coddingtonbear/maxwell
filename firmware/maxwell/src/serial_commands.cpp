@@ -91,6 +91,7 @@ void can::init() {
     canCommands.addCommand(CAN_CMD_LED_INTERVAL, can::setLedInterval);
     canCommands.addCommand(CAN_CMD_LED_ENABLE, can::ledEnable);
     canCommands.addCommand(CAN_CMD_LED_PRESET, can::ledPreset);
+    canCommands.addCommand(CAN_CMD_LTE_ENABLE, can::enableLTE);
 
     canCommands.addCommand(CAN_CMD_MAIN_MC_RESET, can::reset);
     canCommands.addCommand(CAN_CMD_MAIN_MC_SLEEP, can::sleep);
@@ -576,6 +577,15 @@ void can::enableBluetooth() {
     uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
 
     ble::enableBluetooth(enabled);
+}
+
+void can::enableLTE() {
+    uint8_t data[8];
+    canCommands.getData(data);
+
+    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
+
+    lte::enable(enabled);
 }
 
 void console::printStatistics() {
