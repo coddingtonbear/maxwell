@@ -34,4 +34,6 @@
   (lib (name mcp73831t)(type Legacy)(uri /home/acoddington/Documents/Projects/kicad_footprints/exosdel/kicadLib.pretty/mcp73831t.lib)(options "")(descr ""))
   (lib (name custom)(type Legacy)(uri /home/acoddington/Documents/Projects/kicad_footprints/hormigaAzul/libs.pretty/libraries/custom.lib)(options "")(descr ""))
   (lib (name w_rtx)(type Legacy)(uri /home/acoddington/Documents/Projects/kicad_footprints/pelrun/libKiCad/symbol/w_rtx.lib)(options "")(descr ""))
+  (lib (name gsg)(type Legacy)(uri /home/acoddington/Documents/Projects/kicad_footprints/greatscottgadgets/gsg-kicad-lib/gsg-symbols.lib)(options "")(descr ""))
+  (lib (name digikey)(type Legacy)(uri /home/acoddington/Documents/Projects/kicad_footprints/digikey/digikey-kicad-library/digikey-symbols/dk_Logic-Gates-and-Inverters.lib)(options "")(descr ""))
 )

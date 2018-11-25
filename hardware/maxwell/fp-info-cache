@@ -1,8 +1,15 @@
-15068136581468287
+15192799684008019
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (http://www.bulgin.com/media/bulgin/data/Battery_holders.pdf)
 Bulgin BX0036
+0
+2
+2
+Battery
+BatteryHolder_Eagle_12BH611-GR
+https://eu.mouser.com/datasheet/2/209/EPD-200766-1274481.pdf
+9V Battery Holder
 0
 2
 2
@@ -1961,7 +1968,7 @@ MagneticBuzzer Kobitone 254-EMB84Q-RO
 3
 Buzzer_Beeper
 MagneticBuzzer_ProjectsUnlimited_AI-4228-TWT-R
-Buzzer, Elektromagnetic Beeper, Summer, 3-28V-DC,
+Buzzer, Elektromagnetic Beeper, Summer, 3-28V-DC, https://www.kynix.com/uploadfiles/pdf/AI-4228-TWT-R.pdf
 Projects Unlimited AI-4228-TWT-R 
 0
 2
@@ -1996,7 +2003,7 @@ Star Micronics HMB-06 HMB-12
 2
 Buzzer_Beeper
 PUIAudio_SMT_0825_S_4_R
-SMD 8540
+SMD 8540, http://www.puiaudio.com/product-detail.aspx?partnumber=SMT-0825-S-4-R
 SMD 8540
 0
 4
@@ -2143,344 +2150,344 @@ Capacitor Electrolytic
 2
 Capacitor_SMD
 CP_Elec_3x5.4
-SMT capacitor, aluminium electrolytic, 3x5.4, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 3.0x5.4mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_4x3
-SMT capacitor, aluminium electrolytic, 4x3, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 4.0x3mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_4x3.9
-SMT capacitor, aluminium electrolytic, 4x3.9, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 4.0x3.9mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_4x4.5
-SMT capacitor, aluminium electrolytic, 4x4.5, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 4.0x4.5mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_4x5.3
-SMT capacitor, aluminium electrolytic, 4x5.3, Vishay 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Vishay, 4.0x5.3mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_4x5.4
-SMT capacitor, aluminium electrolytic, 4x5.4, Panasonic A5, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Panasonic A5 / Nichicon, 4.0x5.4mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_4x5.7
-SMT capacitor, aluminium electrolytic, 4x5.7, United Chemi-Con 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, United Chemi-Con, 4.0x5.7mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_4x5.8
-SMT capacitor, aluminium electrolytic, 4x5.8, Panasonic 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Panasonic, 4.0x5.8mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_5x3
-SMT capacitor, aluminium electrolytic, 5x3, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 5.0x3.0mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_5x3.9
-SMT capacitor, aluminium electrolytic, 5x3.9, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 5.0x3.9mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_5x4.4
-SMT capacitor, aluminium electrolytic, 5x4.4, Panasonic B45 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Panasonic B45, 5.0x4.4mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_5x4.5
-SMT capacitor, aluminium electrolytic, 5x4.5, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 5.0x4.5mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_5x5.3
-SMT capacitor, aluminium electrolytic, 5x5.3, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 5.0x5.3mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_5x5.4
-SMT capacitor, aluminium electrolytic, 5x5.4, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 5.0x5.4mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_5x5.7
-SMT capacitor, aluminium electrolytic, 5x5.7, United Chemi-Con 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, United Chemi-Con, 5.0x5.7mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_5x5.8
-SMT capacitor, aluminium electrolytic, 5x5.8, Panasonic 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Panasonic, 5.0x5.8mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_5x5.9
-SMT capacitor, aluminium electrolytic, 5x5.9, Panasonic B6 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Panasonic B6, 5.0x5.9mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_6.3x3
-SMT capacitor, aluminium electrolytic, 6.3x3, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 6.3x3.0mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_6.3x3.9
-SMT capacitor, aluminium electrolytic, 6.3x3.9, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 6.3x3.9mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_6.3x4.5
-SMT capacitor, aluminium electrolytic, 6.3x4.5, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 6.3x4.5mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_6.3x4.9
-SMT capacitor, aluminium electrolytic, 6.3x4.9, Panasonic C5 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Panasonic C5, 6.3x4.9mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_6.3x5.2
-SMT capacitor, aluminium electrolytic, 6.3x5.2, United Chemi-Con 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, United Chemi-Con, 6.3x5.2mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_6.3x5.3
-SMT capacitor, aluminium electrolytic, 6.3x5.3, Cornell Dubilier Electronics 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Cornell Dubilier, 6.3x5.3mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_6.3x5.4
-SMT capacitor, aluminium electrolytic, 6.3x5.4, Panasonic C55 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Panasonic C55, 6.3x5.4mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_6.3x5.4_Nichicon
-SMT capacitor, aluminium electrolytic, 6.3x5.4, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 6.3x5.4mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_6.3x5.7
-SMT capacitor, aluminium electrolytic, 6.3x5.7, United Chemi-Con 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, United Chemi-Con, 6.3x5.7mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_6.3x5.8
-SMT capacitor, aluminium electrolytic, 6.3x5.8, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 6.3x5.8mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_6.3x5.9
-SMT capacitor, aluminium electrolytic, 6.3x5.9, Panasonic C6 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Panasonic C6, 6.3x5.9mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_6.3x7.7
-SMT capacitor, aluminium electrolytic, 6.3x7.7, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 6.3x7.7mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_6.3x9.9
-SMT capacitor, aluminium electrolytic, 6.3x9.9, Panasonic C10 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Panasonic C10, 6.3x9.9mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_8x5.4
-SMT capacitor, aluminium electrolytic, 8x5.4, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 8.0x5.4mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_8x6.2
-SMT capacitor, aluminium electrolytic, 8x6.2, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 8.0x6.2mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_8x6.5
-SMT capacitor, aluminium electrolytic, 8x6.5, Rubycon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Rubycon, 8.0x6.5mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_8x6.7
-SMT capacitor, aluminium electrolytic, 8x6.7, United Chemi-Con 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, United Chemi-Con, 8.0x6.7mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_8x6.9
-SMT capacitor, aluminium electrolytic, 8x6.9, Panasonic E7 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Panasonic E7, 8.0x6.9mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_8x10
-SMT capacitor, aluminium electrolytic, 8x10, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 8.0x10mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_8x10.5
-SMT capacitor, aluminium electrolytic, 8x10.5, Vishay 0810 http://www.vishay.com/docs/28395/150crz.pdf
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Vishay 0810, 8.0x10.5mm, http://www.vishay.com/docs/28395/150crz.pdf
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_8x11.9
-SMT capacitor, aluminium electrolytic, 8x11.9, Panasonic E12 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Panasonic E12, 8.0x11.9mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_10x7.7
-SMT capacitor, aluminium electrolytic, 10x7.7, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 10.0x7.7mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_10x7.9
-SMT capacitor, aluminium electrolytic, 10x7.9, Panasonic F8 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Panasonic F8, 10.0x7.9mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_10x10
-SMT capacitor, aluminium electrolytic, 10x10, Nichicon 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Nichicon, 10.0x10.0mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_10x10.5
-SMT capacitor, aluminium electrolytic, 10x10, Vishay 1010 http://www.vishay.com/docs/28395/150crz.pdf
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Vishay 1010, 10.0x10.5mm, http://www.vishay.com/docs/28395/150crz.pdf
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_10x12.5
-SMT capacitor, aluminium electrolytic, 10x12.5, Vishay 1012 http://www.vishay.com/docs/28395/150crz.pdf
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Vishay 1012, 10.0x12.5mm, http://www.vishay.com/docs/28395/150crz.pdf
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_10x12.6
-SMT capacitor, aluminium electrolytic, 10x12.6, Panasonic F12 
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Panasonic F12, 10.0x12.6mm
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_10x14.3
-SMT capacitor, aluminium electrolytic, 10x14.3, Vishay 1014 http://www.vishay.com/docs/28395/150crz.pdf
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Vishay 1014, 10.0x14.3mm, http://www.vishay.com/docs/28395/150crz.pdf
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_16x17.5
-SMT capacitor, aluminium electrolytic, 16x17.5, Vishay 1616 http://www.vishay.com/docs/28395/150crz.pdf
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Vishay 1616, 16.0x17.5mm, http://www.vishay.com/docs/28395/150crz.pdf
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_16x22
-SMT capacitor, aluminium electrolytic, 16x22, Vishay 1621 http://www.vishay.com/docs/28395/150crz.pdf
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Vishay 1621, 16.0x22.0mm, http://www.vishay.com/docs/28395/150crz.pdf
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_18x17.5
-SMT capacitor, aluminium electrolytic, 18x17.5, Vishay 1816 http://www.vishay.com/docs/28395/150crz.pdf
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Vishay 1816, 18.0x17.5mm, http://www.vishay.com/docs/28395/150crz.pdf
+capacitor electrolytic
 0
 2
 2
 Capacitor_SMD
 CP_Elec_18x22
-SMT capacitor, aluminium electrolytic, 18x22, Vishay 1821 http://www.vishay.com/docs/28395/150crz.pdf
-Capacitor Electrolytic
+SMD capacitor, aluminum electrolytic, Vishay 1821, 18.0x22.0mm, http://www.vishay.com/docs/28395/150crz.pdf
+capacitor electrolytic
 0
 2
 2
@@ -2684,6 +2691,90 @@ Capacitor_SMD
 C_3640_9110Metric_Pad2.10x10.45mm_HandSolder
 Capacitor SMD 3640 (9110 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size from: http://datasheets.avx.com/AVX-HV_MLCC.pdf), generated with kicad-footprint-generator
 capacitor handsolder
+0
+2
+2
+Capacitor_SMD
+C_Elec_3x5.4
+SMD capacitor, aluminum electrolytic nonpolar, 3.0x5.4mm
+capacitor electrolyic nonpolar
+0
+2
+2
+Capacitor_SMD
+C_Elec_4x5.4
+SMD capacitor, aluminum electrolytic nonpolar, 4.0x5.4mm
+capacitor electrolyic nonpolar
+0
+2
+2
+Capacitor_SMD
+C_Elec_4x5.8
+SMD capacitor, aluminum electrolytic nonpolar, 4.0x5.8mm
+capacitor electrolyic nonpolar
+0
+2
+2
+Capacitor_SMD
+C_Elec_5x5.4
+SMD capacitor, aluminum electrolytic nonpolar, 5.0x5.4mm
+capacitor electrolyic nonpolar
+0
+2
+2
+Capacitor_SMD
+C_Elec_5x5.8
+SMD capacitor, aluminum electrolytic nonpolar, 5.0x5.8mm
+capacitor electrolyic nonpolar
+0
+2
+2
+Capacitor_SMD
+C_Elec_6.3x5.4
+SMD capacitor, aluminum electrolytic nonpolar, 6.3x5.4mm
+capacitor electrolyic nonpolar
+0
+2
+2
+Capacitor_SMD
+C_Elec_6.3x5.8
+SMD capacitor, aluminum electrolytic nonpolar, 6.3x5.8mm
+capacitor electrolyic nonpolar
+0
+2
+2
+Capacitor_SMD
+C_Elec_6.3x7.7
+SMD capacitor, aluminum electrolytic nonpolar, 6.3x7.7mm
+capacitor electrolyic nonpolar
+0
+2
+2
+Capacitor_SMD
+C_Elec_8x5.4
+SMD capacitor, aluminum electrolytic nonpolar, 8.0x5.4mm
+capacitor electrolyic nonpolar
+0
+2
+2
+Capacitor_SMD
+C_Elec_8x6.2
+SMD capacitor, aluminum electrolytic nonpolar, 8.0x6.2mm
+capacitor electrolyic nonpolar
+0
+2
+2
+Capacitor_SMD
+C_Elec_8x10.2
+SMD capacitor, aluminum electrolytic nonpolar, 8.0x10.2mm
+capacitor electrolyic nonpolar
+0
+2
+2
+Capacitor_SMD
+C_Elec_10x10.2
+SMD capacitor, aluminum electrolytic nonpolar, 10.0x10.2mm
+capacitor electrolyic nonpolar
 0
 2
 2
@@ -4340,6 +4431,132 @@ C Disc series Radial pin pitch 10.00mm  diameter 16.0mm width 5.0mm Capacitor
 2
 2
 Capacitor_THT
+C_Radial_D4.0mm_H5.0mm_P1.50mm
+C, Radial series, Radial, pin pitch=1.50mm, diameter=4mm, height=5mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 1.50mm diameter 4mm height 5mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D4.0mm_H7.0mm_P1.50mm
+C, Radial series, Radial, pin pitch=1.50mm, diameter=4mm, height=7mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 1.50mm diameter 4mm height 7mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D5.0mm_H5.0mm_P2.00mm
+C, Radial series, Radial, pin pitch=2.00mm, diameter=5mm, height=5mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 2.00mm diameter 5mm height 5mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D5.0mm_H7.0mm_P2.00mm
+C, Radial series, Radial, pin pitch=2.00mm, diameter=5mm, height=7mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 2.00mm diameter 5mm height 7mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D5.0mm_H11.0mm_P2.00mm
+C, Radial series, Radial, pin pitch=2.00mm, diameter=5mm, height=11mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 2.00mm diameter 5mm height 11mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D6.3mm_H5.0mm_P2.50mm
+C, Radial series, Radial, pin pitch=2.50mm, diameter=6.3mm, height=5mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 2.50mm diameter 6.3mm height 5mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D6.3mm_H7.0mm_P2.50mm
+C, Radial series, Radial, pin pitch=2.50mm, diameter=6.3mm, height=7mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 2.50mm diameter 6.3mm height 7mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D6.3mm_H11.0mm_P2.50mm
+C, Radial series, Radial, pin pitch=2.50mm, diameter=6.3mm, height=11mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 2.50mm diameter 6.3mm height 11mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D8.0mm_H7.0mm_P3.50mm
+C, Radial series, Radial, pin pitch=3.50mm, diameter=8mm, height=7mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 3.50mm diameter 8mm height 7mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D8.0mm_H11.5mm_P3.50mm
+C, Radial series, Radial, pin pitch=3.50mm, diameter=8mm, height=11.5mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 3.50mm diameter 8mm height 11.5mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D10.0mm_H12.5mm_P5.00mm
+C, Radial series, Radial, pin pitch=5.00mm, diameter=10mm, height=12.5mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 5.00mm diameter 10mm height 12.5mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D10.0mm_H16.0mm_P5.00mm
+C, Radial series, Radial, pin pitch=5.00mm, diameter=10mm, height=16mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 5.00mm diameter 10mm height 16mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D10.0mm_H20.0mm_P5.00mm
+C, Radial series, Radial, pin pitch=5.00mm, diameter=10mm, height=20mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 5.00mm diameter 10mm height 20mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D12.5mm_H20.0mm_P5.00mm
+C, Radial series, Radial, pin pitch=5.00mm, diameter=12.5mm, height=20mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 5.00mm diameter 12.5mm height 20mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D12.5mm_H25.0mm_P5.00mm
+C, Radial series, Radial, pin pitch=5.00mm, diameter=12.5mm, height=25mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 5.00mm diameter 12.5mm height 25mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D16.0mm_H25.0mm_P7.50mm
+C, Radial series, Radial, pin pitch=7.50mm, diameter=16mm, height=25mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 7.50mm diameter 16mm height 25mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D16.0mm_H31.5mm_P7.50mm
+C, Radial series, Radial, pin pitch=7.50mm, diameter=16mm, height=31.5mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 7.50mm diameter 16mm height 31.5mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
+C_Radial_D18.0mm_H35.5mm_P7.50mm
+C, Radial series, Radial, pin pitch=7.50mm, diameter=18mm, height=35.5mm, Non-Polar Electrolytic Capacitor
+C Radial series Radial pin pitch 7.50mm diameter 18mm height 35.5mm Non-Polar Electrolytic Capacitor
+0
+2
+2
+Capacitor_THT
 C_Rect_L4.0mm_W2.5mm_P2.50mm
 C, Rect series, Radial, pin pitch=2.50mm, , length*width=4*2.5mm^2, Capacitor
 C Rect series Radial pin pitch 2.50mm  length 4mm width 2.5mm Capacitor
@@ -5739,6 +5956,13 @@ FGPMMOPA6C
 0
 13
 13
+coddingtonbear
+IDC-Header_2x08_P2.54mm_Vertical_Largepads
+Through hole straight IDC box header, 2x08, 2.54mm pitch, double rows
+Through hole IDC box header THT 2x08 2.54mm double row
+0
+16
+16
 coddingtonbear
 JST_EH_B02B-EH-A_02x2.50mm_Straight_LargePads
 JST EH series connector, B02B-EH-A, 2.50mm pitch, top entry
@@ -15498,197 +15722,197 @@ connector Molex Pico-Lock top entry
 14
 13
 Connector_Molex
-Molex_PicoBlade_53047-0410_1x02_P1.25mm_Vertical
-Molex PicoBlade Connector System, 53047-0410, 2 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53047-0210_1x02_P1.25mm_Vertical
+Molex PicoBlade Connector System, 53047-0210, 2 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade side entry
 0
 2
 2
 Connector_Molex
-Molex_PicoBlade_53047-0610_1x03_P1.25mm_Vertical
-Molex PicoBlade Connector System, 53047-0610, 3 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53047-0310_1x03_P1.25mm_Vertical
+Molex PicoBlade Connector System, 53047-0310, 3 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade side entry
 0
 3
 3
 Connector_Molex
-Molex_PicoBlade_53047-0810_1x04_P1.25mm_Vertical
-Molex PicoBlade Connector System, 53047-0810, 4 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53047-0410_1x04_P1.25mm_Vertical
+Molex PicoBlade Connector System, 53047-0410, 4 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade side entry
 0
 4
 4
 Connector_Molex
-Molex_PicoBlade_53047-1010_1x05_P1.25mm_Vertical
-Molex PicoBlade Connector System, 53047-1010, 5 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53047-0510_1x05_P1.25mm_Vertical
+Molex PicoBlade Connector System, 53047-0510, 5 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade side entry
 0
 5
 5
 Connector_Molex
-Molex_PicoBlade_53047-1210_1x06_P1.25mm_Vertical
-Molex PicoBlade Connector System, 53047-1210, 6 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53047-0610_1x06_P1.25mm_Vertical
+Molex PicoBlade Connector System, 53047-0610, 6 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade side entry
 0
 6
 6
 Connector_Molex
-Molex_PicoBlade_53047-1410_1x07_P1.25mm_Vertical
-Molex PicoBlade Connector System, 53047-1410, 7 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53047-0710_1x07_P1.25mm_Vertical
+Molex PicoBlade Connector System, 53047-0710, 7 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade side entry
 0
 7
 7
 Connector_Molex
-Molex_PicoBlade_53047-1610_1x08_P1.25mm_Vertical
-Molex PicoBlade Connector System, 53047-1610, 8 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53047-0810_1x08_P1.25mm_Vertical
+Molex PicoBlade Connector System, 53047-0810, 8 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade side entry
 0
 8
 8
 Connector_Molex
-Molex_PicoBlade_53047-1810_1x09_P1.25mm_Vertical
-Molex PicoBlade Connector System, 53047-1810, 9 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53047-0910_1x09_P1.25mm_Vertical
+Molex PicoBlade Connector System, 53047-0910, 9 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade side entry
 0
 9
 9
 Connector_Molex
-Molex_PicoBlade_53047-2010_1x10_P1.25mm_Vertical
-Molex PicoBlade Connector System, 53047-2010, 10 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53047-1010_1x10_P1.25mm_Vertical
+Molex PicoBlade Connector System, 53047-1010, 10 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade side entry
 0
 10
 10
 Connector_Molex
-Molex_PicoBlade_53047-2210_1x11_P1.25mm_Vertical
-Molex PicoBlade Connector System, 53047-2210, 11 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53047-1110_1x11_P1.25mm_Vertical
+Molex PicoBlade Connector System, 53047-1110, 11 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade side entry
 0
 11
 11
 Connector_Molex
-Molex_PicoBlade_53047-2410_1x12_P1.25mm_Vertical
-Molex PicoBlade Connector System, 53047-2410, 12 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53047-1210_1x12_P1.25mm_Vertical
+Molex PicoBlade Connector System, 53047-1210, 12 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade side entry
 0
 12
 12
 Connector_Molex
-Molex_PicoBlade_53047-2610_1x13_P1.25mm_Vertical
-Molex PicoBlade Connector System, 53047-2610, 13 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53047-1310_1x13_P1.25mm_Vertical
+Molex PicoBlade Connector System, 53047-1310, 13 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade side entry
 0
 13
 13
 Connector_Molex
-Molex_PicoBlade_53047-2810_1x14_P1.25mm_Vertical
-Molex PicoBlade Connector System, 53047-2810, 14 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53047-1410_1x14_P1.25mm_Vertical
+Molex PicoBlade Connector System, 53047-1410, 14 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade side entry
 0
 14
 14
 Connector_Molex
-Molex_PicoBlade_53047-3010_1x15_P1.25mm_Vertical
-Molex PicoBlade Connector System, 53047-3010, 15 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53047-1510_1x15_P1.25mm_Vertical
+Molex PicoBlade Connector System, 53047-1510, 15 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade side entry
 0
 15
 15
 Connector_Molex
-Molex_PicoBlade_53048-0410_1x02_P1.25mm_Horizontal
-Molex PicoBlade Connector System, 53048-0410, 2 Pins per row (http://www.molex.com/pdm_docs/sd/532530770_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53048-0210_1x02_P1.25mm_Horizontal
+Molex PicoBlade Connector System, 53048-0210, 2 Pins per row (http://www.molex.com/pdm_docs/sd/530480210_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade top entry
 0
 2
 2
 Connector_Molex
-Molex_PicoBlade_53048-0610_1x03_P1.25mm_Horizontal
-Molex PicoBlade Connector System, 53048-0610, 3 Pins per row (http://www.molex.com/pdm_docs/sd/532530770_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53048-0310_1x03_P1.25mm_Horizontal
+Molex PicoBlade Connector System, 53048-0310, 3 Pins per row (http://www.molex.com/pdm_docs/sd/530480210_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade top entry
 0
 3
 3
 Connector_Molex
-Molex_PicoBlade_53048-0810_1x04_P1.25mm_Horizontal
-Molex PicoBlade Connector System, 53048-0810, 4 Pins per row (http://www.molex.com/pdm_docs/sd/532530770_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53048-0410_1x04_P1.25mm_Horizontal
+Molex PicoBlade Connector System, 53048-0410, 4 Pins per row (http://www.molex.com/pdm_docs/sd/530480210_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade top entry
 0
 4
 4
 Connector_Molex
-Molex_PicoBlade_53048-1010_1x05_P1.25mm_Horizontal
-Molex PicoBlade Connector System, 53048-1010, 5 Pins per row (http://www.molex.com/pdm_docs/sd/532530770_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53048-0510_1x05_P1.25mm_Horizontal
+Molex PicoBlade Connector System, 53048-0510, 5 Pins per row (http://www.molex.com/pdm_docs/sd/530480210_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade top entry
 0
 5
 5
 Connector_Molex
-Molex_PicoBlade_53048-1210_1x06_P1.25mm_Horizontal
-Molex PicoBlade Connector System, 53048-1210, 6 Pins per row (http://www.molex.com/pdm_docs/sd/532530770_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53048-0610_1x06_P1.25mm_Horizontal
+Molex PicoBlade Connector System, 53048-0610, 6 Pins per row (http://www.molex.com/pdm_docs/sd/530480210_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade top entry
 0
 6
 6
 Connector_Molex
-Molex_PicoBlade_53048-1410_1x07_P1.25mm_Horizontal
-Molex PicoBlade Connector System, 53048-1410, 7 Pins per row (http://www.molex.com/pdm_docs/sd/532530770_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53048-0710_1x07_P1.25mm_Horizontal
+Molex PicoBlade Connector System, 53048-0710, 7 Pins per row (http://www.molex.com/pdm_docs/sd/530480210_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade top entry
 0
 7
 7
 Connector_Molex
-Molex_PicoBlade_53048-1610_1x08_P1.25mm_Horizontal
-Molex PicoBlade Connector System, 53048-1610, 8 Pins per row (http://www.molex.com/pdm_docs/sd/532530770_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53048-0810_1x08_P1.25mm_Horizontal
+Molex PicoBlade Connector System, 53048-0810, 8 Pins per row (http://www.molex.com/pdm_docs/sd/530480210_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade top entry
 0
 8
 8
 Connector_Molex
-Molex_PicoBlade_53048-1810_1x09_P1.25mm_Horizontal
-Molex PicoBlade Connector System, 53048-1810, 9 Pins per row (http://www.molex.com/pdm_docs/sd/532530770_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53048-0910_1x09_P1.25mm_Horizontal
+Molex PicoBlade Connector System, 53048-0910, 9 Pins per row (http://www.molex.com/pdm_docs/sd/530480210_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade top entry
 0
 9
 9
 Connector_Molex
-Molex_PicoBlade_53048-2010_1x10_P1.25mm_Horizontal
-Molex PicoBlade Connector System, 53048-2010, 10 Pins per row (http://www.molex.com/pdm_docs/sd/532530770_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53048-1010_1x10_P1.25mm_Horizontal
+Molex PicoBlade Connector System, 53048-1010, 10 Pins per row (http://www.molex.com/pdm_docs/sd/530480210_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade top entry
 0
 10
 10
 Connector_Molex
-Molex_PicoBlade_53048-2210_1x11_P1.25mm_Horizontal
-Molex PicoBlade Connector System, 53048-2210, 11 Pins per row (http://www.molex.com/pdm_docs/sd/532530770_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53048-1110_1x11_P1.25mm_Horizontal
+Molex PicoBlade Connector System, 53048-1110, 11 Pins per row (http://www.molex.com/pdm_docs/sd/530480210_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade top entry
 0
 11
 11
 Connector_Molex
-Molex_PicoBlade_53048-2410_1x12_P1.25mm_Horizontal
-Molex PicoBlade Connector System, 53048-2410, 12 Pins per row (http://www.molex.com/pdm_docs/sd/532530770_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53048-1210_1x12_P1.25mm_Horizontal
+Molex PicoBlade Connector System, 53048-1210, 12 Pins per row (http://www.molex.com/pdm_docs/sd/530480210_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade top entry
 0
 12
 12
 Connector_Molex
-Molex_PicoBlade_53048-2610_1x13_P1.25mm_Horizontal
-Molex PicoBlade Connector System, 53048-2610, 13 Pins per row (http://www.molex.com/pdm_docs/sd/532530770_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53048-1310_1x13_P1.25mm_Horizontal
+Molex PicoBlade Connector System, 53048-1310, 13 Pins per row (http://www.molex.com/pdm_docs/sd/530480210_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade top entry
 0
 13
 13
 Connector_Molex
-Molex_PicoBlade_53048-2810_1x14_P1.25mm_Horizontal
-Molex PicoBlade Connector System, 53048-2810, 14 Pins per row (http://www.molex.com/pdm_docs/sd/532530770_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53048-1410_1x14_P1.25mm_Horizontal
+Molex PicoBlade Connector System, 53048-1410, 14 Pins per row (http://www.molex.com/pdm_docs/sd/530480210_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade top entry
 0
 14
 14
 Connector_Molex
-Molex_PicoBlade_53048-3010_1x15_P1.25mm_Horizontal
-Molex PicoBlade Connector System, 53048-3010, 15 Pins per row (http://www.molex.com/pdm_docs/sd/532530770_sd.pdf), generated with kicad-footprint-generator
+Molex_PicoBlade_53048-1510_1x15_P1.25mm_Horizontal
+Molex PicoBlade Connector System, 53048-1510, 15 Pins per row (http://www.molex.com/pdm_docs/sd/530480210_sd.pdf), generated with kicad-footprint-generator
 connector Molex PicoBlade top entry
 0
 15
@@ -39810,7 +40034,7 @@ Hahn ACDC-Converter THT
 4
 Converter_ACDC
 Converter_ACDC_MeanWell_IRM-02-xx_SMD
-ACDC-Converter, 3W, Meanwell, IRM-02, SMD, https://www.meanwell.co.uk/media/productPDF/IRM-02-spec.pdf
+ACDC-Converter, 3W, Meanwell, IRM-02, SMD, https://www.meanwell.com/Upload/PDF/IRM-02/IRM-02-SPEC.PDF
 ACDC-Converter 3W
 0
 14
@@ -39906,6 +40130,13 @@ Vigortronix VTX-214-010-xxx serie of ACDC converter
 0
 5
 5
+Converter_DCDC
+Converter_DCDC_Artesyn_ATA_SMD
+DCDC-Converter, Artesyn, ATA Series, 3W Single and Dual Output, 1500VDC Isolation, 24.0x13.7x8.0mm https://www.artesyn.com/power/assets/ata_series_ds_01apr2015_79c25814fd.pdf https://www.artesyn.com/power/assets/trn_dc-dc_ata_3w_series_releas1430412818_techref.pdf
+DCDC SMD
+0
+7
+7
 Converter_DCDC
 Converter_DCDC_Bothhand_CFUDxxxx_THT
 DCDC-Converter, BOTHHAND, Type CFxxxx-Serie,  (Very dodgy url but was the only at hand), 
@@ -40144,6 +40375,13 @@ DCDC-Converter TRACO TSR-1
 0
 3
 3
+Converter_DCDC
+Converter_DCDC_XP_POWER-ISU02_SMD
+DCDC-Converter, XP POWER, ISU02 Series, 2W Single and Dual Output, 1500VDC Isolation, 19.0x17.0x8.7mm https://www.xppower.com/Portals/0/pdfs/SF_ISU02.pdf
+DCDC SMD XP POWER ISU02
+0
+7
+7
 Converter_DCDC
 Converter_DCDC_XP_POWER_JTExxxxDxx_THT
 DCDC-Converter, XP POWER, Type JTE06 Series,  Dual Output
@@ -42897,14 +43135,14 @@ LCD 16x2 Alphanumeric 16pin
 16
 Display_7Segment
 7SEGMENT-LED__HDSM531_HDSM533_SMD
-7-Segment Display, HDSM53x
+7-Segment Display, HDSM53x, https://docs.broadcom.com/docs/AV02-0713EN
 7segment LED HDSM531 HDSM533
 0
 10
 10
 Display_7Segment
 7SegmentLED_LTS6760_LTS6780
-7-Segment Display, LTS67x0
+7-Segment Display, LTS67x0, http://optoelectronics.liteon.com/upload/download/DS30-2001-355/S6760jd.pdf
 7Segment LED LTS6760 LTS6780
 0
 10
@@ -43989,14 +44227,14 @@ heatsink
 0
 Heatsink
 Heatsink_Aavid-TV5G_TO220_Horizontal
-http://www.aavid.eu/products/standard/tv5g
+Heatsink TV5G TO-220 Horizontal, https://www.shopaavid.com/Product/TV-5G
 Heatsink TV5G TO-220 Horizontal 
 0
 0
 0
 Heatsink
 Heatsink_AAVID_573300D00010G_TO-263
-Heatsink, 12.70mm x 26.16mm x 10.16, SMD, 18K/W, TO-263, D2 Pak, https://www.aavid.com/products/standard/573300d00010g
+Heatsink, 12.70mm x 26.16mm x 10.16, SMD, 18K/W, TO-263, D2 Pak, https://www.shopaavid.com/Product/573300D00000G
 Heatsink AAVID TO-263 D2 Pak
 0
 2
@@ -47088,6 +47326,27 @@ solder jumper open
 0
 5
 3
+kicad-castellated-breakouts
+QFP48-1.27MM-CASTELLATED
+
+
+0
+48
+48
+kicad-castellated-breakouts
+QFP64-1.27MM-CASTELLATED
+
+
+0
+64
+64
+kicad-castellated-breakouts
+SSOP8-1.27MM-CASTELLATED
+
+
+0
+8
+8
 LED_SMD
 LED-L1T2_LUMILEDS
 http://www.lumileds.com/uploads/438/DS133-pdf
@@ -47438,6 +47697,13 @@ LED Cree XQ
 0
 2
 2
+LED_SMD
+LED_Inolux_IN-PI554FCH_PLCC4_5.0x5.0mm_P3.2mm
+http://www.inolux-corp.com/datasheet/SMDLED/Addressable%20LED/IN-PI554FCH.pdf
+RGB LED NeoPixel addressable
+0
+4
+4
 LED_SMD
 LED_Kingbright_AAA3528ESGCT
 Kingbright, dual LED, 3.5 x 2.8 mm Surface Mount LED Lamp (http://www.kingbrightusa.com/images/catalog/SPEC/AAA3528ESGCT.pdf)
@@ -48107,6 +48373,34 @@ LED_THT
 LED_SideEmitter_Rectangular_W4.5mm_H1.6mm
 LED_SideEmitter_Rectangular, Rectangular, SideEmitter,  Rectangular size 4.5x1.6mm^2, 2 pins, http://cdn-reichelt.de/documents/datenblatt/A500/LED15MMGE_LED15MMGN%23KIN.pdf
 LED_SideEmitter_Rectangular Rectangular SideEmitter  Rectangular size 4.5x1.6mm^2 2 pins
+0
+2
+2
+LED_THT
+LED_VCCLite_5381H1_6.35x6.35mm
+Red 5381 Series LED VCCLite https://vcclite.com/wp-content/uploads/wpallimport/files/files/5381Series.pdf http://static.vcclite.com/pdf/Mounting%20Hole%20Pattern%202.pdf
+Red 5381 Series LED
+0
+2
+2
+LED_THT
+LED_VCCLite_5381H3_6.35x6.35mm
+Amber 5381 Series LED VCCLite https://vcclite.com/wp-content/uploads/wpallimport/files/files/5381Series.pdf http://static.vcclite.com/pdf/Mounting%20Hole%20Pattern%202.pdf
+Amber 5381 Series LED
+0
+2
+2
+LED_THT
+LED_VCCLite_5381H5_6.35x6.35mm
+Green 5381 Series LED VCCLite https://vcclite.com/wp-content/uploads/wpallimport/files/files/5381Series.pdf http://static.vcclite.com/pdf/Mounting%20Hole%20Pattern%202.pdf
+Green 5381 Series LED
+0
+2
+2
+LED_THT
+LED_VCCLite_5381H7_6.35x6.35mm
+Yellow 5381 Series LED VCCLite https://vcclite.com/wp-content/uploads/wpallimport/files/files/5381Series.pdf http://static.vcclite.com/pdf/Mounting%20Hole%20Pattern%202.pdf
+Yellow 5381 Series LED
 0
 2
 2
@@ -49987,6 +50281,13 @@ eMMC Flash LFBGA169
 169
 169
 Package_BGA
+Linear_BGA-133_15.0x15.0_Layout12x12_P1.27mm
+Analog Devices (Linear Tech), 133-pin BGA uModule, 15.0x15.0x4.92mm, https://www.analog.com/media/en/technical-documentation/data-sheets/4637fc.pdf
+133 pin bga
+0
+134
+134
+Package_BGA
 Maxim_WLP-12
 Maxim_WLP-12 W121B2+1 http://pdfserv.maximintegrated.com/package_dwgs/21-0009.PDF
 Maxim_WLP-12
@@ -50098,6 +50399,13 @@ TFBGA-100
 0
 100
 100
+Package_BGA
+TFBGA-121_10x10mm_Layout11x11_P0.8mm
+TFBGA-121, 11x11 raster, 10x10mm package, pitch 0.8mm; http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#p495
+BGA 121 0.8
+0
+121
+121
 Package_BGA
 TFBGA-216_13x13mm_Layout15x15_P0.8mm
 TFBGA-216, 15x15 raster, 13x13mm package, pitch 0.8mm; see section 6.8 of http://www.st.com/resource/en/datasheet/stm32f746zg.pdf
@@ -51149,6 +51457,34 @@ QFN Microchip 8E 16
 20
 17
 Package_DFN_QFN
+Microchip_DRQFN-44-1EP_5x5mm_P0.7mm_EP2.65x2.65mm
+QFN, 44 Pin, dual row (http://ww1.microchip.com/downloads/en/DeviceDoc/44L_VQFN_5x5mm_Dual_Row_%5BS3B%5D_C04-21399a.pdf)
+QFN dual row
+0
+49
+45
+Package_DFN_QFN
+Microchip_DRQFN-44-1EP_5x5mm_P0.7mm_EP2.65x2.65mm_ThermalVias
+QFN, 44 Pin, dual row (http://ww1.microchip.com/downloads/en/DeviceDoc/44L_VQFN_5x5mm_Dual_Row_%5BS3B%5D_C04-21399a.pdf)
+QFN dual row
+0
+59
+45
+Package_DFN_QFN
+Microchip_DRQFN-64-1EP_7x7mm_P0.65mm_EP4.1x4.1mm
+QFN, 64 Pin, dual row (http://ww1.microchip.com/downloads/en/DeviceDoc/64L_VQFN_7x7_Dual_Row_%5BSVB%5D_C04-21420a.pdf)
+QFN dual row
+0
+74
+65
+Package_DFN_QFN
+Microchip_DRQFN-64-1EP_7x7mm_P0.65mm_EP4.1x4.1mm_ThermalVias
+QFN, 64 Pin, dual row (http://ww1.microchip.com/downloads/en/DeviceDoc/64L_VQFN_7x7_Dual_Row_%5BSVB%5D_C04-21420a.pdf)
+QFN dual row
+0
+91
+65
+Package_DFN_QFN
 Microsemi_QFN-40-32-2EP_6x8mm_P0.5mm
 40-Lead (32-Lead Populated) Plastic Quad Flat, No Lead Package - 6x8x0.9mm Body (https://www.microsemi.com/document-portal/doc_download/131677-pd70224-data-sheet)
 QFN 0.5
@@ -51884,6 +52220,20 @@ QFN DFN_QFN
 107
 45
 Package_DFN_QFN
+QFN-44-1EP_8x8mm_P0.65mm_EP6.45x6.45mm
+QFN, 44 Pin (http://ww1.microchip.com/downloads/en/DeviceDoc/39935c.pdf (page 153)), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+QFN DFN_QFN
+0
+70
+45
+Package_DFN_QFN
+QFN-44-1EP_8x8mm_P0.65mm_EP6.45x6.45mm_ThermalVias
+QFN, 44 Pin (http://ww1.microchip.com/downloads/en/DeviceDoc/39935c.pdf (page 153)), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+QFN DFN_QFN
+0
+107
+45
+Package_DFN_QFN
 QFN-44-1EP_9x9mm_P0.65mm_EP7.5x7.5mm
 44-Lead Plastic Quad Flat, No Lead Package - 9x9 mm Body [QFN]; see section 10.3 of https://www.parallax.com/sites/default/files/downloads/P8X32A-Propeller-Datasheet-v1.4.0_0.pdf
 QFN 0.65
@@ -52036,6 +52386,20 @@ QFN-56-1EP_8x8mm_P0.5mm_EP4.6x5.3mm
 QFN 0.5
 0
 65
+57
+Package_DFN_QFN
+QFN-56-1EP_8x8mm_P0.5mm_EP5.6x5.6mm
+QFN, 56 Pin (http://www.ti.com/lit/ds/symlink/tlc5957.pdf#page=23 (page 23f)), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+QFN DFN_QFN
+0
+73
+57
+Package_DFN_QFN
+QFN-56-1EP_8x8mm_P0.5mm_EP5.6x5.6mm_ThermalVias
+QFN, 56 Pin (http://www.ti.com/lit/ds/symlink/tlc5957.pdf#page=23 (page 23f)), generated with kicad-footprint-generator ipc_dfn_qfn_generator.py
+QFN DFN_QFN
+0
+99
 57
 Package_DFN_QFN
 QFN-64-1EP_9x9mm_P0.5mm_EP4.7x4.7mm
@@ -53936,7 +54300,7 @@ LSOP 2.54mm 300mil
 8
 Package_DIP
 PowerIntegrations_eDIP-12B
-Power Integrations eDIP-12B, see https://www.mouser.com/ds/2/328/linkswitch-pl_family_datasheet-12517.pdf
+Power Integrations eDIP-12B, see https://www.power.com/sites/default/files/product-docs/linkswitch-pl_family_datasheet.pdf
 THT DIP DIL PDIP 2.54mm 7.62mm 300mil
 0
 11
@@ -54732,6 +55096,13 @@ LGA 28 5.2x3.8mm Pitch 0.5mm
 0
 28
 28
+Package_LGA
+Linear_LGA-133_15.0x15.0_Layout12x12_P1.27mm
+Analog Devices (Linear Tech), 133-pin LGA uModule, 15.0x15.0x4.32mm, https://www.analog.com/media/en/technical-documentation/data-sheets/4637fc.pdf
+133 pin lga
+0
+133
+133
 Package_LGA
 ST_HLGA-10_2.5x2.5mm_P0.6mm_LayoutBorder3x2y
 ST  HLGA, 10 Pin (https://www.st.com/resource/en/datasheet/lps25hb.pdf#page=46), generated with kicad-footprint-generator ipc_lga_layoutBorder_generator.py
@@ -55552,6 +55923,20 @@ SSOP 0.65 PowerPAD
 83
 33
 Package_SO
+HTSSOP-38-1EP_6.1x12.5mm_P0.65mm_EP5.2x12.5mm_Mask3.39x6.35mm
+HTSSOP, 38 Pin (http://www.ti.com/lit/ds/symlink/tlc5951.pdf#page=47&zoom=140,-67,15), generated with kicad-footprint-generator ipc_gullwing_generator.py
+HTSSOP SO
+0
+46
+39
+Package_SO
+HTSSOP-38-1EP_6.1x12.5mm_P0.65mm_EP5.2x12.5mm_Mask3.39x6.35mm_ThermalVias
+HTSSOP, 38 Pin (http://www.ti.com/lit/ds/symlink/tlc5951.pdf#page=47&zoom=140,-67,15), generated with kicad-footprint-generator ipc_gullwing_generator.py
+HTSSOP SO
+0
+87
+39
+Package_SO
 HTSSOP-56-1EP_6.1x14mm_P0.5mm_EP3.61x6.35mm
 HTSSOP56: plastic thin shrink small outline package http://www.ti.com/lit/ds/symlink/drv8301.pdf
 HTSSOP 0.5
@@ -55924,7 +56309,7 @@ SOIC 1.27
 7
 Package_SO
 SOIC-8_3.9x4.9mm_P1.27mm
-8-Lead Plastic Small Outline (SN) - Narrow, 3.90 mm Body [SOIC] (see Microchip Packaging Specification 00000049BS.pdf)
+8-Lead Plastic Small Outline (SN) - Narrow, 3.90 mm Body [SOIC] (see Microchip Packaging Specification http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf)
 SOIC 1.27
 0
 8
@@ -56560,6 +56945,20 @@ SSOP 0.5
 56
 56
 Package_SO
+Vishay_PowerPAK_1212-8_Dual
+PowerPAK 1212-8 Dual (https://www.vishay.com/docs/71656/ppak12128.pdf, https://www.vishay.com/docs/72598/72598.pdf)
+Vishay_PowerPAK_1212-8_Dual
+0
+6
+6
+Package_SO
+Vishay_PowerPAK_1212-8_Single
+PowerPAK 1212-8 Single (https://www.vishay.com/docs/71656/ppak12128.pdf, https://www.vishay.com/docs/72597/72597.pdf)
+Vishay PowerPAK 1212-8 Single
+0
+5
+5
+Package_SO
 Vishay_PowerPAK_SO-8
 www.vishay.com/docs/73152/si7336adp.pdf
 Vishay PowerPAK SO-8
@@ -56615,6 +57014,13 @@ PowerDI 0.65
 0
 13
 5
+Package_SON
+Fairchild_DualPower33-6_3x3mm
+Fairchild Power33 MOSFET package, 3x3mm (see https://www.fairchildsemi.com/datasheets/FD/FDMC8032L.pdf)
+mosfet
+0
+18
+6
 Package_SON
 Fairchild_MicroPak-6_1.0x1.45mm_P0.5mm
 Fairchild-specific MicroPak-6 1.0x1.45mm Pitch 0.5mm https://www.nxp.com/docs/en/application-note/AN10343.pdff
@@ -59878,6 +60284,13 @@ Potentiometer vertical Bourns 3339P
 3
 3
 Potentiometer_THT
+Potentiometer_Bourns_3339P_Vertical_HandSoldering
+Potentiometer, vertical, Bourns 3339P, hand-soldering, http://www.bourns.com/docs/Product-Datasheets/3339.pdf
+Potentiometer vertical Bourns 3339P hand-soldering
+0
+3
+3
+Potentiometer_THT
 Potentiometer_Bourns_3339S_Horizontal
 Potentiometer, horizontal, Bourns 3339S, http://www.bourns.com/docs/Product-Datasheets/3339.pdf
 Potentiometer horizontal Bourns 3339S
@@ -60140,6 +60553,20 @@ Potentiometer_THT
 Potentiometer_Piher_T-16L_Single_Vertical_Hole
 Potentiometer, vertical, shaft hole, Piher T-16L Single, http://www.piher-nacesa.com/pdf/22-T16v03.pdf
 Potentiometer vertical hole Piher T-16L Single
+0
+3
+3
+Potentiometer_THT
+Potentiometer_Runtron_RM-063_Horizontal
+Potentiometer, horizontal, Trimmer, RM-063 http://www.runtron.com/down/PDF%20Datasheet/Carbon%20Film%20Potentiometer/RM065%20RM063.pdf
+Potentiometer Trimmer RM-063
+0
+3
+3
+Potentiometer_THT
+Potentiometer_Runtron_RM-065_Vertical
+Potentiometer, vertical, Trimmer, RM-065 http://www.runtron.com/down/PDF%20Datasheet/Carbon%20Film%20Potentiometer/RM065%20RM063.pdf
+Potentiometer Trimmer RM-065
 0
 3
 3
@@ -67453,7 +67880,7 @@ TEZ PCB Transformer
 13
 Transformer_THT
 Transformer_CHK_EI30-2VA_1xSec
-Trafo, Printtrafo, CHK, EI30, 2VA, 1x Sec,
+Trafo, Printtrafo, CHK, EI30, 2VA, 1x Sec,http://www.eratransformers.com/downloads/030-7585.0.pdf
 Trafo Printtrafo CHK EI30 2VA 1x Sec 
 0
 10
@@ -67474,21 +67901,21 @@ Trafo Printtrafo CHK EI30 2VA neutral
 10
 Transformer_THT
 Transformer_CHK_EI38-3VA_1xSec
-Trafo, Printtrafo, CHK, EI38, 3VA, 1x Sec,
+Trafo, Printtrafo, CHK, EI38, 3VA, 1x Sec, http://www.eratransformers.com/product-detail/20
 Trafo Printtrafo CHK EI38 3VA 1x Sec 
 0
 10
 10
 Transformer_THT
 Transformer_CHK_EI38-3VA_2xSec
-Trafo, Printtrafo, CHK, EI38, 3VA, 2x Sec,
+Trafo, Printtrafo, CHK, EI38, 3VA, 2x Sec, http://www.eratransformers.com/product-detail/20
 Trafo Printtrafo CHK EI38 3VA 2x Sec 
 0
 10
 10
 Transformer_THT
 Transformer_CHK_EI38-3VA_Neutral
-Trafo, Printtrafo, CHK, EI38, 3VA, neutral,
+Trafo, Printtrafo, CHK, EI38, 3VA, neutral, http://www.eratransformers.com/product-detail/20
 Trafo Printtrafo CHK EI42 3VA neutral 
 0
 10
@@ -67516,21 +67943,21 @@ Trafo Printtrafo CHK EI42 5VA neutral
 10
 Transformer_THT
 Transformer_CHK_EI48-8VA_1xSec
-Trafo, Printtrafo, CHK, EI48, 8VA, 1x Sec,
+Trafo, Printtrafo, CHK, EI48, 8VA, 1x Sec, http://www.eratransformers.com/product-detail/18
 Trafo Printtrafo CHK EI48 8VA 1x Sec 
 0
 12
 12
 Transformer_THT
 Transformer_CHK_EI48-8VA_2xSec
-Trafo, Printtrafo, CHK, EI48, 8VA, 2x Sec,
+Trafo, Printtrafo, CHK, EI48, 8VA, 2x Sec, http://www.eratransformers.com/product-detail/18
 Trafo Printtrafo CHK EI48 8VA 2x Sec 
 0
 12
 12
 Transformer_THT
 Transformer_CHK_EI48-8VA_Neutral
-Trafo, Printtrafo, CHK, EI48, 8VA, neutral,
+Trafo, Printtrafo, CHK, EI48, 8VA, neutral, http://www.eratransformers.com/product-detail/18
 Trafo Printtrafo CHK EI48 8VA neutral 
 0
 12
@@ -67544,56 +67971,56 @@ Trafo Printtrafo CHK EI48 10VA 1x Sec
 12
 Transformer_THT
 Transformer_CHK_EI48-10VA_2xSec
-Trafo, Printtrafo, CHK, EI48, 10VA, 2x Sec,
+Trafo, Printtrafo, CHK, EI48, 10VA, 2x Sec, http://www.eratransformers.com/product-detail/18
 Trafo Printtrafo CHK EI48 10VA 2x Sec 
 0
 12
 12
 Transformer_THT
 Transformer_CHK_EI48-10VA_Neutral
-Trafo, Printtrafo, CHK, EI48, 10VA, neutral,
+Trafo, Printtrafo, CHK, EI48, 10VA, neutral, http://www.eratransformers.com/product-detail/18
 Trafo Printtrafo CHK EI48 10VA neutral 
 0
 12
 12
 Transformer_THT
 Transformer_CHK_EI54-12VA_1xSec
-Trafo, Printtrafo, CHK, EI54, 12VA, 1x Sec,
+Trafo, Printtrafo, CHK, EI54, 12VA, 1x Sec,http://www.eratransformers.com/product-detail/19
 Trafo Printtrafo CHK EI54 12VA 1x Sec 
 0
 14
 14
 Transformer_THT
 Transformer_CHK_EI54-12VA_2xSec
-Trafo, Printtrafo, CHK, EI54, 12VA, 2x Sec,
+Trafo, Printtrafo, CHK, EI54, 12VA, 2x Sec,http://www.eratransformers.com/product-detail/19
 Trafo Printtrafo CHK EI54 12VA 2x Sec 
 0
 14
 14
 Transformer_THT
 Transformer_CHK_EI54-12VA_Neutral
-Trafo, Printtrafo, CHK, EI54, 12VA, neutral,
+Trafo, Printtrafo, CHK, EI54, 12VA, neutral,http://www.eratransformers.com/product-detail/19
 Trafo Printtrafo CHK EI54 12VA neutral 
 0
 14
 14
 Transformer_THT
 Transformer_CHK_EI54-16VA_1xSec
-Trafo, Printtrafo, CHK, EI54, 16VA, 1x Sec,
+Trafo, Printtrafo, CHK, EI54, 16VA, 1x Sec,http://www.eratransformers.com/product-detail/19
 Trafo Printtrafo CHK EI54 16VA 1x Sec 
 0
 14
 14
 Transformer_THT
 Transformer_CHK_EI54-16VA_2xSec
-Trafo, Printtrafo, CHK, EI54, 16VA, 2x Sec,
+Trafo, Printtrafo, CHK, EI54, 16VA, 2x Sec,http://www.eratransformers.com/product-detail/19
 Trafo Printtrafo CHK EI54 16VA 2x Sec 
 0
 14
 14
 Transformer_THT
 Transformer_CHK_EI54-16VA_Neutral
-Trafo, Printtrafo, CHK, EI54, 16VA, neutral,
+Trafo, Printtrafo, CHK, EI54, 16VA, neutral,http://www.eratransformers.com/product-detail/19
 Trafo Printtrafo CHK EI54 16VA neutral 
 0
 14
@@ -67635,14 +68062,14 @@ Transformer Transformator ETD29 14 Pin Vertical EPCOS-B66359J1014T
 14
 Transformer_THT
 Transformer_Microphone_Lundahl_LL1538
-AUDIO TRAFO LUNDAHL
+AUDIO TRAFO LUNDAHL, https://www.lundahltransformers.com/wp-content/uploads/datasheets/1538_8xl.pdf
 AUDIO TRAFO LUNDAHL
 0
 7
 7
 Transformer_THT
 Transformer_Microphone_Lundahl_LL1587
-AUDIO TRAFO LUNDAHL
+AUDIO TRAFO LUNDAHL, https://www.lundahltransformers.com/wp-content/uploads/datasheets/1587.pdf
 AUDIO TRAFO LUNDAHL
 0
 7
@@ -67656,28 +68083,28 @@ Transformer Transformator ETD29 13 Pin Horizontal Myrra-74040
 13
 Transformer_THT
 Transformer_NF_ETAL_1-1_P1200
-NF-Transformer, 1:1, ETAL P1200,
+NF-Transformer, 1:1, ETAL P1200,http://www.etalgroup.com/sites/default/files/products/P1200_April_2005.pdf
 NF-Transformer 1to1 ETAL P1200 
 0
 4
 4
 Transformer_THT
 Transformer_NF_ETAL_P1165
-NF-Transformer,  ETAL, P1165,
+NF-Transformer,  ETAL, P1165,http://www.etalgroup.com/sites/default/files/products/P1165_February_2006.pdf
 NF-Transformer ETAL P1165 
 0
 4
 4
 Transformer_THT
 Transformer_NF_ETAL_P3324
-NF-Transformer, ETAL P3324,
+NF-Transformer, ETAL P3324,http://www.etalgroup.com/sites/default/files/products/P3324_April_2005.pdf
 NF-Transformer ETAL P3324 
 0
 4
 4
 Transformer_THT
 Transformer_NF_ETAL_P3356
-NF-Transformer, ETAL P3356,
+NF-Transformer, ETAL P3356, http://www.etalgroup.com/sites/default/files/products/P3356_December_2005.pdf
 NF-Transformer ETAL P3356 
 0
 4
