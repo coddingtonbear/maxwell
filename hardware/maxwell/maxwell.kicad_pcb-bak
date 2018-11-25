@@ -2,7 +2,7 @@
 
   (general
     (thickness 1.6)
-    (drawings 14)
+    (drawings 16)
     (tracks 1175)
     (zones 0)
     (modules 85)
@@ -3463,6 +3463,12 @@
     )
   )
 
+  (gr_text "Maxwell v1.4 (Pwr)\n2018-11-25\n@coddingtonbear\n" (at 63 124 90) (layer B.Cu)
+    (effects (font (size 1.5 1.5) (thickness 0.3)) (justify right mirror))
+  )
+  (gr_text "Maxwell v1.5 (uC)\n2018-11-25\n@coddingtonbear" (at 129 102) (layer B.Cu)
+    (effects (font (size 1.5 1.5) (thickness 0.3)) (justify right mirror))
+  )
   (gr_line (start 57 73) (end 99 73) (layer Edge.Cuts) (width 0.15))
   (gr_line (start 57 83) (end 57 73) (layer Edge.Cuts) (width 0.15))
   (gr_line (start 57 132) (end 57 83) (layer Edge.Cuts) (width 0.15))
@@ -4654,7 +4660,7 @@
   (segment (start 76.315 94.33) (end 76.78 93.865) (width 0.35) (layer F.Cu) (net 69))
   (segment (start 73.66 94.33) (end 76.315 94.33) (width 0.35) (layer F.Cu) (net 69))
 
-  (zone (net 2) (net_name GND) (layer F.Cu) (tstamp 0) (hatch edge 0.508)
+  (zone (net 2) (net_name GND) (layer F.Cu) (tstamp 5BFD3B3E) (hatch edge 0.508)
     (connect_pads (clearance 0.508))
     (min_thickness 0.254)
     (fill yes (arc_segments 16) (thermal_gap 0.508) (thermal_bridge_width 0.508))
@@ -4702,7 +4708,7 @@
       )
     )
   )
-  (zone (net 2) (net_name GND) (layer F.Cu) (tstamp 0) (hatch edge 0.508)
+  (zone (net 2) (net_name GND) (layer F.Cu) (tstamp 5BFD3B3B) (hatch edge 0.508)
     (connect_pads (clearance 0.508))
     (min_thickness 0.254)
     (fill yes (arc_segments 16) (thermal_gap 0.508) (thermal_bridge_width 0.508))
