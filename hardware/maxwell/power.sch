@@ -1242,10 +1242,10 @@ Text GLabel 3650 2700 0    60   Input ~ 0
 Wire Wire Line
 	3800 2700 3650 2700
 $Comp
-L maxwell-rescue:R-RESCUE-maxwell R?
+L maxwell-rescue:R-RESCUE-maxwell R26
 U 1 1 5C04CF20
 P 4950 3600
-F 0 "R?" V 5157 3600 50  0000 C CNN
+F 0 "R26" V 5157 3600 50  0000 C CNN
 F 1 "250" V 5066 3600 50  0000 C CNN
 F 2 "coddingtonbear:0805_Milling" V 4880 3600 50  0001 C CNN
 F 3 "" H 4950 3600 50  0001 C CNN
