@@ -192,7 +192,7 @@ void DisplayManager::refresh() {
         }
         if(gpsFixValid()) {
             display.drawXBM(
-                DISPLAY_WIDTH - ICON_WIDTH - 1, leftPosition,
+                0, leftPosition,
                 ICON_WIDTH, ICON_HEIGHT,
                 gps
             );

@@ -1,14 +1,22 @@
 /* 
+Interact with your SC16IS750-compatible UART using an arduino.
+
+Authors:
+Tiequan Shao          info@sandboxelectronics.com
+Adam Coddington	      me@adamcoddington.net
+
+This repository is a fork of a repository created by Sandbox Electrnnics;
+the original header is as follows:
+
+----
+
 Description:
 This is a example code for Sandbox Electronics' I2C/SPI to UART bridge module.
 You can get one of those products on 
 http://sandboxelectronics.com
 
 Version:
-V0.1
-
-Release Date:
-2014-02-16
+V0.1.0
 
 Author:
 Tiequan Shao          info@sandboxelectronics.com

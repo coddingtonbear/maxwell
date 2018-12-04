@@ -1199,44 +1199,8 @@ Wire Wire Line
 Wire Wire Line
 	4550 3200 4550 3350
 Connection ~ 4550 3350
-$Comp
-L maxwell-rescue:R-RESCUE-maxwell R18
-U 1 1 5C02BC96
-P 8950 1950
-F 0 "R18" H 9020 1996 50  0000 L CNN
-F 1 "2k" H 9020 1905 50  0000 L CNN
-F 2 "coddingtonbear:0805_Milling" V 8880 1950 50  0001 C CNN
-F 3 "" H 8950 1950 50  0001 C CNN
-	1    8950 1950
-	1    0    0    -1  
-$EndComp
-$Comp
-L maxwell-rescue:R-RESCUE-maxwell R25
-U 1 1 5C02C19D
-P 8950 2350
-F 0 "R25" H 9020 2396 50  0000 L CNN
-F 1 "1k" H 9020 2305 50  0000 L CNN
-F 2 "coddingtonbear:0805_Milling" V 8880 2350 50  0001 C CNN
-F 3 "" H 8950 2350 50  0001 C CNN
-	1    8950 2350
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	9300 1800 8950 1800
-Connection ~ 9300 1800
-Wire Wire Line
-	9300 2550 8950 2550
-Wire Wire Line
-	8950 2550 8950 2500
-Text GLabel 8700 2150 0    60   Output ~ 0
+Text GLabel 8650 2550 3    60   Output ~ 0
 ~BATT_DISABLE
-Wire Wire Line
-	8950 2100 8950 2150
-Wire Wire Line
-	8950 2150 8700 2150
-Connection ~ 8950 2150
-Wire Wire Line
-	8950 2150 8950 2200
 Text GLabel 3650 2700 0    60   Input ~ 0
 ~BATT_DISABLE
 Wire Wire Line
@@ -1252,4 +1216,46 @@ F 3 "" H 4950 3600 50  0001 C CNN
 	1    4950 3600
 	-1   0    0    1   
 $EndComp
+$Comp
+L Device:D_Small D5
+U 1 1 5C06ACCC
+P 8650 2300
+F 0 "D5" V 8696 2232 50  0000 R CNN
+F 1 "1N4148WS" V 8605 2232 50  0000 R CNN
+F 2 "Diode_SMD:D_SOD-323_HandSoldering" V 8650 2300 50  0001 C CNN
+F 3 "~" V 8650 2300 50  0001 C CNN
+	1    8650 2300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:D_Small D3
+U 1 1 5C06B2F1
+P 8650 2100
+F 0 "D3" V 8696 2032 50  0000 R CNN
+F 1 "1N4148WS" V 8605 2032 50  0000 R CNN
+F 2 "Diode_SMD:D_SOD-323_HandSoldering" V 8650 2100 50  0001 C CNN
+F 3 "~" V 8650 2100 50  0001 C CNN
+	1    8650 2100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:D_Small D2
+U 1 1 5C06B6D1
+P 8650 1900
+F 0 "D2" V 8696 1832 50  0000 R CNN
+F 1 "1N4148WS" V 8605 1832 50  0000 R CNN
+F 2 "Diode_SMD:D_SOD-323_HandSoldering" V 8650 1900 50  0001 C CNN
+F 3 "~" V 8650 1900 50  0001 C CNN
+	1    8650 1900
+	0    -1   -1   0   
+$EndComp
+Connection ~ 9300 1800
+Wire Wire Line
+	8650 1800 9300 1800
+Wire Wire Line
+	8650 2400 8650 2550
+Text Notes 8550 2650 1    60   ~ 0
+Drops V by 2.1V\n(0, 2.1)
+Text Notes 4750 2800 1    60   ~ 0
++: V < 2.9\n- : V > 3.6
 $EndSCHEMATC

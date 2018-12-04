@@ -1,4 +1,4 @@
-15194337503382761
+15192858922395761
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (http://www.bulgin.com/media/bulgin/data/Battery_holders.pdf)
@@ -5964,27 +5964,6 @@ Through hole IDC box header THT 2x08 2.54mm double row
 16
 16
 coddingtonbear
-JST_EH_B02B-EH-A_02x2.50mm_Straight_LargePads
-JST EH series connector, B02B-EH-A, 2.50mm pitch, top entry
-connector jst eh top vertical straight
-0
-2
-2
-coddingtonbear
-JST_EH_B03B-EH-A_03x2.50mm_Straight_LargePads
-JST EH series connector, B03B-EH-A, 2.50mm pitch, top entry
-connector jst eh top vertical straight
-0
-3
-3
-coddingtonbear
-JST_EH_B05B-EH-A_05x2.50mm_Straight_LargePads
-JST EH series connector, B05B-EH-A, 2.50mm pitch, top entry
-connector jst eh top vertical straight
-0
-5
-5
-coddingtonbear
 JST_XH_B02B-XH-A_02x2.50mm_Straight_LargePads
 JST XH series connector, B02B-XH-A, top entry type, through hole
 connector jst xh tht top vertical 2.50mm
@@ -6033,6 +6012,20 @@ connector jst xh tht top vertical 2.50mm
 0
 8
 8
+coddingtonbear
+LQFP-48_7x7mm_P0.5mm_Largepads
+48 LEAD LQFP 7x7mm (see MICREL LQFP7x7-48LD-PL-1.pdf)
+QFP 0.5
+0
+48
+48
+coddingtonbear
+LQFP-64_10x10mm_P0.5mm_LargePads
+64 LEAD LQFP 10x10mm (see MICREL LQFP10x10-64LD-PL-1.pdf)
+QFP 0.5
+0
+64
+64
 coddingtonbear
 MICRO-B_USB-INVERTED
 
