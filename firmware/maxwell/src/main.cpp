@@ -7,6 +7,7 @@
 #include <libmaple/iwdg.h>
 #include <SdFat.h>
 #include <SPI.h>
+#include <Wire.h>
 #include <ArduinoJson.h>
 #include <SC16IS750.h>
 #include <multiserial.h>
@@ -71,8 +72,10 @@ void setup() {
         restoreBackupTime();
     }
 
-    SPIBus.begin();
+    Wire.begin();
+    power::init();
 
+    SPIBus.begin();
     LTEUart.setSpiBus(&SPIBus);
     LTEUart.begin(115200, true);
     if(!LTEUart.ping()) {
@@ -130,19 +133,9 @@ void setup() {
     pinMode(PIN_BT_DISABLE_, OUTPUT);
 
     pinMode(PIN_I_POWER_ON, INPUT_PULLUP);
-    pinMode(PIN_I_BATT_CHARGING_, INPUT_ANALOG);
-    pinMode(PIN_I_BATT_VOLTAGE, INPUT_ANALOG);
-    pinMode(PIN_I_CURRENT_SENSE, INPUT_ANALOG);
-    pinMode(PIN_ENABLE_BATT_POWER, OUTPUT);
-    digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
-    pinMode(PIN_ENABLE_BATT_CHARGE_, OUTPUT);
-    digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
 
     pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
     attachInterrupt(PIN_I_SPEED, status::intSpeedUpdate, RISING);
-
-    power::initADCs();
-    power::enableBatteryCharging(true);
 
     delay(100);
 

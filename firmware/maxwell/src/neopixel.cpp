@@ -213,5 +213,5 @@ void neopixel::loop() {
 
 void neopixel::enable(bool enable) {
     enabled = enable;
-    digitalWrite(PIN_ENABLE_BATT_POWER, enabled);
+    digitalWrite(PIN_ENABLE_GNDPWR, enabled);
 }

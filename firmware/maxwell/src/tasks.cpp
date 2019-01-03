@@ -178,7 +178,7 @@ void tasks::taskCanbusStatusIntervalCallback() {
     CANStatusMainMC status;
     status.is_charging = power::getChargingStatus() == CHARGING_STATUS_CHARGING_NOW;
     status.lighting_enabled = ledStatus.enabled;
-    status.charging_enabled = power::batteryChargingIsEnabled();
+    status.charging_enabled = true;
     status.bt_enabled = ble::bluetoothIsEnabled();
     status.lte_enabled = lte::isEnabled();
 

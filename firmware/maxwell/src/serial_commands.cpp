@@ -36,7 +36,6 @@ void console::init() {
     commands.addCommand("stats", console::printStatistics);
 
     commands.addCommand("voltage", console::voltageMeasurement);
-    commands.addCommand("charge", console::charge);
     commands.addCommand("charging_status", console::isChargingNow);
     commands.addCommand("current", console::currentUsage);
 
@@ -95,7 +94,6 @@ void can::init() {
 
     canCommands.addCommand(CAN_CMD_MAIN_MC_RESET, can::reset);
     canCommands.addCommand(CAN_CMD_MAIN_MC_SLEEP, can::sleep);
-    canCommands.addCommand(CAN_CMD_CHARGE_ENABLE, can::chargeEnable);
 
     canCommands.addCommand(CAN_CMD_MAIN_MC_FLASH, can::flash);
     canCommands.addCommand(CAN_CMD_AUTOSLEEP_ENABLE, can::autosleepEnable);
@@ -344,30 +342,12 @@ void can::beep() {
     tone(PIN_BUZZER, frequency, duration);
 }
 
-void console::charge() {
-    int enable = 1;
-    char* state = commands.next();
-    if(state != NULL) {
-        enable = atoi(state);
-    }
-
-    power::enableBatteryCharging(enable);
-    if(enable) {
-        Output.println("Battery charging enabled.");
-    } else {
-        Output.println("Battery charging disabled.");
-    }
-}
-
 void console::isChargingNow() {
     uint8_t chargingStatus = power::getChargingStatus();
 
     switch (chargingStatus) {
         case CHARGING_STATUS_CHARGING_NOW:
             Output.println("Charging");
-            break;
-        case CHARGING_STATUS_FULLY_CHARGED:
-            Output.println("Fully Charged");
             break;
         case CHARGING_STATUS_SHUTDOWN:
             Output.println("Shutdown");
@@ -596,15 +576,6 @@ void console::printStatistics() {
         Output.print(": ");
         Output.println(value, 4);
     }
-}
-
-void can::chargeEnable() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
-
-    power::enableBatteryCharging(enabled);
 }
 
 void can::autosleepEnable() {

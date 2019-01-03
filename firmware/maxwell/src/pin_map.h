@@ -1,3 +1,5 @@
+#include <PCA9536.h>
+
 #define PIN_BUZZER PA12
 
 //#define PIN_ESP_BOOT_FLASH_ PA1
@@ -8,25 +10,38 @@
 
 #define PIN_CAN_RS PC3
 
-#define PIN_SPI_CS_A PA3
-#define PIN_SPI_CS_B PA2
+#define PIN_SPI_CS_A PA2
+#define PIN_SPI_CS_B PA1
+#define PIN_SPI_CS_C PA0
 
 #define PIN_NEOPIXEL PA7
+#define PIN_ENABLE_GNDPWR PC4
 
-#define PIN_I_POWER_ON PA15
-#define PIN_I_BATT_VOLTAGE PC0
-#define PIN_I_CURRENT_SENSE PC1
-#define PIN_I_BATT_CHARGING_ PC2
-#define PIN_ENABLE_BATT_POWER PB0
-#define PIN_ENABLE_BATT_CHARGE_ PC13
+#define PIN_I_POWER_ON PB3
+//#define PIN_I_BATT_VOLTAGE PC0
+//#define PIN_I_CURRENT_SENSE PC1
+//#define PIN_I_BATT_CHARGING_ PC2
+//#define PIN_ENABLE_BATT_POWER PB0
+//#define PIN_ENABLE_BATT_CHARGE_ PC13
 
-// Note that these are GPIOs on the LTE Module
+// EXTERNAL: LTE Module
 #define PIN_LTE_DTR 7
 #define PIN_LTE_STATUS 6
 #define PIN_LTE_OE 5
 #define PIN_LTE_PWRKEY 4
 
-#define PIN_I_SPEED PA0
+// EXTERNAL: Power/ADC
+#define PIN_ADC_CURRENT_SENSE 0
+#define PIN_ADC_BATT_VOLTAGE 1
+#define PIN_ADC_DYNAMO_VOLTAGE 2
+
+// EXTERNAL: Power/IO
+#define PIN_PWR_DISABLE_BATTERY_SRC IO0
+#define PIN_PWR_I_POWER_SOURCE_INDICATOR IO1
+#define PIN_PWR_I_BATT_CHARGING IO2
+#define PIN_PWR_ENABLE_VREF IO3
+
+#define PIN_I_SPEED PC0
 
 #define BTSerial Serial
 #define UART2 Serial1

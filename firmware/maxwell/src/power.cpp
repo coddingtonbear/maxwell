@@ -7,6 +7,7 @@
 #include <libmaple/adc.h>
 #include <libmaple/dma.h>
 #include <libmaple/iwdg.h>
+#include <PCA9536.h>
 
 #include "main.h"
 #include "pin_map.h"
@@ -25,114 +26,69 @@ bool auxiliaryPowerEnabled = false;
 RollingAverage<double, 5> currentAmps;
 RollingAverage<double, 10> senseVoltage;
 RollingAverage<double, 10> batteryVoltage;
+RollingAverage<double, 10> dynamoVoltage;
 
 double lastChargingStatusSample = 0;
 
-uint32 adcbuf[POWER_SAMPLE_COUNT+1]; 
-uint8 ADC1_Sequence[] = {10, 0, 0, 0, 0, 0};
-uint8 ADC2_Sequence[] = {11, 0, 0, 0, 0, 0};
-
 KeepAlive SleepTimeout(INACTIVITY_SLEEP_DURATION);
 
-void power::initADCs() {
-    // Note: much of this was lifted from 
-    // http://www.stm32duino.com/viewtopic.php?f=3&t=757&p=8474#p8474
+PCA9536 powerIo;
 
-    adc_set_sample_rate(ADC1, POWER_SAMPLE_RATE);
-    adc_set_sample_rate(ADC2, POWER_SAMPLE_RATE);
+void power::init() {
+    powerIo.setState(PIN_PWR_DISABLE_BATTERY_SRC, IO_LOW);
+    powerIo.setState(PIN_PWR_ENABLE_VREF, IO_HIGH);
 
-    adc_calibrate(ADC1);
-    adc_calibrate(ADC2);
-
-    ADC1->regs->CR1 = 1 << 8;        // Set scan mode  
-    ADC1->regs->CR1 |= 6 << 16;      //Regular simultaneous mode. Required for ADC1 only, ADC2 is slave
-    ADC1->regs->CR2 = ( ADC_CR2_CONT | ADC_CR2_DMA | ADC_CR2_EXTSEL | ADC_CR2_EXTTRIG); //0xe0102; cont conversion, DMA, right aligned, disable external; EXTSEL, exttrig=0,jswstart=0
-      
-    adc_set_reg_seqlen(ADC1, POWER_CHANNEL_COUNT);  // how many channels per ADC
-    //ADCx->regs->SQR3-1 holds the sequence of channels to convert. A conversion function is provided calc_adc_sequence(ADC1_Sequence) only for SQR3. 
-    //If more than 6 channels are needed, repeat the same for SQR2 and SQR1 (SQR1 only holds 4 sequences)
-    ADC1->regs->SQR3 |= calc_adc_SQR3(ADC1_Sequence);                //200; for IN8 and IN6, on Maple Mini these are D3, D5
-
-    ADC2->regs->CR1 = 1 << 8;  // Set scan mode 
-    ADC2->regs->CR2 = ( ADC_CR2_CONT | ADC_CR2_EXTSEL | ADC_CR2_EXTTRIG); //0xe0003; 
-
-    adc_set_reg_seqlen(ADC2, POWER_CHANNEL_COUNT);
-    ADC2->regs->SQR3 |= calc_adc_SQR3(ADC2_Sequence);                //= 167 forIN7 and IN5, on Maple Mini these are D4, D6 respectively
-
-    ADC1->regs->CR2 |= ADC_CR2_ADON;  // it is critical to enable ADC (bit 0=1) independently of all other changes to the CR2 register
-    ADC2->regs->CR2 |= ADC_CR2_ADON;  // enabling all at once (i.e. ADC_CR2_ADON | ADC_CR2_CONT | ADC_CR2_EXTSEL ) will cause problems when used with continuous mode  
+    powerIo.setMode(PIN_PWR_DISABLE_BATTERY_SRC, IO_OUTPUT);
+    powerIo.setMode(PIN_PWR_I_POWER_SOURCE_INDICATOR, IO_INPUT);
+    powerIo.setMode(PIN_PWR_I_BATT_CHARGING, IO_INPUT);
+    powerIo.setMode(PIN_PWR_ENABLE_VREF, IO_OUTPUT);
 }
 
-// calculate values for SQR3. Function could be extended to also work for SQR2 and SQR1. As is, you can sequence only 6 sequences per ADC
-uint32 power::calc_adc_SQR3(uint8 adc_sequence[6]){
-  int SQR3=0;
+uint16_t power::getAdcValue(uint8_t ch) {
+    uint8_t adcConfig = 0;
+    if(ch == 2) {
+        adcConfig |= 1 << 6;  // CH2
+    }
+    if(ch == 1) {
+        adcConfig |= 1 << 5;  // CH1
+    }
+    if(ch == 0) {
+        adcConfig |= 1 << 4;  // CH0
+    }
+    adcConfig |= 1 << 3;  // External VREF
 
-  for (int i=0;i<6;i++)     // There are 6 available sequences in SQR3 (SQR2 also 6, and 4 in SQR1).
-  {
-    //each sequence is 5 bits
-    SQR3 |= adc_sequence[i] << ((i*5));  
-  } 
-  return SQR3;
-} 
+    Wire.beginTransmission(ADC_ADDRESS);
+    Wire.write(adcConfig);
+    Wire.endTransmission();
 
-// set only the registers that need to be reset before each conversion
-void power::adc_to_ready() {
-  ADC1->regs->CR2 = ( ADC_CR2_CONT | ADC_CR2_DMA | ADC_CR2_EXTSEL | ADC_CR2_EXTTRIG); //0xe0102; cont conversion, DMA, right aligned, disable external; EXTSEL, exttrig=0,jswstart=0
-  ADC2->regs->CR2 = ( ADC_CR2_CONT | ADC_CR2_EXTSEL | ADC_CR2_EXTTRIG); //0xe0002; 
-  ADC1->regs->CR2 |= ADC_CR2_ADON;  // it is critical to enable ADC (bit 0=1) independently of all other changes to the CR2 register
-  ADC2->regs->CR2 |= ADC_CR2_ADON;  // enabling all at once (i.e. ADC_CR2_ADON | ADC_CR2_CONT | ADC_CR2_EXTSEL ) will cause problems when used with continuous mode   
-}
+    float result;
+    for(uint8_t i = 0; i < ADC_SAMPLES; i++) {
+        Wire.requestFrom(ADC_ADDRESS, 2);
+        delay(10);
+        uint16_t byte0 = Wire.read();
+        uint16_t byte1 = Wire.read();
+        result = ((byte0 << 8) & 0x3c0) |((byte1 >> 0) & B00111111);
+    }
 
-// check for DMA transfer finished, resetting isr bit
-uint8 power::dma_transfer_finished() {
-  if(dma_get_isr_bits(DMA1,DMA_CH1)==0x07) {
-    int result=dma_get_irq_cause(DMA1,DMA_CH1);//<--clears isr bits
-    return 1;
-  }
-  return 0;
-}
-
-// initialize DMA1, Channel1 (ADC)
-void power::set_dma() {
-  dma_init(DMA1);
-  dma_setup_transfer(DMA1, DMA_CH1, &ADC1->regs->DR, DMA_SIZE_32BITS,
-                     adcbuf, DMA_SIZE_32BITS, DMA_MINC_MODE);
-  dma_set_num_transfers(DMA1, DMA_CH1,POWER_SAMPLE_COUNT);
-  dma_set_priority(DMA1, DMA_CH1, DMA_PRIORITY_VERY_HIGH);   
-  
-  dma_enable(DMA1, DMA_CH1);   
+    return result;
 }
 
 void power::updatePowerMeasurements() {
-    double tempVoltage;
-    double tempBattVoltage;
-    double tempSenseVoltage;
-    double tempAmps;
+    uint16_t tempDynamoVoltage = getAdcValue(PIN_ADC_DYNAMO_VOLTAGE);
+    uint16_t tempBattVoltage = getAdcValue(PIN_ADC_BATT_VOLTAGE);
+    uint16_t tempSenseVoltage = getAdcValue(PIN_ADC_CURRENT_SENSE);
 
-    adc_to_ready();
-    set_dma();
-    ADC1->regs->CR2 |= ADC_CR2_SWSTART; //start conversion, STM32 will reset this bit immediately. Only ADC1 (master) needs to be started
-    
-    while(!dma_transfer_finished());
-    dma_disable(DMA1,DMA_CH1); //stop dma transfer
+    dynamoVoltage.addMeasurement(
+        convertAdcToVoltage(tempDynamoVoltage, 20000, 1470)
+    );
+    batteryVoltage.addMeasurement(
+        convertAdcToVoltage(tempBattVoltage, 1000, 1000)
+    );
+    senseVoltage.addMeasurement(
+        convertAdcToVoltage(tempSenseVoltage, 1000, 1000)
+    );
 
-    uint32_t battVoltageSum = 0;
-    uint32_t senseVoltageSum = 0;
-    for(int i=0;i<(POWER_SAMPLE_COUNT);i++) {
-        uint16_t battSample = (adcbuf[i] & 0xFFFF);
-        uint16_t senseSample = ((adcbuf[i] & 0xFFFF0000) >>16);
-
-        battVoltageSum += battSample;
-        senseVoltageSum += senseSample;
-    }
-
-    tempBattVoltage = convertAdcToVoltage(battVoltageSum / POWER_SAMPLE_COUNT);
-    tempSenseVoltage = convertAdcToVoltage(senseVoltageSum / POWER_SAMPLE_COUNT);
-
-    batteryVoltage.addMeasurement(tempBattVoltage);
-    senseVoltage.addMeasurement(tempSenseVoltage);
-
-    tempAmps = (
+    double tempAmps = (
         tempBattVoltage - tempSenseVoltage
     )/SENSE_RESISTOR_VALUE;
     currentAmps.addMeasurement(tempAmps);
@@ -171,46 +127,30 @@ double power::getVoltage(uint source) {
         case VOLTAGE_SENSE:
             result = senseVoltage.getValue();
             break;
+        case VOLTAGE_DYNAMO:
+            result = dynamoVoltage.getValue();
+            break;
     }
 
     return result;
 }
 
-double power::convertAdcToVoltage(uint32_t value) {
-    return value * 2.5 * 2 / 4096;
+double power::convertAdcToVoltage(uint32_t value, uint16_t r1=1000, uint16_t r2=1000) {
+    return ((float)value * (r1 + r2)) / r2 * 2.5 / 4096;
 }
 
 double power::getCurrentUsage() {
     return currentAmps.getValue();
 }
 
-bool power::batteryChargingIsEnabled() {
-    return batteryChargingEnabled;
-}
-
-void power::enableBatteryCharging(bool enable) {
-    if(enable) {
-        digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
-        batteryChargingEnabled = true;
-    } else {
-        digitalWrite(PIN_ENABLE_BATT_CHARGE_, HIGH);
-        batteryChargingEnabled = false;
-    }
-}
-
 uint8_t power::getChargingStatus() {
-    // Use ADC3 because we're using a dual simultaneous sampling
-    // mode for ADC1/2 for measuring power/current, and by default
-    // analogRead uses ADC1
-    int value = adc_read(ADC3, 12);
-
-    if(value < 500) {
+    if(
+        dynamoVoltage.getValue() > 4.0
+        && powerIo.getState(PIN_PWR_I_BATT_CHARGING) == IO_LOW
+    ) {
         return CHARGING_STATUS_CHARGING_NOW;
-    } else if(value > 3500) {
-        return CHARGING_STATUS_FULLY_CHARGED;
-    } else {
-        return CHARGING_STATUS_SHUTDOWN;
     }
+    return CHARGING_STATUS_SHUTDOWN;
 }
 
 void power::enableAutosleep(bool enable) {
@@ -240,6 +180,8 @@ void power::sleep() {
     Log.end();
     filesystem.card()->spiStop();
 
+    powerIo.setState(PIN_PWR_ENABLE_VREF, IO_LOW);
+
     Output.end();
 
     // Disable canbus
@@ -253,7 +195,7 @@ void power::sleep() {
     util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
 
     // Disable neopixels before waiting for LTE modem shutdown
-    digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
+    digitalWrite(PIN_ENABLE_GNDPWR, LOW);
 
     // Stop LTE module
     if(LTEUart.ping()) {
@@ -271,8 +213,8 @@ void power::sleep() {
     pinMode(PIN_CAN_RS, OUTPUT);
     digitalWrite(PIN_CAN_RS, HIGH);
     // Disable neopixels (again since we just floated all of the pins)
-    pinMode(PIN_ENABLE_BATT_POWER, OUTPUT);
-    digitalWrite(PIN_ENABLE_BATT_POWER, LOW);
+    pinMode(PIN_ENABLE_GNDPWR, OUTPUT);
+    digitalWrite(PIN_ENABLE_GNDPWR, LOW);
     // Disable buzzer
     pinMode(PIN_BUZZER, OUTPUT);
     digitalWrite(PIN_BUZZER, LOW);
@@ -281,9 +223,6 @@ void power::sleep() {
     // Disable Bluetooth
     pinMode(PIN_BT_DISABLE_, OUTPUT);
     digitalWrite(PIN_BT_DISABLE_, LOW);
-    // Enable battery charging
-    pinMode(PIN_ENABLE_BATT_CHARGE_, OUTPUT);
-    digitalWrite(PIN_ENABLE_BATT_CHARGE_, LOW);
     // Configure wake conditions
     attachInterrupt(PIN_I_POWER_ON, nvic_sys_reset, RISING);
     #if MOVEMENT_WAKE_ENABLED

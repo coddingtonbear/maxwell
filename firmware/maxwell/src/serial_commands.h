@@ -19,7 +19,6 @@ namespace can {
 
     void reset();
     void sleep();
-    void chargeEnable();
 
     void flash();
     void autosleepEnable();
@@ -46,7 +45,6 @@ namespace console {
     void printStatistics();
 
     void voltageMeasurement();
-    void charge();
     void isChargingNow();
     void currentUsage();
 
