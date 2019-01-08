@@ -260,8 +260,6 @@ Text GLabel 8500 3550 2    60   BiDi ~ 0
 SWDIO
 Text GLabel 8500 3650 2    60   BiDi ~ 0
 SWCLK
-Text GLabel 2900 3950 0    60   Input ~ 0
-SPEED
 Text GLabel 8500 4250 2    60   Input ~ 0
 POWER_ON
 Text GLabel 8500 3150 2    60   Output ~ 0

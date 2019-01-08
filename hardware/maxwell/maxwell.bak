@@ -1021,10 +1021,6 @@ Wire Wire Line
 Connection ~ 5050 2950
 Text GLabel 5350 3450 0    60   BiDi ~ 0
 I2C1_SDA
-Text GLabel 5350 3350 0    60   Input ~ 0
-SPEED
-Text GLabel 5350 4500 0    60   Output ~ 0
-SPEED
 Text GLabel 5850 4600 2    60   BiDi ~ 0
 I2C1_SCL
 Text GLabel 5350 4600 0    60   BiDi ~ 0
