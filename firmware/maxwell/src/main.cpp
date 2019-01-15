@@ -50,20 +50,9 @@ void setup() {
     afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
     iwdg_init(IWDG_PRE_256, 4095);
 
-    // I2C_SCL has a pull-up to 3.3v naturally, so we can
-    // use that line being pulled down at initialization to
-    // prevent the UART from being activated
-    bool skipSerialInit = false;
-    pinMode(I2C_SCL, INPUT);
-    if(digitalRead(I2C_SCL) == LOW) {
-        skipSerialInit = true;
-    }
-
     util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
 
-    if(!skipSerialInit) {
-        Output.addInterface(&BTSerial);
-    }
+    Output.addInterface(&BTSerial);
     Output.begin(230400, SERIAL_8E1);
     Output.println("[Maxwell 2.0]");
     Output.flush();
@@ -78,17 +67,18 @@ void setup() {
     SPIBus.begin();
     LTEUart.setSpiBus(&SPIBus);
     LTEUart.begin(115200, true);
+    bool ltePinged = false;
     if(!LTEUart.ping()) {
         Output.println("Error connecting to UART over SPI; no LTE available.");
     } else {
+        ltePinged = true;
         LTEUart.GPIOSetPinMode(PIN_LTE_DTR, OUTPUT);
         LTEUart.GPIOSetPinMode(PIN_LTE_OE, OUTPUT);
         LTEUart.GPIOSetPinState(PIN_LTE_DTR, LOW);
         LTEUart.GPIOSetPinState(PIN_LTE_OE, HIGH);
     }
 
-    if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(18))) {
-        Output.println("Error initializing SD Card");
+    if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(4))) {
         filesystem.initErrorPrint(&Output);
     }
     Log.begin();
@@ -125,6 +115,8 @@ void setup() {
     // Clear reset flags
     RCC_BASE->CSR |= RCC_CSR_RMVF;
 
+    digitalWrite(PIN_CAN_RS, LOW);
+    pinMode(PIN_CAN_RS, OUTPUT);
     pinMode(PIN_BUZZER, OUTPUT);
     digitalWrite(PIN_BUZZER, LOW);
     digitalWrite(PIN_BT_KEY, LOW);
@@ -133,9 +125,6 @@ void setup() {
     pinMode(PIN_BT_DISABLE_, OUTPUT);
 
     pinMode(PIN_I_POWER_ON, INPUT_PULLUP);
-
-    pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
-    attachInterrupt(PIN_I_SPEED, status::intSpeedUpdate, RISING);
 
     delay(100);
 
@@ -152,18 +141,19 @@ void setup() {
     CanBus.send(&wakeMessage);
 
     tasks::init();
-
     neopixel::init();
-
-    // Set up console and can command manager
     can::init();
     console::init();
+    status::init();
 
-    lte::asyncEnable();
+    if(ltePinged) {
+        lte::asyncEnable();
+    }
 
     console::prompt();
 
     Output.println("Ready.");
+    Output.flush();
     Log.log("Ready");
 }
 

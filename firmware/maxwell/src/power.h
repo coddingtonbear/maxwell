@@ -10,7 +10,9 @@
 #define MOVEMENT_WAKE_ENABLED false
 
 #define ADC_ADDRESS B0101000
-#define ADC_SAMPLES 10
+#define ADC_SAMPLES 3
+
+#define CURRENT_SENSE_ADDRESS B1001010
 
 namespace power {
     void init();

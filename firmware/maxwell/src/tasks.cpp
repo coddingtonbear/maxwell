@@ -159,12 +159,6 @@ void tasks::taskVoltageCallback() {
         Output.println("<Task: Voltage>");
     #endif
     power::updatePowerMeasurements();
-
-    double voltage = power::getVoltage(VOLTAGE_BATTERY);
-    if(voltage < VOLTAGE_LEVEL_SHUTDOWN) {
-        Output.println("Low voltage; Shutdown initiated!");
-        power::sleep();
-    }
 }
 
 void tasks::taskCanbusStatusIntervalCallback() {
@@ -328,4 +322,78 @@ void tasks::taskLTEStatusCollectCallback() {
     if(lte::isEnabled()){
         lte::collectStatusInformation();
     }
+}
+
+void tasks::printTaskStatistics() {
+    Output.print("Voltage: ");
+    Output.print(taskVoltage.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskVoltage.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("Speed: ");
+    Output.print(taskSpeedRefresh.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskSpeedRefresh.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("Voltage Announce: ");
+    Output.print(taskCanbusVoltageBatteryAnnounce.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskCanbusVoltageBatteryAnnounce.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("Current Announce: ");
+    Output.print(taskCanbusCurrentAnnounce.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskCanbusCurrentAnnounce.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("Speed Announce: ");
+    Output.print(taskCanbusSpeedAnnounce.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskCanbusSpeedAnnounce.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("LED Announce: ");
+    Output.print(taskCanbusLedStatusAnnounce.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskCanbusLedStatusAnnounce.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("Logger Stats: ");
+    Output.print(taskLoggerStatsInterval.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskLoggerStatsInterval.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("General Status Announce: ");
+    Output.print(taskCanbusEmitStatus.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskCanbusEmitStatus.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("Timestamp Announce: ");
+    Output.print(taskCanbusCurrentTimestamp.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskCanbusCurrentTimestamp.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("LTE Status Update: ");
+    Output.print(taskLTEStatusCollect.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskLTEStatusCollect.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("LTE Status Announce: ");
+    Output.print(taskLTEStatusEmit.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskLTEStatusEmit.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("LTE Status Manager: ");
+    Output.print(taskLTEStatusManager.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskLTEStatusManager.getTotalRuntime());
+    Output.println(")");
 }

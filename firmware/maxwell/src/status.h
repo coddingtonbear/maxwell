@@ -14,16 +14,21 @@
 #define MQTT_KEY ""
 #define MQTT_CLIENT "maxwell"
 
+#define SPEED_COUNTER_ADDRESS B1010001
+
 #define STATUS_DEBUG
 
 namespace status {
+    void init();
+
     static int32_t getFreeMemory();
 
     void setGpsPosition(long, long);
     long getLatitude();
     long getLongitude();
 
-    void intSpeedUpdate();
+    uint16_t getSpeedCounter();
+
     void refreshSpeed();
     double getSpeed();
 

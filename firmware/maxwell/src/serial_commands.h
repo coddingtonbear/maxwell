@@ -43,6 +43,7 @@ namespace console {
     void led();
     void bridgeUART();
     void printStatistics();
+    void printTaskStatistics();
 
     void voltageMeasurement();
     void isChargingNow();

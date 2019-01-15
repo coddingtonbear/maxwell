@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #undef min
 #undef max
+#include <Adafruit_INA219.h>
 #include <RollingAverage.h>
 #include <STM32Sleep.h>
 #include <KeepAlive.h>
@@ -24,7 +25,6 @@ bool batteryChargingEnabled = false;
 bool auxiliaryPowerEnabled = false;
 
 RollingAverage<double, 5> currentAmps;
-RollingAverage<double, 10> senseVoltage;
 RollingAverage<double, 10> batteryVoltage;
 RollingAverage<double, 10> dynamoVoltage;
 
@@ -32,6 +32,7 @@ double lastChargingStatusSample = 0;
 
 KeepAlive SleepTimeout(INACTIVITY_SLEEP_DURATION);
 
+Adafruit_INA219 currentSense(CURRENT_SENSE_ADDRESS);
 PCA9536 powerIo;
 
 void power::init() {
@@ -42,6 +43,8 @@ void power::init() {
     powerIo.setMode(PIN_PWR_I_POWER_SOURCE_INDICATOR, IO_INPUT);
     powerIo.setMode(PIN_PWR_I_BATT_CHARGING, IO_INPUT);
     powerIo.setMode(PIN_PWR_ENABLE_VREF, IO_OUTPUT);
+
+    currentSense.begin();
 }
 
 uint16_t power::getAdcValue(uint8_t ch) {
@@ -64,10 +67,10 @@ uint16_t power::getAdcValue(uint8_t ch) {
     float result;
     for(uint8_t i = 0; i < ADC_SAMPLES; i++) {
         Wire.requestFrom(ADC_ADDRESS, 2);
-        delay(10);
+        delay(1);
         uint16_t byte0 = Wire.read();
         uint16_t byte1 = Wire.read();
-        result = ((byte0 << 8) & 0x3c0) |((byte1 >> 0) & B00111111);
+        result = ((byte0 & B1111) << 8) + byte1;
     }
 
     return result;
@@ -76,30 +79,24 @@ uint16_t power::getAdcValue(uint8_t ch) {
 void power::updatePowerMeasurements() {
     uint16_t tempDynamoVoltage = getAdcValue(PIN_ADC_DYNAMO_VOLTAGE);
     uint16_t tempBattVoltage = getAdcValue(PIN_ADC_BATT_VOLTAGE);
-    uint16_t tempSenseVoltage = getAdcValue(PIN_ADC_CURRENT_SENSE);
 
     dynamoVoltage.addMeasurement(
-        convertAdcToVoltage(tempDynamoVoltage, 20000, 1470)
+        convertAdcToVoltage(tempDynamoVoltage, 20000, 1500)
     );
     batteryVoltage.addMeasurement(
         convertAdcToVoltage(tempBattVoltage, 1000, 1000)
     );
-    senseVoltage.addMeasurement(
-        convertAdcToVoltage(tempSenseVoltage, 1000, 1000)
-    );
 
-    double tempAmps = (
-        tempBattVoltage - tempSenseVoltage
-    )/SENSE_RESISTOR_VALUE;
-    currentAmps.addMeasurement(tempAmps);
+    double tempAmps = currentSense.getCurrent_mA();
+    currentAmps.addMeasurement(tempAmps / 1000);
 
+    Statistics.put("Dynamo Voltage", dynamoVoltage.getValue());
+    if(Statistics.valueFor("Dynamo Voltage (Max)") < dynamoVoltage.getValue()) {
+        Statistics.put("Battery Voltage (Max)", dynamoVoltage.getValue());
+    }
     Statistics.put("Battery Voltage", batteryVoltage.getValue());
     if(Statistics.valueFor("Battery Voltage (Max)") < batteryVoltage.getValue()) {
         Statistics.put("Battery Voltage (Max)", batteryVoltage.getValue());
-    }
-    Statistics.put("Sense Voltage", senseVoltage.getValue());
-    if(Statistics.valueFor("Sense Voltage (Max)") < senseVoltage.getValue()) {
-        Statistics.put("Sense Voltage (Max)", senseVoltage.getValue());
     }
     Statistics.put("Current (Amps)", currentAmps.getValue());
     if(Statistics.valueFor("Current (Amps) (Max)") < currentAmps.getValue()) {
@@ -124,9 +121,6 @@ double power::getVoltage(uint source) {
         case VOLTAGE_BATTERY:
             result = batteryVoltage.getValue();
             break;
-        case VOLTAGE_SENSE:
-            result = senseVoltage.getValue();
-            break;
         case VOLTAGE_DYNAMO:
             result = dynamoVoltage.getValue();
             break;
@@ -136,7 +130,7 @@ double power::getVoltage(uint source) {
 }
 
 double power::convertAdcToVoltage(uint32_t value, uint16_t r1=1000, uint16_t r2=1000) {
-    return ((float)value * (r1 + r2)) / r2 * 2.5 / 4096;
+    return ((float)value / 4096 * 2.5 * (r1 + r2)) / r2;
 }
 
 double power::getCurrentUsage() {
@@ -181,6 +175,7 @@ void power::sleep() {
     filesystem.card()->spiStop();
 
     powerIo.setState(PIN_PWR_ENABLE_VREF, IO_LOW);
+    currentSense.powerDown();
 
     Output.end();
 

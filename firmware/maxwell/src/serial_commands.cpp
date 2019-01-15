@@ -17,6 +17,7 @@
 #include "lte.h"
 #include "bluetooth.h"
 #include "util.h"
+#include "tasks.h"
 
 SerialCommand commands(&Output);
 CANCommand canCommands;
@@ -34,6 +35,7 @@ void console::init() {
     commands.addCommand("led", console::led);
     commands.addCommand("bridge_uart", console::bridgeUART);
     commands.addCommand("stats", console::printStatistics);
+    commands.addCommand("task_stats", console::printTaskStatistics);
 
     commands.addCommand("voltage", console::voltageMeasurement);
     commands.addCommand("charging_status", console::isChargingNow);
@@ -1096,4 +1098,8 @@ void console::disconnectLTELogger() {
     }
 
     status::connectStatusConnection(false);
+}
+
+void console::printTaskStatistics() {
+    tasks::printTaskStatistics();
 }

@@ -65,7 +65,7 @@ void ble::delayTimeout(uint32_t value) {
 }
 
 void ble::checkTimeout() {
-    if(BluetoothTimeout.isTimedOut()) {
+    if(BluetoothTimeout.isTimedOut() && bluetoothEnabled) {
         Output.println("<Bluetooth Timeout>");
         Output.flush();
         ble::enableBluetooth(false);

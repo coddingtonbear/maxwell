@@ -27,6 +27,8 @@ uint8_t segmentSize = 1;
 unsigned long lastCycle = 0;
 
 void neopixel::init() {
+    digitalWrite(PIN_ENABLE_GNDPWR, LOW);
+    pinMode(PIN_ENABLE_GNDPWR, OUTPUT);
     pixels.begin();
 }
 

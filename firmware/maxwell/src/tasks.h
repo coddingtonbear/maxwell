@@ -21,6 +21,7 @@
 namespace tasks {
     void init();
     void loop();
+    void printTaskStatistics();
 
     void enableLTEStatusManager(bool _enable=true);
 

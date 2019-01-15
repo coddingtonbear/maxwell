@@ -27,6 +27,35 @@ static int32_t status::getFreeMemory() {
   return &top - reinterpret_cast<char*>(sbrk(0));
 }
 
+void status::init() {
+    // Configure the speed counter for event counting mode
+    Wire.beginTransmission(SPEED_COUNTER_ADDRESS);
+    Wire.write(0x0);
+    Wire.write(B00100000);
+    Wire.write(0x0);
+    Wire.write(0x0);
+    Wire.write(0x0);
+    Wire.endTransmission();
+}
+
+uint16_t status::getSpeedCounter() {
+    Wire.beginTransmission(SPEED_COUNTER_ADDRESS);
+    Wire.write(0x1);
+    Wire.endTransmission();
+
+    uint16_t value = 0;
+    Wire.requestFrom(SPEED_COUNTER_ADDRESS, 3);
+    for (uint8_t i = 0; i < 3; i++) {
+        uint8_t digit = Wire.read();
+        // Convert the digit from BCD, and multiply by position
+        value += ( (digit/16*10) + (digit%16) ) * pow(10, i * 2);
+    }
+
+    Statistics.put("Dynamo Pole Counter", value);
+
+    return value;
+}
+
 void status::setGpsPosition(long _latitude, long _longitude) {
     longitude = _longitude;
     latitude = _latitude;
@@ -40,12 +69,9 @@ long status::getLongitude() {
     return longitude;
 }
 
-void status::intSpeedUpdate() {
-    speedCounter++;
-}
-
 void status::refreshSpeed() {
-    uint32 pulseCount = speedCounter - speedCounterPrev;
+    uint16_t speedCounter = getSpeedCounter();
+    uint16_t pulseCount = speedCounter - speedCounterPrev;
 
     // There are 14 poles in the hub, and the outer tire is 80in in
     // circumference; so every pole is 5.714in of travel.
@@ -62,6 +88,8 @@ void status::refreshSpeed() {
     ) {
         power::refreshSleepTimeout();
     }
+
+    Statistics.put("Speed", currentSpeedMph.getValue());
 
     speedCounterPrev = speedCounter;
 }

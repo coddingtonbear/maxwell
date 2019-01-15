@@ -1,14 +1,14 @@
 #include <PCA9536.h>
 
-#define PIN_BUZZER PA12
+#define PIN_BUZZER PA3
 
 //#define PIN_ESP_BOOT_FLASH_ PA1
 //#define PIN_DISABLE_ESP_ PA11
 
-#define PIN_BT_DISABLE_ PA11
+#define PIN_BT_DISABLE_ PC7
 #define PIN_BT_KEY PC6
 
-#define PIN_CAN_RS PC3
+#define PIN_CAN_RS PB4
 
 #define PIN_SPI_CS_A PA2
 #define PIN_SPI_CS_B PA1
@@ -31,7 +31,6 @@
 #define PIN_LTE_PWRKEY 4
 
 // EXTERNAL: Power/ADC
-#define PIN_ADC_CURRENT_SENSE 0
 #define PIN_ADC_BATT_VOLTAGE 1
 #define PIN_ADC_DYNAMO_VOLTAGE 2
 
