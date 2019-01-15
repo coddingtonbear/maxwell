@@ -164,6 +164,8 @@ class Task {
     INLINE void yieldOnce(TaskCallback aCallback);
     INLINE bool isFirstIteration() ;
     INLINE bool isLastIteration() ;
+    INLINE unsigned long getTotalRuntime();
+    INLINE unsigned long getAverageRuntime();
     
 #ifdef _TASK_TIMECRITICAL
     INLINE long getOverrun() ;
@@ -225,6 +227,7 @@ class Task {
     void                     *iLTS;                  // pointer to task's local storage. Needs to be recast to appropriate type (usually a struct).
 #endif  // _TASK_LTS_POINTER
 
+    unsigned long	         iRuntime;
 #ifdef _TASK_TIMEOUT 
 	unsigned long            iTimeout;				 // Task overall timeout
 	unsigned long 			 iStarttime;			 // millis at task start time
