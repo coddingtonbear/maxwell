@@ -200,6 +200,14 @@ void DisplayManager::refresh() {
         }
 
         int rightPosition = 0;
+        if(status.power_source == 0) {
+            display.drawXBM(
+                DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
+                ICON_WIDTH, ICON_HEIGHT,
+                dynamoPower
+            );
+            rightPosition += ICON_HEIGHT + 2;
+        }
         if(status.logging_lte) {
             display.drawXBM(
                 DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
