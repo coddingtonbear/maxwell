@@ -1,3 +1,5 @@
+#pragma once
+
 #define VOLTAGE_DYNAMO 1
 #define VOLTAGE_BATTERY 2
 #define VOLTAGE_SENSE 3
@@ -15,6 +17,11 @@
 #define CURRENT_SENSE_ADDRESS B1001010
 
 namespace power {
+    enum PowerSource {
+        dynamo,
+        battery
+    };
+
     void init();
     double getVoltage(uint source);
     double getCurrentUsage();
@@ -24,6 +31,7 @@ namespace power {
     double convertAdcToVoltage(uint32_t value, uint16_t r1, uint16_t r2);
 
     void updatePowerMeasurements();
+    PowerSource getPowerSource();
 
     void sleep();
     void checkSleepTimeout();

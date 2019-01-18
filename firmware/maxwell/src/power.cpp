@@ -162,6 +162,13 @@ void power::checkSleepTimeout() {
     }
 }
 
+power::PowerSource power::getPowerSource() {
+    if(powerIo.getState(PIN_PWR_I_POWER_SOURCE_INDICATOR) == IO_LOW) {
+        return power::PowerSource::dynamo;
+    }
+    return power::PowerSource::battery;
+}
+
 void power::sleep() {
     Log.log("Sleep requested");
     Output.println("Sleeping now");

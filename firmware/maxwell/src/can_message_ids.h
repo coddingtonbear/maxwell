@@ -75,4 +75,6 @@ struct CANStatusMainMC {
     bool has_valid_time:1;
     bool logging_now:1;
     bool logging_lte:1;
+
+    int power_source:1;  // 0: Dynamo; 1: Battery
 };

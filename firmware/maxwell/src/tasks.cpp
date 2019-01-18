@@ -192,6 +192,13 @@ void tasks::taskCanbusStatusIntervalCallback() {
         && status::getLastStatusUpdateTime() > 0
     );
 
+    power::PowerSource source = power::getPowerSource();
+    if(source == power::PowerSource::battery) {
+        status.power_source = 0;
+    } else {
+        status.power_source = 1;
+    }
+
     CanMsg output;
     output.IDE = CAN_ID_STD;
     output.RTR = CAN_RTR_DATA;

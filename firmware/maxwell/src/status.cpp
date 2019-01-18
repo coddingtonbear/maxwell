@@ -141,6 +141,20 @@ bool status::sendStatusUpdate() {
         "uptime",
         String(millis()).c_str()
     );
+    power::PowerSource source = power::getPowerSource();
+    if(source == power::PowerSource::dynamo) {
+        appendStatusUpdateLine(
+            statusUpdate,
+            "power_source",
+            "dynamo"
+        );
+    } else {
+        appendStatusUpdateLine(
+            statusUpdate,
+            "power_source",
+            "battery"
+        );
+    }
     uint32 errCode = Log.getErrorCode();
     if(errCode) {
         appendStatusUpdateLine(
@@ -159,6 +173,11 @@ bool status::sendStatusUpdate() {
         statusUpdate,
         "power.battery_voltage",
         String(power::getVoltage(VOLTAGE_BATTERY)).c_str()
+    );
+    appendStatusUpdateLine(
+        statusUpdate,
+        "power.dynamo_voltage",
+        String(power::getVoltage(VOLTAGE_DYNAMO)).c_str()
     );
     appendStatusUpdateLine(
         statusUpdate,
