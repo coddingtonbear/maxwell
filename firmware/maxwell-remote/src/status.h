@@ -20,5 +20,6 @@ void gpsSleep();
 MicroNMEA* getGpsFix();
 
 double getDoubleStatusParameter(uint32);
+bool statusAvailable();
 CANStatusMainMC getStatusMainMc();
 uint8_t getChargingStatus();

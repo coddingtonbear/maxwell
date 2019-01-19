@@ -4,9 +4,6 @@
 #undef min
 #undef max
 
-#include <vector>
-#include <functional>
-
 #define MAX_MENU_LENGTH 20
 
 class MenuList;
@@ -14,15 +11,15 @@ class MenuList;
 class MenuItem {
     public:
         MenuItem(String, MenuList*);
-        MenuItem(std::function<String()>, MenuList*);
-        MenuItem(String, std::function<void()>);
-        MenuItem(std::function<String()>, std::function<void()>);
-        MenuItem(std::function<String()>);
+        MenuItem(String(*)(), MenuList*);
+        MenuItem(String, void(*)());
+        MenuItem(String(*)(), void(*)());
+        MenuItem(String(*)());
 
         String name;
-        std::function<String()> nameFunction;
+        String (*nameFunction)();
         MenuList* subMenu;
-        std::function<void()> function;
+        void (*function)();
 };
 
 class MenuList {

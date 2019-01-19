@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Arduino.h>
 #include <RTClock.h>
 #include <SC16IS750.h>
 

@@ -1,4 +1,3 @@
-#include <functional>
 #include <MicroNMEA.h>
 
 #include "menu.h"
@@ -21,56 +20,28 @@ MenuItem::MenuItem(String _name, MenuList* _subMenu){
     subMenu = _subMenu;
 }
 
-MenuItem::MenuItem(std::function<String()> _name_function, MenuList* _subMenu){
+MenuItem::MenuItem(String (*_name_function)(), MenuList* _subMenu){
     nameFunction = _name_function;
     subMenu = _subMenu;
 }
 
-MenuItem::MenuItem(String _name, std::function<void()> _function) {
+MenuItem::MenuItem(String _name, void(*_function)()) {
     name = _name;
     function = _function;
 }
 
-MenuItem::MenuItem(std::function<String()> _name_function, std::function<void()> _function) {
+MenuItem::MenuItem(String(*_name_function)(), void(*_function)()) {
     nameFunction = _name_function;
     function = _function;
 }
 
-MenuItem::MenuItem(std::function<String()> _function) {
+MenuItem::MenuItem(String(*_function)()) {
     nameFunction = _function;
 }
 
 MenuList::MenuList(MenuItem* menuItems, uint8_t _length) {
     items = menuItems;
     length = _length;
-}
-
-
-// Helper functions
-std::function<void()> makePresetMenuItem(uint8_t menuItem) {
-    return [menuItem]() -> void {
-        activateLightingPreset(menuItem);
-    };
-}
-std::function<void()> makeCycleMenuItem(uint8_t menuItem) {
-    return [menuItem]() -> void {
-        setLightingCycle(menuItem);
-    };
-}
-std::function<void()> makeBrightnessMenuItem(uint8_t value) {
-    return [value]() -> void {
-        setLightingBrightness(value);
-    };
-}
-std::function<void()> makeDisplayBrightnessMenuItem(uint8_t value) {
-    return [value]() -> void {
-        if(value > 0) {
-            Display.setAutosleep(false);
-            Display.setContrast(value);
-        } else {
-            Display.setAutosleep(true);
-        }
-    };
 }
 
 // Please excuse the weird indentation below; this is a rare instance
@@ -268,85 +239,123 @@ MenuItem powerMenu("Power", &powerMenuList);
                 MenuItem presetOptions[] = {
                     MenuItem(
                         "Safety",
-                        makePresetMenuItem(LED_PRESET_SAFETY)
+                        []() -> void {
+                            activateLightingPreset(LED_PRESET_SAFETY);
+                        }
                     ),
                     MenuItem(
                         "Halloween",
-                        makePresetMenuItem(LED_PRESET_HALLOWEEN)
+                        []() -> void {
+                            activateLightingPreset(LED_PRESET_HALLOWEEN);
+                        }
                     )
                 };
             MenuList presetMenuList(presetOptions, COUNT_OF(presetOptions));
                 MenuItem cycleOptions[] = {
                     MenuItem(
                         "On",
-                        makeCycleMenuItem(LED_CYCLE_ON)
+                        []() -> void {
+                            setLightingCycle(LED_CYCLE_ON);
+                        }
                     ),
                     MenuItem(
                         "Random",
-                        makeCycleMenuItem(LED_CYCLE_RANDOM)
+                        []() -> void {
+                            setLightingCycle(LED_CYCLE_RANDOM);
+                        }
                     ),
                     MenuItem(
                         "Motion",
-                        makeCycleMenuItem(LED_CYCLE_MOTION)
+                        []() -> void {
+                            setLightingCycle(LED_CYCLE_MOTION);
+                        }
                     ),
                     MenuItem(
                         "Blink",
-                        makeCycleMenuItem(LED_CYCLE_BLINK)
+                        []() -> void {
+                            setLightingCycle(LED_CYCLE_BLINK);
+                        }
                     ),
                     MenuItem(
                         "Twinkle",
-                        makeCycleMenuItem(LED_CYCLE_TWINKLE)
+                        []() -> void {
+                            setLightingCycle(LED_CYCLE_TWINKLE);
+                        }
                     ),
                     MenuItem(
                         "Rainbow",
-                        makeCycleMenuItem(LED_CYCLE_RAINBOW)
+                        []() -> void {
+                            setLightingCycle(LED_CYCLE_RAINBOW);
+                        }
                     )
                 };
             MenuList cycleMenuList(cycleOptions, COUNT_OF(cycleOptions));
                 MenuItem brightnessOptions[] = {
                     MenuItem(
                         "100%",
-                        makeBrightnessMenuItem(255)
+                        []() -> void {
+                            setLightingBrightness(255);
+                        }
                     ),
                     MenuItem(
                         "90%",
-                        makeBrightnessMenuItem(205)
+                        []() -> void {
+                            setLightingBrightness(205);
+                        }
                     ),
                     MenuItem(
                         "80%",
-                        makeBrightnessMenuItem(158)
+                        []() -> void {
+                            setLightingBrightness(158);
+                        }
                     ),
                     MenuItem(
                         "70%",
-                        makeBrightnessMenuItem(111)
+                        []() -> void {
+                            setLightingBrightness(111);
+                        }
                     ),
                     MenuItem(
                         "60%",
-                        makeBrightnessMenuItem(64)
+                        []() -> void {
+                            setLightingBrightness(64);
+                        }
                     ),
                     MenuItem(
                         "50%",
-                        makeBrightnessMenuItem(32)
+                        []() -> void {
+                            setLightingBrightness(32);
+                        }
                     ),
                     MenuItem(
                         "40%",
-                        makeBrightnessMenuItem(16)
+                        []() -> void {
+                            setLightingBrightness(16);
+                        }
                     ),
                     MenuItem(
                         "30%",
-                        makeBrightnessMenuItem(8)
+                        []() -> void {
+                            setLightingBrightness(8);
+                        }
                     ),
                     MenuItem(
                         "20%",
-                        makeBrightnessMenuItem(4)
+                        []() -> void {
+                            setLightingBrightness(4);
+                        }
                     ),
                     MenuItem(
                         "10%",
-                        makeBrightnessMenuItem(2)
+                        []() -> void {
+                            setLightingBrightness(2);
+                        }
                     ),
                     MenuItem(
                         "0%",
-                        makeBrightnessMenuItem(0)
+                        []() -> void {
+                            setLightingBrightness(0);
+                        }
                     )
                 };
             MenuList brightnessMenuList(brightnessOptions, COUNT_OF(brightnessOptions));
@@ -642,36 +651,11 @@ MenuItem cameraMenu("Camera", &cameraMenuList);
     MenuList commsMenuList(commsMenuItems, COUNT_OF(commsMenuItems));
 MenuItem commsMenu("Bluetooth", &commsMenuList);
 
-                MenuItem displayBrightnessMenuItems[] = {
-                    MenuItem(
-                        "High",
-                        makeDisplayBrightnessMenuItem(0xCF)
-                    ),
-                    MenuItem(
-                        "Low",
-                        makeDisplayBrightnessMenuItem(0x01)
-                    ),
-                    MenuItem(
-                        "Off",
-                        makeDisplayBrightnessMenuItem(0)
-                    )
-                };
-            MenuList displayBrightnessMenuList(displayBrightnessMenuItems, COUNT_OF(displayBrightnessMenuItems));
-        MenuItem displayMenuItems[] = {
-            MenuItem(
-                "Brightness",
-                &displayBrightnessMenuList
-            )
-        };
-    MenuList displayMenuList(displayMenuItems, COUNT_OF(displayMenuItems));
-MenuItem displayMenu("Display", &displayMenuList);
-
 MenuItem mainMenuItems[] = {
     statsMenu,
     powerMenu,
     commsMenu,
     cameraMenu,
-    lightingMenu,
-    displayMenu
+    lightingMenu
 };
 MenuList mainMenu(mainMenuItems, COUNT_OF(mainMenuItems));

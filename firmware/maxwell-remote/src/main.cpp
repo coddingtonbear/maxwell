@@ -1,4 +1,7 @@
 #include <Arduino.h>
+#undef min
+#undef max
+#include "main.h"
 #include <SPI.h>
 
 #include <Adafruit_GFX.h>
@@ -10,7 +13,6 @@
 #include <libmaple/iwdg.h>
 #include <SC16IS750.h>
 
-#include "main.h"
 #include "led_cycles.h"
 #include "serial_commands.h"
 #include "can_message_ids.h"
@@ -53,7 +55,7 @@ SC16IS750 AlternateUart = SC16IS750(
 RTClock Clock(RTCSEL_LSE);
 
 void setup() {
-    iwdg_init(IWDG_PRE_256, 2400);
+    iwdg_init(IWDG_PRE_256, 4095);
 
     // Disable JTAG port; we're using JNRST for
     // display control.

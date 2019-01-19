@@ -151,6 +151,8 @@ void DisplayManager::refresh() {
     display.clearBuffer();
     display.setFont(SMALL_DISPLAY_FONT);
 
+    bool statusIsAvailable = statusAvailable();
+
     if(millis() > statusPhaseEnds) {
         statusPhase++;
         statusPhaseEnds = millis() + STATUS_PHASE_DURATION;
@@ -172,83 +174,85 @@ void DisplayManager::refresh() {
         }
         showMenu();
     } else {
-        CANStatusMainMC status = getStatusMainMc();
-        int leftPosition = 0;
-        if(status.is_charging) {
-            if(statusPhase % 2 == 0) {
-                display.drawXBM(
-                    0, leftPosition,
-                    ICON_WIDTH, ICON_HEIGHT,
-                    batteryFull
-                );
-            } else {
-                display.drawXBM(
-                    0, leftPosition,
-                    ICON_WIDTH, ICON_HEIGHT,
-                    batteryHalf
-                );
+        if(statusIsAvailable) {
+            CANStatusMainMC status = getStatusMainMc();
+            int leftPosition = 0;
+            if(status.is_charging) {
+                if(statusPhase % 2 == 0) {
+                    display.drawXBM(
+                        0, leftPosition,
+                        ICON_WIDTH, ICON_HEIGHT,
+                        batteryFull
+                    );
+                } else {
+                    display.drawXBM(
+                        0, leftPosition,
+                        ICON_WIDTH, ICON_HEIGHT,
+                        batteryHalf
+                    );
+                }
+                leftPosition += ICON_HEIGHT + 2;
             }
-            leftPosition += ICON_HEIGHT + 2;
-        }
-        if(gpsFixValid()) {
-            display.drawXBM(
-                0, leftPosition,
-                ICON_WIDTH, ICON_HEIGHT,
-                gps
-            );
-            leftPosition += ICON_HEIGHT + 2;
-        }
+            if(gpsFixValid()) {
+                display.drawXBM(
+                    0, leftPosition,
+                    ICON_WIDTH, ICON_HEIGHT,
+                    gps
+                );
+                leftPosition += ICON_HEIGHT + 2;
+            }
 
-        int rightPosition = 0;
-        if(status.power_source == 0) {
-            display.drawXBM(
-                DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
-                ICON_WIDTH, ICON_HEIGHT,
-                dynamoPower
-            );
-            rightPosition += ICON_HEIGHT + 2;
-        }
-        if(status.logging_lte) {
-            display.drawXBM(
-                DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
-                ICON_WIDTH, ICON_HEIGHT,
-                reporting
-            );
-            rightPosition += ICON_HEIGHT + 2;
-        } else if(status.lte_connected) {
-            display.drawXBM(
-                DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
-                ICON_WIDTH, ICON_HEIGHT,
-                lte
-            );
-            rightPosition += ICON_HEIGHT + 2;
-        }
-        /*
-        } else if(status.recording_now) {
-            display.drawXBM(
-                DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
-                ICON_WIDTH, ICON_HEIGHT,
-                video
-            );
-            rightPosition += ICON_HEIGHT;
-        } else if(status.camera_connected) {
-            display.drawXBM(
-                DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
-                ICON_WIDTH, ICON_HEIGHT,
-                wifi
-            );
-            rightPosition += ICON_HEIGHT;
-        } else if(status.wifi_enabled) {
-            if(statusPhase % 2 == 0) {
+            int rightPosition = 0;
+            if(status.power_source == 0) {
+                display.drawXBM(
+                    DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
+                    ICON_WIDTH, ICON_HEIGHT,
+                    dynamoPower
+                );
+                rightPosition += ICON_HEIGHT + 2;
+            }
+            if(status.logging_lte) {
+                display.drawXBM(
+                    DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
+                    ICON_WIDTH, ICON_HEIGHT,
+                    reporting
+                );
+                rightPosition += ICON_HEIGHT + 2;
+            } else if(status.lte_connected) {
+                display.drawXBM(
+                    DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
+                    ICON_WIDTH, ICON_HEIGHT,
+                    lte
+                );
+                rightPosition += ICON_HEIGHT + 2;
+            }
+            /*
+            } else if(status.recording_now) {
+                display.drawXBM(
+                    DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
+                    ICON_WIDTH, ICON_HEIGHT,
+                    video
+                );
+                rightPosition += ICON_HEIGHT;
+            } else if(status.camera_connected) {
                 display.drawXBM(
                     DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
                     ICON_WIDTH, ICON_HEIGHT,
                     wifi
                 );
+                rightPosition += ICON_HEIGHT;
+            } else if(status.wifi_enabled) {
+                if(statusPhase % 2 == 0) {
+                    display.drawXBM(
+                        DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
+                        ICON_WIDTH, ICON_HEIGHT,
+                        wifi
+                    );
+                }
+                rightPosition += ICON_HEIGHT;
             }
-            rightPosition += ICON_HEIGHT;
+            */
         }
-        */
 
         if(autosleep && !sleeping) {
             sleep();
@@ -267,7 +271,11 @@ void DisplayManager::refresh() {
             (DISPLAY_WIDTH - width - 1) / 2,
             DISPLAY_HEIGHT - 1 - 17
         );
-        display.println(velocity);
+        if(statusIsAvailable) {
+            display.println(velocity);
+        } else {
+            display.println("--");
+        }
     }
     display.setFont(SMALL_DISPLAY_FONT);
 
@@ -291,43 +299,46 @@ void DisplayManager::refresh() {
     display.setDrawColor(0);
     display.drawBox(0, 48, 128, 16);
     display.setDrawColor(1);
-    if(statusPhase < (statusPhaseCount / 2)) {
-        String voltage = String(
-            getDoubleStatusParameter(
-                CAN_VOLTAGE_BATTERY
-            ),
-            2
-        );
-        voltage += "V";
-        display.println(voltage);
-    } else {
-        String amps = String(
-            getDoubleStatusParameter(
-                CAN_AMPS_CURRENT
-            ),
-            2
-        );
-        amps += "A";
-        display.println(amps);
-    }
 
-    time_t localTime = Clock.TimeZone(
-        Clock.getTime(),
-        UTC_OFFSET
-    );
-    char minutes[5];
-    sprintf(minutes, "%02d", Clock.minute(localTime));
-    String currentTime = (
-        String(Clock.hour(localTime))
-        + ":"
-        + String(minutes)
-    );
-    int width = display.getStrWidth(currentTime.c_str());
-    display.setCursor(
-        DISPLAY_WIDTH - width - 1,
-        DISPLAY_HEIGHT - 1
-    );
-    display.println(currentTime);
+    if(statusIsAvailable) {
+        if(statusPhase < (statusPhaseCount / 2)) {
+            String voltage = String(
+                getDoubleStatusParameter(
+                    CAN_VOLTAGE_BATTERY
+                ),
+                2
+            );
+            voltage += "V";
+            display.println(voltage);
+        } else {
+            String amps = String(
+                getDoubleStatusParameter(
+                    CAN_AMPS_CURRENT
+                ),
+                2
+            );
+            amps += "A";
+            display.println(amps);
+        }
+
+        time_t localTime = Clock.TimeZone(
+            Clock.getTime(),
+            UTC_OFFSET
+        );
+        char minutes[5];
+        sprintf(minutes, "%02d", Clock.minute(localTime));
+        String currentTime = (
+            String(Clock.hour(localTime))
+            + ":"
+            + String(minutes)
+        );
+        int width = display.getStrWidth(currentTime.c_str());
+        display.setCursor(
+            DISPLAY_WIDTH - width - 1,
+            DISPLAY_HEIGHT - 1
+        );
+        display.println(currentTime);
+    }
 
     display.sendBuffer();
 }

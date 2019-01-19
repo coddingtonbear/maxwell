@@ -11,6 +11,7 @@ double voltageSense;
 double current;
 double velocity;
 
+bool statusReceived = false;
 bool gpsFixAvailable;
 
 char nmeaBuffer[255];
@@ -39,6 +40,8 @@ void setStatusParameter(uint32 canMsgId, double value) {
 }
 
 void setStatusMainMc(CANStatusMainMC _status) {
+    statusReceived = true;
+
     mainMcStatus = _status;
 }
 
@@ -64,6 +67,10 @@ double getDoubleStatusParameter(uint32 canMsgId) {
     }
 
     return returnValue;
+}
+
+bool statusAvailable() {
+    return statusReceived;
 }
 
 CANStatusMainMC getStatusMainMc() {
