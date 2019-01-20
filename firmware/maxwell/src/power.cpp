@@ -92,7 +92,7 @@ void power::updatePowerMeasurements() {
 
     Statistics.put("Dynamo Voltage", dynamoVoltage.getValue());
     if(Statistics.valueFor("Dynamo Voltage (Max)") < dynamoVoltage.getValue()) {
-        Statistics.put("Battery Voltage (Max)", dynamoVoltage.getValue());
+        Statistics.put("Dynamo Voltage (Max)", dynamoVoltage.getValue());
     }
     Statistics.put("Battery Voltage", batteryVoltage.getValue());
     if(Statistics.valueFor("Battery Voltage (Max)") < batteryVoltage.getValue()) {
@@ -163,10 +163,15 @@ void power::checkSleepTimeout() {
 }
 
 power::PowerSource power::getPowerSource() {
+    power::PowerSource source;
+
     if(powerIo.getState(PIN_PWR_I_POWER_SOURCE_INDICATOR) == IO_LOW) {
-        return power::PowerSource::dynamo;
+        source = power::PowerSource::dynamo;
+    } else {
+        source = power::PowerSource::battery;
     }
-    return power::PowerSource::battery;
+    Statistics.put("Power Source", (double)source);
+    return source;
 }
 
 void power::sleep() {
