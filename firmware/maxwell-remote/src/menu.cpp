@@ -244,9 +244,15 @@ MenuItem powerMenu("Power", &powerMenuList);
                         }
                     ),
                     MenuItem(
-                        "Halloween",
+                        "Midnight",
                         []() -> void {
-                            activateLightingPreset(LED_PRESET_HALLOWEEN);
+                            activateLightingPreset(LED_PRESET_MIDNIGHT);
+                        }
+                    ),
+                    MenuItem(
+                        "Rainbow",
+                        []() -> void {
+                            activateLightingPreset(LED_PRESET_RAINBOW);
                         }
                     )
                 };
@@ -277,15 +283,9 @@ MenuItem powerMenu("Power", &powerMenuList);
                         }
                     ),
                     MenuItem(
-                        "Twinkle",
+                        "Rotation",
                         []() -> void {
-                            setLightingCycle(LED_CYCLE_TWINKLE);
-                        }
-                    ),
-                    MenuItem(
-                        "Rainbow",
-                        []() -> void {
-                            setLightingCycle(LED_CYCLE_RAINBOW);
+                            setLightingCycle(LED_CYCLE_ROTATION);
                         }
                     )
                 };

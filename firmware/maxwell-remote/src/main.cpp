@@ -161,7 +161,9 @@ void loop() {
         if(buttonLeftA.pressedFor(LONG_PRESS_INTERVAL)) {
             longPressTimeout = millis() + LONG_PRESS_TIMEOUT;
             Display.setActionTimeout();
-            Display.redisplayAlert();
+            activateLightingPreset(
+                LED_PRESET_OFF
+            );
         }
         if(buttonRightB.pressedFor(LONG_PRESS_INTERVAL)) {
             longPressTimeout = millis() + LONG_PRESS_TIMEOUT;

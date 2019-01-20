@@ -29,11 +29,11 @@ uint8_t ledRed2;
 uint8_t ledGreen2;
 uint8_t ledBlue2;
 
-int8_t currentPreset = LED_PRESET_OFF;
+int8_t currentPreset = -1;
 uint8_t lightingPresets[] = {
-    LED_PRESET_OFF,
     LED_PRESET_SAFETY,
-    LED_PRESET_HALLOWEEN,
+    LED_PRESET_MIDNIGHT,
+    LED_PRESET_RAINBOW
 };
 
 void setupCommands() {
@@ -153,7 +153,9 @@ void toggleLightingPreset() {
         currentPreset = 0;
     }
 
-    activateLightingPreset(currentPreset);
+    activateLightingPreset(
+        lightingPresets[currentPreset]
+    );
 }
 
 void activateLightingPreset(uint8_t presetId) {
