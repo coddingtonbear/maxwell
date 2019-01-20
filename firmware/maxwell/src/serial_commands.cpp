@@ -276,6 +276,8 @@ void console::led() {
             neopixel::activatePreset(LED_PRESET_SAFETY);
         } else if(presetName == "rainbow") {
             neopixel::activatePreset(LED_PRESET_RAINBOW);
+        } else if(presetName == "midnight") {
+            neopixel::activatePreset(LED_PRESET_MIDNIGHT);
         } else {
             Output.println("Unknown preset.");
         }

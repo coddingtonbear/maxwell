@@ -19,7 +19,7 @@ unsigned long lastCycle = 0;
 uint32_t colorList[16] = {};
 uint8_t colorListCount = 0;
 
-uint32_t colorTargets[16] = {};
+uint32_t colorTarget[16] = {};
 uint8_t colorTargetCount = 0;
 uint8_t currentColorTarget = 0;
 
@@ -50,18 +50,26 @@ void neopixel::activatePreset(uint32 preset) {
     } else if(preset == LED_PRESET_SAFETY) {
         setCycle(LED_CYCLE_MOTION);
         setColor(255, 100, 0);
-        setSecondaryColor(255, 255, 255);
         setMaxBrightness(32);
 
         colorTargetCount = 2;
-        colorTargets[0] = pixels.Color(255, 100, 0);
-        colorTargets[1] = pixels.Color(255, 255, 255);
+        colorTarget[0] = pixels.Color(
+            0xff, 0x64, 0x00
+        );
+        colorTarget[1] = pixels.Color(
+            0xff, 0xff, 0xff
+        );
+        setColor(
+            colorRed(colorTarget[0]),
+            colorGreen(colorTarget[0]),
+            colorBlue(colorTarget[0])
+        );
+        setSecondaryColor(0, 0, 0);
     } else if(preset == LED_PRESET_RAINBOW) {
         setCycle(LED_CYCLE_ROTATION);
         setMaxBrightness(32);
-
-        segmentSize = 5;
-        interval = 25;
+        setSegmentSize(5);
+        setInterval(25);
 
         colorListCount = 6;
         colorList[0] = pixels.Color(255, 0, 0);
@@ -70,6 +78,24 @@ void neopixel::activatePreset(uint32 preset) {
         colorList[3] = pixels.Color(0, 255, 0);
         colorList[4] = pixels.Color(0, 0, 255);
         colorList[5] = pixels.Color(168, 0, 255);
+    } else if(preset == LED_PRESET_MIDNIGHT) {
+        setCycle(LED_CYCLE_ON);
+        setMaxBrightness(32);
+        setInterval(1);
+
+        colorTargetCount = 2;
+        colorTarget[0] = pixels.Color(
+            0xff, 0, 0xff
+        );
+        colorTarget[1] = pixels.Color(
+            0, 0xff, 0x80
+        );
+
+        setColor(
+            colorRed(colorTarget[0]),
+            colorGreen(colorTarget[0]),
+            colorBlue(colorTarget[0])
+        );
     }
 }
 
@@ -126,7 +152,7 @@ void neopixel::addColorList(
 void neopixel::addColorTarget(
     uint8_t _red, uint8_t _green, uint8_t _blue
 ) {
-    colorTargets[colorTargetCount] = pixels.Color(
+    colorTarget[colorTargetCount] = pixels.Color(
         _red,
         _green,
         _blue
@@ -221,6 +247,46 @@ void neopixel::loop() {
     if(phase >= phaseCount) {
         phase = 0;
     }
+
+    if(colorTargetCount > 0) {
+        if(color == colorTarget[currentColorTarget]) {
+            currentColorTarget++;
+            if(currentColorTarget >= colorTargetCount) {
+                currentColorTarget = 0;
+            }
+        }
+
+        uint8_t currRed = colorRed(color);
+        uint8_t currGreen = colorGreen(color);
+        uint8_t currBlue = colorBlue(color);
+
+        uint32_t target = colorTarget[currentColorTarget];
+        uint8_t targetRed = colorRed(target);
+        uint8_t targetGreen = colorGreen(target);
+        uint8_t targetBlue = colorBlue(target);
+
+        if (currRed > targetRed) {
+            currRed--;
+        } else if (currRed < targetRed) {
+            currRed++;
+        }
+        if (currGreen > targetGreen) {
+            currGreen--;
+        } else if (currGreen < targetGreen) {
+            currGreen++;
+        }
+        if (currBlue > targetBlue) {
+            currBlue--;
+        } else if (currBlue < targetBlue) {
+            currBlue++;
+        }
+        color = pixels.Color(
+            currRed,
+            currGreen,
+            currBlue
+        );
+    }
+
     pixels.show();
     lastCycle = millis();
 
