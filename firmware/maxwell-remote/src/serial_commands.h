@@ -29,6 +29,7 @@ void enableLocalBluetoothUntil(uint32_t);
 void disableLocalBluetooth();
 void enableLighting();
 void disableLighting();
+void toggleLightingPreset();
 void activateLightingPreset(uint8_t);
 void setLightingCycle(uint8_t);
 void setLightingBrightness(uint8_t);

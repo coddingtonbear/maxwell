@@ -9,6 +9,7 @@
 #include "main.h"
 #include "status.h"
 #include "display.h"
+#include "led_cycles.h"
 
 
 SerialCommand commands(&Output);
@@ -27,6 +28,13 @@ uint8_t ledBlue;
 uint8_t ledRed2;
 uint8_t ledGreen2;
 uint8_t ledBlue2;
+
+int8_t currentPreset = LED_PRESET_OFF;
+uint8_t lightingPresets[] = {
+    LED_PRESET_OFF,
+    LED_PRESET_SAFETY,
+    LED_PRESET_HALLOWEEN,
+};
 
 void setupCommands() {
     commands.setDefaultHandler(unrecognized);
@@ -137,6 +145,15 @@ void disableLocalBluetooth() {
     digitalWrite(BT_DISABLE_, LOW);
 
     bluetoothEnabled = false;
+}
+
+void toggleLightingPreset() {
+    currentPreset++;
+    if(currentPreset >= sizeof(lightingPresets) / sizeof(currentPreset)) {
+        currentPreset = 0;
+    }
+
+    activateLightingPreset(currentPreset);
 }
 
 void activateLightingPreset(uint8_t presetId) {
