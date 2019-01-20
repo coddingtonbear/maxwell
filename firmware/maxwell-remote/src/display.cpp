@@ -182,13 +182,13 @@ void DisplayManager::refresh() {
                     display.drawXBM(
                         0, leftPosition,
                         ICON_WIDTH, ICON_HEIGHT,
-                        batteryFull
+                        batteryFull_bits
                     );
                 } else {
                     display.drawXBM(
                         0, leftPosition,
                         ICON_WIDTH, ICON_HEIGHT,
-                        batteryHalf
+                        batteryHalf_bits
                     );
                 }
                 leftPosition += ICON_HEIGHT + 2;
@@ -197,7 +197,7 @@ void DisplayManager::refresh() {
                 display.drawXBM(
                     0, leftPosition,
                     ICON_WIDTH, ICON_HEIGHT,
-                    gps
+                    gps_bits
                 );
                 leftPosition += ICON_HEIGHT + 2;
             }
@@ -207,7 +207,7 @@ void DisplayManager::refresh() {
                 display.drawXBM(
                     DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
                     ICON_WIDTH, ICON_HEIGHT,
-                    dynamoPower
+                    dynamoPower_bits
                 );
                 rightPosition += ICON_HEIGHT + 2;
             }
@@ -215,14 +215,14 @@ void DisplayManager::refresh() {
                 display.drawXBM(
                     DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
                     ICON_WIDTH, ICON_HEIGHT,
-                    reporting
+                    reporting_bits
                 );
                 rightPosition += ICON_HEIGHT + 2;
             } else if(status.lte_connected) {
                 display.drawXBM(
                     DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
                     ICON_WIDTH, ICON_HEIGHT,
-                    lte
+                    lte_bits
                 );
                 rightPosition += ICON_HEIGHT + 2;
             }

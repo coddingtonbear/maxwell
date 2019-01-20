@@ -10,5 +10,5 @@
 #include "icons/dynamoPower.xbm"
 #include "icons/reporting.xbm"
 
-#define ICON_WIDTH 24
-#define ICON_HEIGHT 24
+#define ICON_WIDTH 16
+#define ICON_HEIGHT 16
