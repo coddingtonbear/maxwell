@@ -109,6 +109,11 @@ void can::init() {
     #endif
 }
 
+uint8_t getHexFromCommand() {
+    char* byte = commands.next();
+    return strtol(byte, NULL, 16);
+}
+
 void console::prompt() {
     commands.prompt();
 }
@@ -177,7 +182,7 @@ void console::led() {
     char* subcommandBytes = commands.next();
     if(subcommandBytes == NULL) {
         Output.println(
-            "Subcommand required: cycle, color, interval"
+            "Subcommand required: cycle, color, color2, addColorList, addColorTarget, segment, interval, brightness, preset, disable, enable."
         );
         return;
     }
@@ -204,42 +209,34 @@ void console::led() {
             neopixel::setCycle(LED_CYCLE_MOTION);
         } else if(cycleName == "blink") {
             neopixel::setCycle(LED_CYCLE_BLINK);
-        } else if(cycleName == "twinkle") {
-            neopixel::setCycle(LED_CYCLE_TWINKLE);
-        } else if(cycleName == "rainbow") {
-            neopixel::setCycle(LED_CYCLE_RAINBOW);
+        } else if(cycleName == "rotation") {
+            neopixel::setCycle(LED_CYCLE_ROTATION);
         } else {
             Output.println("Unkonwn cycle name");
         }
     } else if (subcommand == "color") {
-        char* redBytes = commands.next();
-        char* greenBytes = commands.next();
-        char* blueBytes = commands.next();
-        if(redBytes == NULL || greenBytes == NULL || blueBytes == NULL) {
-            Output.println(
-                "Required three 8-bit decimal colors in RGB order."
-            );
-            return;
-        }
         neopixel::setColor(
-            atoi(redBytes),
-            atoi(greenBytes),
-            atoi(blueBytes)
+            getHexFromCommand(),
+            getHexFromCommand(),
+            getHexFromCommand()
         );
     } else if (subcommand == "color2") {
-        char* redBytes = commands.next();
-        char* greenBytes = commands.next();
-        char* blueBytes = commands.next();
-        if(redBytes == NULL || greenBytes == NULL || blueBytes == NULL) {
-            Output.println(
-                "Required three 8-bit decimal colors in RGB order."
-            );
-            return;
-        }
         neopixel::setSecondaryColor(
-            atoi(redBytes),
-            atoi(greenBytes),
-            atoi(blueBytes)
+            getHexFromCommand(),
+            getHexFromCommand(),
+            getHexFromCommand()
+        );
+    } else if (subcommand == "addColorList") {
+        neopixel::addColorList(
+            getHexFromCommand(),
+            getHexFromCommand(),
+            getHexFromCommand()
+        );
+    } else if (subcommand == "addColorTarget") {
+        neopixel::addColorTarget(
+            getHexFromCommand(),
+            getHexFromCommand(),
+            getHexFromCommand()
         );
     } else if (subcommand == "segment") {
         char* segmentBytes = commands.next();
@@ -277,6 +274,8 @@ void console::led() {
 
         if(presetName == "safety") {
             neopixel::activatePreset(LED_PRESET_SAFETY);
+        } else if(presetName == "rainbow") {
+            neopixel::activatePreset(LED_PRESET_RAINBOW);
         } else {
             Output.println("Unknown preset.");
         }

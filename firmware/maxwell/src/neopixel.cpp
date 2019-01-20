@@ -3,18 +3,8 @@
 WS2812B pixels = WS2812B(NUM_LEDS);
 
 uint32 cycle = LED_CYCLE_OFF;
-uint32 colorRed = 255;
-uint32 colorGreen = 255;
-uint32 colorBlue = 255;
-uint32 color = pixels.Color(colorRed, colorGreen, colorBlue);
-uint32 secondaryColorRed = 255;
-uint32 secondaryColorGreen = 255;
-uint32 secondaryColorBlue = 255;
-uint32 secondaryColor = pixels.Color(
-    secondaryColorRed,
-    secondaryColorGreen,
-    secondaryColorBlue
-);
+uint32 color = pixels.Color(255, 255, 255);
+uint32 secondaryColor = pixels.Color(255, 255, 255);
 uint32 interval = 100;
 uint8_t maxBrightness = 100;
 
@@ -26,6 +16,13 @@ uint8_t phaseCount = 0;
 uint8_t segmentSize = 1;
 unsigned long lastCycle = 0;
 
+uint32_t colorList[16] = {};
+uint8_t colorListCount = 0;
+
+uint32_t colorTargets[16] = {};
+uint8_t colorTargetCount = 0;
+uint8_t currentColorTarget = 0;
+
 void neopixel::init() {
     digitalWrite(PIN_ENABLE_GNDPWR, LOW);
     pinMode(PIN_ENABLE_GNDPWR, OUTPUT);
@@ -33,12 +30,12 @@ void neopixel::init() {
 }
 
 void neopixel::getStatus(LedStatus& ledStatus) {
-    ledStatus.red = (uint8_t)colorRed;
-    ledStatus.green = (uint8_t)colorGreen;
-    ledStatus.blue = (uint8_t)colorBlue;
-    ledStatus.red2 = (uint8_t)secondaryColorRed;
-    ledStatus.green2 = (uint8_t)secondaryColorGreen;
-    ledStatus.blue2 = (uint8_t)secondaryColorBlue;
+    ledStatus.red = colorRed(color);
+    ledStatus.green = colorGreen(color);
+    ledStatus.blue = colorBlue(color);
+    ledStatus.red2 = colorRed(secondaryColor);
+    ledStatus.green2 = colorGreen(secondaryColor);
+    ledStatus.blue2 = colorBlue(secondaryColor);
 
     ledStatus.cycle = cycle;
     ledStatus.enabled = enabled;
@@ -55,26 +52,40 @@ void neopixel::activatePreset(uint32 preset) {
         setColor(255, 100, 0);
         setSecondaryColor(255, 255, 255);
         setMaxBrightness(32);
-    } else if (preset == LED_PRESET_HALLOWEEN) {
-        setCycle(LED_CYCLE_MOTION);
-        setColor(255, 50, 0);
-        setSecondaryColor(0, 0, 0);
+
+        colorTargetCount = 2;
+        colorTargets[0] = pixels.Color(255, 100, 0);
+        colorTargets[1] = pixels.Color(255, 255, 255);
+    } else if(preset == LED_PRESET_RAINBOW) {
+        setCycle(LED_CYCLE_ROTATION);
         setMaxBrightness(32);
+
+        segmentSize = 5;
+        interval = 25;
+
+        colorListCount = 6;
+        colorList[0] = pixels.Color(255, 0, 0);
+        colorList[1] = pixels.Color(255, 168, 0);
+        colorList[2] = pixels.Color(255, 255, 0);
+        colorList[3] = pixels.Color(0, 255, 0);
+        colorList[4] = pixels.Color(0, 0, 255);
+        colorList[5] = pixels.Color(168, 0, 255);
     }
 }
 
 void neopixel::setCycle(uint32 _cycle) {
     cycle = _cycle;
+    currentColorTarget = 0;
+    colorTargetCount = 0;
+    colorListCount = 0;
 
     if(cycle == LED_CYCLE_MOTION) {
         phaseCount = 2;
         interval = 1;
         segmentSize = 100;
-    } else if(cycle == LED_CYCLE_TWINKLE) {
-        phaseCount = 2;
     } else if(cycle == LED_CYCLE_BLINK) {
         segmentSize = 2;
-    } else if(cycle == LED_CYCLE_RAINBOW) {
+    } else if(cycle == LED_CYCLE_ROTATION) {
         segmentSize = 5;
         interval = 25;
     }
@@ -90,17 +101,43 @@ void neopixel::setInterval(uint32 _interval) {
     interval = _interval;
 }
 
+uint8_t neopixel::colorRed(uint32_t color) {
+    return (color >> 16) & 0xff;
+}
+
+uint8_t neopixel::colorGreen(uint32_t color) {
+    return (color >> 8) & 0xff;
+}
+
+uint8_t neopixel::colorBlue(uint32_t color) {
+    return color & 0xff;
+}
+
+void neopixel::addColorList(
+    uint8_t _red, uint8_t _green, uint8_t _blue
+) {
+    colorList[colorListCount] = pixels.Color(
+        _red,
+        _green,
+        _blue
+    );
+}
+
+void neopixel::addColorTarget(
+    uint8_t _red, uint8_t _green, uint8_t _blue
+) {
+    colorTargets[colorTargetCount] = pixels.Color(
+        _red,
+        _green,
+        _blue
+    );
+}
+
 void neopixel::setColor(uint8_t _red, uint8_t _green, uint8_t _blue) {
-    colorRed = _red;
-    colorGreen = _green;
-    colorBlue = _blue;
     color = pixels.Color(_red, _green, _blue);
 }
 
 void neopixel::setSecondaryColor(uint8_t _red, uint8_t _green, uint8_t _blue) {
-    secondaryColorRed = _red;
-    secondaryColorGreen = _green;
-    secondaryColorBlue = _blue;
     secondaryColor = pixels.Color(_red, _green, _blue);
 }
 
@@ -139,12 +176,8 @@ void neopixel::loop() {
         }
     } else if(cycle == LED_CYCLE_MOTION) {
         int colors[6] = {
-            pixels.Color(colorRed, colorGreen, colorBlue),
-            pixels.Color(
-                secondaryColorRed,
-                secondaryColorGreen,
-                secondaryColorBlue
-            )
+            color,
+            secondaryColor
         };
         for(int i = 0; i < NUM_LEDS; i++) {
             int effectiveI = i + offset;
@@ -163,41 +196,20 @@ void neopixel::loop() {
                 pixels.setPixelColor(i, black);
             }
         }
-    } else if(cycle == LED_CYCLE_TWINKLE) {
-        for(int i = 0; i < NUM_LEDS; i++) {
-            if(
-                (phase == 0 && i % 2 == 0) ||
-                (phase == 1 && i % 2 == 1)
-            ) {
-                pixels.setPixelColor(i, color);
-            } else {
-                float value = random(50, maxBrightness);
-                pixels.setPixelColor(
-                    i,
-                    pixels.Color(
-                        random(0, (int)(((float)colorRed/(float)255)*value)),
-                        random(0, (int)(((float)colorGreen/(float)255)*value)),
-                        random(0, (int)(((float)colorBlue/(float)255)*value))
-                    )
-                );
-            }
-        }
-    } else if(cycle == LED_CYCLE_RAINBOW) {
-        int colors[6] = {
-            pixels.Color(255, 0, 0),
-            pixels.Color(255, 168, 0),
-            pixels.Color(255, 255, 0),
-            pixels.Color(0, 255, 0),
-            pixels.Color(0, 0, 255),
-            pixels.Color(168, 0, 255)
-        };
+    } else if(cycle == LED_CYCLE_ROTATION) {
         for(int i = 0; i < NUM_LEDS; i++) {
             int effectiveI = i + offset;
             if (effectiveI > NUM_LEDS) {
                 effectiveI -= NUM_LEDS;
             }
 
-            pixels.setPixelColor(i, colors[(effectiveI / segmentSize) % 6]);
+            pixels.setPixelColor(
+                i,
+                colorList[
+                    (effectiveI / segmentSize) %
+                    colorListCount
+                ]
+            );
         }
     }
 
