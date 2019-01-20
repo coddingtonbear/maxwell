@@ -54,7 +54,7 @@ void neopixel::activatePreset(uint32 preset) {
 
         colorTargetCount = 2;
         colorTarget[0] = pixels.Color(
-            0xff, 0x64, 0x00
+            0xff, 0xff, 0x00
         );
         colorTarget[1] = pixels.Color(
             0xff, 0xff, 0xff
