@@ -176,56 +176,50 @@ void DisplayManager::refresh() {
     } else {
         if(statusIsAvailable) {
             CANStatusMainMC status = getStatusMainMc();
-            int leftPosition = 0;
             if(status.is_charging) {
                 if(statusPhase % 2 == 0) {
                     display.drawXBM(
-                        0, leftPosition,
+                        0, 0,
                         ICON_WIDTH, ICON_HEIGHT,
                         batteryFull_bits
                     );
                 } else {
                     display.drawXBM(
-                        0, leftPosition,
+                        0, 0,
                         ICON_WIDTH, ICON_HEIGHT,
                         batteryHalf_bits
                     );
                 }
-                leftPosition += ICON_HEIGHT + 2;
             }
-            if(gpsFixValid()) {
-                display.drawXBM(
-                    0, leftPosition,
-                    ICON_WIDTH, ICON_HEIGHT,
-                    gps_bits
-                );
-                leftPosition += ICON_HEIGHT + 2;
-            }
-
-            int rightPosition = 0;
             if(status.power_source == 0) {
                 display.drawXBM(
-                    DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
+                    16, 0,
                     ICON_WIDTH, ICON_HEIGHT,
                     dynamoPower_bits
                 );
-                rightPosition += ICON_HEIGHT + 2;
             }
+
             if(status.logging_lte) {
                 display.drawXBM(
-                    DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
+                    DISPLAY_WIDTH - ICON_WIDTH - 1, 0,
                     ICON_WIDTH, ICON_HEIGHT,
                     reporting_bits
                 );
-                rightPosition += ICON_HEIGHT + 2;
             } else if(status.lte_connected) {
                 display.drawXBM(
-                    DISPLAY_WIDTH - ICON_WIDTH - 1, rightPosition,
+                    DISPLAY_WIDTH - ICON_WIDTH - 1, 0,
                     ICON_WIDTH, ICON_HEIGHT,
                     lte_bits
                 );
-                rightPosition += ICON_HEIGHT + 2;
             }
+            if(gpsFixValid()) {
+                display.drawXBM(
+                    DISPLAY_WIDTH - ICON_WIDTH * 2 - 1, 0,
+                    ICON_WIDTH, ICON_HEIGHT,
+                    gps_bits
+                );
+            }
+
             /*
             } else if(status.recording_now) {
                 display.drawXBM(
@@ -257,25 +251,25 @@ void DisplayManager::refresh() {
         if(autosleep && !sleeping) {
             sleep();
         }
-        String velocity = String(
-            getDoubleStatusParameter(
-                CAN_VELOCITY
-            ),
-            1
-        );
 
+        String velocity = "--";
         display.setFont(LARGE_DISPLAY_FONT);
         display.setCursor(0, DISPLAY_HEIGHT - 1 - 17);
+        if(statusIsAvailable) {
+            velocity = String(
+                getDoubleStatusParameter(
+                    CAN_VELOCITY
+                ),
+                1
+            );
+        }
         int width = display.getStrWidth(velocity.c_str());
         display.setCursor(
             (DISPLAY_WIDTH - width - 1) / 2,
             DISPLAY_HEIGHT - 1 - 17
         );
-        if(statusIsAvailable) {
-            display.println(velocity);
-        } else {
-            display.println("--");
-        }
+        display.println(velocity);
+        
     }
     display.setFont(SMALL_DISPLAY_FONT);
 

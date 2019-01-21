@@ -9,10 +9,10 @@
 #define DISPLAY_DC PB13
 #define DISPLAY_RST PB14
 
-#define SMALL_DISPLAY_FONT u8g2_font_helvB12_tr
+#define SMALL_DISPLAY_FONT u8g2_font_helvR12_tr
 #define SMALL_DISPLAY_FONT_HEIGHT 12
-#define LARGE_DISPLAY_FONT u8g2_font_logisoso32_tr
-#define LARGE_DISPLAY_FONT_HEIGHT 32
+#define LARGE_DISPLAY_FONT u8g2_font_helvB24_tr
+#define LARGE_DISPLAY_FONT_HEIGHT 24
 #define ICON_DISPLAY_FONT u8g2_font_open_iconic_all_2x_t
 #define ICON_DISPLAY_HEIGHT 16
 
