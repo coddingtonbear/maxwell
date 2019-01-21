@@ -209,28 +209,33 @@ void power::sleep() {
         LTE.wait(5000, iwdg_feed);
         lte::enable(false);
         LTE.wait(6000, iwdg_feed);
-        LTEUart.GPIOSetPinMode(PIN_LTE_OE, INPUT);
+        LTEUart.GPIOSetPinMode(PIN_LTE_OE, LOW);
         LTEUart.flush();
+        // Clear out the LTE receive buffer
+        while(LTEUart.available()) {
+            LTEUart.read();
+        }
         LTEUart.sleep();
     }
     CanBus.end();
 
     setGPIOModeToAllPins(GPIO_INPUT_FLOATING);
-    // Turn of CAN transceiver
-    pinMode(PIN_CAN_RS, OUTPUT);
+    // Turn off CAN transceiver
     digitalWrite(PIN_CAN_RS, HIGH);
+    pinMode(PIN_CAN_RS, OUTPUT);
     // Disable neopixels (again since we just floated all of the pins)
-    pinMode(PIN_ENABLE_GNDPWR, OUTPUT);
     digitalWrite(PIN_ENABLE_GNDPWR, LOW);
+    pinMode(PIN_ENABLE_GNDPWR, OUTPUT);
     // Disable buzzer
-    pinMode(PIN_BUZZER, OUTPUT);
     digitalWrite(PIN_BUZZER, LOW);
+    pinMode(PIN_BUZZER, OUTPUT);
     //pinMode(PIN_ESP_BOOT_FLASH_, OUTPUT);
     //digitalWrite(PIN_ESP_BOOT_FLASH_, LOW);
     // Disable Bluetooth
-    pinMode(PIN_BT_DISABLE_, OUTPUT);
     digitalWrite(PIN_BT_DISABLE_, LOW);
+    pinMode(PIN_BT_DISABLE_, OUTPUT);
     // Configure wake conditions
+    pinMode(PIN_I_POWER_ON, INPUT_PULLDOWN);
     attachInterrupt(PIN_I_POWER_ON, nvic_sys_reset, RISING);
     #if MOVEMENT_WAKE_ENABLED
         pinMode(PIN_I_SPEED, INPUT_PULLDOWN);
@@ -240,8 +245,6 @@ void power::sleep() {
     systick_disable();
     adc_disable_all();
     disableAllPeripheralClocks();
-    bkp_init();
-    bkp_enable_writes();
     while(true) {
         iwdg_feed();
         sleepAndWakeUp(STOP, &Clock, 20);

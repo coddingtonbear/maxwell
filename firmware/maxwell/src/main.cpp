@@ -57,26 +57,10 @@ void setup() {
     Output.println("[Maxwell 2.0]");
     Output.flush();
 
-    if(Clock.getTime() < 100000) {
-        restoreBackupTime();
-    }
-
     Wire.begin();
     power::init();
 
     SPIBus.begin();
-    LTEUart.setSpiBus(&SPIBus);
-    LTEUart.begin(115200, true);
-    bool ltePinged = false;
-    if(!LTEUart.ping()) {
-        Output.println("Error connecting to UART over SPI; no LTE available.");
-    } else {
-        ltePinged = true;
-        LTEUart.GPIOSetPinMode(PIN_LTE_DTR, OUTPUT);
-        LTEUart.GPIOSetPinMode(PIN_LTE_OE, OUTPUT);
-        LTEUart.GPIOSetPinState(PIN_LTE_DTR, LOW);
-        LTEUart.GPIOSetPinState(PIN_LTE_OE, HIGH);
-    }
 
     if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(4))) {
         filesystem.initErrorPrint(&Output);
@@ -146,7 +130,15 @@ void setup() {
     console::init();
     status::init();
 
-    if(ltePinged) {
+    LTEUart.setSpiBus(&SPIBus);
+    LTEUart.begin(115200, true);
+    if(!LTEUart.ping()) {
+        Output.println("Error connecting to UART over SPI; no LTE available.");
+    } else {
+        LTEUart.GPIOSetPinMode(PIN_LTE_DTR, OUTPUT);
+        LTEUart.GPIOSetPinMode(PIN_LTE_OE, OUTPUT);
+        LTEUart.GPIOSetPinState(PIN_LTE_DTR, LOW);
+        LTEUart.GPIOSetPinState(PIN_LTE_OE, HIGH);
         lte::asyncEnable();
     }
 
@@ -203,16 +195,3 @@ void loop() {
         }
     }
 }
-
-void restoreBackupTime() {
-    uint16_t backedUp = bkp_read(0);
-    uint16_t uptime = millis() / 1000;
-
-    Clock.setTime(backedUp + uptime);
-}
-
-void saveBackupTime() {
-    time_t currentTime = Clock.getTime();
-    bkp_write(0, currentTime);
-}
-

@@ -23,9 +23,6 @@
 void setup();
 void loop();
 
-void restoreBackupTime();
-void saveBackupTime();
-
 extern MultiSerial Output;
 extern HashMap<String, double> Statistics;
 extern RTClock Clock;

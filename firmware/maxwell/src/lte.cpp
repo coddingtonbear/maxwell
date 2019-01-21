@@ -58,7 +58,7 @@ bool lte::asyncEnable(bool enabled) {
         lteTargetStatus = LTE_STATE_OFF;
     }
 
-    tasks::enableLTEStatusManager();
+    tasks::enableLTEStatusManager(true);
 
     return true;
 }
@@ -177,7 +177,6 @@ uint8_t lteEnableAttempts = 0;
 void lteEnabledSuccess(MatchState ms) {
     lteEnabled = true;
     lteEnableAttempts = 0;
-    lte::refreshTimestamp();
 }
 
 void lteEnabledFailure(AsyncDuplex::Command* cmd) {
