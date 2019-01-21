@@ -50,21 +50,8 @@ void neopixel::activatePreset(uint32 preset) {
     } else if(preset == LED_PRESET_SAFETY) {
         setCycle(LED_CYCLE_MOTION);
         setColor(255, 100, 0);
+        setSecondaryColor(255, 255, 255);
         setMaxBrightness(32);
-
-        colorTargetCount = 2;
-        colorTarget[0] = pixels.Color(
-            0xff, 0xff, 0x00
-        );
-        colorTarget[1] = pixels.Color(
-            0xff, 0xff, 0xff
-        );
-        setColor(
-            colorRed(colorTarget[0]),
-            colorGreen(colorTarget[0]),
-            colorBlue(colorTarget[0])
-        );
-        setSecondaryColor(0, 0, 0);
     } else if(preset == LED_PRESET_RAINBOW) {
         setCycle(LED_CYCLE_ROTATION);
         setMaxBrightness(32);
@@ -96,6 +83,7 @@ void neopixel::activatePreset(uint32 preset) {
             colorGreen(colorTarget[0]),
             colorBlue(colorTarget[0])
         );
+        setSecondaryColor(255, 255, 255);
     }
 }
 
