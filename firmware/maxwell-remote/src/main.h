@@ -8,6 +8,7 @@
 
 #define DISPLAY_REFRESH_INTERVAL 100
 #define GPS_REFRESH_INTERVAL 1720
+#define TIMESTAMP_REFRESH_INTERVAL 9000
 
 #define LONG_PRESS_TIMEOUT 2000
 #define LONG_PRESS_INTERVAL 500
@@ -35,6 +36,7 @@ void sleep();
 
 void taskUpdateDisplayCallback();
 void taskGpsRefreshCallback();
+void taskTimestampRefreshCallback();
 
 extern RTClock Clock;
 extern SC16IS750 GPSUart;

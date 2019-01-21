@@ -2,6 +2,7 @@
 #include <SerialCommand.h>
 #include <libmaple/iwdg.h>
 #include <SPI.h>
+#include <Time.h>
 
 #include "serial_commands.h"
 #include "can.h"
@@ -77,7 +78,6 @@ void setupCommands() {
     canCommands.addCommand(CAN_VELOCITY, receiveCanDouble);
     canCommands.addCommand(CAN_VOLTAGE_BATTERY, receiveCanDouble);
     canCommands.addCommand(CAN_AMPS_CURRENT, receiveCanDouble);
-    canCommands.addCommand(CAN_CURRENT_TIMESTAMP, canSetTime);
     canCommands.addCommand(CAN_STATUS_MAIN_MC, canReceiveStatus);
 }
 
@@ -716,15 +716,6 @@ void getTime() {
     Output.println(Clock.getTime());
 }
 
-void canSetTime() {
-    static uint8_t data[8];
-    canCommands.getData(data);
-
-    time_t timestamp = *(reinterpret_cast<time_t*>(data));
-
-    Clock.setTime(timestamp);
-}
-
 void canReceiveStatus() {
     static uint8_t data[8];
     canCommands.getData(data);
@@ -740,6 +731,39 @@ void setContrast() {
         int contrast = atoi(contrastStr);
         Display.setContrast(contrast);
     }
+}
+
+void sendUpdatedTimestamp() {
+    MicroNMEA* nmea = getGpsFix();
+
+    time_t time;
+    if(nmea->isValid()) {
+        tmElements_t timeEts;
+        timeEts.Hour = nmea->getHour();
+        timeEts.Minute = nmea->getMinute();
+        timeEts.Second = nmea->getSecond();
+        timeEts.Day = nmea->getDay();
+        timeEts.Month = nmea->getMonth();
+        timeEts.Year = nmea->getYear() - 1970;
+
+        time = makeTime(timeEts);
+        Clock.setTime(time);
+    } else {
+        time = Clock.getTime();
+    }
+
+    CanMsg output;
+    output.IDE = CAN_ID_STD;
+    output.RTR = CAN_RTR_DATA;
+    output.ID = CAN_CURRENT_TIMESTAMP;
+    output.DLC = sizeof(time_t);
+
+    unsigned char *outputBytes = reinterpret_cast<unsigned char *>(&time);
+    for(uint8_t i = 0; i < sizeof(time); i++) {
+        output.Data[i] = outputBytes[i];
+    }
+
+    CanBus.send(&output);
 }
 
 void sendUpdatedGpsPosition() {

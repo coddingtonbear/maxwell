@@ -33,6 +33,11 @@ Task taskGpsRefresh(
     TASK_FOREVER,
     &taskGpsRefreshCallback
 );
+Task taskTimestampRefresh(
+    TIMESTAMP_REFRESH_INTERVAL,
+    TASK_FOREVER,
+    &taskTimestampRefreshCallback
+);
 Scheduler taskRunner;
 
 Button buttonLeftA = Button(LEFT_A, 120, true, true);
@@ -125,6 +130,7 @@ void setup() {
     taskRunner.init();
     taskRunner.addTask(taskUpdateDisplay);
     taskRunner.addTask(taskGpsRefresh);
+    taskRunner.addTask(taskTimestampRefresh);
     taskRunner.enableAll();
 
     setupCommands();
@@ -137,6 +143,10 @@ void taskUpdateDisplayCallback() {
 
 void taskGpsRefreshCallback() {
     sendUpdatedGpsPosition();
+}
+
+void taskTimestampRefreshCallback() {
+    sendUpdatedTimestamp();
 }
 
 void loop() {
