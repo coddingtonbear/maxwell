@@ -70,12 +70,18 @@ void neopixel::activatePreset(uint32 preset) {
         setMaxBrightness(32);
         setInterval(1);
 
-        colorTargetCount = 2;
+        colorTargetCount = 4;
         colorTarget[0] = pixels.Color(
             0xff, 0, 0xff
         );
+        colorTarget[2] = pixels.Color(
+            0, 0xff, 0
+        );
         colorTarget[1] = pixels.Color(
             0, 0xff, 0x80
+        );
+        colorTarget[3] = pixels.Color(
+            0xff, 0xff, 0xff
         );
 
         setColor(
