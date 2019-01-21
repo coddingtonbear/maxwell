@@ -8,6 +8,7 @@ Maxwell is a two-part bike computer I've designed to allow me to do a few things
 * Charge an easily-swappable 18650 Li-On cell for potential use when bike touring.
 * Gather and transmit GPS coordinates for display on the internet somewhere.
 * Display status information including my current speed, battery voltage, and current consumption, as well as disable or enable bike features including, most importantly, disabling and enabling the LEDs from a small screen mounted at the front of the bike.
+* Send interesting data for display on the internet for completely impractical reasons.
 
 The "remote" unit is based around the STM32F103CB microcontroller, and the "base" unit is based around its slightly-more-full-featured brother, the STM32F103RE.  Both communicate with one another over a CANBus (routed through two of the conductors in a length of ethernet cable) to share status information and emit/handle commands.
 
@@ -15,13 +16,18 @@ The "remote" unit is based around the STM32F103CB microcontroller, and the "base
 
 ### Main
 
-![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/maxwell.svg?v=2)
-![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/microcontroller-Microcontroller.svg?v=2)
-![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/power-Power.svg?v=2)
+![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/1.7/maxwell.svg?v=2)
+![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/1.7/microcontroller-Microcontroller.svg?v=2)
+![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/1.7/power-Power.svg?v=2)
+
+### LTE Module
+
+![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/lte/maxwell-lte.svg)
 
 ### Head Unit (Remote)
 
-![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/maxwell-remote.svg)
+![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/remote/maxwell-remote.svg)
+![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/remote/maxwell-remote-2.svg)
 
 ## Errata
 
@@ -29,7 +35,7 @@ Checked items indicate errata that have been corrected in the schematic.
 
 ### Maxwell
 
-* [ ] Incorrect management of switching between dynamo and battery power.  The MOSFET method I was originally planning to use was probably unworkable; instead just use a schottky diode before the junction point of both.  See https://www.dropbox.com/s/91mg9zh1k596qku/Fixing%20Maxwell.pdf?raw=1&page=1 for details.
+None as of rev 1.7.
 
 ### Maxwell-remote
 
