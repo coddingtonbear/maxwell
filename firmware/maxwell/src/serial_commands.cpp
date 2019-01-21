@@ -101,6 +101,7 @@ void can::init() {
     canCommands.addCommand(CAN_CMD_AUTOSLEEP_ENABLE, can::autosleepEnable);
 
     canCommands.addCommand(CAN_GPS_POSITION, can::receivePosition);
+    canCommands.addCommand(CAN_CURRENT_TIMESTAMP, can::setTime);
 
     canCommands.addCommand(CAN_CMD_BT_ENABLE, can::enableBluetooth);
 
@@ -1103,4 +1104,13 @@ void console::disconnectLTELogger() {
 
 void console::printTaskStatistics() {
     tasks::printTaskStatistics();
+}
+
+void can::setTime() {
+    static uint8_t data[8];
+    canCommands.getData(data);
+
+    time_t timestamp = *(reinterpret_cast<time_t*>(data));
+
+    Clock.setTime(timestamp);
 }

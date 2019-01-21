@@ -17,6 +17,8 @@ namespace can {
     void ledEnable();
     void ledPreset();
 
+    void setTime();
+
     void reset();
     void sleep();
 

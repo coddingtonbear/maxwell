@@ -66,12 +66,6 @@ Task taskCanbusEmitStatus(
     &tasks::taskCanbusStatusIntervalCallback,
     &taskRunner
 );
-Task taskCanbusCurrentTimestamp(
-    CANBUS_CURRENT_TIMESTAMP_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskCanbusCurrentTimestampCallback,
-    &taskRunner
-);
 Task taskLTEStatusCollect(
     LTE_STATUS_COLLECT_INTERVAL,
     TASK_FOREVER,
@@ -203,26 +197,6 @@ void tasks::taskCanbusStatusIntervalCallback() {
 
     unsigned char *outputBytes = reinterpret_cast<unsigned char *>(&status);
     for(uint8_t i = 0; i < sizeof(status); i++) {
-        output.Data[i] = outputBytes[i];
-    }
-
-    CanBus.send(&output);
-}
-
-void tasks::taskCanbusCurrentTimestampCallback() {
-    #ifdef TASK_DEBUG
-        Output.println("<Task: CANBUS current timestamp emit>");
-    #endif
-    time_t currentTimestamp = Clock.getTime();
-
-    CanMsg output;
-    output.IDE = CAN_ID_STD;
-    output.RTR = CAN_RTR_DATA;
-    output.ID = CAN_CURRENT_TIMESTAMP;
-    output.DLC = sizeof(time_t);
-
-    unsigned char *outputBytes = reinterpret_cast<unsigned char *>(&currentTimestamp);
-    for(uint8_t i = 0; i < sizeof(currentTimestamp); i++) {
         output.Data[i] = outputBytes[i];
     }
 
@@ -374,12 +348,6 @@ void tasks::printTaskStatistics() {
     Output.print(taskCanbusEmitStatus.getAverageRuntime());
     Output.print(" (");
     Output.print(taskCanbusEmitStatus.getTotalRuntime());
-    Output.println(")");
-
-    Output.print("Timestamp Announce: ");
-    Output.print(taskCanbusCurrentTimestamp.getAverageRuntime());
-    Output.print(" (");
-    Output.print(taskCanbusCurrentTimestamp.getTotalRuntime());
     Output.println(")");
 
     Output.print("LTE Status Update: ");
