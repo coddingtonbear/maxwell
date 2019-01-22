@@ -1,6 +1,6 @@
 # Maxwell: Bicycle Electrification
 
-![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/maxwell-640.gif)
+![](https://s3-us-west-2.amazonaws.com/coddingtonbear-public/github/maxwell/maxwell-640-64c.gif)
 
 See my little blog post about this here: [http://coddingtonbear.net/maxwell-bicycle-electrification/](http://coddingtonbear.net/maxwell-bicycle-electrification/).
 
