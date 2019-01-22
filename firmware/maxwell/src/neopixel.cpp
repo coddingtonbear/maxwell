@@ -68,7 +68,7 @@ void neopixel::activatePreset(uint32 preset) {
     } else if(preset == LED_PRESET_MIDNIGHT) {
         setCycle(LED_CYCLE_ON);
         setMaxBrightness(32);
-        setInterval(1);
+        setInterval(25);
 
         colorTargetCount = 4;
         colorTarget[0] = pixels.Color(
