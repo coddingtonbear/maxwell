@@ -21,7 +21,6 @@
 #include "status.h"
 
 bool canDebug = 0;
-unsigned int longPressTimeout = 0;
 
 Task taskUpdateDisplay(
     DISPLAY_REFRESH_INTERVAL,
@@ -161,44 +160,31 @@ void loop() {
         updateGpsFix();
     }
 
-    // Long-press
-    if(millis() > longPressTimeout) {
-        if(buttonLeftB.pressedFor(LONG_PRESS_INTERVAL)) {
-            longPressTimeout = millis() + LONG_PRESS_TIMEOUT;
-            Display.setActionTimeout();
-            toggleLightingPreset();
-        }
-        if(buttonLeftA.pressedFor(LONG_PRESS_INTERVAL)) {
-            longPressTimeout = millis() + LONG_PRESS_TIMEOUT;
-            Display.setActionTimeout();
-            activateLightingPreset(
-                LED_PRESET_OFF
-            );
-        }
-        if(buttonRightB.pressedFor(LONG_PRESS_INTERVAL)) {
-            longPressTimeout = millis() + LONG_PRESS_TIMEOUT;
-            Display.setActionTimeout();
-            sleep();
-        }
-        if(buttonRightA.pressedFor(LONG_PRESS_INTERVAL)) {
-            longPressTimeout = millis() + LONG_PRESS_TIMEOUT;
-            Display.setActionTimeout();
-            Display.toggleBacklight();
-        }
-    }
-
-    // Normal motions
-    if(buttonLeftA.wasPressed()) {
+    if(buttonLeftA.releasedAfter(LONG_PRESS_INTERVAL)) {
+        Display.setActionTimeout();
+        activateLightingPreset(
+            LED_PRESET_OFF
+        );
+    } else if(buttonLeftA.wasReleased()) {
         Display.up();
     }
-    if(buttonLeftB.wasPressed()) {
+    if(buttonLeftB.releasedAfter(LONG_PRESS_INTERVAL)) {
+        Display.setActionTimeout();
+        toggleLightingPreset();
+    } else if(buttonLeftB.wasReleased()) {
         Display.down();
     }
-    if(buttonRightA.wasPressed()) {
-        Display.out();
-    }
-    if(buttonRightB.wasPressed()) {
+    if(buttonRightB.releasedAfter(LONG_PRESS_INTERVAL)) {
+        Display.setActionTimeout();
+        sleep();
+    } else if(buttonRightB.wasReleased()) {
         Display.in();
+    }
+    if(buttonRightA.releasedAfter(LONG_PRESS_INTERVAL)) {
+        Display.setActionTimeout();
+        Display.toggleBacklight();
+    } else if(buttonRightA.wasReleased()) {
+        Display.out();
     }
 
     taskRunner.execute();

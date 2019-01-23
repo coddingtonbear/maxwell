@@ -2,6 +2,7 @@
 #include "display.h"
 #include "status.h"
 #include "can_message_ids.h"
+#include "serial_commands.h"
 #include "menu.h"
 #include "main.h"
 #include "icons.h"
@@ -174,6 +175,14 @@ void DisplayManager::refresh() {
         }
         showMenu();
     } else {
+        if(getBluetoothEnabled()) {
+            display.drawXBM(
+                DISPLAY_WIDTH - ICON_WIDTH - 1,
+                ICON_HEIGHT + 1,
+                ICON_WIDTH, ICON_HEIGHT,
+                remoteBt_bits
+            );
+        }
         if(statusIsAvailable) {
             CANStatusMainMC status = getStatusMainMc();
             if(status.is_charging) {
@@ -214,9 +223,17 @@ void DisplayManager::refresh() {
             }
             if(gpsFixValid()) {
                 display.drawXBM(
-                    DISPLAY_WIDTH - ICON_WIDTH * 2 - 1, 0,
+                    DISPLAY_WIDTH - (ICON_WIDTH + 1) * 2, 0,
                     ICON_WIDTH, ICON_HEIGHT,
                     gps_bits
+                );
+            }
+            if(status.bt_enabled) {
+                display.drawXBM(
+                    DISPLAY_WIDTH - ICON_WIDTH - 1,
+                    ((ICON_HEIGHT + 1) * 2) - 3,
+                    ICON_WIDTH, ICON_HEIGHT,
+                    baseBt_bits
                 );
             }
 
@@ -269,7 +286,25 @@ void DisplayManager::refresh() {
             DISPLAY_HEIGHT - 1 - 17
         );
         display.println(velocity);
-        
+
+        display.setFont(SMALL_DISPLAY_FONT);
+        time_t localTime = Clock.TimeZone(
+            Clock.getTime(),
+            UTC_OFFSET
+        );
+        char minutes[5];
+        sprintf(minutes, "%02d", Clock.minute(localTime));
+        String currentTime = (
+            String(Clock.hour(localTime))
+            + ":"
+            + String(minutes)
+        );
+        width = display.getStrWidth(currentTime.c_str());
+        display.setCursor(
+            (DISPLAY_WIDTH - width - 1) / 2,
+            SMALL_DISPLAY_FONT_HEIGHT + 1
+        );
+        display.println(currentTime);
     }
     display.setFont(SMALL_DISPLAY_FONT);
 
@@ -294,44 +329,30 @@ void DisplayManager::refresh() {
     display.drawBox(0, 48, 128, 16);
     display.setDrawColor(1);
 
+    int width;
     if(statusIsAvailable) {
-        if(statusPhase < (statusPhaseCount / 2)) {
-            String voltage = String(
-                getDoubleStatusParameter(
-                    CAN_VOLTAGE_BATTERY
-                ),
-                2
-            );
-            voltage += "V";
-            display.println(voltage);
-        } else {
-            String amps = String(
-                getDoubleStatusParameter(
-                    CAN_AMPS_CURRENT
-                ),
-                2
-            );
-            amps += "A";
-            display.println(amps);
-        }
+        String voltage = String(
+            getDoubleStatusParameter(
+                CAN_VOLTAGE_BATTERY
+            ),
+            2
+        );
+        voltage += "V";
+        display.println(voltage);
 
-        time_t localTime = Clock.TimeZone(
-            Clock.getTime(),
-            UTC_OFFSET
+        String amps = String(
+            getDoubleStatusParameter(
+                CAN_AMPS_CURRENT
+            ),
+            2
         );
-        char minutes[5];
-        sprintf(minutes, "%02d", Clock.minute(localTime));
-        String currentTime = (
-            String(Clock.hour(localTime))
-            + ":"
-            + String(minutes)
-        );
-        int width = display.getStrWidth(currentTime.c_str());
+        amps += "A";
+        width = display.getStrWidth(amps.c_str());
         display.setCursor(
             DISPLAY_WIDTH - width - 1,
             DISPLAY_HEIGHT - 1
         );
-        display.println(currentTime);
+        display.println(amps);
     }
 
     display.sendBuffer();
