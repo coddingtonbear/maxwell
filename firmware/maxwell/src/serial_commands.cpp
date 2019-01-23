@@ -985,7 +985,7 @@ void console::sendTextMessage() {
             [](MatchState ms) {
                 Output.println("SMS sent successfully.");
             },
-            [](AsyncDuplex::Command* cmd) {
+            [](ManagedSerialDevice::Command* cmd) {
                 Output.println("Error: SMS send failed.");
             }
         )
@@ -1019,7 +1019,7 @@ void console::lteCommand() {
         LTE.execute(
             command,
             "",
-            AsyncDuplex::Timing::NEXT,
+            ManagedSerialDevice::Timing::NEXT,
             [](MatchState ms) {
                 // We don't know what they're looking for, so let's
                 // just wait 5s until we can be sure we've probably

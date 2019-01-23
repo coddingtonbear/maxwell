@@ -179,7 +179,7 @@ void lteEnabledSuccess(MatchState ms) {
     lteEnableAttempts = 0;
 }
 
-void lteEnabledFailure(AsyncDuplex::Command* cmd) {
+void lteEnabledFailure(ManagedSerialDevice::Command* cmd) {
     lteEnableAttempts++;
     if(lteEnableAttempts < 3) {
         LTE.enableGPRS(
@@ -228,7 +228,7 @@ bool lte::enable(bool _enable) {
             [](MatchState ms) {
                 lteEnabled = false;
             },
-            [](AsyncDuplex::Command* cmd) {
+            [](ManagedSerialDevice::Command* cmd) {
                 if(lte::isPoweredOn()) {
                     // If we're _still_ powered-on,
                     // send the "urgent shutdown" command
@@ -260,7 +260,7 @@ bool lte::refreshTimestamp() {
     LTE.execute(
         "AT+CCLK?",
         "+CCLK: \"([%d]+)/([%d]+)/([%d]+),([%d]+):([%d]+):([%d]+)([\\+\\-])([%d]+)\"",
-        AsyncDuplex::Timing::ANY,
+        ManagedSerialDevice::Timing::ANY,
         [](MatchState ms){
             char year_str[3];
             char month_str[3];
@@ -320,27 +320,27 @@ bool lte::connectTo(char* host, uint16_t port) {
         host,
         port
     );
-    AsyncDuplex::Command commands[] = {
-        AsyncDuplex::Command(
+    ManagedSerialDevice::Command commands[] = {
+        ManagedSerialDevice::Command(
             "AT+CIPSHUT",
             ".+\n",
             [](MatchState ms) {
                 connectionStatus[0] = '\0';
             }
         ),
-        AsyncDuplex::Command(
+        ManagedSerialDevice::Command(
             "AT+CIPMUX=0",
             "OK"
         ),
-        AsyncDuplex::Command(
+        ManagedSerialDevice::Command(
             "AT+CIPRXGET=1",
             "OK"
         ),
-        AsyncDuplex::Command(
+        ManagedSerialDevice::Command(
             atCipstart,
             "OK"
         ),
-        AsyncDuplex::Command(
+        ManagedSerialDevice::Command(
             "AT+CIPSTATUS",
             "(CONNECT OK)",
             [](MatchState ms) {
