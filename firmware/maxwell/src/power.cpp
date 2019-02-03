@@ -166,9 +166,9 @@ power::PowerSource power::getPowerSource() {
     power::PowerSource source;
 
     if(powerIo.getState(PIN_PWR_I_POWER_SOURCE_INDICATOR) == IO_LOW) {
-        source = power::PowerSource::dynamo;
-    } else {
         source = power::PowerSource::battery;
+    } else {
+        source = power::PowerSource::dynamo;
     }
     Statistics.put("Power Source", (double)source);
     return source;
