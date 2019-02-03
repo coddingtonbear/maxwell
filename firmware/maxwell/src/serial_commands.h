@@ -39,6 +39,8 @@ namespace console {
     void prompt();
     void loop();
 
+    void repeat();
+
     void uptime();
     void hello();
     void beep();

@@ -22,6 +22,7 @@
 
 void setup();
 void loop();
+void loopModules();
 
 extern MultiSerial Output;
 extern HashMap<String, double> Statistics;

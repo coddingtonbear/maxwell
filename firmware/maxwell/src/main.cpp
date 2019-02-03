@@ -150,6 +150,12 @@ void setup() {
 }
 
 void loop() {
+    loopModules();
+
+    console::loop();
+}
+
+void loopModules() {
     iwdg_feed();
 
     power::checkSleepTimeout();
@@ -161,7 +167,6 @@ void loop() {
     }
 
     lte::loop();
-    console::loop();
     neopixel::loop();
     tasks::loop();
 

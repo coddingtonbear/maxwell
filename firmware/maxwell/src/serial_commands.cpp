@@ -4,6 +4,7 @@
 #include <libmaple/iwdg.h>
 #include <SerialCommand.h>
 #include <CANCommand.h>
+#include <ArduinoSort.h>
 #include <SdFat.h>
 
 #include "can.h"
@@ -28,6 +29,7 @@ uint8_t testId = 0;
 
 void console::init() {
     commands.setDefaultHandler(console::unrecognized);
+    commands.addCommand("repeat", console::repeat);
 
     commands.addCommand("uptime", console::uptime);
     commands.addCommand("ping", console::hello);
@@ -400,6 +402,7 @@ void can::flash() {
 }
 
 void console::flash() {
+    Output.println("Please wait...");
     if(lte::isEnabled()) {
         lte::enable(false);
         LTE.wait(6000, iwdg_feed);
@@ -412,7 +415,7 @@ void console::flash() {
     flashNoticeMsg.DLC = 0;
     CanBus.send(&flashNoticeMsg);
 
-    Output.println("Resetting device...");
+    Output.println("Resetting device now; you may disconnect.");
     Output.flush();
 
     delay(250);
@@ -573,12 +576,20 @@ void can::enableLTE() {
 }
 
 void console::printStatistics() {
-    for(uint8_t i = 0; i < Statistics.count(); i++) {
+    uint8_t size = Statistics.count();
+    String statistics[size];
+
+    for(uint8_t i = 0; i < size; i++) {
         auto key = Statistics.keyAt(i);
         auto value = Statistics.valueFor(key);
-        Output.print(key);
-        Output.print(": ");
-        Output.println(value, 4);
+
+        statistics[i] = String(key) + ": \t" + String(value, 4);
+    }
+
+    sortArray(statistics, size);
+
+    for(uint8_t i = 0; i < size; i++) {
+        Output.println(statistics[i]);
     }
 }
 
@@ -1113,4 +1124,46 @@ void can::setTime() {
     time_t timestamp = *(reinterpret_cast<time_t*>(data));
 
     Clock.setTime(timestamp);
+}
+
+void console::repeat() {
+    uint16_t milliseconds = 1000;
+    char* tmpCommandStr = commands.next();
+    char commandStr[32];
+    if(!tmpCommandStr) {
+        Output.println("Must provide command");
+        return;
+    } else {
+        strcpy(commandStr, tmpCommandStr);
+    }
+    char* millisecondsStr = commands.next();
+    if(millisecondsStr) {
+        milliseconds = atoi(millisecondsStr);
+    }
+    unsigned long nextLoop = 0;
+    while(! Output.available()) {
+        loopModules();
+        power::refreshSleepTimeout();
+        ble::refreshTimeout();
+        if(millis() > nextLoop) {
+            Output.print("[Repeated ");
+            Output.print(milliseconds);
+            Output.print("ms run of ");
+            Output.print(commandStr);
+            Output.print(" at ");
+            Output.print(millis());
+            Output.println("]");
+
+            for(uint8_t i = 0; i < strlen(commandStr); i++) {
+                //Output.println(i);
+                //Output.println(strlen(commandStr));
+                commands.readChar(commandStr[i]);
+                //Output.println();
+            }
+            commands.readChar('\n');
+
+            nextLoop = millis() + milliseconds;
+        }
+    }
+    Output.println("[Repeated run ended]");
 }
