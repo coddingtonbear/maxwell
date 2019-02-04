@@ -164,9 +164,19 @@ MenuList::MenuList(MenuItem* menuItems, uint8_t _length) {
             ),
             MenuItem(
                 []() -> String {
-                    return String("Voltage: ") + String(
+                    return String("Batt V: ") + String(
                         getDoubleStatusParameter(
                             CAN_VOLTAGE_BATTERY
+                        ),
+                        2
+                    );
+                }
+            ),
+            MenuItem(
+                []() -> String {
+                    return String("Dyn V: ") + String(
+                        getDoubleStatusParameter(
+                            CAN_VOLTAGE_DYNAMO
                         ),
                         2
                     );
@@ -651,9 +661,24 @@ MenuItem cameraMenu("Camera", &cameraMenuList);
     MenuList commsMenuList(commsMenuItems, COUNT_OF(commsMenuItems));
 MenuItem commsMenu("Bluetooth", &commsMenuList);
 
+
+        MenuItem menuMenuItems[] = {
+            MenuItem(
+                "Disable",
+                [](){Display.enableTimeout(false);}
+            ),
+            MenuItem(
+                "Enable",
+                [](){Display.enableTimeout(true);}
+            )
+        };
+    MenuList menuMenuList(menuMenuItems, COUNT_OF(menuMenuItems));
+MenuItem menuMenu("Menu Timeout", &menuMenuList);
+
 MenuItem mainMenuItems[] = {
     statsMenu,
     powerMenu,
+    menuMenu,
     commsMenu,
     cameraMenu,
     lightingMenu

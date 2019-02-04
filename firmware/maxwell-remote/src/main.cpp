@@ -160,7 +160,9 @@ void loop() {
         updateGpsFix();
     }
 
-    if(buttonLeftA.releasedAfter(LONG_PRESS_INTERVAL)) {
+    if(buttonLeftA.pressedFor(LONG_PRESS_INTERVAL)) {
+        buttonLeftA.ignorePress();
+        buttonLeftA.ignoreNextChange();
         Display.setActionTimeout();
         activateLightingPreset(
             LED_PRESET_OFF
@@ -168,19 +170,27 @@ void loop() {
     } else if(buttonLeftA.wasReleased()) {
         Display.up();
     }
-    if(buttonLeftB.releasedAfter(LONG_PRESS_INTERVAL)) {
+    if(buttonLeftB.pressedFor(LONG_PRESS_INTERVAL)) {
+        buttonLeftB.ignorePress();
+        buttonLeftB.ignoreNextChange();
         Display.setActionTimeout();
         toggleLightingPreset();
     } else if(buttonLeftB.wasReleased()) {
         Display.down();
     }
-    if(buttonRightB.releasedAfter(LONG_PRESS_INTERVAL)) {
+    if(buttonRightB.pressedFor(LONG_PRESS_INTERVAL)) {
+        buttonRightB.ignorePress();
+        buttonRightB.ignoreNextChange();
+
         Display.setActionTimeout();
         sleep();
     } else if(buttonRightB.wasReleased()) {
         Display.in();
     }
-    if(buttonRightA.releasedAfter(LONG_PRESS_INTERVAL)) {
+    if(buttonRightA.pressedFor(LONG_PRESS_INTERVAL)) {
+        buttonRightA.ignorePress();
+        buttonRightA.ignoreNextChange();
+
         Display.setActionTimeout();
         Display.toggleBacklight();
     } else if(buttonRightA.wasReleased()) {

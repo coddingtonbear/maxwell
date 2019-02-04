@@ -33,7 +33,10 @@ void DisplayManager::toggleBacklight() {
     } else {
         enableBacklight(true);
     }
+}
 
+void DisplayManager::enableTimeout(bool enable) {
+    timeout = enable;
 }
 
 void DisplayManager::menuKeepalive() {
@@ -169,7 +172,7 @@ void DisplayManager::refresh() {
     }
 
     /* Display Menu or Speed */
-    if(showMenuUntil > millis()) {
+    if((showMenuUntil > millis()) || (showMenuUntil > 0 && !timeout)) {
         if(sleeping) {
             wake();
         }

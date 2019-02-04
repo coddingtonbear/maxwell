@@ -48,6 +48,7 @@ class DisplayManager {
         void in();
         void out();
 
+        void enableTimeout(bool);
         void setActionTimeout();
 
     protected:
@@ -62,6 +63,7 @@ class DisplayManager {
         bool autosleep = false;
         bool sleeping = false;
         bool backlightOn = false;
+        bool timeout = true;
 
         uint8_t menuDepth = 0;
         uint8_t menuPosition[10];
