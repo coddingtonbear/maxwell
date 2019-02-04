@@ -36,6 +36,12 @@ Task taskCanbusVoltageBatteryAnnounce(
     &tasks::taskCanbusVoltageBatteryAnnounceCallback,
     &taskRunner
 );
+Task taskCanbusVoltageDynamoAnnounce(
+    CANBUS_VOLTAGE_DYNAMO_ANNOUNCE_INTERVAL,
+    TASK_FOREVER,
+    &tasks::taskCanbusVoltageDynamoAnnounceCallback,
+    &taskRunner
+);
 Task taskCanbusCurrentAnnounce(
     CANBUS_CURRENT_ANNOUNCE_INTERVAL,
     TASK_FOREVER,
@@ -201,6 +207,25 @@ void tasks::taskCanbusStatusIntervalCallback() {
     }
 
     CanBus.send(&output);
+}
+
+void tasks::taskCanbusVoltageDynamoAnnounceCallback() {
+    #ifdef TASK_DEBUG
+        Output.println("<Task: CANBUS dynamo voltage emit>");
+    #endif
+    CanMsg message;
+    message.IDE = CAN_ID_STD;
+    message.RTR = CAN_RTR_DATA;
+    message.ID = CAN_VOLTAGE_DYNAMO;
+    message.DLC = sizeof(double);
+
+    double voltage = power::getVoltage(VOLTAGE_DYNAMO);
+    unsigned char *voltageBytes = reinterpret_cast<unsigned char*>(&voltage);
+    for(uint8 i = 0; i < sizeof(double); i++) {
+        message.Data[i] = voltageBytes[i];
+    }
+
+    CanBus.send(&message);
 }
 
 void tasks::taskCanbusVoltageBatteryAnnounceCallback() {
