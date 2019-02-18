@@ -1399,14 +1399,11 @@ Wire Wire Line
 	4650 2000 4650 1900
 Wire Wire Line
 	4650 1900 5050 1900
-Connection ~ 5100 1900
-Wire Wire Line
-	5100 1900 5050 1900
 Wire Wire Line
 	4350 6150 5300 6150
-Wire Wire Line
-	5050 1900 5350 1900
 Connection ~ 5300 6150
 Wire Wire Line
 	5300 6150 5300 6400
+Wire Wire Line
+	5050 1900 5350 1900
 $EndSCHEMATC
