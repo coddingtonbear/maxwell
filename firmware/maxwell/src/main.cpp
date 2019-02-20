@@ -42,15 +42,13 @@ SdFat filesystem(2);
 
 Logger Log(&filesystem);
 
-RTClock Clock(RTCSEL_LSE);
-
 SPIClass SPIBus(2);
 
 void setup() {
     afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
     iwdg_init(IWDG_PRE_256, 4095);
 
-    util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
+    power::setWake(true);
 
     Output.addInterface(&BTSerial);
     Output.begin(230400, SERIAL_8E1);
@@ -99,16 +97,10 @@ void setup() {
     // Clear reset flags
     RCC_BASE->CSR |= RCC_CSR_RMVF;
 
-    digitalWrite(PIN_CAN_RS, LOW);
-    pinMode(PIN_CAN_RS, OUTPUT);
-    pinMode(PIN_BUZZER, OUTPUT);
-    digitalWrite(PIN_BUZZER, LOW);
     digitalWrite(PIN_BT_KEY, LOW);
     pinMode(PIN_BT_KEY, OUTPUT);
     digitalWrite(PIN_BT_DISABLE_, HIGH);
     pinMode(PIN_BT_DISABLE_, OUTPUT);
-
-    pinMode(PIN_I_POWER_ON, INPUT_PULLUP);
 
     delay(100);
 
@@ -169,6 +161,7 @@ void loopModules() {
     lte::loop();
     neopixel::loop();
     tasks::loop();
+    power::loop();
 
     if(CanBus.available()) {
         CanMsg* canMsg;

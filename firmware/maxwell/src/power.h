@@ -6,6 +6,8 @@
 
 #define SENSE_RESISTOR_VALUE 0.1
 
+#define FORCE_DYNAMO_SRC_AT_VOLTAGE 4.8
+
 #define CHARGING_STATUS_CHARGING_NOW 1
 #define CHARGING_STATUS_SHUTDOWN 3
 
@@ -23,10 +25,14 @@ namespace power {
     };
 
     void init();
+    void loop();
     double getVoltage(uint source);
     double getCurrentUsage();
     uint16_t getAdcValue(uint8_t pin);
     uint8_t getChargingStatus();
+
+    void setWake(bool);
+    void enableAux(bool);
 
     double convertAdcToVoltage(uint32_t value, uint16_t r1, uint16_t r2);
 

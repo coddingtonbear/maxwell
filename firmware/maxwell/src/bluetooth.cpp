@@ -5,8 +5,10 @@
 #include "pin_map.h"
 #include "main.h"
 
-bool bluetoothEnabled = true;
-KeepAlive BluetoothTimeout(BLUETOOTH_TIMEOUT);
+namespace ble {
+    bool bluetoothEnabled = true;
+    KeepAlive BluetoothTimeout(BLUETOOTH_TIMEOUT);
+}
 
 bool ble::bluetoothIsEnabled() {
     return bluetoothEnabled;

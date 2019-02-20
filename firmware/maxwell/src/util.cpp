@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #undef min
 #undef max
-#include <TimerFreeTone.h>
 #include <libmaple/iwdg.h>
 
 #include "util.h"
@@ -10,16 +9,22 @@
 #include "lte.h"
 
 
-void util::beep(uint32_t frequency, uint32_t duration) {
-    TimerFreeTone(PIN_BUZZER, frequency, duration);
-}
-
 void util::safeDelay(uint32_t delaySeconds) {
     uint32_t until = millis() + delaySeconds;
     while(millis() < until) {
         iwdg_feed();
         delay(100);
     }
+}
+
+void util::debug(String message) {
+    #ifdef DEBUG_VIA_UART
+        UART4.print(millis());
+        UART4.print(": ");
+        UART4.println(message);
+        UART4.flush();
+        delay(50);
+    #endif
 }
 
 void util::bridgeUART(HardwareSerial* bridged, uint32_t baud) {
@@ -89,7 +94,7 @@ bool util::syncTimestampWithLTE() {
         return false;
     }
 
-    Clock.setTime(lteTimestamp);
+    //Clock.setTime(lteTimestamp);
 
     return true;
 }

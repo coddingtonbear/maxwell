@@ -1,31 +1,34 @@
 #include "neopixel.h"
 
-WS2812B pixels = WS2812B(NUM_LEDS);
 
-uint32 cycle = LED_CYCLE_OFF;
-uint32 color = pixels.Color(255, 255, 255);
-uint32 secondaryColor = pixels.Color(255, 255, 255);
-uint32 interval = 100;
-uint8_t maxBrightness = 100;
+namespace neopixel {
+    WS2812B pixels = WS2812B(NUM_LEDS);
 
-bool enabled = false;
+    uint32 cycle = LED_CYCLE_OFF;
+    uint32 color = pixels.Color(255, 255, 255);
+    uint32 secondaryColor = pixels.Color(255, 255, 255);
+    uint32 interval = 100;
+    uint8_t maxBrightness = 100;
 
-uint32 offset = 0;
-uint8_t phase = 0;
-uint8_t phaseCount = 0;
-uint8_t segmentSize = 1;
-unsigned long lastCycle = 0;
+    bool enabled = false;
 
-uint32_t colorList[16] = {};
-uint8_t colorListCount = 0;
+    uint32 offset = 0;
+    uint8_t phase = 0;
+    uint8_t phaseCount = 0;
+    uint8_t segmentSize = 1;
+    unsigned long lastCycle = 0;
 
-uint32_t colorTarget[16] = {};
-uint8_t colorTargetCount = 0;
-uint8_t currentColorTarget = 0;
+    uint32_t colorList[16] = {};
+    uint8_t colorListCount = 0;
+
+    uint32_t colorTarget[16] = {};
+    uint8_t colorTargetCount = 0;
+    uint8_t currentColorTarget = 0;
+}
 
 void neopixel::init() {
-    digitalWrite(PIN_ENABLE_GNDPWR, LOW);
-    pinMode(PIN_ENABLE_GNDPWR, OUTPUT);
+    digitalWrite(PIN_ENABLE_NEOPIXEL, LOW);
+    pinMode(PIN_ENABLE_NEOPIXEL, OUTPUT);
     pixels.begin();
 }
 
@@ -110,7 +113,9 @@ void neopixel::setCycle(uint32 _cycle) {
         interval = 25;
     }
 
-    enable(true);
+    if(cycle != LED_CYCLE_OFF) {
+        enable(true);
+    }
 }
 
 void neopixel::setSegmentSize(uint32 _size) {
@@ -290,5 +295,5 @@ void neopixel::loop() {
 
 void neopixel::enable(bool enable) {
     enabled = enable;
-    digitalWrite(PIN_ENABLE_GNDPWR, enabled);
+    digitalWrite(PIN_ENABLE_NEOPIXEL, enabled);
 }

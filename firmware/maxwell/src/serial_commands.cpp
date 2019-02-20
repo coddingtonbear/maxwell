@@ -20,12 +20,22 @@
 #include "util.h"
 #include "tasks.h"
 
-SerialCommand commands(&Output);
-CANCommand canCommands;
+namespace console {
+    SerialCommand commands(&Output);
 
-SdFile openFile;
+    SdFile openFile;
 
-uint8_t testId = 0;
+    uint8_t testId = 0;
+
+    uint8_t getHexFromCommand() {
+        char* byte = commands.next();
+        return strtol(byte, NULL, 16);
+    }
+}
+
+namespace can {
+    CANCommand canCommands;
+}
 
 void console::init() {
     commands.setDefaultHandler(console::unrecognized);
@@ -33,7 +43,6 @@ void console::init() {
 
     commands.addCommand("uptime", console::uptime);
     commands.addCommand("ping", console::hello);
-    commands.addCommand("beep", console::beep);
     commands.addCommand("led", console::led);
     commands.addCommand("bridge_uart", console::bridgeUART);
     commands.addCommand("stats", console::printStatistics);
@@ -86,8 +95,6 @@ void console::init() {
 }
 
 void can::init() {
-    canCommands.addCommand(CAN_CMD_BEEP, can::beep);
-
     canCommands.addCommand(CAN_CMD_LED_CYCLE, can::setLedCycle);
     canCommands.addCommand(CAN_CMD_LED_COLOR, can::setLedColor);
     canCommands.addCommand(CAN_CMD_LED_BRIGHTNESS, can::setLedBrightness);
@@ -110,11 +117,6 @@ void can::init() {
     #ifdef DEBUG_CAN_MESSAGES
         canCommands.setDefaultHandler(can::unrecognized);
     #endif
-}
-
-uint8_t getHexFromCommand() {
-    char* byte = commands.next();
-    return strtol(byte, NULL, 16);
 }
 
 void console::prompt() {
@@ -286,7 +288,7 @@ void console::led() {
         }
     } else if (subcommand == "disable") {
         neopixel::enable(false);
-    } else if (subcommand == "ensable") {
+    } else if (subcommand == "enable") {
         neopixel::enable(true);
     }
 }
@@ -318,34 +320,6 @@ void console::reset() {
 
 void can::reset() {
     nvic_sys_reset();
-}
-
-void console::beep() {
-    int frequency = 554;
-    int duration = 100;
-    
-    char* frequencyString = commands.next();
-    if(frequencyString != NULL) {
-        frequency = atoi(frequencyString);
-    }
-    char* durationString = commands.next();
-    if(durationString != NULL) {
-        duration = atoi(durationString);
-    }
-
-    util::beep(frequency, duration);
-}
-
-void can::beep() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    uint32 frequency = *(reinterpret_cast<uint32*>(&data));
-    uint32 duration = *(
-        reinterpret_cast<uint32*>(&data[4])
-    );
-
-    tone(PIN_BUZZER, frequency, duration);
 }
 
 void console::isChargingNow() {
@@ -808,14 +782,14 @@ void console::setTime() {
     char* timestampBytes = commands.next();
     uint32_t timestamp = atoi(timestampBytes);
 
-    Clock.setTime(timestamp);
+    //Clock.setTime(timestamp);
 }
 
 void console::getTime() {
-    time_t time = Clock.getTime();
+    //time_t time = Clock.getTime();
 
-    Output.print("Current time: ");
-    Output.println(String((uint32)time));
+    //Output.print("Current time: ");
+    //Output.println(String((uint32)time));
 }
 
 void console::getUartRegister() {
@@ -1123,7 +1097,7 @@ void can::setTime() {
 
     time_t timestamp = *(reinterpret_cast<time_t*>(data));
 
-    Clock.setTime(timestamp);
+    //Clock.setTime(timestamp);
 }
 
 void console::repeat() {

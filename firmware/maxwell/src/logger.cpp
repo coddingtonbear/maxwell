@@ -60,7 +60,8 @@ void Logger::log(String message) {
 
     uint8_t clockLength = 10 + 2 + 1;
     char clockBytes[clockLength];
-    sprintf(clockBytes, "%010d: ", Clock.getTime());
+    //sprintf(clockBytes, "%010d: ", Clock.getTime());
+    sprintf(clockBytes, "%010d: ", millis());
 
     uint8_t millisLength = 8 + 2 + 1;
     char millisBytes[millisLength];

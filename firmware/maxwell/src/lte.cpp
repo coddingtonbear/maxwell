@@ -13,29 +13,54 @@
 #include "status.h"
 #include "util.h"
 
+
 AsyncModem::SIM7000 LTE = AsyncModem::SIM7000();
 
-bool lteEnabled = false;
+namespace lte {
+    bool lteEnabled = false;
 
-enum lte_log_status {
-    CONNECTED,
-    DISCONNECTED,
-    UNKNOWN
-};
-enum lte_state {
-    LTE_STATE_NULL,
-    LTE_STATE_OFF,
-    LTE_STATE_PRESSED,
-    LTE_STATE_RELEASED,
-    LTE_STATE_ON,
-};
-lte_state lteTargetStatus = LTE_STATE_NULL;
-lte_state nextLteTargetStatus = LTE_STATE_NULL;
-long minNextLteStatusTransition = 0;
-long maxNextLteStatusTransition = 0;
+    enum lte_log_status {
+        CONNECTED,
+        DISCONNECTED,
+        UNKNOWN
+    };
+    enum lte_state {
+        LTE_STATE_NULL,
+        LTE_STATE_OFF,
+        LTE_STATE_PRESSED,
+        LTE_STATE_RELEASED,
+        LTE_STATE_ON,
+    };
+    lte_state lteTargetStatus = LTE_STATE_NULL;
+    lte_state nextLteTargetStatus = LTE_STATE_NULL;
+    long minNextLteStatusTransition = 0;
+    long maxNextLteStatusTransition = 0;
 
-char connectionStatus[32] = {'\0'};
-time_t millisOffset = 0;
+    char connectionStatus[32] = {'\0'};
+    time_t millisOffset = 0;
+
+    uint8_t lteEnableAttempts = 0;
+
+    void lteEnabledSuccess(MatchState ms) {
+        lteEnabled = true;
+        lteEnableAttempts = 0;
+    }
+
+    void lteEnabledFailure(ManagedSerialDevice::Command* cmd) {
+        lteEnableAttempts++;
+        if(lteEnableAttempts < 3) {
+            LTE.enableGPRS(
+                "hologram",
+                NULL,
+                NULL,
+                lteEnabledSuccess,
+                lteEnabledFailure
+            );
+        } else {
+            lteEnableAttempts = 0;
+        }
+    }
+}
 
 void lte::loop() {
     LTE.loop();
@@ -172,28 +197,6 @@ void lte::togglePower() {
     unpressPowerKey();
 }
 
-uint8_t lteEnableAttempts = 0;
-
-void lteEnabledSuccess(MatchState ms) {
-    lteEnabled = true;
-    lteEnableAttempts = 0;
-}
-
-void lteEnabledFailure(ManagedSerialDevice::Command* cmd) {
-    lteEnableAttempts++;
-    if(lteEnableAttempts < 3) {
-        LTE.enableGPRS(
-            "hologram",
-            NULL,
-            NULL,
-            lteEnabledSuccess,
-            lteEnabledFailure
-        );
-    } else {
-        lteEnableAttempts = 0;
-    }
-}
-
 bool lte::enable(bool _enable) {
     if(_enable) {
         if(!isPoweredOn()) {
@@ -238,7 +241,6 @@ bool lte::enable(bool _enable) {
                     // 10s later, beep to warn
                     if(lte::isPoweredOn()) {
                         for(uint8_t i = 0; i < 10; i++) {
-                            util::beep(CHIRP_INIT_FREQUENCY, CHIRP_INIT_DURATION);
                             delay(100);
                         }
                         Output.println(

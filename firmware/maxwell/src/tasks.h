@@ -26,6 +26,8 @@ namespace tasks {
 
     void enableLTEStatusManager(bool _enable=true);
 
+    void start(String);
+
     void taskVoltageCallback();
     void taskCanbusVoltageBatteryAnnounceCallback();
     void taskCanbusVoltageDynamoAnnounceCallback();

@@ -1,23 +1,20 @@
 #include <PCA9536.h>
 
-#define PIN_BUZZER PA3
-
 //#define PIN_ESP_BOOT_FLASH_ PA1
 //#define PIN_DISABLE_ESP_ PA11
 
 #define PIN_BT_DISABLE_ PC7
 #define PIN_BT_KEY PC6
 
-#define PIN_CAN_RS PB4
-
 #define PIN_SPI_CS_A PA2
 #define PIN_SPI_CS_B PA1
 #define PIN_SPI_CS_C PA0
 
 #define PIN_NEOPIXEL PA7
-#define PIN_ENABLE_GNDPWR PC4
+#define PIN_ENABLE_NEOPIXEL PC4
+#define PIN_ENABLE_AUX PB10
 
-#define PIN_I_POWER_ON PB3
+#define PIN_POWER_ON PB3
 //#define PIN_I_BATT_VOLTAGE PC0
 //#define PIN_I_CURRENT_SENSE PC1
 //#define PIN_I_BATT_CHARGING_ PC2
@@ -31,6 +28,7 @@
 #define PIN_LTE_PWRKEY 4
 
 // EXTERNAL: Power/ADC
+#define PIN_ADC_RECTIFIED_VOLTAGE 0
 #define PIN_ADC_BATT_VOLTAGE 1
 #define PIN_ADC_DYNAMO_VOLTAGE 2
 
@@ -39,8 +37,6 @@
 #define PIN_PWR_I_POWER_SOURCE_INDICATOR IO1
 #define PIN_PWR_I_BATT_CHARGING IO2
 #define PIN_PWR_ENABLE_VREF IO3
-
-#define PIN_I_SPEED PC0
 
 #define BTSerial Serial
 #define UART2 Serial1

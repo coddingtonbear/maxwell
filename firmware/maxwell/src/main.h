@@ -1,6 +1,5 @@
 #pragma once
 
-#include <RTClock.h>
 #include <Arduino.h>
 #include <HashMap.h>
 #include <SdFat.h>
@@ -20,13 +19,14 @@
 #define BLUETOOTH_TIMEOUT 120000
 #define INACTIVITY_SLEEP_DURATION 300000
 
+//#define DEBUG_VIA_UART
+
 void setup();
 void loop();
 void loopModules();
 
 extern MultiSerial Output;
 extern HashMap<String, double> Statistics;
-extern RTClock Clock;
 extern Logger Log;
 extern SdFat filesystem;
 extern SC16IS750 LTEUart;

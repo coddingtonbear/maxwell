@@ -8,8 +8,6 @@ namespace can {
     void init();
     void handle(CANCommand::CANMessage* command);
 
-    void beep();
-
     void setLedCycle();
     void setLedColor();
     void setLedBrightness();
@@ -43,7 +41,6 @@ namespace console {
 
     void uptime();
     void hello();
-    void beep();
     void led();
     void bridgeUART();
     void printStatistics();

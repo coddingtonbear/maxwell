@@ -14,88 +14,109 @@
 #include "bluetooth.h"
 #include "util.h"
 
-uint32 lastStatisticsUpdate = 0;
+namespace tasks {
+    uint32 lastStatisticsUpdate = 0;
 
-Scheduler taskRunner;
+    Scheduler taskRunner;
 
-Task taskVoltage(
-    VOLTAGE_UPDATE_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskVoltageCallback,
-    &taskRunner
-);
-Task taskSpeedRefresh(
-    SPEED_REFRESH_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskSpeedRefreshCallback,
-    &taskRunner
-);
-Task taskCanbusVoltageBatteryAnnounce(
-    CANBUS_VOLTAGE_BATTERY_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskCanbusVoltageBatteryAnnounceCallback,
-    &taskRunner
-);
-Task taskCanbusVoltageDynamoAnnounce(
-    CANBUS_VOLTAGE_DYNAMO_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskCanbusVoltageDynamoAnnounceCallback,
-    &taskRunner
-);
-Task taskCanbusCurrentAnnounce(
-    CANBUS_CURRENT_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskCanbusCurrentAnnounceCallback,
-    &taskRunner
-);
-Task taskCanbusSpeedAnnounce(
-    CANBUS_SPEED_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskCanbusSpeedAnnounceCallback,
-    &taskRunner
-);
-Task taskCanbusLedStatusAnnounce(
-    CANBUS_LED_STATUS_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskCanbusLedStatusAnnounceCallback,
-    &taskRunner
-);
-Task taskLoggerStatsInterval(
-    LOGGER_STATS_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskLoggerStatsIntervalCallback,
-    &taskRunner
-);
-Task taskCanbusEmitStatus(
-    CANBUS_STATUS_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskCanbusStatusIntervalCallback,
-    &taskRunner
-);
-Task taskLTEStatusCollect(
-    LTE_STATUS_COLLECT_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskLTEStatusCollectCallback,
-    &taskRunner
-);
-Task taskLTEStatusEmit(
-    LTE_STATUS_ANNOUNCE_INTERVAL,
-    TASK_FOREVER,
-    &tasks::taskLTEStatusAnnounceCallback,
-    &taskRunner
-);
-Task taskLTEStatusManager(
-    LTE_STATUS_MANAGER,
-    TASK_FOREVER,
-    &tasks::taskLTEStatusManagerCallback,
-    &taskRunner
-);
+    Task taskVoltage(
+        VOLTAGE_UPDATE_INTERVAL,
+        TASK_FOREVER,
+        &tasks::taskVoltageCallback,
+        &taskRunner
+    );
+    Task taskSpeedRefresh(
+        SPEED_REFRESH_INTERVAL,
+        TASK_FOREVER,
+        &tasks::taskSpeedRefreshCallback,
+        &taskRunner
+    );
+    Task taskCanbusVoltageBatteryAnnounce(
+        CANBUS_VOLTAGE_BATTERY_ANNOUNCE_INTERVAL,
+        TASK_FOREVER,
+        &tasks::taskCanbusVoltageBatteryAnnounceCallback,
+        &taskRunner
+    );
+    Task taskCanbusVoltageDynamoAnnounce(
+        CANBUS_VOLTAGE_DYNAMO_ANNOUNCE_INTERVAL,
+        TASK_FOREVER,
+        &tasks::taskCanbusVoltageDynamoAnnounceCallback,
+        &taskRunner
+    );
+    Task taskCanbusCurrentAnnounce(
+        CANBUS_CURRENT_ANNOUNCE_INTERVAL,
+        TASK_FOREVER,
+        &tasks::taskCanbusCurrentAnnounceCallback,
+        &taskRunner
+    );
+    Task taskCanbusSpeedAnnounce(
+        CANBUS_SPEED_ANNOUNCE_INTERVAL,
+        TASK_FOREVER,
+        &tasks::taskCanbusSpeedAnnounceCallback,
+        &taskRunner
+    );
+    Task taskCanbusLedStatusAnnounce(
+        CANBUS_LED_STATUS_ANNOUNCE_INTERVAL,
+        TASK_FOREVER,
+        &tasks::taskCanbusLedStatusAnnounceCallback,
+        &taskRunner
+    );
+    Task taskLoggerStatsInterval(
+        LOGGER_STATS_INTERVAL,
+        TASK_FOREVER,
+        &tasks::taskLoggerStatsIntervalCallback,
+        &taskRunner
+    );
+    Task taskCanbusEmitStatus(
+        CANBUS_STATUS_ANNOUNCE_INTERVAL,
+        TASK_FOREVER,
+        &tasks::taskCanbusStatusIntervalCallback,
+        &taskRunner
+    );
+    Task taskLTEStatusCollect(
+        LTE_STATUS_COLLECT_INTERVAL,
+        TASK_FOREVER,
+        &tasks::taskLTEStatusCollectCallback,
+        &taskRunner
+    );
+    Task taskLTEStatusEmit(
+        LTE_STATUS_ANNOUNCE_INTERVAL,
+        TASK_FOREVER,
+        &tasks::taskLTEStatusAnnounceCallback,
+        &taskRunner
+    );
+    Task taskLTEStatusManager(
+        LTE_STATUS_MANAGER,
+        TASK_FOREVER,
+        &tasks::taskLTEStatusManagerCallback,
+        &taskRunner
+    );
+}
 
 void tasks::init() {
     taskRunner.enableAll();
 
     // This will be automatically enabled when necessary
     taskLTEStatusManager.disable();
+
+    #ifdef TASK_DEBUG
+        UART4.begin(115200);
+    #endif
+}
+
+void tasks::loop() {
+    taskRunner.execute();
+}
+
+void tasks::start(String message) {
+    #ifdef TASK_DEBUG
+        UART4.print("<Task: ");
+        UART4.print(message);
+        UART4.println(">");
+        UART4.flush();
+        
+        delay(50);
+    #endif
 }
 
 void tasks::enableLTEStatusManager(bool _enable) {
@@ -106,14 +127,9 @@ void tasks::enableLTEStatusManager(bool _enable) {
     }
 }
 
-void tasks::loop() {
-    taskRunner.execute();
-}
-
 void tasks::taskCanbusLedStatusAnnounceCallback() {
-    #ifdef TASK_DEBUG
-        Output.println("<Task: LED Status Announce>");
-    #endif
+    tasks::start("LED Status Announce");
+
     LedStatus ledStatus;
     neopixel::getStatus(ledStatus);
 
@@ -155,16 +171,14 @@ void tasks::taskCanbusLedStatusAnnounceCallback() {
 }
 
 void tasks::taskVoltageCallback() {
-    #ifdef TASK_DEBUG
-        Output.println("<Task: Voltage>");
-    #endif
+    tasks::start("Voltage");
+
     power::updatePowerMeasurements();
 }
 
 void tasks::taskCanbusStatusIntervalCallback() {
-    #ifdef TASK_DEBUG
-        Output.println("<Task: CANBUS status emit>");
-    #endif
+    tasks::start("CANBUS status emit");
+
     LedStatus ledStatus;
     neopixel::getStatus(ledStatus);
     uint32 logErrorCode = Log.getErrorCode();
@@ -185,7 +199,7 @@ void tasks::taskCanbusStatusIntervalCallback() {
         status.lte_connected = true;
     }
 
-    status.has_valid_time = (Clock.getTime() > 1000000000);
+    //status.has_valid_time = (Clock.getTime() > 1000000000);
     status.logging_now = !logErrorCode;
     status.logging_lte = (
         ((millis() - status::getLastStatusUpdateTime()) < 60000)
@@ -210,9 +224,8 @@ void tasks::taskCanbusStatusIntervalCallback() {
 }
 
 void tasks::taskCanbusVoltageDynamoAnnounceCallback() {
-    #ifdef TASK_DEBUG
-        Output.println("<Task: CANBUS dynamo voltage emit>");
-    #endif
+    tasks::start("CANBUS dynamo voltage emit");
+
     CanMsg message;
     message.IDE = CAN_ID_STD;
     message.RTR = CAN_RTR_DATA;
@@ -229,9 +242,8 @@ void tasks::taskCanbusVoltageDynamoAnnounceCallback() {
 }
 
 void tasks::taskCanbusVoltageBatteryAnnounceCallback() {
-    #ifdef TASK_DEBUG
-        Output.println("<Task: CANBUS battery voltage emit>");
-    #endif
+    tasks::start("CANBUS battery voltage emit");
+
     CanMsg message;
     message.IDE = CAN_ID_STD;
     message.RTR = CAN_RTR_DATA;
@@ -248,9 +260,8 @@ void tasks::taskCanbusVoltageBatteryAnnounceCallback() {
 }
 
 void tasks::taskCanbusCurrentAnnounceCallback() {
-    #ifdef TASK_DEBUG
-        Output.println("<Task: CANBUS current emit>");
-    #endif
+    tasks::start("CANBUS current emit");
+
     CanMsg message;
     message.IDE = CAN_ID_STD;
     message.RTR = CAN_RTR_DATA;
@@ -268,9 +279,8 @@ void tasks::taskCanbusCurrentAnnounceCallback() {
 
 
 void tasks::taskCanbusSpeedAnnounceCallback() {
-    #ifdef TASK_DEBUG
-        Output.println("<Task: CANBUS speed emit>");
-    #endif
+    tasks::start("CANBUS speed emit");
+
     CanMsg message;
     message.IDE = CAN_ID_STD;
     message.RTR = CAN_RTR_DATA;
@@ -278,9 +288,6 @@ void tasks::taskCanbusSpeedAnnounceCallback() {
     message.DLC = sizeof(double);
 
     double currentSpeedTemp = status::getSpeed();
-    #ifdef TASK_DEBUG
-        Output.println(currentSpeedTemp);
-    #endif
     unsigned char *speedBytes = reinterpret_cast<byte*>(&currentSpeedTemp);
     for(uint8 i = 0; i < sizeof(double); i++) {
         message.Data[i] = speedBytes[i];
@@ -288,39 +295,33 @@ void tasks::taskCanbusSpeedAnnounceCallback() {
     CanBus.send(&message);
 }
 
-void tasks::taskLoggerStatsIntervalCallback()
-{
-    #ifdef TASK_DEBUG
-        Output.println("<Task: Logger stats interval>");
-    #endif
+void tasks::taskLoggerStatsIntervalCallback() {
+    tasks::start("Logger stats interval");
+
     // Nothing for now
 }
 
 void tasks::taskLTEStatusAnnounceCallback() {
-    #ifdef TASK_DEBUG
-        Output.println("<Task: LTE Logger Emit>");
-    #endif
+    tasks::start("LTE logger emit");
+
     status::sendStatusUpdate();
 }
 
 void tasks::taskLTEStatusManagerCallback() {
-    #ifdef TASK_DEBUG
-        Output.println("<Task: LTE Status Manager Iteration>");
-    #endif
+    tasks::start("LTE status manager iteration");
+
     lte::asyncManagerLoop();
 }
 
 void tasks::taskSpeedRefreshCallback() {
-    #ifdef TASK_DEBUG
-        Output.println("<Task: Recalculate Velocity>");
-    #endif
+    tasks::start("Recalculate velocity");
+
     status::refreshSpeed();
 }
 
 void tasks::taskLTEStatusCollectCallback() {
-    #ifdef TASK_DEBUG
-        Output.println("<Task: LTE Status Collection>");
-    #endif
+    tasks::start("LTE status collection");
+
     if(lte::isEnabled()){
         lte::collectStatusInformation();
     }

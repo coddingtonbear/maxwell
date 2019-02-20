@@ -131,11 +131,13 @@ bool status::sendStatusUpdate() {
         "velocity",
         String(currentSpeedMph.getValue()).c_str()
     );
+    /*
     appendStatusUpdateLine(
         statusUpdate,
         "timestamp",
         String((uint32_t)Clock.getTime()).c_str()
     );
+    */
     appendStatusUpdateLine(
         statusUpdate,
         "uptime",
