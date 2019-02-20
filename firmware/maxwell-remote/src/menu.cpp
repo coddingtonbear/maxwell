@@ -275,6 +275,12 @@ MenuItem powerMenu("Power", &powerMenuList);
                         }
                     ),
                     MenuItem(
+                        "Off",
+                        []() -> void {
+                            setLightingCycle(LED_CYCLE_OFF);
+                        }
+                    ),
+                    MenuItem(
                         "Random",
                         []() -> void {
                             setLightingCycle(LED_CYCLE_RANDOM);

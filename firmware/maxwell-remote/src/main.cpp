@@ -134,6 +134,9 @@ void setup() {
 
     setupCommands();
     commandPrompt();
+
+    // This is the button we used to turn the device on
+    buttonLeftA.ignoreNextChange();
 }
 
 void taskUpdateDisplayCallback() {
