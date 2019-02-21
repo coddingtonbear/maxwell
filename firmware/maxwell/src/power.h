@@ -1,12 +1,14 @@
 #pragma once
+#include <PCA9536.h>
 
+#define VOLTAGE_RECTIFIED 0
 #define VOLTAGE_DYNAMO 1
 #define VOLTAGE_BATTERY 2
-#define VOLTAGE_SENSE 3
 
 #define SENSE_RESISTOR_VALUE 0.1
 
-#define FORCE_DYNAMO_SRC_AT_VOLTAGE 4.8
+#define FORCE_DYNAMO_SRC_AT_VOLTAGE_PCT_MAX 0.98
+#define FORCE_DYNAMO_SRC_AT_VOLTAGE_PCT_MIN 0.95
 
 #define CHARGING_STATUS_CHARGING_NOW 1
 #define CHARGING_STATUS_SHUTDOWN 3
@@ -30,6 +32,9 @@ namespace power {
     double getCurrentUsage();
     uint16_t getAdcValue(uint8_t pin);
     uint8_t getChargingStatus();
+
+    uint8_t getPowerIOComResult();
+    uint8_t getPowerIOState(Pca9536::pin_t pin);
 
     void setWake(bool);
     void enableAux(bool);

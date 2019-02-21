@@ -66,15 +66,16 @@ void power::setWake(bool enable) {
 
 void power::loop() {
     double voltage = rectifiedVoltage.getValue();
+    double battery = batteryVoltage.getValue();
     if(
-        voltage > FORCE_DYNAMO_SRC_AT_VOLTAGE &&
+        voltage > (FORCE_DYNAMO_SRC_AT_VOLTAGE_PCT_MAX * battery) &&
         currentPowerSource == PowerSource::battery &&
         !batterySrcDisabled
     ) {
         powerIo.setState(PIN_PWR_DISABLE_BATTERY_SRC, IO_HIGH);
         batterySrcDisabled = true;
     } else if (
-        voltage < FORCE_DYNAMO_SRC_AT_VOLTAGE &&
+        voltage < (FORCE_DYNAMO_SRC_AT_VOLTAGE_PCT_MIN * battery) &&
         batterySrcDisabled
      ) {
         powerIo.setState(PIN_PWR_DISABLE_BATTERY_SRC, IO_LOW);
@@ -169,6 +170,9 @@ double power::getVoltage(uint source) {
     double result = 0;
 
     switch(source) {
+        case VOLTAGE_RECTIFIED:
+            result = rectifiedVoltage.getValue();
+            break;
         case VOLTAGE_BATTERY:
             result = batteryVoltage.getValue();
             break;
@@ -232,6 +236,14 @@ power::PowerSource power::getPowerSource() {
     }
     Statistics.put("Power Source", (double)source);
     return source;
+}
+
+uint8_t power::getPowerIOState(Pca9536::pin_t pin) {
+    return powerIo.getState(pin);
+}
+
+uint8_t power::getPowerIOComResult() {
+    return powerIo.getComResult();
 }
 
 void power::sleep() {

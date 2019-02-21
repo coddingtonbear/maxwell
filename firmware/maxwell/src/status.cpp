@@ -183,6 +183,11 @@ bool status::sendStatusUpdate() {
     );
     appendStatusUpdateLine(
         statusUpdate,
+        "power.rectified_voltage",
+        String(power::getVoltage(VOLTAGE_RECTIFIED)).c_str()
+    );
+    appendStatusUpdateLine(
+        statusUpdate,
         "power.current_amps",
         String(power::getCurrentUsage()).c_str()
     );

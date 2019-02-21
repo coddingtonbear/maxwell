@@ -51,6 +51,7 @@ void console::init() {
     commands.addCommand("voltage", console::voltageMeasurement);
     commands.addCommand("charging_status", console::isChargingNow);
     commands.addCommand("current", console::currentUsage);
+    commands.addCommand("get_power_io_pin_state", console::getPowerIOPinState);
 
     commands.addCommand("sleep", console::sleep);
     commands.addCommand("btcmd", console::bleCmd);
@@ -117,6 +118,37 @@ void can::init() {
     #ifdef DEBUG_CAN_MESSAGES
         canCommands.setDefaultHandler(can::unrecognized);
     #endif
+}
+
+void console::getPowerIOPinState() {
+    Pca9536::pin_t pin;
+
+    char* subcommandBytes = commands.next();
+    if(subcommandBytes == NULL) {
+        Output.println("Pin number required.");
+        return;
+    }
+
+    String pinId = String(subcommandBytes);
+    if(pinId == "0") {
+        pin = IO0;
+    } else if(pinId == "1") {
+        pin = IO1;
+    } else if(pinId == "2") {
+        pin = IO2;
+    } else if(pinId == "3") {
+        pin = IO3;
+    } else {
+        Output.println("Valid pins are 0-3.");
+        return;
+    }
+
+    if(power::getPowerIOComResult()) {
+        Output.print("Error code: ");
+        Output.println(power::getPowerIOComResult());
+    } else {
+        Output.println(power::getPowerIOState(pin));
+    }
 }
 
 void console::prompt() {
@@ -344,8 +376,10 @@ void console::voltageMeasurement() {
 
     if(source == "battery") {
         Output.println(power::getVoltage(VOLTAGE_BATTERY), 6);
-    } else if(source == "sense") {
-        Output.println(power::getVoltage(VOLTAGE_SENSE), 6);
+    } else if(source == "dynamo") {
+        Output.println(power::getVoltage(VOLTAGE_DYNAMO), 6);
+    } else if(source == "rectified") {
+        Output.println(power::getVoltage(VOLTAGE_RECTIFIED), 6);
     } else {
         Output.println("Unknown source: " + source);
     }

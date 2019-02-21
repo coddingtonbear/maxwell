@@ -49,6 +49,7 @@ namespace console {
     void voltageMeasurement();
     void isChargingNow();
     void currentUsage();
+    void getPowerIOPinState();
 
     void sleep();
     void bleCmd();

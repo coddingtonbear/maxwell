@@ -8,8 +8,8 @@
 #define CAN_MAIN_MC_FLASH_BEGIN 0x32
 
 #define CAN_VOLTAGE_BATTERY 0x040  // double
-#define CAN_VOLTAGE_DYNAMO 0x041  // double  (NOT USED)
-#define CAN_VOLTAGE_SENSE 0x042  // double
+#define CAN_VOLTAGE_DYNAMO 0x041  // double
+#define CAN_VOLTAGE_RECTIFIED 0x042  // double
 #define CAN_VELOCITY 0x43  // double
 #define CAN_AMPS_CURRENT 0x44  // double
 #define CAN_CHARGING_STATUS 0x45  // byte
