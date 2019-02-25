@@ -1,3 +1,0 @@
-(sym_lib_table
-  (lib (name maxwell-remote-2-rescue)(type Legacy)(uri ${KIPRJMOD}/maxwell-remote-2-rescue.lib)(options "")(descr ""))
-)
