@@ -1111,17 +1111,6 @@ Wire Wire Line
 Connection ~ 5600 3600
 Wire Wire Line
 	5600 3600 5600 4250
-$Comp
-L Device:Q_PMOS_GSD Q5
-U 1 1 5C9FCE95
-P 7650 4500
-F 0 "Q5" V 7900 4500 50  0000 C CNN
-F 1 "NTR1P02TI" V 7991 4500 50  0000 C CNN
-F 2 "coddingtonbear:SOT-23_LargePads" H 7850 4600 50  0001 C CNN
-F 3 "~" H 7650 4500 50  0001 C CNN
-	1    7650 4500
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	7850 4600 8250 4600
 Text GLabel 7650 4300 0    50   BiDi ~ 0
@@ -1133,4 +1122,15 @@ Wire Wire Line
 Wire Wire Line
 	7050 4200 7050 4600
 Connection ~ 7050 4600
+$Comp
+L Device:Q_NMOS_GSD Q5
+U 1 1 5CA10F3A
+P 7650 4500
+F 0 "Q5" V 7900 4500 50  0000 C CNN
+F 1 "BSS138P" V 7991 4500 50  0000 C CNN
+F 2 "coddingtonbear:SOT-23_LargePads" H 7850 4600 50  0001 C CNN
+F 3 "~" H 7650 4500 50  0001 C CNN
+	1    7650 4500
+	0    -1   1    0   
+$EndComp
 $EndSCHEMATC
