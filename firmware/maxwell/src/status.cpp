@@ -3,6 +3,7 @@
 #undef max
 #include <ArduinoJson.h>
 #include <RollingAverage.h>
+#include <MCP79412RTC.h>
 
 #include "main.h"
 #include "power.h"
@@ -36,6 +37,17 @@ void status::init() {
     Wire.write(0x0);
     Wire.write(0x0);
     Wire.endTransmission();
+
+    time_t powerFailed, powerReturned;
+    if(Clock.powerFail(&powerFailed, &powerReturned)) {
+        Output.println(
+            "Warning: Power has failed since last boot!"
+        );
+    }
+
+    Clock.out(LOW);
+    Clock.alarmPolarity(HIGH);
+    Clock.vbaten(true);
 }
 
 uint16_t status::getSpeedCounter() {
@@ -131,13 +143,11 @@ bool status::sendStatusUpdate() {
         "velocity",
         String(currentSpeedMph.getValue()).c_str()
     );
-    /*
     appendStatusUpdateLine(
         statusUpdate,
         "timestamp",
-        String((uint32_t)Clock.getTime()).c_str()
+        String((uint32_t)Clock.get()).c_str()
     );
-    */
     appendStatusUpdateLine(
         statusUpdate,
         "uptime",

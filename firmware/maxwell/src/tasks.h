@@ -3,6 +3,7 @@
 // These are semi-random to make sure they don't collide too often
 #define LOGGER_STATS_INTERVAL 10000
 #define SPEED_REFRESH_INTERVAL 500
+#define CANBUS_TIMESTAMP_ANNOUNCE_INTERVAL 2224
 #define CANBUS_VOLTAGE_BATTERY_ANNOUNCE_INTERVAL 3111
 #define CANBUS_VOLTAGE_DYNAMO_ANNOUNCE_INTERVAL 3204
 #define CANBUS_CURRENT_ANNOUNCE_INTERVAL 3313
@@ -31,6 +32,7 @@ namespace tasks {
     void taskVoltageCallback();
     void taskCanbusVoltageBatteryAnnounceCallback();
     void taskCanbusVoltageDynamoAnnounceCallback();
+    void taskCanbusTimestampAnnounceCallback();
     void taskCanbusCurrentAnnounceCallback();
     void taskCanbusSpeedAnnounceCallback();
     void taskCanbusLedStatusAnnounceCallback();

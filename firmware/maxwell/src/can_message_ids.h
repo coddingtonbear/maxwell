@@ -15,9 +15,10 @@
 #define CAN_CHARGING_STATUS 0x45  // byte
 #define CAN_LED_STATUS 0x46  // CANLedStatus
 #define CAN_LED_STATUS_COLOR 0x47  // CANLedStatusColor
-#define CAN_CURRENT_TIMESTAMP 0x48 // time_t
+#define CAN_CURRENT_TIMESTAMP 0x48 // time_t (GPS->all)
 #define CAN_STATUS_MAIN_MC 0x49  // CANStatusMainMC
 #define CAN_GPS_POSITION 0x4A  // CANGpsPosition
+#define CAN_TIMESTAMP_ANNOUNCE 0x4B // time_t (uC->all)
 
 // Commands
 #define CAN_CMD_MAIN_MC_RESET 0xA0

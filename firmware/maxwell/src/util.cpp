@@ -2,6 +2,7 @@
 #undef min
 #undef max
 #include <libmaple/iwdg.h>
+#include <MCP79412RTC.h>
 
 #include "util.h"
 #include "pin_map.h"
@@ -94,7 +95,7 @@ bool util::syncTimestampWithLTE() {
         return false;
     }
 
-    //Clock.setTime(lteTimestamp);
+    Clock.set(lteTimestamp);
 
     return true;
 }

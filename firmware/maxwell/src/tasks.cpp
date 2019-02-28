@@ -3,6 +3,7 @@
 #undef max
 #include <TaskScheduler.h>
 #include <libmaple/iwdg.h>
+#include <MCP79412RTC.h>
 
 #include "tasks.h"
 #include "can.h"
@@ -29,6 +30,12 @@ namespace tasks {
         SPEED_REFRESH_INTERVAL,
         TASK_FOREVER,
         &tasks::taskSpeedRefreshCallback,
+        &taskRunner
+    );
+    Task taskCanbusTimestampAnnounce(
+        CANBUS_TIMESTAMP_ANNOUNCE_INTERVAL,
+        TASK_FOREVER,
+        &tasks::taskCanbusTimestampAnnounceCallback,
         &taskRunner
     );
     Task taskCanbusVoltageBatteryAnnounce(
@@ -127,6 +134,24 @@ void tasks::enableLTEStatusManager(bool _enable) {
     }
 }
 
+void tasks::taskCanbusTimestampAnnounceCallback() {
+    tasks::start("Timestamp Announce");
+    CanMsg output;
+    output.IDE = CAN_ID_STD;
+    output.RTR = CAN_RTR_DATA;
+    output.ID = CAN_TIMESTAMP_ANNOUNCE;
+    output.DLC = sizeof(time_t);
+
+    time_t time = Clock.get();
+
+    unsigned char *outputBytes = reinterpret_cast<unsigned char *>(&time);
+    for(uint8_t i = 0; i < sizeof(time); i++) {
+        output.Data[i] = outputBytes[i];
+    }
+
+    CanBus.send(&output);
+}
+
 void tasks::taskCanbusLedStatusAnnounceCallback() {
     tasks::start("LED Status Announce");
 
@@ -199,7 +224,7 @@ void tasks::taskCanbusStatusIntervalCallback() {
         status.lte_connected = true;
     }
 
-    //status.has_valid_time = (Clock.getTime() > 1000000000);
+    status.has_valid_time = (Clock.get() > 1000000000);
     status.logging_now = !logErrorCode;
     status.logging_lte = (
         ((millis() - status::getLastStatusUpdateTime()) < 60000)

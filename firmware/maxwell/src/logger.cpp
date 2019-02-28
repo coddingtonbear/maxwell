@@ -2,6 +2,7 @@
 #include <SPI.h>
 #include <SdFat.h>
 #include <HardwareCAN.h>
+#include <MCP79412RTC.h>
 
 #include "logger.h"
 #include "main.h"
@@ -60,7 +61,7 @@ void Logger::log(String message) {
 
     uint8_t clockLength = 10 + 2 + 1;
     char clockBytes[clockLength];
-    //sprintf(clockBytes, "%010d: ", Clock.getTime());
+    sprintf(clockBytes, "%010d: ", Clock.get());
     sprintf(clockBytes, "%010d: ", millis());
 
     uint8_t millisLength = 8 + 2 + 1;

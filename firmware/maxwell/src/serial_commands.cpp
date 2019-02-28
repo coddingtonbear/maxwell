@@ -6,6 +6,7 @@
 #include <CANCommand.h>
 #include <ArduinoSort.h>
 #include <SdFat.h>
+#include <MCP79412RTC.h>
 
 #include "can.h"
 #include "main.h"
@@ -816,14 +817,22 @@ void console::setTime() {
     char* timestampBytes = commands.next();
     uint32_t timestamp = atoi(timestampBytes);
 
-    //Clock.setTime(timestamp);
+    Clock.set(timestamp);
 }
 
 void console::getTime() {
-    //time_t time = Clock.getTime();
-
-    //Output.print("Current time: ");
-    //Output.println(String((uint32)time));
+    time_t time = Clock.get();
+    Output.print("Current time: ");
+    Output.println(String((uint32)time));
+    if(! Clock.isRunning()) {
+        Output.println("Warning: Oscillator is not running!");
+    }
+    Clock.sramWrite(24, 0x24);
+    if(Clock.sramRead(24) != 0x24) {
+        Output.print("Error: Could not reliably ");
+        Output.print("read/write to RTC SRAM. Is it ");
+        Output.println("actually connected?");
+    }
 }
 
 void console::getUartRegister() {
