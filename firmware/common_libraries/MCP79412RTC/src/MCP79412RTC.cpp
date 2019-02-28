@@ -642,5 +642,5 @@ uint8_t __attribute__ ((noinline)) MCP79412RTC::bcd2dec(uint8_t n)
     return n - 6 * (n >> 4);
 }
 
-MCP79412RTC RTC = MCP79412RTC();    //instantiate an RTC object
+MCP79412RTC Clock = MCP79412RTC();    //instantiate an RTC object
 

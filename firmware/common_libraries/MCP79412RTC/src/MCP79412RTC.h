@@ -127,7 +127,7 @@ class MCP79412RTC
         static uint8_t bcd2dec(uint8_t num);
 };
 
-extern MCP79412RTC RTC;
+extern MCP79412RTC Clock;
 
 #endif
 
