@@ -271,10 +271,32 @@ void DisplayManager::refresh() {
         if(autosleep && !sleeping) {
             sleep();
         }
+        int width;
 
-        String velocity = "--";
         display.setFont(LARGE_DISPLAY_FONT);
-        display.setCursor(0, DISPLAY_HEIGHT - 1 - 17);
+        time_t localTime = Clock.TimeZone(
+            Clock.getTime(),
+            UTC_OFFSET
+        );
+        String currentTime = "";
+        char minutes[5];
+        sprintf(minutes, "%02d", Clock.minute(localTime));
+        if(statusIsAvailable) {
+            currentTime = (
+                String(Clock.hour(localTime))
+                + ":"
+                + String(minutes)
+            );
+        }
+        width = display.getStrWidth(currentTime.c_str());
+        display.setCursor(
+            (DISPLAY_WIDTH - width - 1) / 2,
+            DISPLAY_HEIGHT - 1 - 17
+        );
+        display.println(currentTime);
+
+        display.setFont(SMALL_DISPLAY_FONT);
+        String velocity = "";
         if(statusIsAvailable) {
             velocity = String(
                 getDoubleStatusParameter(
@@ -283,31 +305,15 @@ void DisplayManager::refresh() {
                 1
             );
         }
-        int width = display.getStrWidth(velocity.c_str());
-        display.setCursor(
-            (DISPLAY_WIDTH - width - 1) / 2,
-            DISPLAY_HEIGHT - 1 - 17
-        );
-        display.println(velocity);
-
-        display.setFont(SMALL_DISPLAY_FONT);
-        time_t localTime = Clock.TimeZone(
-            Clock.getTime(),
-            UTC_OFFSET
-        );
-        char minutes[5];
-        sprintf(minutes, "%02d", Clock.minute(localTime));
-        String currentTime = (
-            String(Clock.hour(localTime))
-            + ":"
-            + String(minutes)
-        );
-        width = display.getStrWidth(currentTime.c_str());
+        velocity += "mph";
+        width = display.getStrWidth(velocity.c_str());
         display.setCursor(
             (DISPLAY_WIDTH - width - 1) / 2,
             SMALL_DISPLAY_FONT_HEIGHT + 1
         );
-        display.println(currentTime);
+        display.println(velocity);
+
+
     }
     display.setFont(SMALL_DISPLAY_FONT);
 
