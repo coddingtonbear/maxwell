@@ -27,9 +27,6 @@ void setStatusParameter(uint32 canMsgId, double value) {
         case CAN_VOLTAGE_DYNAMO:
             voltageDynamo = value;
             break;
-        case CAN_VOLTAGE_SENSE:
-            voltageSense = value;
-            break;
         case CAN_AMPS_CURRENT:
             current = value;
             break;
@@ -54,9 +51,6 @@ double getDoubleStatusParameter(uint32 canMsgId) {
             break;
         case CAN_VOLTAGE_DYNAMO:
             returnValue = voltageDynamo;
-            break;
-        case CAN_VOLTAGE_SENSE:
-            returnValue = voltageSense;
             break;
         case CAN_AMPS_CURRENT:
             returnValue = current;

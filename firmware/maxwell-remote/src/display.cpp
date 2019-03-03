@@ -313,17 +313,15 @@ void DisplayManager::refresh() {
 
     /* Display alert if necessary */
     if(currentAlertEnd > 0 && currentAlertEnd > millis()) {
-        /*
         display.setDrawColor(1);
         display.drawLine(0, 0, 128, 0);
         display.drawLine(0, 47, 128, 47);
         display.setDrawColor(0);
         display.drawBox(0, 1, 128, 46);
-
         display.setCursor(0, 2 + FONT_HEIGHT);
 
+        display.setDrawColor(1);
         display.println(currentAlert);
-        */
     }
 
     /* Display Status Information */

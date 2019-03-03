@@ -56,7 +56,7 @@ SC16IS750 AlternateUart = SC16IS750(
     14745600UL
 );
 
-RTClock Clock(RTCSEL_LSE);
+RTClock Clock(RTCSEL_HSE);
 
 void setup() {
     iwdg_init(IWDG_PRE_256, 4095);
@@ -75,13 +75,12 @@ void setup() {
 
     delay(250);
 
-    Output.println("[Maxwell Remote 1.0]");
+    Output.println("[Maxwell Remote 2.0]");
 
     digitalWrite(BT_KEY, LOW);
     pinMode(BT_KEY, OUTPUT);
     digitalWrite(BT_DISABLE_, HIGH);
     pinMode(BT_DISABLE_, OUTPUT);
-    pinMode(CAN_RS, INPUT);
 
     pinMode(BACKLIGHT_ON_, OUTPUT);
     digitalWrite(SPI_CS2, HIGH);
@@ -99,8 +98,6 @@ void setup() {
     // Wake main microcontroller
     digitalWrite(WAKE, HIGH);
     pinMode(WAKE, OUTPUT);
-    delay(100);
-    pinMode(WAKE, INPUT);
 
     // Setup buttons
     pinMode(RIGHT_A, OUTPUT);
@@ -241,7 +238,8 @@ void enableCanDebug(bool enable) {
 }
 
 void sleep() {
-    Output.end();
+    Display.addAlert("Sleeping now...");
+    Display.refresh();
 
     CanMsg message;
     message.IDE = CAN_ID_STD;
@@ -249,38 +247,22 @@ void sleep() {
     message.ID = CAN_CMD_MAIN_MC_SLEEP;
     message.DLC = 0;
     CanBus.send(&message);
-    delay(100);
+    delay(500);
     CanBus.end();
-
-    // Let's sleep the GPS
-    gpsSleep();
-    GPSUart.flush();
-    GPSUart.sleep();
-    // Disable Screen
-    Display.sleep();
-    // Float all GPIOs
-    setGPIOModeToAllPins(GPIO_INPUT_FLOATING);
-    // Disable the CAN Transceiver
-    pinMode(CAN_RS, OUTPUT);
-    digitalWrite(CAN_RS, HIGH);
     // Disable Bluetooth
-    pinMode(BT_DISABLE_, OUTPUT);
     digitalWrite(BT_DISABLE_, LOW);
-    // Wake for left A button
-    pinMode(LEFT_A, INPUT_PULLUP);
-    attachInterrupt(LEFT_A, nvic_sys_reset, FALLING);
-    // Or when the microcontroller wake line rises
-    pinMode(WAKE, INPUT_PULLDOWN);
-    attachInterrupt(WAKE, nvic_sys_reset, RISING);
+    pinMode(BT_DISABLE_, OUTPUT);
     // Disable screen backlight
     digitalWrite(BACKLIGHT_ON_, HIGH);
     pinMode(BACKLIGHT_ON_, OUTPUT);
+    // Pull down the 'WAKE' line
+    digitalWrite(WAKE, LOW);
+    pinMode(WAKE, OUTPUT);
+
+    Output.end();
+
     delay(500);
     systick_disable();
     adc_disable_all();
     disableAllPeripheralClocks();
-    while(true) {
-        iwdg_feed();
-        sleepAndWakeUp(STOP, &Clock, 14);
-    }
 }

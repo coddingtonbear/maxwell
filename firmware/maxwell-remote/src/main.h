@@ -13,12 +13,10 @@
 #define LONG_PRESS_TIMEOUT 2000
 #define LONG_PRESS_INTERVAL 500
 
-#define BT_DISABLE_ PA2
-#define BT_KEY PA1
+#define BT_DISABLE_ PA11
+#define BT_KEY PA8
 
 #define WAKE PB0
-
-#define CAN_RS PA8
 
 #define RIGHT_A PA5
 #define RIGHT_B PA4

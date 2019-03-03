@@ -235,10 +235,6 @@ MenuItem statsMenu("Stats", &statsMenuList);
                 &autosleepMenuList
             ),
             MenuItem(
-                "Wake Base",
-                wake
-            ),
-            MenuItem(
                 "Reset",
                 reset
             )

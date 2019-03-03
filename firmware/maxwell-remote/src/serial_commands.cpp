@@ -42,9 +42,7 @@ void setupCommands() {
     commands.addCommand("reset", reset);
     commands.addCommand("flash", flash);
     commands.addCommand("beep", beep);
-    commands.addCommand("wake", wake);
     commands.addCommand("backlight", backlight);
-    commands.addCommand("unWake", wake);
     commands.addCommand("sleep", sleep);
     commands.addCommand("uptime", uptime);
     commands.addCommand("btcmd", bluetooth);
@@ -79,6 +77,8 @@ void setupCommands() {
     canCommands.addCommand(CAN_VOLTAGE_BATTERY, receiveCanDouble);
     canCommands.addCommand(CAN_AMPS_CURRENT, receiveCanDouble);
     canCommands.addCommand(CAN_STATUS_MAIN_MC, canReceiveStatus);
+
+    canCommands.addCommand(CAN_TIMESTAMP_ANNOUNCE, receiveUpdatedTimestamp);
 }
 
 void bluetooth() {
@@ -287,13 +287,6 @@ void unrecognized(const char *command) {
 
 void uptime() {
     Output.println(millis());
-}
-
-void wake() {
-    pinMode(WAKE, OUTPUT);
-    digitalWrite(WAKE, HIGH);
-    delay(1000);
-    pinMode(WAKE, INPUT);
 }
 
 void cmdSleep() {
@@ -764,6 +757,15 @@ void sendUpdatedTimestamp() {
     }
 
     CanBus.send(&output);
+}
+
+void receiveUpdatedTimestamp() {
+    static uint8_t data[8];
+    canCommands.getData(data);
+
+    time_t timestamp = *(reinterpret_cast<time_t*>(data));
+
+    Clock.setTime(timestamp);
 }
 
 void sendUpdatedGpsPosition() {
