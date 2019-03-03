@@ -1140,7 +1140,7 @@ void can::setTime() {
 
     time_t timestamp = *(reinterpret_cast<time_t*>(data));
 
-    //Clock.setTime(timestamp);
+    Clock.set(timestamp);
 }
 
 void console::repeat() {
