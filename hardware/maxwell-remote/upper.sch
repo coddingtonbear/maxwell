@@ -1,6 +1,5 @@
 EESchema Schematic File Version 4
 LIBS:maxwell-remote-cache
-LIBS:maxwell-remote-2-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
@@ -799,10 +798,8 @@ F 3 "~" H 8050 3700 50  0001 C CNN
 	1    8050 3700
 	0    1    -1   0   
 $EndComp
-Text GLabel 7950 3900 0    50   Input ~ 0
+Text GLabel 7750 3900 0    50   Input ~ 0
 ~ENABLE_SCREEN_U
-Wire Wire Line
-	8050 3900 7950 3900
 $Comp
 L power:+BATT #PWR0144
 U 1 1 5C85EF03
@@ -815,7 +812,7 @@ F 3 "" H 7450 3600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	7850 3600 7450 3600
+	7850 3600 7800 3600
 Wire Wire Line
 	8800 3600 8250 3600
 $Comp
@@ -1089,7 +1086,7 @@ Wire Wire Line
 Wire Wire Line
 	6200 4350 6200 4650
 Wire Wire Line
-	6200 4650 5450 4650
+	6200 4650 5700 4650
 Connection ~ 6200 4350
 Wire Wire Line
 	5600 3550 5600 3600
@@ -1133,4 +1130,54 @@ F 3 "~" H 7650 4500 50  0001 C CNN
 	1    7650 4500
 	0    -1   1    0   
 $EndComp
+Text Label 5650 4650 0    50   ~ 0
+PDOWN_PU
+$Comp
+L Device:C_Small C12
+U 1 1 5CA289C7
+P 5700 4850
+F 0 "C12" H 5792 4896 50  0000 L CNN
+F 1 "2u" H 5792 4805 50  0000 L CNN
+F 2 "coddingtonbear:0805_Milling" H 5700 4850 50  0001 C CNN
+F 3 "~" H 5700 4850 50  0001 C CNN
+	1    5700 4850
+	1    0    0    -1  
+$EndComp
+$Comp
+L coddingtonbear:GND_B #PWR0145
+U 1 1 5CA28A63
+P 5700 5000
+F 0 "#PWR0145" H 5700 4750 50  0001 C CNN
+F 1 "GND_B" H 5705 4827 50  0000 C CNN
+F 2 "" H 5700 5000 50  0001 C CNN
+F 3 "" H 5700 5000 50  0001 C CNN
+	1    5700 5000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5700 5000 5700 4950
+Wire Wire Line
+	5700 4750 5700 4650
+Connection ~ 5700 4650
+Wire Wire Line
+	5700 4650 5450 4650
+$Comp
+L Device:R R18
+U 1 1 5CA31DAF
+P 7800 3750
+F 0 "R18" H 7600 3800 50  0000 L CNN
+F 1 "10k" H 7650 3700 50  0000 L CNN
+F 2 "coddingtonbear:0805_Milling" V 7730 3750 50  0001 C CNN
+F 3 "~" H 7800 3750 50  0001 C CNN
+	1    7800 3750
+	1    0    0    -1  
+$EndComp
+Connection ~ 7800 3600
+Wire Wire Line
+	7800 3600 7450 3600
+Wire Wire Line
+	7800 3900 8050 3900
+Wire Wire Line
+	7750 3900 7800 3900
+Connection ~ 7800 3900
 $EndSCHEMATC
