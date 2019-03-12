@@ -1140,7 +1140,11 @@ void can::setTime() {
 
     time_t timestamp = *(reinterpret_cast<time_t*>(data));
 
-    Clock.set(timestamp);
+    if(timestamp > 2000000000 || timestamp < 1000000000) {
+        Log.log("Error: received erroneous CAN timestamp: " + String((int)timestamp));
+    } else {
+        Clock.set(timestamp);
+    }
 }
 
 void console::repeat() {

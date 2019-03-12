@@ -11,6 +11,4 @@ namespace util {
     void bridgeUART(HardwareSerial*, uint32_t);
     void bridgeUART(SC16IS750*);
     HardwareSerial* uartNumberToInterface(uint32_t);
-
-    bool syncTimestampWithLTE();
 };

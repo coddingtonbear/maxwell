@@ -22,7 +22,6 @@ namespace lte {
     bool isPoweredOn();
     bool isEnabled();
 
-    bool refreshTimestamp();
     time_t getTimestamp();
     AsyncModem::SIM7000::NETWORK_STATUS getNetworkStatus();
     bool collectStatusInformation();
