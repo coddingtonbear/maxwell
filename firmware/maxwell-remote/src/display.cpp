@@ -304,8 +304,8 @@ void DisplayManager::refresh() {
                 ),
                 1
             );
+            velocity += "mph";
         }
-        velocity += "mph";
         width = display.getStrWidth(velocity.c_str());
         display.setCursor(
             (DISPLAY_WIDTH - width - 1) / 2,

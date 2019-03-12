@@ -59,11 +59,16 @@ SC16IS750 AlternateUart = SC16IS750(
 RTClock Clock(RTCSEL_HSE);
 
 void setup() {
-    iwdg_init(IWDG_PRE_256, 4095);
+    // Wake main microcontroller
+    digitalWrite(WAKE, HIGH);
+    pinMode(WAKE, OUTPUT);
 
     // Disable JTAG port; we're using JNRST for
     // display control.
     afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
+
+    // Init watchdog timer
+    iwdg_init(IWDG_PRE_256, 4095);
 
     // Remap SPI pins to the alternate set
     afio_remap(AFIO_REMAP_SPI1);
@@ -94,10 +99,6 @@ void setup() {
     buttonRightB.begin();
     buttonLeftA.begin();
     buttonLeftB.begin();
-
-    // Wake main microcontroller
-    digitalWrite(WAKE, HIGH);
-    pinMode(WAKE, OUTPUT);
 
     // Setup buttons
     pinMode(RIGHT_A, OUTPUT);
