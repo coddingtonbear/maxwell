@@ -45,10 +45,10 @@ Logger Log(&filesystem);
 SPIClass SPIBus(2);
 
 void setup() {
+    power::setWake(true);
+
     afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY);
     iwdg_init(IWDG_PRE_256, 4095);
-
-    power::setWake(true);
 
     Output.addInterface(&BTSerial);
     Output.begin(230400, SERIAL_8E1);
