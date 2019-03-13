@@ -35,6 +35,7 @@ namespace power {
 
     uint8_t getPowerIOComResult();
     uint8_t getPowerIOState(Pca9536::pin_t pin);
+    void printPowerIOState();
 
     void setWake(bool);
     void enableAux(bool);

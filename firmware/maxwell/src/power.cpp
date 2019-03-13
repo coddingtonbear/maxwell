@@ -238,6 +238,37 @@ power::PowerSource power::getPowerSource() {
     return source;
 }
 
+void power::printPowerIOState() {
+    pin_t pins[4] = { IO0, IO1, IO2, IO3 };
+
+    Output.println("PIN\tMODE\tSTATE\tPOLARITY");
+    Output.println("---\t----\t-----\t--------");
+    for (byte j=0; j<4; j++) {
+        byte mode = powerIo.getMode(pins[j]);
+        byte state = powerIo.getState(pins[j]);
+        byte polarity = powerIo.getPolarity(pins[j]);
+        Output.print("IO");
+        Output.print(j);
+        Output.print("\t");
+        if(mode) {
+            Output.print("IN");
+        } else {
+            Output.print("OUT");
+        }
+        Output.print("\t");
+        if(state) {
+            Output.print("HIGH");
+        } else {
+            Output.print("LOW");
+        }
+        Output.print("\t");
+        if(polarity) {
+            Output.print("INVERTED");
+        }
+        Output.println();
+    }
+}
+
 uint8_t power::getPowerIOState(Pca9536::pin_t pin) {
     return powerIo.getState(pin);
 }

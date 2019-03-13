@@ -52,6 +52,7 @@ void console::init() {
     commands.addCommand("voltage", console::voltageMeasurement);
     commands.addCommand("charging_status", console::isChargingNow);
     commands.addCommand("current", console::currentUsage);
+    commands.addCommand("get_power_io_state", console::getPowerIOState);
     commands.addCommand("get_power_io_pin_state", console::getPowerIOPinState);
 
     commands.addCommand("sleep", console::sleep);
@@ -150,6 +151,10 @@ void console::getPowerIOPinState() {
     } else {
         Output.println(power::getPowerIOState(pin));
     }
+}
+
+void console::getPowerIOState() {
+    power::printPowerIOState();
 }
 
 void console::prompt() {
