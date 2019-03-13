@@ -47,7 +47,9 @@ void power::init() {
 
     powerIo.setMode(PIN_PWR_DISABLE_BATTERY_SRC, IO_OUTPUT);
     powerIo.setMode(PIN_PWR_I_POWER_SOURCE_INDICATOR, IO_INPUT);
+    powerIo.setPolarity(PIN_PWR_I_POWER_SOURCE_INDICATOR, IO_NON_INVERTED);
     powerIo.setMode(PIN_PWR_I_BATT_CHARGING, IO_INPUT);
+    powerIo.setPolarity(PIN_PWR_I_BATT_CHARGING, IO_NON_INVERTED);
     powerIo.setMode(PIN_PWR_ENABLE_VREF, IO_OUTPUT);
 
     power::enableAux(true);
