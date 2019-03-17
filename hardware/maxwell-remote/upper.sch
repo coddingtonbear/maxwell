@@ -998,28 +998,6 @@ F 3 "" H 10450 3800 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L coddingtonbear:+3V3_B #PWR0150
-U 1 1 5C8BDEA2
-P 4900 5100
-F 0 "#PWR0150" H 4900 4950 50  0001 C CNN
-F 1 "+3V3_B" H 4915 5273 50  0000 C CNN
-F 2 "" H 4900 5100 50  0001 C CNN
-F 3 "" H 4900 5100 50  0001 C CNN
-	1    4900 5100
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:Q_PMOS_GSD Q3
-U 1 1 5C8DF4AD
-P 5250 4750
-F 0 "Q3" V 5593 4750 50  0000 C CNN
-F 1 "NTR1P02TI" V 5502 4750 50  0000 C CNN
-F 2 "coddingtonbear:SOT-23_LargePads" H 5450 4850 50  0001 C CNN
-F 3 "~" H 5250 4750 50  0001 C CNN
-	1    5250 4750
-	0    1    -1   0   
-$EndComp
-$Comp
 L Device:R R17
 U 1 1 5C907638
 P 6350 4350
@@ -1076,17 +1054,9 @@ Wire Wire Line
 Wire Wire Line
 	4550 4250 4550 4650
 Wire Wire Line
-	5050 4650 4550 4650
-Wire Wire Line
-	5250 4950 5250 5100
-Wire Wire Line
-	5250 5100 4900 5100
-Wire Wire Line
 	6500 4350 6500 3950
 Wire Wire Line
 	6200 4350 6200 4650
-Wire Wire Line
-	6200 4650 5700 4650
 Connection ~ 6200 4350
 Wire Wire Line
 	5600 3550 5600 3600
@@ -1133,35 +1103,6 @@ $EndComp
 Text Label 5650 4650 0    50   ~ 0
 PDOWN_PU
 $Comp
-L Device:C_Small C12
-U 1 1 5CA289C7
-P 5700 4850
-F 0 "C12" H 5792 4896 50  0000 L CNN
-F 1 "2u" H 5792 4805 50  0000 L CNN
-F 2 "coddingtonbear:0805_Milling" H 5700 4850 50  0001 C CNN
-F 3 "~" H 5700 4850 50  0001 C CNN
-	1    5700 4850
-	1    0    0    -1  
-$EndComp
-$Comp
-L coddingtonbear:GND_B #PWR0145
-U 1 1 5CA28A63
-P 5700 5000
-F 0 "#PWR0145" H 5700 4750 50  0001 C CNN
-F 1 "GND_B" H 5705 4827 50  0000 C CNN
-F 2 "" H 5700 5000 50  0001 C CNN
-F 3 "" H 5700 5000 50  0001 C CNN
-	1    5700 5000
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5700 5000 5700 4950
-Wire Wire Line
-	5700 4750 5700 4650
-Connection ~ 5700 4650
-Wire Wire Line
-	5700 4650 5450 4650
-$Comp
 L Device:R R18
 U 1 1 5CA31DAF
 P 7800 3750
@@ -1180,4 +1121,6 @@ Wire Wire Line
 Wire Wire Line
 	7750 3900 7800 3900
 Connection ~ 7800 3900
+Wire Wire Line
+	4550 4650 6200 4650
 $EndSCHEMATC
