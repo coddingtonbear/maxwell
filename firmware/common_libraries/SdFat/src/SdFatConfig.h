@@ -38,7 +38,7 @@
  * Set INCLUDE_SDIOS nonzero to include sdios.h in SdFat.h.
  * sdios.h provides C++ style IO Streams.
  */
-#define INCLUDE_SDIOS 1
+#define INCLUDE_SDIOS 0
 //------------------------------------------------------------------------------
 /**
  * Set USE_LONG_FILE_NAMES nonzero to use long file names (LFN).
@@ -90,18 +90,8 @@
  * O_WRONLY, O_RDWR and the open modifiers O_APPEND, O_CREAT, O_EXCL, O_SYNC
  * will be defined by including the system file fcntl.h.
  */
-#if defined(__AVR__)
-// AVR fcntl.h does not define open flags.
+
 #define USE_FCNTL_H 0
-#elif defined(PLATFORM_ID)
-// Particle boards - use fcntl.h.
-#define USE_FCNTL_H 1
-#elif defined(__arm__)
-// ARM gcc defines open flags.
-#define USE_FCNTL_H 1
-#else  // defined(__AVR__)
-#define USE_FCNTL_H 0
-#endif  // defined(__AVR__)
 //------------------------------------------------------------------------------
 /**
  * If CHECK_FLASH_PROGRAMMING is zero, overlap of single sector flash

@@ -38,11 +38,11 @@ MultiSerial Output;
 
 HashMap<String, double> Statistics;
 
-SdFat filesystem(2);
+SPIClass SPIBus(2);
+
+SdFat filesystem(&SPIBus);
 
 Logger Log(&filesystem);
-
-SPIClass SPIBus(2);
 
 void setup() {
     power::setWake(true);
