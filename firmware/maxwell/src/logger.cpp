@@ -3,6 +3,7 @@
 #include <SdFat.h>
 #include <HardwareCAN.h>
 #include <MCP79412RTC.h>
+#include <time.h>
 
 #include "logger.h"
 #include "main.h"
@@ -13,8 +14,8 @@ Logger::Logger(SdFat* _filesystem) {
 }
 
 void Logger::begin() {
-    sprintf(logFileName, "%05d.log", getNextLogNumber());
-    if(!logFile.open(filesystem, logFileName, O_RDWR | O_CREAT)) {
+    logFileName = getNextLogFileName();
+    if(!logFile.open(filesystem, logFileName.c_str(), O_RDWR | O_CREAT)) {
         errorExit();
         return;
     }
@@ -26,18 +27,36 @@ void Logger::end() {
     logFile.close();
 }
 
-uint32 Logger::getNextLogNumber() {
-    for(uint32 i = 1; i < 65534; i++) {
-        char possibleLogFileName[30 + 4 + 1];
-        sprintf(possibleLogFileName, "%05d.log", i);
+String Logger::getNextLogFileName() {
+    time_t time = Clock.get();
 
-        if(!filesystem->exists(possibleLogFileName)) {
-            return i;
-        }
+    char yearMonth[25];
+    sprintf(
+        yearMonth,
+        "%04d-%02d",
+        year(time),
+        month(time)
+    );
+    if(!filesystem->exists(yearMonth)) {
+        filesystem->mkdir(yearMonth);
     }
+
+    char fnBytes[25];
+    sprintf(
+        fnBytes,
+        "%04d-%02d/%02d_%02d%02d%02d.log",
+        year(time),
+        month(time),
+        day(time),
+        hour(time),
+        minute(time),
+        second(time)
+    );
+
+    return String(fnBytes);
 }
 
-char* Logger::getLogFileName() {
+String Logger::getLogFileName() {
     return logFileName;
 }
 
@@ -61,20 +80,26 @@ void Logger::log(String message) {
 
     uint8_t clockLength = 10 + 2 + 1;
     char clockBytes[clockLength];
-    sprintf(clockBytes, "%010d: ", Clock.get());
-    sprintf(clockBytes, "%010d: ", millis());
+    time_t time = Clock.get();
+    sprintf(
+        clockBytes,
+        "%02d:%02d:%02d\t",
+        hour(time),
+        minute(time),
+        second(time)
+    );
 
     uint8_t millisLength = 8 + 2 + 1;
     char millisBytes[millisLength];
-    sprintf(millisBytes, "%08d: ", millis());
+    sprintf(millisBytes, "%08d\t", millis());
 
     uint32_t messageLength = message.length() + 1;
     char messageBytes[messageLength];
     message.toCharArray(messageBytes, messageLength);
 
-    logFile.write(clockBytes, clockLength - 1);
-    logFile.write(millisBytes, millisLength - 1);
-    logFile.write(messageBytes, messageLength - 1);
+    logFile.write(clockBytes, strlen(clockBytes));
+    logFile.write(millisBytes, strlen(millisBytes));
+    logFile.write(messageBytes, strlen(messageBytes));
     logFile.write('\n');
     logFile.sync();
 

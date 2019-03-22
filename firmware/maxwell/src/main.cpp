@@ -60,7 +60,7 @@ void setup() {
 
     SPIBus.begin();
 
-    if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(50))) {
+    if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(12))) {
         filesystem.initErrorPrint(&Output);
     }
     Log.begin();

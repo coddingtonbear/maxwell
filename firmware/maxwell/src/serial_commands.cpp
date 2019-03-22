@@ -667,7 +667,7 @@ void console::logDelete() {
 void console::logDeleteAll() {
     filesystem.vwd()->rewind();
     char filename[50];
-    char* currentLogFilename = Log.getLogFileName();
+    String currentLogFilename = Log.getLogFileName();
     while(openFile.openNext(filesystem.vwd(), O_READ)) {
         iwdg_feed();
         bool isHidden = openFile.isHidden();
@@ -676,7 +676,7 @@ void console::logDeleteAll() {
         if(
             !isHidden &&
             filename[0] != '.' &&
-            strcmp(filename, currentLogFilename) != 0
+            currentLogFilename != String(filename)
         ) {
             Output.print(filename);
             if(filesystem.remove(filename)) {
