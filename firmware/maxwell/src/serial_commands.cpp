@@ -791,8 +791,21 @@ void console::setTime() {
 
 void console::getTime() {
     time_t time = Clock.get();
-    Output.print("Current time: ");
-    Output.println(String((uint32)time));
+    Output.print("Current timestamp: ");
+    Output.print(String((uint32)time));
+    Output.print(" (");
+    Output.print(year(time));
+    Output.print("-");
+    Output.print(month(time));
+    Output.print("-");
+    Output.print(day(time));
+    Output.print(" ");
+    Output.print(hour(time));
+    Output.print(":");
+    Output.print(minute(time));
+    Output.print(":");
+    Output.print(second(time));
+    Output.println(")");
     if(! Clock.isRunning()) {
         Output.println("Warning: Oscillator is not running!");
     }
