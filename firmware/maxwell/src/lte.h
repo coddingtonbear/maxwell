@@ -8,6 +8,7 @@
 //#define LTE_DEBUG
 
 class LoggedSIM7000: public AsyncModem::SIM7000 {
+    virtual void commandSent(char*);
     virtual void newLineReceived();
 };
 

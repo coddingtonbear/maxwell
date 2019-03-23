@@ -24,6 +24,9 @@ void LoggedSIM7000::newLineReceived() {
 
     AsyncModem::SIM7000::newLineReceived();
 };
+void LoggedSIM7000::commandSent(char* cmd) {
+    Log.log("TxLTE: " + String(cmd));
+}
 
 LoggedSIM7000 LTE = LoggedSIM7000();
 
