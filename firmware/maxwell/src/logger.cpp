@@ -30,30 +30,24 @@ void Logger::end() {
 String Logger::getNextLogFileName() {
     time_t time = Clock.get();
 
-    char yearMonth[25];
-    sprintf(
-        yearMonth,
-        "%04d-%02d",
-        year(time),
-        month(time)
+    String yearStr = String(year(time));
+    String monthStr = String(month(time));
+    String dayStr = String(day(time));
+    String timeStr = (
+        String(hour(time)) + String(minute(time)) + String(second(time))
     );
-    if(!filesystem->exists(yearMonth)) {
-        filesystem->mkdir(yearMonth);
+
+    if(!filesystem->exists(yearStr.c_str())) {
+        filesystem->mkdir(yearStr.c_str());
+    }
+    if(!filesystem->exists((yearStr + "/" + monthStr).c_str())) {
+        filesystem->mkdir((yearStr + "/" + monthStr).c_str());
+    }
+    if(!filesystem->exists((yearStr + "/" + monthStr + "/" + dayStr).c_str())) {
+        filesystem->mkdir((yearStr + "/" + monthStr + "/" + dayStr).c_str());
     }
 
-    char fnBytes[25];
-    sprintf(
-        fnBytes,
-        "%04d-%02d/%02d_%02d%02d%02d.log",
-        year(time),
-        month(time),
-        day(time),
-        hour(time),
-        minute(time),
-        second(time)
-    );
-
-    return String(fnBytes);
+    return yearStr + "/" + monthStr + "/" + dayStr + "/" + timeStr;
 }
 
 String Logger::getLogFileName() {
