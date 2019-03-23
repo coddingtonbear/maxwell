@@ -83,7 +83,6 @@ namespace console {
     void logStatus();
     void logList();
     void logDelete();
-    void logDeleteAll();
     void logPrint();
     void logSearch();
     void sdErrorState();

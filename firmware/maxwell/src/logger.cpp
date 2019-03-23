@@ -30,24 +30,16 @@ void Logger::end() {
 String Logger::getNextLogFileName() {
     time_t time = Clock.get();
 
-    String yearStr = String(year(time));
-    String monthStr = String(month(time));
-    String dayStr = String(day(time));
+    String ymdDir = (String(year(time)) + "/" + String(month(time)) + "/" + String(day(time)));
     String timeStr = (
         String(hour(time)) + String(minute(time)) + String(second(time))
     );
 
-    if(!filesystem->exists(yearStr.c_str())) {
-        filesystem->mkdir(yearStr.c_str());
-    }
-    if(!filesystem->exists((yearStr + "/" + monthStr).c_str())) {
-        filesystem->mkdir((yearStr + "/" + monthStr).c_str());
-    }
-    if(!filesystem->exists((yearStr + "/" + monthStr + "/" + dayStr).c_str())) {
-        filesystem->mkdir((yearStr + "/" + monthStr + "/" + dayStr).c_str());
+    if(!filesystem->exists(ymdDir.c_str())) {
+        filesystem->mkdir(ymdDir.c_str(), true);
     }
 
-    return yearStr + "/" + monthStr + "/" + dayStr + "/" + timeStr;
+    return ymdDir + "/" + timeStr + ".log";
 }
 
 String Logger::getLogFileName() {

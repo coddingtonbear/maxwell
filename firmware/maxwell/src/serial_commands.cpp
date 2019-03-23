@@ -7,6 +7,7 @@
 #include <ArduinoSort.h>
 #include <SdFat.h>
 #include <MCP79412RTC.h>
+#include <time.h>
 
 #include "can.h"
 #include "main.h"
@@ -83,7 +84,6 @@ void console::init() {
     commands.addCommand("log_status", console::logStatus);
     commands.addCommand("list_logs", console::logList);
     commands.addCommand("delete_log", console::logDelete);
-    commands.addCommand("delete_all_logs", console::logDeleteAll);
     commands.addCommand("print_log", console::logPrint);
     commands.addCommand("search_log", console::logSearch);
     commands.addCommand("sd_error_state", console::sdErrorState);
@@ -638,19 +638,7 @@ void console::logStatus() {
 }
 
 void console::logList() {
-    filesystem.vwd()->rewind();
-    char filename[50];
-    while(openFile.openNext(filesystem.vwd(), O_READ)) {
-        iwdg_feed();
-        openFile.getName(filename, 50);
-        if(!openFile.isHidden() && filename[0] != '.') {
-            Output.print(filename);
-            Output.print(" (");
-            Output.print(openFile.fileSize());
-            Output.println(")");
-        }
-        openFile.close();
-    }
+    filesystem.ls(&Output, LS_R);
 }
 
 void console::logDelete() {
@@ -662,30 +650,6 @@ void console::logDelete() {
     }
     openFile.remove();
     Output.println("Deleted");
-}
-
-void console::logDeleteAll() {
-    filesystem.vwd()->rewind();
-    char filename[50];
-    String currentLogFilename = Log.getLogFileName();
-    while(openFile.openNext(filesystem.vwd(), O_READ)) {
-        iwdg_feed();
-        bool isHidden = openFile.isHidden();
-        openFile.getName(filename, 50);
-        openFile.close();
-        if(
-            !isHidden &&
-            filename[0] != '.' &&
-            currentLogFilename != String(filename)
-        ) {
-            Output.print(filename);
-            if(filesystem.remove(filename)) {
-                Output.println(" deleted");
-            } else {
-                Output.println(" could not be deleted");
-            }
-        }
-    }
 }
 
 void console::logPrint() {
