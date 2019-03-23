@@ -707,9 +707,9 @@ void console::logSearch() {
 
     uint16_t maxLineLength = 512;
 
-    char findBuffer[maxLineLength];
-    char currentLine[maxLineLength];
-    char currentLineLower[maxLineLength];
+    char findBuffer[maxLineLength] = {'\0'};
+    char currentLine[maxLineLength] =  {'\0'};
+    char currentLineLower[maxLineLength] = {'\0'};
 
     char filename[255];
     if(strcmp(filenameBytes, "_") == 0) {
