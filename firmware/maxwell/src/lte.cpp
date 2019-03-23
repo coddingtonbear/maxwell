@@ -14,7 +14,18 @@
 #include "util.h"
 
 
-AsyncModem::SIM7000 LTE = AsyncModem::SIM7000();
+void LoggedSIM7000::newLineReceived() {
+    char buffer[256];
+    getLatestLine(buffer, 256);
+    String line = String(buffer);
+    line.trim();
+
+    Log.log("RxLTE: " + line);
+
+    AsyncModem::SIM7000::newLineReceived();
+};
+
+LoggedSIM7000 LTE = LoggedSIM7000();
 
 namespace lte {
     bool lteEnabled = false;

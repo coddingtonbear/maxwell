@@ -7,6 +7,10 @@
 
 //#define LTE_DEBUG
 
+class LoggedSIM7000: public AsyncModem::SIM7000 {
+    virtual void newLineReceived();
+};
+
 namespace lte {
     void loop();
 
@@ -31,4 +35,4 @@ namespace lte {
     bool getConnectionStatus(char*);
 }
 
-extern AsyncModem::SIM7000 LTE;
+extern LoggedSIM7000 LTE;
