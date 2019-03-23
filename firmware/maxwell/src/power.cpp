@@ -24,7 +24,6 @@ namespace power {
 
     bool batteryChargingEnabled = false;
     bool auxiliaryPowerEnabled = false;
-    bool batterySrcDisabled = false;
 
     PowerSource currentPowerSource = PowerSource::battery;
 
@@ -69,20 +68,6 @@ void power::setWake(bool enable) {
 void power::loop() {
     double voltage = rectifiedVoltage.getValue();
     double battery = batteryVoltage.getValue();
-    if(
-        voltage > (FORCE_DYNAMO_SRC_AT_VOLTAGE_PCT_MAX * battery) &&
-        currentPowerSource == PowerSource::battery &&
-        !batterySrcDisabled
-    ) {
-        powerIo.setState(PIN_PWR_DISABLE_BATTERY_SRC, IO_HIGH);
-        batterySrcDisabled = true;
-    } else if (
-        voltage < (FORCE_DYNAMO_SRC_AT_VOLTAGE_PCT_MIN * battery) &&
-        batterySrcDisabled
-     ) {
-        powerIo.setState(PIN_PWR_DISABLE_BATTERY_SRC, IO_LOW);
-        batterySrcDisabled = false;
-    }
 }
 
 uint16_t power::getAdcValue(uint8_t ch) {
@@ -283,9 +268,6 @@ void power::sleep() {
     Log.log("Sleep requested");
     Output.println("Sleeping now");
     Output.flush();
-    #if MOVEMENT_WAKE_ENABLED
-        Log.log("Movement wake enabled");
-    #endif
 
     // Stop logging
     Log.end();
