@@ -93,7 +93,7 @@ void Logger::log(String message) {
 }
 
 void Logger::logCanIncoming(CanMsg* canMsg) {
-    String canLog = "CAN Rx [";
+    String canLog = "CAN Rx: [";
     canLog += String(canMsg->ID, HEX);
     canLog += "](";
     canLog += String(canMsg->DLC, HEX);
@@ -107,7 +107,7 @@ void Logger::logCanIncoming(CanMsg* canMsg) {
 }
 
 void Logger::logCanOutgoing(CanMsg* canMsg) {
-    String canLog = "CAN Tx [";
+    String canLog = "CAN Tx: [";
     canLog += String(canMsg->ID, HEX);
     canLog += "](";
     canLog += String(canMsg->DLC, HEX);
