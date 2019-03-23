@@ -657,7 +657,15 @@ void console::logPrint() {
     char* afterByteBytes = commands.next();
     char* lengthBytes = commands.next();
 
-    if(!openFile.open(&filesystem, filenameBytes, O_READ)) {
+    char filename[255];
+
+    if(strcmp(filenameBytes, "_") == 0) {
+        strcpy(filename, Log.getLogFileName().c_str());
+    } else {
+        strcpy(filename, filenameBytes);
+    }
+
+    if(!openFile.open(&filesystem, filename, O_READ)) {
         Output.println("Error opening file " + String(filenameBytes));
         return;
     }
@@ -696,21 +704,30 @@ void console::logPrint() {
 void console::logSearch() {
     char* filenameBytes = commands.next();
     char* findBytes;
-    char findBuffer[100];
-    char currentLine[100];
-    char currentLineLower[100];
-    uint8_t currentIndex = 0;
 
-    for(uint8_t i = 0; i < 100; i++) {
+    uint16_t maxLineLength = 512;
+
+    char findBuffer[maxLineLength];
+    char currentLine[maxLineLength];
+    char currentLineLower[maxLineLength];
+
+    char filename[255];
+    if(strcmp(filenameBytes, "_") == 0) {
+        strcpy(filename, Log.getLogFileName().c_str());
+    } else {
+        strcpy(filename, filenameBytes);
+    }
+
+    for(uint16_t i = 0; i < maxLineLength; i++) {
         currentLineLower[i] = '\0';
         currentLine[i] = '\0';
     }
-    if(!openFile.open(&filesystem, filenameBytes, O_READ)) {
+    if(!openFile.open(&filesystem, filename, O_READ)) {
         Output.println("Error opening file " + String(filenameBytes));
         return;
     }
-    uint8_t bufferIndex = 0;
-    for(uint8_t j = 0; j < 100; j++) {
+    uint16_t bufferIndex = 0;
+    for(uint16_t j = 0; j < 100; j++) {
         findBytes = commands.next();
         if(findBytes == NULL) {
             findBuffer[bufferIndex] = '\0';
@@ -720,7 +737,7 @@ void console::logSearch() {
             findBuffer[bufferIndex] = ' ';
             bufferIndex++;
         }
-        for(uint8_t i = 0; i < 100; i++) {
+        for(uint8_t i = 0; i < maxLineLength; i++) {
             findBuffer[bufferIndex] = tolower(findBytes[i]);
             if(findBytes[i] == '\0') {
                 break;
@@ -734,11 +751,12 @@ void console::logSearch() {
     Output.println("'");
 
     uint16_t match_count = 0;
+    uint16_t currentIndex = 0;
     while(openFile.available()) {
         iwdg_feed();
         currentLine[currentIndex] = (char)openFile.read();
         if (currentLine[currentIndex] == '\n') {
-            for(uint8_t i = 0; i < 100; i++) {
+            for(uint16_t i = 0; i < maxLineLength; i++) {
                 currentLineLower[i] = tolower(currentLine[i]);
             }
             if(strstr(currentLineLower, findBuffer) != NULL) {
@@ -746,7 +764,7 @@ void console::logSearch() {
                 match_count++;
             }
 
-            for(uint8_t i = 0; i < 100; i++) {
+            for(uint16_t i = 0; i < maxLineLength; i++) {
                 currentLineLower[i] = '\0';
                 currentLine[i] = '\0';
             }
