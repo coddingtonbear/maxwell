@@ -178,14 +178,6 @@ void DisplayManager::refresh() {
         }
         showMenu();
     } else {
-        if(getBluetoothEnabled()) {
-            display.drawXBM(
-                DISPLAY_WIDTH - ICON_WIDTH - 1,
-                ICON_HEIGHT + 1,
-                ICON_WIDTH, ICON_HEIGHT,
-                remoteBt_bits
-            );
-        }
         if(statusIsAvailable) {
             CANStatusMainMC status = getStatusMainMc();
             if(status.is_charging) {
@@ -231,10 +223,26 @@ void DisplayManager::refresh() {
                     gps_bits
                 );
             }
-            if(status.bt_enabled) {
+            if (
+                getBluetoothEnabled() && status.bt_enabled
+            ) {
                 display.drawXBM(
                     DISPLAY_WIDTH - ICON_WIDTH - 1,
-                    ((ICON_HEIGHT + 1) * 2) - 3,
+                    ICON_HEIGHT + 1,
+                    ICON_WIDTH, ICON_HEIGHT,
+                    remoteBaseBt_bits
+                );
+            } else if(getBluetoothEnabled()) {
+                display.drawXBM(
+                    DISPLAY_WIDTH - ICON_WIDTH - 1,
+                    ICON_HEIGHT + 1,
+                    ICON_WIDTH, ICON_HEIGHT,
+                    remoteBt_bits
+                );
+            } else if(status.bt_enabled) {
+                display.drawXBM(
+                    DISPLAY_WIDTH - ICON_WIDTH - 1,
+                    ICON_HEIGHT + 1,
                     ICON_WIDTH, ICON_HEIGHT,
                     baseBt_bits
                 );

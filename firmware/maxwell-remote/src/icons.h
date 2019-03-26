@@ -9,8 +9,9 @@
 #include "icons/lte.xbm"
 #include "icons/dynamoPower.xbm"
 #include "icons/reporting.xbm"
-#include "icons/remoteBt.xbm"
 #include "icons/baseBt.xbm"
+#include "icons/remoteBt.xbm"
+#include "icons/remoteBaseBt.xbm"
 
 #define ICON_WIDTH 16
 #define ICON_HEIGHT 16
