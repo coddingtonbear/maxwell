@@ -41,6 +41,8 @@ namespace power {
 }
 
 void power::init() {
+    power::enableAux(false);
+
     powerIo.setState(PIN_PWR_DISABLE_BATTERY_SRC, IO_LOW);
     powerIo.setState(PIN_PWR_ENABLE_VREF, IO_HIGH);
 
@@ -51,9 +53,9 @@ void power::init() {
     powerIo.setPolarity(PIN_PWR_I_BATT_CHARGING, IO_NON_INVERTED);
     powerIo.setMode(PIN_PWR_ENABLE_VREF, IO_OUTPUT);
 
-    power::enableAux(true);
-
     currentSense.begin();
+
+    power::enableAux(true);
 }
 
 void power::setWake(bool enable) {

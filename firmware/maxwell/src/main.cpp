@@ -60,9 +60,17 @@ void setup() {
 
     SPIBus.begin();
 
-    if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(12))) {
+    digitalWrite(PIN_SPI_CS_A, HIGH);
+    digitalWrite(PIN_SPI_CS_B, HIGH);
+    digitalWrite(PIN_SPI_CS_C, HIGH);
+    pinMode(PIN_SPI_CS_A, OUTPUT);
+    pinMode(PIN_SPI_CS_B, OUTPUT);
+    pinMode(PIN_SPI_CS_C, OUTPUT);
+    delay(250);
+    if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(4))) {
         filesystem.initErrorPrint(&Output);
     }
+
     Log.begin();
     Log.log(String("Device reset: ") + String(RCC_BASE->CSR, HEX));
     Output.print("Device reset: ");

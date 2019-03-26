@@ -812,17 +812,19 @@ void console::getTime() {
     Output.print("Current timestamp: ");
     Output.print(String((uint32)time));
     Output.print(" (");
-    Output.print(year(time));
-    Output.print("-");
-    Output.print(month(time));
-    Output.print("-");
-    Output.print(day(time));
-    Output.print(" ");
-    Output.print(hour(time));
-    Output.print(":");
-    Output.print(minute(time));
-    Output.print(":");
-    Output.print(second(time));
+
+    char timeBuffer[24];
+    sprintf(
+        timeBuffer,
+        "%02d-%02d-%02d %02d:%02d:%02d",
+        year(time),
+        month(time),
+        day(time),
+        hour(time),
+        minute(time),
+        second(time)
+    );
+    Output.print(timeBuffer);
     Output.println(")");
     if(! Clock.isRunning()) {
         Output.println("Warning: Oscillator is not running!");
