@@ -12,6 +12,7 @@
 #include "icons/baseBt.xbm"
 #include "icons/remoteBt.xbm"
 #include "icons/remoteBaseBt.xbm"
+#include "icons/noLogging.xbm"
 
 #define ICON_WIDTH 16
 #define ICON_HEIGHT 16

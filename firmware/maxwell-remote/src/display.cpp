@@ -247,6 +247,14 @@ void DisplayManager::refresh() {
                     baseBt_bits
                 );
             }
+            if(! status.logging_now) {
+                display.drawXBM(
+                    DISPLAY_WIDTH - ICON_WIDTH - 1,
+                    (ICON_HEIGHT + 1) * 2,
+                    ICON_WIDTH, ICON_HEIGHT,
+                    noLogging_bits
+                );
+            }
 
             /*
             } else if(status.recording_now) {
