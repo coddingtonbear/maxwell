@@ -668,6 +668,25 @@ X VDYN 1 0 0 0 U 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
+# custom_TRIAC_AAG
+#
+DEF custom_TRIAC_AAG U 0 10 Y Y 1 F N
+F0 "U" 0 350 50 H V C CNN
+F1 "custom_TRIAC_AAG" 0 -300 50 H V C CNN
+F2 "" 0 0 50 H V C CNN
+F3 "" 0 0 50 H V C CNN
+DRAW
+P 2 0 1 0 -50 -50 -100 -100 N
+P 2 0 1 0 0 -50 -100 -50 N
+P 2 0 1 0 0 50 100 50 N
+P 4 0 1 0 -100 50 -50 -50 0 50 -100 50 N
+P 4 0 1 0 0 -50 50 50 100 -50 0 -50 N
+X ~ 1 0 -250 200 U 50 50 1 1 P
+X ~ 2 0 250 200 D 50 50 1 1 P
+X ~ 3 -300 -100 200 R 50 50 1 1 I
+ENDDRAW
+ENDDEF
+#
 # maxwell-rescue_+BACKUP-power
 #
 DEF maxwell-rescue_+BACKUP-power #PWR 0 0 Y Y 1 F P

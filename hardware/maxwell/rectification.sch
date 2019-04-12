@@ -301,11 +301,6 @@ Wire Wire Line
 Wire Wire Line
 	3800 3700 3800 4300
 Wire Wire Line
-	3800 1650 2650 1650
-Wire Wire Line
-	2650 1650 2650 2150
-Connection ~ 3800 1650
-Wire Wire Line
 	2650 2750 2650 4300
 Wire Wire Line
 	2650 4300 3800 4300
@@ -357,7 +352,7 @@ Text GLabel 1000 2750 3    60   Output ~ 0
 V_AC+
 Text GLabel 1100 2750 3    60   Output ~ 0
 V_AC-
-Text GLabel 2650 2150 0    60   Input ~ 0
+Text GLabel 1950 1650 0    60   Input ~ 0
 V_AC+
 Text GLabel 2650 2750 0    60   Input ~ 0
 V_AC-
@@ -543,7 +538,7 @@ Text GLabel 1200 2750 3    60   Output ~ 0
 ~DISABLE_DYNAMO
 Wire Wire Line
 	1200 2250 1200 2750
-Text GLabel 8450 3900 3    60   Input ~ 0
+Text GLabel 2050 1250 0    60   Input ~ 0
 ~DISABLE_DYNAMO
 Wire Wire Line
 	8150 3450 8150 3500
@@ -554,10 +549,6 @@ Wire Wire Line
 Connection ~ 8150 3500
 Wire Wire Line
 	8150 3500 8150 3600
-Wire Wire Line
-	8150 2950 8250 2950
-Wire Wire Line
-	8450 3100 8550 3100
 Wire Wire Line
 	7700 2950 7050 2950
 Connection ~ 7700 2950
@@ -570,29 +561,60 @@ Wire Wire Line
 Wire Wire Line
 	9850 2800 9850 2950
 Connection ~ 9850 2950
+Connection ~ 3800 1650
 $Comp
 L maxwell-rescue:R-RESCUE-maxwell R?
-U 1 1 5CAC37BE
-P 8250 3650
-AR Path="/5A1FEBCF/5CAC37BE" Ref="R?"  Part="1" 
-AR Path="/5A1FEBCF/5C7831A2/5CAC37BE" Ref="R41"  Part="1" 
-F 0 "R41" H 8300 3700 50  0000 L CNN
-F 1 "10k" H 8300 3600 50  0000 L CNN
-F 2 "coddingtonbear:0805_Milling" V 8180 3650 50  0001 C CNN
-F 3 "" H 8250 3650 50  0001 C CNN
-	1    8250 3650
-	1    0    0    -1  
+U 1 1 5CB048BE
+P 2400 1250
+AR Path="/5A1FEBCF/5CB048BE" Ref="R?"  Part="1" 
+AR Path="/5A1FEBCF/5C7831A2/5CB048BE" Ref="R41"  Part="1" 
+F 0 "R41" H 2200 1300 50  0000 L CNN
+F 1 "340" H 2200 1200 50  0000 L CNN
+F 2 "coddingtonbear:0805_Milling" V 2330 1250 50  0001 C CNN
+F 3 "" H 2400 1250 50  0001 C CNN
+	1    2400 1250
+	0    1    1    0   
 $EndComp
 Wire Wire Line
-	8250 3500 8250 2950
-Connection ~ 8250 2950
+	8150 2950 8550 2950
 Wire Wire Line
-	8250 2950 8550 2950
+	2650 1650 3800 1650
 Wire Wire Line
-	8450 3100 8450 3800
+	2650 1650 2650 2150
+$Comp
+L custom:TRIAC_AAG U22
+U 1 1 5CB2BD5F
+P 2300 1650
+F 0 "U22" V 2472 1650 50  0000 C CNN
+F 1 "BTA20-700CWRG" V 2563 1650 50  0000 C CNN
+F 2 "Package_TO_SOT_THT:TO-220-3_Vertical" H 2300 1650 50  0001 C CNN
+F 3 "" H 2300 1650 50  0000 C CNN
+	1    2300 1650
+	0    1    1    0   
+$EndComp
 Wire Wire Line
-	8250 3800 8450 3800
-Connection ~ 8450 3800
+	2550 1650 2650 1650
+Connection ~ 2650 1650
 Wire Wire Line
-	8450 3800 8450 3900
+	2050 1650 1950 1650
+Wire Wire Line
+	2650 1250 2550 1250
+Wire Wire Line
+	2250 1250 2200 1250
+Wire Wire Line
+	2200 1250 2200 1350
+Connection ~ 2200 1250
+Wire Wire Line
+	2200 1250 2050 1250
+$Comp
+L coddingtonbear:+3V3_C #PWR0194
+U 1 1 5CB414CA
+P 2650 1250
+F 0 "#PWR0194" H 2650 1100 50  0001 C CNN
+F 1 "+3V3_C" H 2665 1423 50  0000 C CNN
+F 2 "" H 2650 1250 50  0001 C CNN
+F 3 "" H 2650 1250 50  0001 C CNN
+	1    2650 1250
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
