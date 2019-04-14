@@ -352,7 +352,7 @@ Text GLabel 1000 2750 3    60   Output ~ 0
 V_AC+
 Text GLabel 1100 2750 3    60   Output ~ 0
 V_AC-
-Text GLabel 1950 1650 0    60   Input ~ 0
+Text GLabel 1950 1750 0    60   Input ~ 0
 V_AC+
 Text GLabel 2650 2750 0    60   Input ~ 0
 V_AC-
@@ -534,12 +534,8 @@ Wire Wire Line
 Wire Wire Line
 	8150 3150 8150 2950
 Connection ~ 8150 2950
-Text GLabel 1200 2750 3    60   Output ~ 0
-~DISABLE_DYNAMO
-Wire Wire Line
-	1200 2250 1200 2750
-Text GLabel 2050 1250 0    60   Input ~ 0
-~DISABLE_DYNAMO
+Text GLabel 1200 2750 3    60   BiDi ~ 0
+DYNAMO_SW_2
 Wire Wire Line
 	8150 3450 8150 3500
 Wire Wire Line
@@ -562,59 +558,49 @@ Wire Wire Line
 	9850 2800 9850 2950
 Connection ~ 9850 2950
 Connection ~ 3800 1650
-$Comp
-L maxwell-rescue:R-RESCUE-maxwell R?
-U 1 1 5CB048BE
-P 2400 1250
-AR Path="/5A1FEBCF/5CB048BE" Ref="R?"  Part="1" 
-AR Path="/5A1FEBCF/5C7831A2/5CB048BE" Ref="R41"  Part="1" 
-F 0 "R41" H 2200 1300 50  0000 L CNN
-F 1 "340" H 2200 1200 50  0000 L CNN
-F 2 "coddingtonbear:0805_Milling" V 2330 1250 50  0001 C CNN
-F 3 "" H 2400 1250 50  0001 C CNN
-	1    2400 1250
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	8150 2950 8550 2950
 Wire Wire Line
 	2650 1650 3800 1650
 Wire Wire Line
 	2650 1650 2650 2150
-$Comp
-L custom:TRIAC_AAG U22
-U 1 1 5CB2BD5F
-P 2300 1650
-F 0 "U22" V 2472 1650 50  0000 C CNN
-F 1 "BTA20-700CWRG" V 2563 1650 50  0000 C CNN
-F 2 "Package_TO_SOT_THT:TO-220-3_Vertical" H 2300 1650 50  0001 C CNN
-F 3 "" H 2300 1650 50  0000 C CNN
-	1    2300 1650
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	2550 1650 2650 1650
 Connection ~ 2650 1650
-Wire Wire Line
-	2050 1650 1950 1650
-Wire Wire Line
-	2650 1250 2550 1250
-Wire Wire Line
-	2250 1250 2200 1250
-Wire Wire Line
-	2200 1250 2200 1350
-Connection ~ 2200 1250
-Wire Wire Line
-	2200 1250 2050 1250
 $Comp
-L coddingtonbear:+3V3_C #PWR0194
-U 1 1 5CB414CA
-P 2650 1250
-F 0 "#PWR0194" H 2650 1100 50  0001 C CNN
-F 1 "+3V3_C" H 2665 1423 50  0000 C CNN
-F 2 "" H 2650 1250 50  0001 C CNN
-F 3 "" H 2650 1250 50  0001 C CNN
-	1    2650 1250
+L Relay:AZ850-x K1
+U 1 1 5CB4580B
+P 2250 1750
+F 0 "K1" V 1483 1750 50  0000 C CNN
+F 1 "TXS2-L-3V" V 1574 1750 50  0000 C CNN
+F 2 "coddingtonbear:Panasonic_TX-S_DPDT" H 2800 1800 50  0001 C CNN
+F 3 "http://www.azettler.com/pdfs/az850.pdf" H 2050 1750 50  0001 C CNN
+	1    2250 1750
+	0    1    1    0   
+$EndComp
+Text GLabel 1200 2250 1    60   BiDi ~ 0
+DYNAMO_SW_1
+Text GLabel 2550 1350 2    60   BiDi ~ 0
+DYNAMO_SW_1
+Text GLabel 1950 1350 0    60   BiDi ~ 0
+DYNAMO_SW_2
+Text GLabel 1900 700  0    60   Input ~ 0
+V_AC+
+$Comp
+L Device:Jumper_NO_Small JP1
+U 1 1 5CB4DD37
+P 2250 700
+F 0 "JP1" H 2250 885 50  0000 C CNN
+F 1 "Relay Bypass" H 2250 794 50  0000 C CNN
+F 2 "coddingtonbear:0805_Milling" H 2250 700 50  0001 C CNN
+F 3 "~" H 2250 700 50  0001 C CNN
+	1    2250 700 
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	2350 700  3800 700 
+Wire Wire Line
+	3800 700  3800 1650
+Wire Wire Line
+	1900 700  2150 700 
 $EndSCHEMATC
