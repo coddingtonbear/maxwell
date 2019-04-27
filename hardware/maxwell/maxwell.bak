@@ -1569,14 +1569,72 @@ Wire Wire Line
 Wire Wire Line
 	5900 6100 5900 6350
 $Comp
-L coddingtonbear:+3V3_B #PWR?
-U 1 1 5CCA0D32
+L coddingtonbear:VCC_B #PWR0194
+U 1 1 5CCA1B6F
 P 5150 7000
-F 0 "#PWR?" H 5150 6850 50  0001 C CNN
-F 1 "+3V3_B" H 5165 7173 50  0000 C CNN
+F 0 "#PWR0194" H 5150 6850 50  0001 C CNN
+F 1 "VCC_B" H 5167 7173 50  0000 C CNN
 F 2 "" H 5150 7000 50  0001 C CNN
 F 3 "" H 5150 7000 50  0001 C CNN
 	1    5150 7000
 	1    0    0    -1  
 $EndComp
+$Comp
+L Connector_Generic:Conn_01x03 J13
+U 1 1 5CCAEC45
+P 2450 6150
+F 0 "J13" H 2529 6192 50  0000 L CNN
+F 1 "Ctrl_L" H 2529 6101 50  0000 L CNN
+F 2 "coddingtonbear:JST_XH_B03B-XH-A_03x2.50mm_Straight_LargePads" H 2450 6150 50  0001 C CNN
+F 3 "~" H 2450 6150 50  0001 C CNN
+	1    2450 6150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x03 J21
+U 1 1 5CCAED15
+P 2450 6600
+F 0 "J21" H 2529 6642 50  0000 L CNN
+F 1 "Ctrl_R" H 2529 6551 50  0000 L CNN
+F 2 "coddingtonbear:JST_XH_B03B-XH-A_03x2.50mm_Straight_LargePads" H 2450 6600 50  0001 C CNN
+F 3 "~" H 2450 6600 50  0001 C CNN
+	1    2450 6600
+	1    0    0    -1  
+$EndComp
+$Comp
+L coddingtonbear:GND_B #PWR0195
+U 1 1 5CCAF046
+P 1650 6050
+F 0 "#PWR0195" H 1650 5800 50  0001 C CNN
+F 1 "GND_B" H 1655 5877 50  0000 C CNN
+F 2 "" H 1650 6050 50  0001 C CNN
+F 3 "" H 1650 6050 50  0001 C CNN
+	1    1650 6050
+	1    0    0    -1  
+$EndComp
+$Comp
+L coddingtonbear:GND_B #PWR0196
+U 1 1 5CCAF0B9
+P 1650 6700
+F 0 "#PWR0196" H 1650 6450 50  0001 C CNN
+F 1 "GND_B" H 1655 6527 50  0000 C CNN
+F 2 "" H 1650 6700 50  0001 C CNN
+F 3 "" H 1650 6700 50  0001 C CNN
+	1    1650 6700
+	1    0    0    -1  
+$EndComp
+Text GLabel 2250 6150 0    60   Output ~ 0
+LEFT_A
+Text GLabel 2250 6250 0    60   Output ~ 0
+LEFT_B
+Text GLabel 2250 6600 0    60   Output ~ 0
+RIGHT_A
+Text GLabel 2250 6700 0    60   Output ~ 0
+RIGHT_B
+Wire Wire Line
+	2250 6050 1650 6050
+Wire Wire Line
+	2250 6500 1650 6500
+Wire Wire Line
+	1650 6500 1650 6700
 $EndSCHEMATC
