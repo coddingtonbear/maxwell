@@ -370,4 +370,10 @@ F 3 "~" H 8650 4250 50  0001 C CNN
 	1    8650 4250
 	0    1    1    0   
 $EndComp
+Text GLabel 8500 4050 2    60   Output ~ 0
+~SCREEN_EN
+Text GLabel 8500 3950 2    60   Output ~ 0
+SCREEN_RST
+Text GLabel 2900 4450 0    60   Output ~ 0
+SCREEN_A0
 $EndSCHEMATC

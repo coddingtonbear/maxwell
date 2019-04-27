@@ -559,17 +559,6 @@ Wire Wire Line
 Connection ~ 5350 2300
 NoConn ~ 9450 3350
 NoConn ~ 9550 3350
-$Comp
-L maxwell-rescue:Conn_01x06-conn J2
-U 1 1 5BFB23A5
-P 6350 5500
-F 0 "J2" H 6430 5492 50  0000 L CNN
-F 1 "SPI2_C" H 6430 5401 50  0000 L CNN
-F 2 "coddingtonbear:JST_XH_B06B-XH-A_06x2.50mm_Straight_LargePads" H 6350 5500 50  0001 C CNN
-F 3 "~" H 6350 5500 50  0001 C CNN
-	1    6350 5500
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	5750 5400 6150 5400
 Connection ~ 5750 5400
@@ -1520,4 +1509,74 @@ Wire Wire Line
 	4600 2500 4600 3450
 Wire Wire Line
 	4600 3750 4600 4150
+$Comp
+L Connector_Generic:Conn_01x09 J2
+U 1 1 5CC5BE53
+P 6350 5700
+F 0 "J2" H 6430 5742 50  0000 L CNN
+F 1 "DISP" H 6430 5651 50  0000 L CNN
+F 2 "coddingtonbear:JST_XH_B09B-XH-A_1x09_P2.50mm_Straight_LargePads" H 6350 5700 50  0001 C CNN
+F 3 "~" H 6350 5700 50  0001 C CNN
+	1    6350 5700
+	1    0    0    -1  
+$EndComp
+Text GLabel 6150 5900 0    60   Input ~ 0
+SCREEN_A0
+Text GLabel 6150 6000 0    60   Input ~ 0
+SCREEN_RST
+$Comp
+L Device:Q_PMOS_GSD Q11
+U 1 1 5CC5E136
+P 5800 6550
+F 0 "Q11" H 6006 6596 50  0000 L CNN
+F 1 "NTR1P02TI" H 6006 6505 50  0000 L CNN
+F 2 "coddingtonbear:SOT-23_LargePads" H 6000 6650 50  0001 C CNN
+F 3 "~" H 5800 6550 50  0001 C CNN
+	1    5800 6550
+	1    0    0    -1  
+$EndComp
+Text GLabel 5300 6550 0    60   Input ~ 0
+~SCREEN_EN
+$Comp
+L maxwell-rescue:R-RESCUE-maxwell R41
+U 1 1 5CC5F256
+P 5550 6800
+F 0 "R41" H 5620 6846 50  0000 L CNN
+F 1 "10k" H 5620 6755 50  0000 L CNN
+F 2 "coddingtonbear:0805_Milling" V 5480 6800 50  0001 C CNN
+F 3 "" H 5550 6800 50  0001 C CNN
+	1    5550 6800
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5900 6750 5900 7000
+Wire Wire Line
+	5900 7000 5550 7000
+Wire Wire Line
+	5600 6550 5550 6550
+Wire Wire Line
+	5550 6650 5550 6550
+Connection ~ 5550 6550
+Wire Wire Line
+	5550 6550 5300 6550
+Wire Wire Line
+	5550 6950 5550 7000
+Connection ~ 5550 7000
+Wire Wire Line
+	5550 7000 5150 7000
+Wire Wire Line
+	6150 6100 5900 6100
+Wire Wire Line
+	5900 6100 5900 6350
+$Comp
+L coddingtonbear:VCC_B #PWR?
+U 1 1 5CCA1B6F
+P 5150 7000
+F 0 "#PWR?" H 5150 6850 50  0001 C CNN
+F 1 "VCC_B" H 5167 7173 50  0000 C CNN
+F 2 "" H 5150 7000 50  0001 C CNN
+F 3 "" H 5150 7000 50  0001 C CNN
+	1    5150 7000
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
