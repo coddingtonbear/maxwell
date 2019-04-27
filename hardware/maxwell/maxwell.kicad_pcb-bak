@@ -5692,7 +5692,7 @@
   (gr_text "Maxwell v1.9 (Pwr)\n2019-02-16\n@coddingtonbear\n" (at 58.2 78) (layer B.Cu)
     (effects (font (size 1.5 1.5) (thickness 0.3)) (justify right mirror))
   )
-  (gr_text "Maxwell v1.9.1 (uC)\n2019-03-03\n@coddingtonbear" (at 130.8 101.8) (layer B.Cu)
+  (gr_text "Maxwell v1.9.6 (uC)\n2019-04-27\n@coddingtonbear" (at 130.8 101.8) (layer B.Cu)
     (effects (font (size 1.5 1.5) (thickness 0.3)) (justify right mirror))
   )
   (gr_line (start 57 73) (end 99 73) (layer Edge.Cuts) (width 0.15))
