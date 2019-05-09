@@ -4,7 +4,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 4
+Sheet 1 5
 Title ""
 Date ""
 Rev ""
@@ -1637,4 +1637,10 @@ Wire Wire Line
 	2250 6500 1650 6500
 Wire Wire Line
 	1650 6500 1650 6700
+$Sheet
+S 500  6200 750  450 
+U 5CD4044C
+F0 "wake_adapter" 60
+F1 "wake_adapter.sch" 60
+$EndSheet
 $EndSCHEMATC
