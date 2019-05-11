@@ -7,4 +7,5 @@
   (lib (name gsg)(type Legacy)(uri /home/acoddington/Documents/Projects/kicad_footprints/greatscottgadgets/gsg-kicad-lib/gsg-symbols.lib)(options "")(descr ""))
   (lib (name digikey_gates)(type Legacy)(uri /home/acoddington/Documents/Projects/kicad_footprints/digikey/digikey-kicad-library/digikey-symbols/dk_Logic-Gates-and-Inverters.lib)(options "")(descr ""))
   (lib (name digikey_current)(type Legacy)(uri /home/acoddington/Documents/Projects/kicad_footprints/digikey/digikey-kicad-library/digikey-symbols/dk_PMIC-Current-Regulation-Management.lib)(options "")(descr ""))
+  (lib (name tmp10x)(type Legacy)(uri "/home/acoddington/Documents/Projects/kicad_footprints/re-innovation/kicad_reinnovation/KiCad My Libraries/tmp10x.lib")(options "")(descr ""))
 )

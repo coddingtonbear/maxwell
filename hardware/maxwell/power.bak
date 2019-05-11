@@ -30,7 +30,7 @@ L maxwell-rescue:R-RESCUE-maxwell R19
 U 1 1 5A210718
 P 6300 1600
 F 0 "R19" H 6100 1500 50  0000 L CNN
-F 1 "~1.8k" H 6150 1600 50  0000 L CNN
+F 1 "675" H 6150 1600 50  0000 L CNN
 F 2 "coddingtonbear:0805_Milling" V 6230 1600 50  0001 C CNN
 F 3 "" H 6300 1600 50  0001 C CNN
 	1    6300 1600
@@ -237,7 +237,7 @@ BATT+
 Text Label 7450 1250 1    60   ~ 0
 BATT_CHARGE_PRE_POLARITY
 Text GLabel 2700 6000 2    60   Input ~ 0
-DYNAMO_VOLTAGE
+CHARGE_VOLTAGE
 Text GLabel 2700 5900 2    60   Input ~ 0
 BATT_VOLTAGE
 $Comp
@@ -306,7 +306,7 @@ Wire Wire Line
 Connection ~ 1550 7300
 Wire Wire Line
 	1550 7300 1250 7300
-Text GLabel 2650 7300 2    60   Input ~ 0
+Text GLabel 2650 7200 2    60   Input ~ 0
 ~BATT_CHARGING
 Wire Wire Line
 	8550 4450 8750 4450
@@ -314,8 +314,6 @@ Text Notes 2650 7600 0    60   ~ 0
 Addr: 1000001\n
 Text Notes 2650 6400 0    60   ~ 0
 Addr: 0101000\n
-Wire Wire Line
-	4400 6400 4300 6400
 Wire Wire Line
 	5300 6600 5450 6600
 Wire Wire Line
@@ -330,24 +328,7 @@ Wire Wire Line
 	5450 6400 5450 6450
 Wire Wire Line
 	5300 6400 5450 6400
-$Comp
-L maxwell-rescue:MCP1501-coddingtonbear U?
-U 1 1 5C0A66E5
-P 4900 6600
-AR Path="/5A1FA1FC/5C0A66E5" Ref="U?"  Part="1" 
-AR Path="/5A1FEBCF/5C0A66E5" Ref="U1"  Part="1" 
-F 0 "U1" H 4950 6113 60  0000 C CNN
-F 1 "MCP1501" H 4950 6219 60  0000 C CNN
-F 2 "Package_TO_SOT_SMD:TSOT-23-6_HandSoldering" H 4900 6600 60  0001 C CNN
-F 3 "" H 4900 6600 60  0001 C CNN
-	1    4900 6600
-	-1   0    0    1   
-$EndComp
 Connection ~ 5650 1250
-Text GLabel 4300 6400 1    60   Input ~ 0
-ENABLE_VREF
-Text GLabel 2650 7200 2    60   Output ~ 0
-ENABLE_VREF
 Wire Wire Line
 	5300 6750 5800 6750
 $Comp
@@ -363,18 +344,6 @@ F 3 "" H 5800 6600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5800 6750 6100 6750
-$Comp
-L maxwell-rescue:R-RESCUE-maxwell R11
-U 1 1 5C0E4604
-P 4400 6250
-F 0 "R11" V 4607 6250 50  0000 C CNN
-F 1 "10k" V 4516 6250 50  0000 C CNN
-F 2 "coddingtonbear:0805_Milling" V 4330 6250 50  0001 C CNN
-F 3 "" H 4400 6250 50  0001 C CNN
-	1    4400 6250
-	-1   0    0    1   
-$EndComp
-Connection ~ 4400 6400
 Wire Wire Line
 	8050 2700 8050 2500
 Connection ~ 8050 1250
@@ -530,8 +499,8 @@ $Comp
 L coddingtonbear:AP9101C-SOT-25 U11
 U 1 1 5C360A97
 P 8700 1850
-F 0 "U11" V 8728 2028 60  0000 L CNN
-F 1 "AP9101C-SOT-25" V 8622 2028 60  0000 L CNN
+F 0 "U11" V 9300 1850 60  0000 L CNN
+F 1 "AP9101C-SOT-25" H 8350 2150 60  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23-5_HandSoldering" H 8700 1850 60  0001 C CNN
 F 3 "" H 8700 1850 60  0001 C CNN
 	1    8700 1850
@@ -942,12 +911,12 @@ Connection ~ 6300 2950
 $Comp
 L coddingtonbear:+3V3_A #PWR0173
 U 1 1 5C69AF6E
-P 4400 6100
-F 0 "#PWR0173" H 4400 5950 50  0001 C CNN
-F 1 "+3V3_A" H 4415 6273 50  0000 C CNN
-F 2 "" H 4400 6100 50  0001 C CNN
-F 3 "" H 4400 6100 50  0001 C CNN
-	1    4400 6100
+P 4400 6400
+F 0 "#PWR0173" H 4400 6250 50  0001 C CNN
+F 1 "+3V3_A" H 4415 6573 50  0000 C CNN
+F 2 "" H 4400 6400 50  0001 C CNN
+F 3 "" H 4400 6400 50  0001 C CNN
+	1    4400 6400
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -1249,7 +1218,7 @@ DYNAMO_AC
 Wire Wire Line
 	2850 1950 3000 1950
 Text GLabel 4050 1550 3    60   Output ~ 0
-DYNAMO_VOLTAGE
+CHARGE_VOLTAGE
 Text GLabel 3850 1550 3    60   Output ~ 0
 DYNAMO_POLE_SIG
 Wire Wire Line
@@ -1404,9 +1373,9 @@ F 3 "" H 10100 1100 50  0001 C CNN
 	1    10100 1100
 	1    0    0    -1  
 $EndComp
-Text GLabel 3750 750  2    60   Output ~ 0
-DYNAMO_SW_1_P
 Text GLabel 3750 1550 3    60   Output ~ 0
+DYNAMO_SW_1_P
+Text GLabel 3750 750  2    60   Output ~ 0
 DYNAMO_SW_2_P
 Wire Wire Line
 	3750 1050 3750 750 
@@ -1437,4 +1406,162 @@ Wire Wire Line
 Wire Wire Line
 	7900 3700 8750 3700
 Connection ~ 7350 5000
+Text GLabel 4250 4000 0    60   BiDi ~ 0
+I2C1_SCL_A
+Text GLabel 4250 4300 0    60   BiDi ~ 0
+I2C1_SDA_A
+$Comp
+L coddingtonbear:+3V3_A #PWR0151
+U 1 1 5CD7EC92
+P 4750 3350
+F 0 "#PWR0151" H 4750 3200 50  0001 C CNN
+F 1 "+3V3_A" H 4750 3550 50  0000 C CNN
+F 2 "" H 4750 3350 50  0001 C CNN
+F 3 "" H 4750 3350 50  0001 C CNN
+	1    4750 3350
+	1    0    0    -1  
+$EndComp
+$Comp
+L coddingtonbear:GND_A #PWR?
+U 1 1 5CD7EE75
+P 4750 4700
+AR Path="/5CD7EE75" Ref="#PWR?"  Part="1" 
+AR Path="/5A1FEBCF/5CD7EE75" Ref="#PWR0152"  Part="1" 
+F 0 "#PWR0152" H 4750 4450 50  0001 C CNN
+F 1 "GND_A" H 4755 4527 50  0000 C CNN
+F 2 "" H 4750 4700 50  0001 C CNN
+F 3 "" H 4750 4700 50  0001 C CNN
+	1    4750 4700
+	1    0    0    -1  
+$EndComp
+$Comp
+L maxwell-rescue:C-RESCUE-maxwell C2
+U 1 1 5CD7EF88
+P 5050 3350
+F 0 "C2" H 4935 3304 50  0000 R CNN
+F 1 "0.1u" H 4935 3395 50  0000 R CNN
+F 2 "coddingtonbear:0805_Milling" H 5088 3200 50  0001 C CNN
+F 3 "" H 5050 3350 50  0001 C CNN
+	1    5050 3350
+	0    -1   -1   0   
+$EndComp
+$Comp
+L coddingtonbear:GND_A #PWR?
+U 1 1 5CD7F23F
+P 5350 3350
+AR Path="/5CD7F23F" Ref="#PWR?"  Part="1" 
+AR Path="/5A1FEBCF/5CD7F23F" Ref="#PWR0160"  Part="1" 
+F 0 "#PWR0160" H 5350 3100 50  0001 C CNN
+F 1 "GND_A" H 5355 3177 50  0000 C CNN
+F 2 "" H 5350 3350 50  0001 C CNN
+F 3 "" H 5350 3350 50  0001 C CNN
+	1    5350 3350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4900 3350 4750 3350
+Wire Wire Line
+	4750 3350 4750 3600
+Connection ~ 4750 3350
+Wire Wire Line
+	5350 3350 5200 3350
+Text Notes 4400 5100 0    60   ~ 0
+Address: 1001110
+$Comp
+L coddingtonbear:+3V3_A #PWR0197
+U 1 1 5CD9A8B9
+P 5600 4000
+F 0 "#PWR0197" H 5600 3850 50  0001 C CNN
+F 1 "+3V3_A" H 5600 4200 50  0000 C CNN
+F 2 "" H 5600 4000 50  0001 C CNN
+F 3 "" H 5600 4000 50  0001 C CNN
+	1    5600 4000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5250 4000 5600 4000
+Wire Wire Line
+	5600 4000 5600 4300
+Wire Wire Line
+	5600 4300 5250 4300
+Connection ~ 5600 4000
+$Comp
+L tmp10x:TMP100 U?1
+U 1 1 5CDB7579
+P 4750 4600
+F 0 "U?1" H 4200 5800 60  0000 C CNN
+F 1 "TMP100" H 4350 5650 60  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-23-6_Handsoldering" H 4750 4600 60  0001 C CNN
+F 3 "" H 4750 4600 60  0001 C CNN
+	1    4750 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L maxwell-rescue:MCP1501-coddingtonbear U?
+U 1 1 5C0A66E5
+P 4900 6600
+AR Path="/5A1FA1FC/5C0A66E5" Ref="U?"  Part="1" 
+AR Path="/5A1FEBCF/5C0A66E5" Ref="U1"  Part="1" 
+F 0 "U1" H 4950 6113 60  0000 C CNN
+F 1 "MCP1501" H 4950 6219 60  0000 C CNN
+F 2 "Package_TO_SOT_SMD:TSOT-23-6_HandSoldering" H 4900 6600 60  0001 C CNN
+F 3 "" H 4900 6600 60  0001 C CNN
+	1    4900 6600
+	-1   0    0    1   
+$EndComp
+Text GLabel 2650 7300 2    60   Output ~ 0
+~CHARGE_SHDN
+Text GLabel 7350 2500 0    60   Input ~ 0
+~CHARGE_SHDN
+$Comp
+L maxwell-rescue:R-RESCUE-maxwell R11
+U 1 1 5CDC6AC4
+P 7650 2200
+F 0 "R11" H 7450 2100 50  0000 L CNN
+F 1 "10k" H 7500 2200 50  0000 L CNN
+F 2 "coddingtonbear:0805_Milling" V 7580 2200 50  0001 C CNN
+F 3 "" H 7650 2200 50  0001 C CNN
+	1    7650 2200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7650 2350 7650 2500
+Wire Wire Line
+	7650 2500 7400 2500
+Wire Wire Line
+	7150 1400 7400 1400
+Wire Wire Line
+	7400 1400 7400 2500
+Connection ~ 7400 2500
+Wire Wire Line
+	7400 2500 7350 2500
+$Comp
+L coddingtonbear:+3V3_U #PWR0198
+U 1 1 5CDE456A
+P 8250 4450
+F 0 "#PWR0198" H 8250 4300 50  0001 C CNN
+F 1 "+3V3_U" H 8265 4623 50  0000 C CNN
+F 2 "" H 8250 4450 50  0001 C CNN
+F 3 "" H 8250 4450 50  0001 C CNN
+	1    8250 4450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8550 4450 8250 4450
+Connection ~ 8550 4450
+$Comp
+L coddingtonbear:+3V3_U #PWR0199
+U 1 1 5CDEE251
+P 7550 1900
+F 0 "#PWR0199" H 7550 1750 50  0001 C CNN
+F 1 "+3V3_U" H 7565 2073 50  0000 C CNN
+F 2 "" H 7550 1900 50  0001 C CNN
+F 3 "" H 7550 1900 50  0001 C CNN
+	1    7550 1900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7650 2050 7550 2050
+Wire Wire Line
+	7550 2050 7550 1900
 $EndSCHEMATC
