@@ -8,6 +8,7 @@
 #define SPEED_INCHES_PER_MILE 63360
 #define SPEED_SECONDS_PER_HOUR 3.6e6
 #define SPEED_SMOOTHING_SAMPLES 5
+#define GPS_TIME_UPDATE_INTERVAL 300000
 
 #define MQTT_SERVER ""
 #define MQTT_SERVERPORT 0
@@ -33,6 +34,7 @@ namespace status {
     void updateGpsFix();
     bool gpsFixValid();
     MicroNMEA* getGpsFix();
+    bool syncClockWithGps();
 
     uint16_t getSpeedCounter();
 

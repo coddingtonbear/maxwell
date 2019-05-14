@@ -26,6 +26,7 @@ char nmeaBuffer[255] = {'\0'};
 MicroNMEA nmea(nmeaBuffer, sizeof(nmeaBuffer));
 
 uint32_t lastStatusUpdate = 0;
+unsigned long lastTimeUpdate = 0;
 
 extern "C" char* sbrk(int incr);
 static int32_t status::getFreeMemory() {
@@ -61,6 +62,14 @@ void status::init() {
 
 void status::loop() {
     updateGpsFix();
+    if(
+        gpsFixValid() && (
+            lastTimeUpdate == 0 ||
+            (millis() - lastTimeUpdate) > GPS_TIME_UPDATE_INTERVAL
+        )
+    ) {
+        syncClockWithGps();
+    }
 }
 
 uint16_t status::getSpeedCounter() {
@@ -346,5 +355,28 @@ void status::gpsEnable(bool enable) {
         GPSUart.write('\n');
     } else {
         gpsPMTK(161, ",0");
+    }
+}
+
+bool status::syncClockWithGps() {
+    MicroNMEA* nmea = getGpsFix();
+
+    time_t time;
+    if(nmea->isValid()) {
+        tmElements_t timeEts;
+        timeEts.Hour = nmea->getHour();
+        timeEts.Minute = nmea->getMinute();
+        timeEts.Second = nmea->getSecond();
+        timeEts.Day = nmea->getDay();
+        timeEts.Month = nmea->getMonth();
+        timeEts.Year = nmea->getYear() - 1970;
+
+        time = makeTime(timeEts);
+        Clock.set(time);
+        lastTimeUpdate = millis();
+
+        return true;
+    } else {
+        return false;
     }
 }
