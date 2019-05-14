@@ -17,15 +17,16 @@ bool ble::bluetoothIsEnabled() {
 void ble::enableBluetooth(bool enable) {
     if(enable && !bluetoothEnabled) {
         Log.log("Local bluetooth enabled");
-        Output.disableInterface(&BTSerial);
-        BTSerial.end();
+        Output.enableInterface(&BTSerial);
         digitalWrite(PIN_BT_DISABLE_, HIGH);
+        BluetoothTimeout.refresh();
+        Output.begin();
         bluetoothEnabled = true;
     } else if(!enable && bluetoothEnabled) {
         Log.log("Local bluetooth disabled");
+        BTSerial.end();
+        Output.disableInterface(&BTSerial);
         digitalWrite(PIN_BT_DISABLE_, LOW);
-        Output.enableInterface(&BTSerial);
-        Output.begin();
         bluetoothEnabled = false;
     }
 }

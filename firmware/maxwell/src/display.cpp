@@ -293,6 +293,7 @@ void DisplayManager::refresh() {
                 reporting_bits
             );
         } else if(
+            lte::isEnabled() &&
             (status == AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_HOME) ||
             (status == AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_ROAMING)
         ) {
@@ -302,16 +303,13 @@ void DisplayManager::refresh() {
                 lte_bits
             );
         }
-        /*
-        TODO: Use for GPS later
-        if(gpsFixValid()) {
+        if(status::gpsFixValid()) {
             displayCtl.drawXBM(
                 DISPLAY_WIDTH - (ICON_WIDTH + 1) * 2, 0,
                 ICON_WIDTH, ICON_HEIGHT,
                 gps_bits
             );
         }
-        */
         if (ble::bluetoothIsEnabled()) {
             displayCtl.drawXBM(
                 DISPLAY_WIDTH - ICON_WIDTH - 1,

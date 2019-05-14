@@ -38,7 +38,7 @@ SdFat filesystem(&SPI);
 
 Logger Log(&filesystem);
 
-HardwareSerial GPSUart = Serial3;
+HardwareSerial GPSUart = UART4;
 
 void setup() {
     power::setWake(true);
