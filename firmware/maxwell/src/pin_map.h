@@ -2,9 +2,6 @@
 
 #include <PCA9536.h>
 
-//#define PIN_ESP_BOOT_FLASH_ PA1
-//#define PIN_DISABLE_ESP_ PA11
-
 #define PIN_BT_DISABLE_ PC7
 #define PIN_BT_KEY PC6
 

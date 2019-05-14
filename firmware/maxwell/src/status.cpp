@@ -319,11 +319,17 @@ void status::gpsPMTK(uint cmd, String data) {
 }
 
 void status::updateGpsFix() {
-    char readByte = GPSUart.read();
+    if(GPSUart.available()) {
+        char readByte = GPSUart.read();
 
-    nmea.process(readByte);
+        #ifdef DEBUG_GPS
+            Output.print(readByte);
+        #endif
 
-    gpsFixAvailable = nmea.isValid();
+        nmea.process(readByte);
+
+        gpsFixAvailable = nmea.isValid();
+    }
 }
 
 bool status::gpsFixValid() {

@@ -19,6 +19,8 @@
 
 #define SPEED_COUNTER_ADDRESS B1010001
 
+//#define DEBUG_GPS
+
 namespace status {
 
     void init();
