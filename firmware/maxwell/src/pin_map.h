@@ -1,3 +1,5 @@
+#pragma once
+
 #include <PCA9536.h>
 
 //#define PIN_ESP_BOOT_FLASH_ PA1
@@ -8,18 +10,22 @@
 
 #define PIN_SPI_CS_A PA2
 #define PIN_SPI_CS_B PA1
-#define PIN_SPI_CS_C PA0
 
 #define PIN_NEOPIXEL PA7
 #define PIN_ENABLE_NEOPIXEL PC4
 #define PIN_ENABLE_AUX PB10
 
+#define DISPLAY_BACKLIGHT_ON_ PB1
+#define DISPLAY_CS PA0
+#define DISPLAY_DC PC5
+#define DISPLAY_RST PB0
+
 #define PIN_POWER_ON PB3
-//#define PIN_I_BATT_VOLTAGE PC0
-//#define PIN_I_CURRENT_SENSE PC1
-//#define PIN_I_BATT_CHARGING_ PC2
-//#define PIN_ENABLE_BATT_POWER PB0
-//#define PIN_ENABLE_BATT_CHARGE_ PC13
+
+#define BUTTON_LEFT_A PC13
+#define BUTTON_LEFT_B PC14
+#define BUTTON_RIGHT_A PC15
+#define BUTTON_RIGHT_B PC3
 
 // EXTERNAL: LTE Module
 #define PIN_LTE_DTR 7

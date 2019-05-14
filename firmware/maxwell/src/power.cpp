@@ -15,8 +15,6 @@
 #include "power.h"
 #include "lte.h"
 #include "util.h"
-#include "can_message_ids.h"
-#include "can.h"
 #include "status.h"
 
 namespace power {
@@ -41,8 +39,6 @@ namespace power {
 }
 
 void power::init() {
-    power::enableAux(false);
-
     powerIo.setState(PIN_PWR_DISABLE_BATTERY_SRC, IO_LOW);
     powerIo.setState(PIN_PWR_ENABLE_VREF, IO_HIGH);
 
@@ -275,18 +271,13 @@ void power::sleep() {
     Log.end();
     filesystem.card()->spiStop();
 
+    // Disable GPS
+    status::gpsEnable(false);
+
     powerIo.setState(PIN_PWR_ENABLE_VREF, IO_LOW);
     currentSense.powerDown();
 
     Output.end();
-
-    // Disable canbus
-    CanMsg sleepMsg;
-    sleepMsg.IDE = CAN_ID_STD;
-    sleepMsg.RTR = CAN_RTR_DATA;
-    sleepMsg.ID = CAN_MAIN_MC_SLEEP;
-    sleepMsg.DLC = 0;
-    CanBus.send(&sleepMsg);
 
     // Disable neopixels before waiting for LTE modem shutdown
     digitalWrite(PIN_ENABLE_NEOPIXEL, LOW);
@@ -304,9 +295,7 @@ void power::sleep() {
         }
         LTEUart.sleep();
     }
-    CanBus.end();
 
-    setGPIOModeToAllPins(GPIO_INPUT_FLOATING);
     // Disable neopixels (again since we just floated all of the pins)
     digitalWrite(PIN_ENABLE_NEOPIXEL, LOW);
     pinMode(PIN_ENABLE_NEOPIXEL, OUTPUT);
@@ -317,6 +306,8 @@ void power::sleep() {
     pinMode(PIN_BT_DISABLE_, OUTPUT);
     // Disable Aux
     power::enableAux(false);
+
+    setGPIOModeToAllPins(GPIO_INPUT_FLOATING);
 
     // Really: nothing should be running after this command is executed,
     // but let's leave the sleep code after this just in case we're running

@@ -1,3 +1,5 @@
+#pragma once
+
 #define LED_CYCLE_ON 0
 #define LED_CYCLE_OFF 1
 #define LED_CYCLE_RANDOM 2

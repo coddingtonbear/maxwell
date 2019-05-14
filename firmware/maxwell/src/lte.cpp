@@ -350,3 +350,10 @@ bool lte::collectStatusInformation() {
         }
     );
 }
+
+bool lte::isLoggingNow() {
+    return (
+        ((millis() - status::getLastStatusUpdateTime()) < 60000)
+        && status::getLastStatusUpdateTime() > 0
+    );
+}

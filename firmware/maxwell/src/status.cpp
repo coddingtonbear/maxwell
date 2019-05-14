@@ -4,6 +4,7 @@
 #include <ArduinoJson.h>
 #include <RollingAverage.h>
 #include <MCP79412RTC.h>
+#include <MicroNMEA.h>
 
 #include "main.h"
 #include "power.h"
@@ -19,6 +20,10 @@ uint32 speedCounter = 0;
 uint32 speedCounterPrev = 0;
 uint32 lastSpeedRefresh = 0;
 RollingAverage<double, 5> currentSpeedMph;
+
+bool gpsFixAvailable = false;
+char nmeaBuffer[255] = {'\0'};
+MicroNMEA nmea(nmeaBuffer, sizeof(nmeaBuffer));
 
 uint32_t lastStatusUpdate = 0;
 
@@ -48,6 +53,14 @@ void status::init() {
     Clock.out(LOW);
     Clock.alarmPolarity(HIGH);
     Clock.vbaten(true);
+
+    GPSUart.begin(9600);
+    delay(100);
+    gpsEnable(true);
+}
+
+void status::loop() {
+    updateGpsFix();
 }
 
 uint16_t status::getSpeedCounter() {
@@ -66,19 +79,6 @@ uint16_t status::getSpeedCounter() {
     Statistics.put("Dynamo Pole Counter", value);
 
     return value;
-}
-
-void status::setGpsPosition(long _latitude, long _longitude) {
-    longitude = _longitude;
-    latitude = _latitude;
-}
-
-long status::getLatitude() {
-    return latitude;
-}
-
-long status::getLongitude() {
-    return longitude;
 }
 
 void status::refreshSpeed() {
@@ -125,6 +125,7 @@ bool status::sendStatusUpdate() {
 
     if(!status::statusConnectionConnected()) {
         status::connectStatusConnection();
+        return false;
     }
     statusUpdate[0] = '\0';
 
@@ -293,4 +294,51 @@ bool status::statusConnectionConnected() {
 
 uint32_t status::getLastStatusUpdateTime() {
     return lastStatusUpdate;
+}
+
+void status::gpsPMTK(uint cmd, String data) {
+    GPSUart.println();
+    GPSUart.print("$");
+
+    String commandString = "PMTK" + String(cmd) + String(data);
+
+    GPSUart.print(commandString);
+    GPSUart.print("*");
+
+    uint8_t checkSum = 0;
+
+    for (uint8_t i = 0; i < commandString.length(); i++) {
+        checkSum = checkSum ^ commandString.charAt(i);
+    }
+
+    GPSUart.print(String(checkSum, HEX));
+    GPSUart.print("\r\n");
+
+    GPSUart.flush();
+    delay(100);
+}
+
+void status::updateGpsFix() {
+    char readByte = GPSUart.read();
+
+    nmea.process(readByte);
+
+    gpsFixAvailable = nmea.isValid();
+}
+
+bool status::gpsFixValid() {
+    return gpsFixAvailable;
+}
+
+MicroNMEA* status::getGpsFix() {
+    return &nmea;
+}
+
+void status::gpsEnable(bool enable) {
+    if(enable) {
+        GPSUart.write('\n');
+        GPSUart.write('\n');
+    } else {
+        gpsPMTK(161, ",0");
+    }
 }

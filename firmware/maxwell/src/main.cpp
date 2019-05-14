@@ -1,9 +1,7 @@
-#include <CANCommand.h>
 #include "main.h"
 #include <Arduino.h>
 #undef min
 #undef max
-#include <HardwareCAN.h>
 #include <libmaple/iwdg.h>
 #include <SdFat.h>
 #include <SPI.h>
@@ -13,12 +11,10 @@
 #include <multiserial.h>
 
 #include "multiserial.h"
-#include "can_message_ids.h"
 #include "power.h"
 #include "neopixel.h"
 #include "serial_commands.h"
 #include "power.h"
-#include "can.h"
 #include "pin_map.h"
 #include "main.h"
 #include "lte.h"
@@ -26,7 +22,7 @@
 #include "tasks.h"
 #include "bluetooth.h"
 #include "util.h"
-
+#include "display.h"
 
 SC16IS750 LTEUart = SC16IS750(
     PIN_SPI_CS_B,
@@ -38,11 +34,11 @@ MultiSerial Output;
 
 HashMap<String, double> Statistics;
 
-SPIClass SPIBus(2);
-
-SdFat filesystem(&SPIBus);
+SdFat filesystem(&SPI);
 
 Logger Log(&filesystem);
+
+HardwareSerial GPSUart = Serial3;
 
 void setup() {
     power::setWake(true);
@@ -58,15 +54,17 @@ void setup() {
     Wire.begin();
     power::init();
 
-    SPIBus.begin();
+    SPI.setModule(2);
+    SPI.begin();
 
     digitalWrite(PIN_SPI_CS_A, HIGH);
     digitalWrite(PIN_SPI_CS_B, HIGH);
-    digitalWrite(PIN_SPI_CS_C, HIGH);
+    digitalWrite(DISPLAY_CS, HIGH);
     pinMode(PIN_SPI_CS_A, OUTPUT);
     pinMode(PIN_SPI_CS_B, OUTPUT);
-    pinMode(PIN_SPI_CS_C, OUTPUT);
+    pinMode(DISPLAY_CS, OUTPUT);
     delay(250);
+
     if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(4))) {
         filesystem.initErrorPrint(&Output);
     }
@@ -112,25 +110,16 @@ void setup() {
 
     delay(100);
 
-    CanBus.map(CAN_GPIO_PB8_PB9);
-    CanBus.begin(CAN_SPEED_1000, CAN_MODE_NORMAL);
-    CanBus.filter(0, 0, 0);
-    CanBus.set_poll_mode();
-
-    CanMsg wakeMessage;
-    wakeMessage.IDE = CAN_ID_STD;
-    wakeMessage.RTR = CAN_RTR_DATA;
-    wakeMessage.ID = CAN_MAIN_MC_WAKE;
-    wakeMessage.DLC = 0;
-    CanBus.send(&wakeMessage);
+    Display.begin();
+    Display.setContrast(180);
 
     tasks::init();
     neopixel::init();
-    can::init();
     console::init();
     status::init();
+    display::init();
 
-    LTEUart.setSpiBus(&SPIBus);
+    LTEUart.setSpiBus(&SPI);
     LTEUart.begin(115200, true);
     if(!LTEUart.ping()) {
         Output.println("Error connecting to UART over SPI; no LTE available.");
@@ -170,34 +159,6 @@ void loopModules() {
     neopixel::loop();
     tasks::loop();
     power::loop();
-
-    if(CanBus.available()) {
-        CanMsg* canMsg;
-        if((canMsg = CanBus.recv()) != NULL) {
-            CANCommand::CANMessage command;
-            command.ID = canMsg->ID;
-            command.DLC = canMsg->DLC;
-
-            for (uint8_t i = 0; i < canMsg->DLC; i++) {
-                command.Data[i] = canMsg->Data[i];
-            }
-
-            #ifdef CAN_DEBUG
-                Output.print("Can Message: [");
-                Output.print(canMsg->ID, HEX);
-                Output.print("](");
-                Output.print(canMsg->DLC, HEX);
-                Output.print(") ");
-                for(uint8_t i = 0; i < canMsg->DLC; i++) {
-                    Output.print(canMsg->Data[i], HEX);
-                }
-                Output.println();
-            #endif
-            Log.logCanIncoming(canMsg);
-
-            can::handle(&command);
-
-            CanBus.free();
-        }
-    }
+    display::loop();
+    status::loop();
 }

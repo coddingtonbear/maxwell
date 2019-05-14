@@ -17,6 +17,7 @@ class Logger {
         String getLogFileName();
         uint32 getErrorCode();
         uint32 getLogCount();
+        bool isLogging();
 
     private:
         String getNextLogFileName();
@@ -27,6 +28,6 @@ class Logger {
 
         String logFileName;
         uint32 messagesLogged = 0;
-        uint32 errorState = 0;
+        int32 errorState = 0;
         bool initialized = false;
 };

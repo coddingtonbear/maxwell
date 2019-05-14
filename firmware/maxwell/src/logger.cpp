@@ -15,16 +15,11 @@ Logger::Logger(SdFat* _filesystem) {
 
 void Logger::begin() {
     logFileName = getNextLogFileName();
-    if(!logFile.open(filesystem, logFileName.c_str(), O_RDWR | O_CREAT)) {
-        errorExit();
-        return;
-    }
 
     initialized = true;
 }
 
 void Logger::end() {
-    logFile.close();
 }
 
 String Logger::getNextLogFileName() {
@@ -71,8 +66,16 @@ uint32 Logger::getLogCount() {
     return messagesLogged;
 }
 
+boolean Logger::isLogging() {
+    return initialized && !errorState;
+}
+
 void Logger::log(String message) {
     if(!initialized) {
+        return;
+    }
+    if(!logFile.open(filesystem, logFileName.c_str(), O_RDWR | O_CREAT | O_APPEND | O_AT_END)) {
+        errorExit();
         return;
     }
 
@@ -102,6 +105,8 @@ void Logger::log(String message) {
     logFile.sync();
 
     messagesLogged++;
+
+    logFile.close();
 }
 
 void Logger::logCanIncoming(CanMsg* canMsg) {

@@ -1,35 +1,4 @@
-#include <CANCommand.h>
-
-//#define DEBUG_CAN_MESSAGES
-
 #pragma once
-
-namespace can {
-    void init();
-    void handle(CANCommand::CANMessage* command);
-
-    void setLedCycle();
-    void setLedColor();
-    void setLedBrightness();
-    void setLedInterval();
-    void ledEnable();
-    void ledPreset();
-
-    void setTime();
-
-    void reset();
-    void sleep();
-
-    void flash();
-    void autosleepEnable();
-
-    void receivePosition();
-
-    void enableBluetooth();
-    void enableLTE();
-
-    void unrecognized(CANCommand::CANMessage*);
-};
 
 namespace console {
     void init();
@@ -52,11 +21,25 @@ namespace console {
     void getPowerIOState();
     void getPowerIOPinState();
 
+    void toggleLightingPreset();
+
+    void enableBacklight();
+    void disableBacklight();
+    void setContrast();
+    void menuUp();
+    void menuDown();
+    void menuIn();
+    void menuOut();
+
+    void disableAuxPower();
+    void enableAuxPower();
+
     void sleep();
     void bleCmd();
     void reset();
 
     void flash();
+
     void enableAutosleep();
     void disableAutosleep();
     void disableBluetooth();
@@ -74,9 +57,6 @@ namespace console {
     void connectLTELogger();
     void disconnectLTELogger();
 
-    void sendCan();
-    void emitCan();
-
     void getUartRegister();
     void setUartRegister();
 
@@ -91,4 +71,6 @@ namespace console {
     void getTime();
 
     void sendStatusUpdate();
+
+    void getGpsStats();
 };

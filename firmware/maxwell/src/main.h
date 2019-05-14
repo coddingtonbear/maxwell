@@ -22,3 +22,4 @@ extern HashMap<String, double> Statistics;
 extern Logger Log;
 extern SdFat filesystem;
 extern SC16IS750 LTEUart;
+extern HardwareSerial GPSUart;

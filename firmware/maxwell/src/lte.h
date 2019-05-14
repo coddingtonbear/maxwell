@@ -24,6 +24,7 @@ namespace lte {
     void pressPowerKey();
     void unpressPowerKey();
 
+    bool isLoggingNow();
     bool isPoweredOn();
     bool isEnabled();
 

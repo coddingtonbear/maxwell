@@ -3,16 +3,13 @@
 #undef max
 #include <libmaple/iwdg.h>
 #include <SerialCommand.h>
-#include <CANCommand.h>
 #include <ArduinoSort.h>
 #include <SdFat.h>
 #include <MCP79412RTC.h>
 #include <time.h>
 
-#include "can.h"
 #include "main.h"
 #include "serial_commands.h"
-#include "can_message_ids.h"
 #include "pin_map.h"
 #include "neopixel.h"
 #include "power.h"
@@ -21,8 +18,17 @@
 #include "bluetooth.h"
 #include "util.h"
 #include "tasks.h"
+#include "display.h"
+#include "led_cycles.h"
 
 namespace console {
+    int8_t currentPreset = -1;
+    uint8_t lightingPresets[] = {
+        LED_PRESET_SAFETY,
+        LED_PRESET_MIDNIGHT,
+        LED_PRESET_RAINBOW
+    };
+
     SerialCommand commands(&Output);
 
     SdFile openFile;
@@ -33,10 +39,6 @@ namespace console {
         char* byte = commands.next();
         return strtol(byte, NULL, 16);
     }
-}
-
-namespace can {
-    CANCommand canCommands;
 }
 
 void console::init() {
@@ -55,6 +57,8 @@ void console::init() {
     commands.addCommand("current", console::currentUsage);
     commands.addCommand("get_power_io_state", console::getPowerIOState);
     commands.addCommand("get_power_io_pin_state", console::getPowerIOPinState);
+    commands.addCommand("disable_aux_power", console::disableAuxPower);
+    commands.addCommand("enable_aux_power", console::enableAuxPower);
 
     commands.addCommand("sleep", console::sleep);
     commands.addCommand("btcmd", console::bleCmd);
@@ -75,9 +79,6 @@ void console::init() {
     commands.addCommand("lte_command", console::lteCommand);
     commands.addCommand("lte_timestamp", console::showLTETimestamp);
 
-    commands.addCommand("send_can", console::sendCan);
-    commands.addCommand("emit_can", console::emitCan);
-
     commands.addCommand("set_uart_register", console::setUartRegister);
     commands.addCommand("get_uart_register", console::getUartRegister);
 
@@ -95,31 +96,16 @@ void console::init() {
     commands.addCommand("lte_logger_status", console::getLTELogStatus);
     commands.addCommand("lte_logger_connect", console::connectLTELogger);
     commands.addCommand("lte_logger_disconnect", console::disconnectLTELogger);
-}
 
-void can::init() {
-    canCommands.addCommand(CAN_CMD_LED_CYCLE, can::setLedCycle);
-    canCommands.addCommand(CAN_CMD_LED_COLOR, can::setLedColor);
-    canCommands.addCommand(CAN_CMD_LED_BRIGHTNESS, can::setLedBrightness);
-    canCommands.addCommand(CAN_CMD_LED_INTERVAL, can::setLedInterval);
-    canCommands.addCommand(CAN_CMD_LED_ENABLE, can::ledEnable);
-    canCommands.addCommand(CAN_CMD_LED_PRESET, can::ledPreset);
-    canCommands.addCommand(CAN_CMD_LTE_ENABLE, can::enableLTE);
+    commands.addCommand("enable_backlight", console::enableBacklight);
+    commands.addCommand("disable_backlight", console::disableBacklight);
+    commands.addCommand("set_contrast", console::setContrast);
+    commands.addCommand("menu_up", console::menuUp);
+    commands.addCommand("menu_down", console::menuDown);
+    commands.addCommand("menu_in", console::menuIn);
+    commands.addCommand("menu_out", console::menuOut);
 
-    canCommands.addCommand(CAN_CMD_MAIN_MC_RESET, can::reset);
-    canCommands.addCommand(CAN_CMD_MAIN_MC_SLEEP, can::sleep);
-
-    canCommands.addCommand(CAN_CMD_MAIN_MC_FLASH, can::flash);
-    canCommands.addCommand(CAN_CMD_AUTOSLEEP_ENABLE, can::autosleepEnable);
-
-    canCommands.addCommand(CAN_GPS_POSITION, can::receivePosition);
-    canCommands.addCommand(CAN_CURRENT_TIMESTAMP, can::setTime);
-
-    canCommands.addCommand(CAN_CMD_BT_ENABLE, can::enableBluetooth);
-
-    #ifdef DEBUG_CAN_MESSAGES
-        canCommands.setDefaultHandler(can::unrecognized);
-    #endif
+    commands.addCommand("get_gps_stats", getGpsStats);
 }
 
 void console::getPowerIOPinState() {
@@ -163,62 +149,6 @@ void console::prompt() {
 
 void console::loop() {
     commands.readSerial();
-}
-
-void can::handle(CANCommand::CANMessage* command) {
-    canCommands.processCANMessage(command);
-}
-
-void can::setLedCycle() {
-    uint8_t data[8];
-    canCommands.getData(data);
-    byte cycleType = data[0];
-
-    neopixel::setCycle(cycleType);
-}
-
-void can::setLedColor() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    CANLedStatusColor color = *(reinterpret_cast<CANLedStatusColor*>(data));
-
-    neopixel::setColor(color.red, color.green, color.blue);
-    neopixel::setSecondaryColor(color.red2, color.green2, color.blue2);
-}
-
-void can::setLedBrightness() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    neopixel::setMaxBrightness(data[0]);
-}
-
-void can::setLedInterval() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    uint32_t interval = *(reinterpret_cast<uint32_t*>(data));
-
-    neopixel::setInterval(interval);
-}
-
-void can::ledEnable() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
-
-    neopixel::enable(enabled);
-}
-
-void can::ledPreset() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    uint8_t preset = *(reinterpret_cast<uint8_t*>(data));
-
-    neopixel::activatePreset(preset);
 }
 
 void console::led() {
@@ -356,10 +286,6 @@ void console::reset() {
     nvic_sys_reset();
 }
 
-void can::reset() {
-    nvic_sys_reset();
-}
-
 void console::isChargingNow() {
     uint8_t chargingStatus = power::getChargingStatus();
 
@@ -396,23 +322,8 @@ void console::unrecognized(const char *command) {
     Output.println(command);
 }
 
-void can::unrecognized(CANCommand::CANMessage* msg) {
-    Output.print("Unknown CAN message: ");
-    Output.println(msg->ID, HEX);
-    Output.print("\tData: ");
-    for(uint8_t i = 0; i < msg->DLC; i++) {
-        Output.print(msg->Data[i], HEX);
-        Output.print(' ');
-    }
-    Output.println();
-}
-
 void console::uptime() {
     Output.println(millis());
-}
-
-void can::flash() {
-    ble::sendCommand("flash");
 }
 
 void console::flash() {
@@ -421,13 +332,6 @@ void console::flash() {
         lte::enable(false);
         LTE.wait(6000, iwdg_feed);
     }
-
-    CanMsg flashNoticeMsg;
-    flashNoticeMsg.IDE = CAN_ID_STD;
-    flashNoticeMsg.RTR = CAN_RTR_DATA;
-    flashNoticeMsg.ID = CAN_MAIN_MC_FLASH_BEGIN;
-    flashNoticeMsg.DLC = 0;
-    CanBus.send(&flashNoticeMsg);
 
     Output.println("Resetting device now; you may disconnect.");
     Output.flush();
@@ -475,53 +379,7 @@ void console::bleCmd() {
     Output.print(result);
 }
 
-void console::emitCan() {
-    byte* canIdBytes = reinterpret_cast<byte*>(&testId);
-
-    CanMsg testMsg;
-    testMsg.IDE = CAN_ID_STD;
-    testMsg.RTR = CAN_RTR_DATA;
-    testMsg.ID = CAN_TEST;
-    testMsg.DLC = 0;
-
-    for(uint8 i = 0; i < sizeof(uint8_t); i++) {
-        testMsg.Data[i] = canIdBytes[i];
-    }
-
-    testId++;
-    CanBus.send(&testMsg);
-}
-
-void console::sendCan() {
-    CanMsg testMsg;
-    testMsg.IDE = CAN_ID_STD;
-    testMsg.RTR = CAN_RTR_DATA;
-
-    char* id = commands.next();
-    if(id == NULL) {
-        Output.println("Message ID required");
-        return;
-    }
-    testMsg.ID = strtol(id, NULL, 16);
-    testMsg.DLC = 0;
-
-    while(true) {
-        char* argument = commands.next();
-        if(argument == NULL) {
-            break;
-        }
-        testMsg.Data[testMsg.DLC] = strtol(argument, NULL, 16);
-        testMsg.DLC++;
-    }
-
-    CanBus.send(&testMsg);
-}
-
 void console::sleep() {
-    power::sleep();
-}
-
-void can::sleep() {
     power::sleep();
 }
 
@@ -571,24 +429,6 @@ void console::bridgeUART() {
     }
 }
 
-void can::enableBluetooth() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
-
-    ble::enableBluetooth(enabled);
-}
-
-void can::enableLTE() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
-
-    lte::enable(enabled);
-}
-
 void console::printStatistics() {
     uint8_t size = Statistics.count();
     String statistics[size];
@@ -605,15 +445,6 @@ void console::printStatistics() {
     for(uint8_t i = 0; i < size; i++) {
         Output.println(statistics[i]);
     }
-}
-
-void can::autosleepEnable() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    uint8_t enabled = *(reinterpret_cast<uint8_t*>(data));
-
-    power::enableAutosleep(enabled);
 }
 
 void console::enableAutosleep() {
@@ -1080,15 +911,6 @@ void console::showLTETimestamp() {
     Output.println(timestamp);
 }
 
-void can::receivePosition() {
-    uint8_t data[8];
-    canCommands.getData(data);
-
-    CANGpsPosition pos = *(reinterpret_cast<CANGpsPosition*>(data));
-
-    status::setGpsPosition(pos.latitude, pos.longitude);
-}
-
 void console::sendStatusUpdate() {
     status::sendStatusUpdate();
 }
@@ -1136,19 +958,6 @@ void console::printTaskStatistics() {
     tasks::printTaskStatistics();
 }
 
-void can::setTime() {
-    static uint8_t data[8];
-    canCommands.getData(data);
-
-    time_t timestamp = *(reinterpret_cast<time_t*>(data));
-
-    if(timestamp > 2000000000 || timestamp < 1000000000) {
-        Log.log("Error: received erroneous CAN timestamp: " + String((int)timestamp));
-    } else {
-        Clock.set(timestamp);
-    }
-}
-
 void console::repeat() {
     uint16_t milliseconds = 1000;
     char* tmpCommandStr = commands.next();
@@ -1189,4 +998,84 @@ void console::repeat() {
         }
     }
     Output.println("[Repeated run ended]");
+}
+
+
+void console::enableBacklight() {
+    Display.enableBacklight(true);
+}
+
+void console::disableBacklight() {
+    Display.enableBacklight(false);
+}
+
+void console::enableAuxPower() {
+    power::enableAux(true);
+}
+
+void console::disableAuxPower() {
+    power::enableAux(false);
+}
+
+void console::setContrast() {
+    char* contrastValue = commands.next();
+    if(contrastValue) {
+        Display.setContrast(atoi(contrastValue));
+        Output.print("Contrast set to ");
+        Output.println(atoi(contrastValue));
+    } else {
+        Output.println("Value required");
+    }
+}
+
+void console::menuUp() {
+    Display.up();
+}
+
+void console::menuDown() {
+    Display.down();
+}
+
+void console::menuIn() {
+    Display.in();
+}
+
+void console::menuOut() {
+    Display.out();
+}
+
+void console::toggleLightingPreset() {
+    currentPreset++;
+    if(currentPreset >= sizeof(lightingPresets) / sizeof(currentPreset)) {
+        currentPreset = 0;
+    }
+
+    neopixel::activatePreset(currentPreset);
+}
+
+void console::getGpsStats() {
+    MicroNMEA* fix = status::getGpsFix();
+
+    Output.print("Locked: ");
+    Output.println(fix->isValid() ? "Yes" : "No");
+    Output.print("Latitude: ");
+    Output.println(fix->getLatitude() / 1e6);
+    Output.print("Longitude: ");
+    Output.println(fix->getLongitude() / 1e6);
+    long altitude;
+    bool gotAltitude = fix->getAltitude(altitude);
+    Output.print("Altitude: ");
+    if(!gotAltitude) {
+        Output.print("(invalid) ");
+    }
+    Output.print((float)altitude / 1e3);
+    Output.println("m");
+    Output.print("Positioning System: ");
+    Output.println(fix->getNavSystem());
+    Output.print("Num Satellites: ");
+    Output.println(fix->getNumSatellites());
+    Output.print("Message Id: ");
+    Output.println(fix->getMessageID());
+    Output.print("Current sentence: ");
+    Output.println(fix->getSentence());
 }
