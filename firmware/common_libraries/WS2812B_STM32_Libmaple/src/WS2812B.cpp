@@ -27,6 +27,8 @@
 #include "wiring_private.h"
 #include <SPI.h>
 
+SPIClass LedSPI(1);
+
 
 // Constructor when n is the number of LEDs in the strip
 WS2812B::WS2812B(uint16_t number_of_leds) :
@@ -42,15 +44,15 @@ WS2812B::~WS2812B()
   {
 	  free(pixels);
   }
-  SPI.end();
+  LedSPI.end();
 }
 
 void WS2812B::begin(void) {
 
 if (!begun)
 {
-  SPI.setClockDivider(SPI_CLOCK_DIV32);// need bit rate of 400nS but closest we can do @ 72Mhz is 444ns (which is within spec)
-  SPI.begin();
+  LedSPI.setClockDivider(SPI_CLOCK_DIV32);// need bit rate of 400nS but closest we can do @ 72Mhz is 444ns (which is within spec)
+  LedSPI.begin();
   begun = true;
 }
 }
@@ -82,7 +84,7 @@ void WS2812B::updateLength(uint16_t n)
 // Sends the current buffer to the leds
 void WS2812B::show(void) 
 {
-  SPI.dmaSendAsync(pixels,numBytes);// Start the DMA transfer of the current pixel buffer to the LEDs and return immediately.
+  LedSPI.dmaSendAsync(pixels,numBytes);// Start the DMA transfer of the current pixel buffer to the LEDs and return immediately.
 
   // Need to copy the last / current buffer to the other half of the double buffer as most API code does not rebuild the entire contents
   // from scratch. Often just a few pixels are changed e.g in a chaser effect
