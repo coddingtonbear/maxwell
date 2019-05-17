@@ -43,6 +43,7 @@ void power::init() {
 
     currentSense.begin();
 
+    power::enableDynamoPower(true);
     power::enableAux(true);
 }
 
@@ -252,6 +253,11 @@ void power::sleep() {
 
     Display.addAlert("Powering down");
     Display.refresh();
+
+    // Turn on the dynamo relay so that if an empty
+    // battery is swapped-in, we can charge it even
+    // if there's not enough power to turn on the uC
+    power::enableDynamoPower(true);
 
     // Stop logging
     Log.end();

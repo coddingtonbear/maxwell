@@ -46,6 +46,9 @@ namespace console {
     void enableBluetooth();
     void setBluetoothTimeoutSeconds();
 
+    void enableDynamoPower();
+    void disableDynamoPower();
+
     void enableLTE();
     void disableLTE();
     void getLTEStatus();

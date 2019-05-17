@@ -59,6 +59,8 @@ void console::init() {
     commands.addCommand("get_power_io_pin_state", console::getPowerIOPinState);
     commands.addCommand("disable_aux_power", console::disableAuxPower);
     commands.addCommand("enable_aux_power", console::enableAuxPower);
+    commands.addCommand("enable_dynamo_power", console::enableDynamoPower);
+    commands.addCommand("disable_dynamo_power", console::disableDynamoPower);
 
     commands.addCommand("sleep", console::sleep);
     commands.addCommand("btcmd", console::bleCmd);
@@ -1078,4 +1080,12 @@ void console::getGpsStats() {
     Output.println(fix->getMessageID());
     Output.print("Current sentence: ");
     Output.println(fix->getSentence());
+}
+
+void console::enableDynamoPower() {
+    power::enableDynamoPower(true);
+}
+
+void console::disableDynamoPower() {
+    power::enableDynamoPower(false);
 }
