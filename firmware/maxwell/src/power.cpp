@@ -16,6 +16,7 @@
 #include "lte.h"
 #include "util.h"
 #include "status.h"
+#include "display.h"
 
 namespace power {
     long int lastUpdated = 0;
@@ -248,6 +249,9 @@ void power::sleep() {
     Log.log("Sleep requested");
     Output.println("Sleeping now");
     Output.flush();
+
+    Display.addAlert("Powering down");
+    Display.refresh();
 
     // Stop logging
     Log.end();
