@@ -24,10 +24,11 @@ namespace power {
     bool batteryChargingEnabled = false;
     bool auxiliaryPowerEnabled = false;
 
+    bool dynamoOvervoltage = false;
+
     RollingAverage<double, 5> currentAmps;
     RollingAverage<double, 10> batteryVoltage;
     RollingAverage<double, 10> dynamoVoltage;
-    RollingAverage<double, 10> rectifiedVoltage;
 
     double lastChargingStatusSample = 0;
 
@@ -62,6 +63,10 @@ void power::enableDynamoPower(bool enabled) {
     powerIo.setMode(PIN_RECTIFIER_RELAY_B, IO_INPUT);
 }
 
+bool power::isOvervoltage() {
+    return dynamoOvervoltage;
+}
+
 void power::setWake(bool enable) {
     if(enable) {
         digitalWrite(PIN_POWER_ON, HIGH);
@@ -72,8 +77,17 @@ void power::setWake(bool enable) {
 }
 
 void power::loop() {
-    double voltage = rectifiedVoltage.getValue();
-    double battery = batteryVoltage.getValue();
+    double voltage = dynamoVoltage.getValue();
+
+    if(!dynamoOvervoltage && voltage > OVERVOLTAGE_HIGH) {
+        dynamoOvervoltage = true;
+
+        enableDynamoPower(false);
+    } else if(dynamoOvervoltage && voltage < OVERVOLTAGE_LOW) {
+        dynamoOvervoltage = false;
+
+        enableDynamoPower(true);
+    }
 }
 
 uint16_t power::getAdcValue(uint8_t ch) {
@@ -127,9 +141,9 @@ void power::updatePowerMeasurements() {
     if(Statistics.valueFor("Battery Voltage (Max)") < batteryVoltage.getValue()) {
         Statistics.put("Battery Voltage (Max)", batteryVoltage.getValue());
     }
-    Statistics.put("Rectified Voltage", rectifiedVoltage.getValue());
-    if(Statistics.valueFor("Rectified Voltage (Max)") < rectifiedVoltage.getValue()) {
-        Statistics.put("Rectified Voltage (Max)", rectifiedVoltage.getValue());
+    Statistics.put("Dynamo Voltage", dynamoVoltage.getValue());
+    if(Statistics.valueFor("Dynamo Voltage (Max)") < dynamoVoltage.getValue()) {
+        Statistics.put("Dynamo Voltage (Max)", dynamoVoltage.getValue());
     }
     Statistics.put("Current (Amps)", currentAmps.getValue());
     if(Statistics.valueFor("Current (Amps) (Max)") < currentAmps.getValue()) {
@@ -151,9 +165,6 @@ double power::getVoltage(uint source) {
     double result = 0;
 
     switch(source) {
-        case VOLTAGE_RECTIFIED:
-            result = rectifiedVoltage.getValue();
-            break;
         case VOLTAGE_BATTERY:
             result = batteryVoltage.getValue();
             break;

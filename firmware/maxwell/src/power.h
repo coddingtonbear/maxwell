@@ -15,6 +15,9 @@
 
 #define CURRENT_SENSE_ADDRESS B1001010
 
+#define OVERVOLTAGE_HIGH 15
+#define OVERVOLTAGE_LOW 10
+
 namespace power {
     void init();
     void loop();
@@ -22,6 +25,7 @@ namespace power {
     double getCurrentUsage();
     uint16_t getAdcValue(uint8_t pin);
     uint8_t getChargingStatus();
+    bool isOvervoltage();
 
     void enableDynamoPower(bool enabled=true);
 

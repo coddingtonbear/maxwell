@@ -275,16 +275,13 @@ void DisplayManager::refresh() {
                 );
             }
         }
-        /*
-        TODO: Use for relay enablement later
-        if(status.power_source == 0) {
+        if (power::isOvervoltage()) {
             displayCtl.drawXBM(
                 16, 0,
                 ICON_WIDTH, ICON_HEIGHT,
                 dynamoPower_bits
             );
-        }*/
-
+        }
         AsyncModem::SIM7000::NETWORK_STATUS status = lte::getNetworkStatus();
         if(lte::isLoggingNow()) {
             displayCtl.drawXBM(
