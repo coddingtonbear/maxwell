@@ -173,6 +173,21 @@ MenuList::MenuList(MenuItem* menuItems, uint8_t _length) {
         };
     MenuList statsMenuList(statsMenuItems, COUNT_OF(statsMenuItems));
 MenuItem statsMenu("Stats", &statsMenuList);
+                MenuItem dynamoEnMenuOptions[] = {
+                    MenuItem(
+                        "Enable",
+                        []() -> void {
+                            power::enableDynamoPower(true);
+                        }
+                    ),
+                    MenuItem(
+                        "Disable",
+                        []() -> void {
+                            power::enableDynamoPower(false);
+                        }
+                    )
+                };
+            MenuList dynamoEnMenuList(dynamoEnMenuOptions, COUNT_OF(dynamoEnMenuOptions));
                 MenuItem autosleepMenuOptions[] = {
                     MenuItem(
                         "Enable",
@@ -188,6 +203,10 @@ MenuItem statsMenu("Stats", &statsMenuList);
             MenuItem(
                 "Power Off",
                 console::sleep
+            ),
+            MenuItem(
+                "Dynamo",
+                &dynamoEnMenuList
             ),
             MenuItem(
                 "Autosleep",
