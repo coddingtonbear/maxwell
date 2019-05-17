@@ -125,7 +125,7 @@ const uint8_t SD_CMD0_RETRY = 10;
 /** command timeout ms */
 const uint16_t SD_CMD_TIMEOUT = 300;
 /** init timeout ms */
-const uint16_t SD_INIT_TIMEOUT = 2000;
+const uint16_t SD_INIT_TIMEOUT = 5000;
 /** erase timeout ms */
 const uint16_t SD_ERASE_TIMEOUT = 10000;
 /** read timeout ms */
