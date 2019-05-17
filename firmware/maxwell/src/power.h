@@ -16,17 +16,14 @@
 #define CURRENT_SENSE_ADDRESS B1001010
 
 namespace power {
-    enum PowerSource {
-        dynamo,
-        battery
-    };
-
     void init();
     void loop();
     double getVoltage(uint source);
     double getCurrentUsage();
     uint16_t getAdcValue(uint8_t pin);
     uint8_t getChargingStatus();
+
+    void enableDynamoPower(bool enabled=true);
 
     uint8_t getPowerIOComResult();
     uint8_t getPowerIOState(Pca9536::pin_t pin);
@@ -38,7 +35,6 @@ namespace power {
     double convertAdcToVoltage(uint32_t value, uint16_t r1, uint16_t r2);
 
     void updatePowerMeasurements();
-    PowerSource getPowerSource();
 
     void sleep();
     void checkSleepTimeout();

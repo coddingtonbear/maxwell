@@ -23,8 +23,6 @@ namespace power {
     bool batteryChargingEnabled = false;
     bool auxiliaryPowerEnabled = false;
 
-    PowerSource currentPowerSource = PowerSource::battery;
-
     RollingAverage<double, 5> currentAmps;
     RollingAverage<double, 10> batteryVoltage;
     RollingAverage<double, 10> dynamoVoltage;
@@ -39,19 +37,27 @@ namespace power {
 }
 
 void power::init() {
-    powerIo.setState(PIN_PWR_DISABLE_BATTERY_SRC, IO_LOW);
-    powerIo.setState(PIN_PWR_ENABLE_VREF, IO_HIGH);
-
-    powerIo.setMode(PIN_PWR_DISABLE_BATTERY_SRC, IO_OUTPUT);
-    powerIo.setMode(PIN_PWR_I_POWER_SOURCE_INDICATOR, IO_INPUT);
-    powerIo.setPolarity(PIN_PWR_I_POWER_SOURCE_INDICATOR, IO_NON_INVERTED);
     powerIo.setMode(PIN_PWR_I_BATT_CHARGING, IO_INPUT);
     powerIo.setPolarity(PIN_PWR_I_BATT_CHARGING, IO_NON_INVERTED);
-    powerIo.setMode(PIN_PWR_ENABLE_VREF, IO_OUTPUT);
 
     currentSense.begin();
 
     power::enableAux(true);
+}
+
+void power::enableDynamoPower(bool enabled) {
+    if(enabled) {
+        powerIo.setState(PIN_RECTIFIER_RELAY_A, IO_HIGH);
+        powerIo.setState(PIN_RECTIFIER_RELAY_B, IO_LOW);
+    } else {
+        powerIo.setState(PIN_RECTIFIER_RELAY_A, IO_LOW);
+        powerIo.setState(PIN_RECTIFIER_RELAY_B, IO_HIGH);
+    }
+    powerIo.setMode(PIN_RECTIFIER_RELAY_A, IO_OUTPUT);
+    powerIo.setMode(PIN_RECTIFIER_RELAY_B, IO_OUTPUT);
+    delay(100);
+    powerIo.setMode(PIN_RECTIFIER_RELAY_A, IO_INPUT);
+    powerIo.setMode(PIN_RECTIFIER_RELAY_B, IO_INPUT);
 }
 
 void power::setWake(bool enable) {
@@ -100,22 +106,12 @@ uint16_t power::getAdcValue(uint8_t ch) {
 void power::updatePowerMeasurements() {
     uint16_t tempDynamoVoltage = getAdcValue(PIN_ADC_DYNAMO_VOLTAGE);
     uint16_t tempBattVoltage = getAdcValue(PIN_ADC_BATT_VOLTAGE);
-    uint16_t tempRectifiedVoltage = getAdcValue(
-        PIN_ADC_RECTIFIED_VOLTAGE
-    );
 
     dynamoVoltage.addMeasurement(
         convertAdcToVoltage(tempDynamoVoltage, 20000, 1500)
     );
     batteryVoltage.addMeasurement(
         convertAdcToVoltage(tempBattVoltage, 1000, 1000)
-    );
-    rectifiedVoltage.addMeasurement(
-        convertAdcToVoltage(
-            tempRectifiedVoltage,
-            1000,
-            1000
-        )
     );
 
     double tempAmps = currentSense.getCurrent_mA();
@@ -145,8 +141,6 @@ void power::updatePowerMeasurements() {
         (millis() - lastChargingStatusSample) / 60000
     );
     Statistics.put(minutesName, value);
-
-    currentPowerSource = getPowerSource();
 
     lastChargingStatusSample = millis();
 }
@@ -211,18 +205,6 @@ void power::checkSleepTimeout() {
     }
 }
 
-power::PowerSource power::getPowerSource() {
-    power::PowerSource source;
-
-    if(powerIo.getState(PIN_PWR_I_POWER_SOURCE_INDICATOR) == IO_HIGH) {
-        source = power::PowerSource::battery;
-    } else {
-        source = power::PowerSource::dynamo;
-    }
-    Statistics.put("Power Source", (double)source);
-    return source;
-}
-
 void power::printPowerIOState() {
     pin_t pins[4] = { IO0, IO1, IO2, IO3 };
 
@@ -274,7 +256,6 @@ void power::sleep() {
     // Disable GPS
     status::gpsEnable(false);
 
-    powerIo.setState(PIN_PWR_ENABLE_VREF, IO_LOW);
     currentSense.powerDown();
 
     Output.end();
