@@ -14,9 +14,12 @@ Logger::Logger(SdFat* _filesystem) {
 }
 
 void Logger::begin() {
-    logFileName = getNextLogFileName();
-
     initialized = true;
+
+    logFileName = getNextLogFileName();
+    if(logFileName.length() == 0) {
+        errorExit();
+    }
 }
 
 void Logger::end() {
@@ -25,28 +28,79 @@ void Logger::end() {
 String Logger::getNextLogFileName() {
     time_t time = Clock.get();
 
-    char ymdDir[16];
-    sprintf(
-        ymdDir,
-        "%02d/%02d/%02d",
-        year(time),
-        month(time),
-        day(time)
-    );
-    char timeStr[16];
-    sprintf(
-        timeStr,
-        "%02d%02d%02d.log",
-        hour(time),
-        minute(time),
-        second(time)
-    );
+    char year_ch[5];
+    char month_ch[3];
+    char day_ch[3];
+    char hour_ch[3];
+    char minute_ch[3];
+    char second_ch[3];
 
-    if(!filesystem->exists(ymdDir)) {
-        filesystem->mkdir(ymdDir, true);
+    sprintf(year_ch, "%02d", year(time));
+    sprintf(month_ch, "%02d", month(time));
+    sprintf(day_ch, "%02d", day(time));
+    sprintf(hour_ch, "%02d", hour(time));
+    sprintf(minute_ch, "%02d", minute(time));
+    sprintf(second_ch, "%02d", second(time));
+
+    Output.println(year_ch);
+    Output.println(month_ch);
+    Output.println(day_ch);
+    Output.println(hour_ch);
+    Output.println(minute_ch);
+    Output.println(second_ch);
+    Output.flush();
+
+    Output.println("Year");
+    Output.flush();
+    if(!filesystem->exists(year_ch)) {
+        if(! filesystem->mkdir(year_ch)) {
+            return "";
+        }
+    }
+    if(!filesystem->chdir(year_ch)) {
+        return "";
+    }
+    Output.println("Month");
+    Output.flush();
+
+    if(!filesystem->exists(month_ch)) {
+        if(! filesystem->mkdir(month_ch)) {
+            return "";
+        }
+    }
+    if(! filesystem->chdir(month_ch)) {
+        return "";
+    }
+    Output.println("Day");
+    Output.flush();
+
+    if(!filesystem->exists(day_ch)) {
+        if(! filesystem->mkdir(day_ch)) {
+            return "";
+        }
+    }
+    if(! filesystem->chdir("/")) {
+        return "";
     }
 
-    return String(ymdDir) + "/" + String(timeStr);
+    Output.println("Full");
+    Output.flush();
+
+    char fullFilename[32];
+    sprintf(
+        fullFilename,
+        "%s/%s/%s/%s%s%s.log",
+        year_ch,
+        month_ch,
+        day_ch,
+        hour_ch,
+        minute_ch,
+        second_ch
+    );
+    Output.println(fullFilename);
+    Output.flush();
+
+    return String(fullFilename);
 }
 
 String Logger::getLogFileName() {
@@ -71,6 +125,10 @@ boolean Logger::isLogging() {
 }
 
 void Logger::log(String message) {
+    log("general", message);
+}
+
+void Logger::log(String logger, String message) {
     if(!initialized) {
         return;
     }
@@ -94,12 +152,18 @@ void Logger::log(String message) {
     char millisBytes[millisLength];
     sprintf(millisBytes, "%08d\t", millis());
 
+    uint32_t loggerLength = logger.length() + 1;
+    char loggerBytes[loggerLength];
+    logger.toCharArray(loggerBytes, loggerLength);
+
     uint32_t messageLength = message.length() + 1;
     char messageBytes[messageLength];
     message.toCharArray(messageBytes, messageLength);
 
     logFile.write(clockBytes, strlen(clockBytes));
     logFile.write(millisBytes, strlen(millisBytes));
+    logFile.write(loggerBytes, strlen(loggerBytes));
+    logFile.write('\t');
     logFile.write(messageBytes, strlen(messageBytes));
     logFile.write('\n');
     logFile.sync();

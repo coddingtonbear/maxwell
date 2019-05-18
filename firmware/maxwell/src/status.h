@@ -23,6 +23,41 @@
 //#define DEBUG_GPS
 
 namespace status {
+    struct Color {
+        uint8_t red;
+        uint8_t green;
+        uint8_t blue;
+
+        Color() {};
+        Color(uint8_t r, uint8_t g, uint8_t b) {
+            red = r;
+            green = g;
+            blue = b;
+        }
+
+        String asHex();
+    };
+    struct Status {
+        int32_t free_memory;
+        bool gps_locked;
+        float gps_latitude;
+        float gps_longitude;
+        bool gps_altitude_valid;
+        long gps_altitude;
+        float velocity;
+        unsigned int timestamp;
+        unsigned int uptime;
+        bool sd_logging;
+        float voltage_battery;
+        float voltage_dynamo;
+        float current_amps;
+        Color led_color_1;
+        Color led_color_2;
+        bool led_enabled;
+        uint8_t led_cycle_id;
+        uint8_t led_brightness;
+        uint32_t led_interval;
+    };
 
     void init();
     void loop();
@@ -32,6 +67,7 @@ namespace status {
     void gpsEnable(bool enable=true);
     void gpsPMTK(uint cmd, String data);
     void updateGpsFix();
+    time_t getGpsTime();
     bool gpsFixValid();
     MicroNMEA* getGpsFix();
     bool syncClockWithGps();
@@ -42,7 +78,9 @@ namespace status {
     double getSpeed();
 
     bool connectStatusConnection(bool enabled=true);
+    Status getStatus();
     bool sendStatusUpdate();
     bool statusConnectionConnected();
+    void logStatusUpdate();
     uint32_t getLastStatusUpdateTime();
 };

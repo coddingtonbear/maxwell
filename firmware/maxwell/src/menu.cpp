@@ -99,7 +99,7 @@ MenuList::MenuList(MenuItem* menuItems, uint8_t _length) {
             ),
             MenuItem(
                 []() -> String {
-                    bool btEnabled = ble::bluetoothIsEnabled();
+                    bool btEnabled = bluetooth::bluetoothIsEnabled();
                     return String("BT: ") + String(
                         btEnabled ? "Yes" : "No"
                     );

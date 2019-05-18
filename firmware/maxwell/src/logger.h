@@ -10,6 +10,7 @@ class Logger {
         Logger(SdFat*);
         void begin();
         void end();
+        void log(String, String);
         void log(String);
         void logCanIncoming(CanMsg*);
         void logCanOutgoing(CanMsg*);

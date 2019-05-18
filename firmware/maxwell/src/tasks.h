@@ -1,7 +1,6 @@
 #pragma once
 
-// These are semi-random to make sure they don't collide too often
-#define LOGGER_STATS_INTERVAL 10000
+#define LOGGER_STATS_INTERVAL 1000
 #define SPEED_REFRESH_INTERVAL 500
 #define LTE_STATUS_COLLECT_INTERVAL 3200
 #define LTE_STATUS_ANNOUNCE_INTERVAL 9000
@@ -16,6 +15,7 @@
 namespace tasks {
     void init();
     void loop();
+    void logTaskStatistics();
     void printTaskStatistics();
 
     void enableLTEStatusManager(bool _enable=true);

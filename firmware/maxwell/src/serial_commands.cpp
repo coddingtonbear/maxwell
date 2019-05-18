@@ -376,7 +376,7 @@ void console::bleCmd() {
         btcommand += String(arg);
     }
 
-    String result = ble::sendCommand(btcommand);
+    String result = bluetooth::sendCommand(btcommand);
 
     Output.print(result);
 }
@@ -463,6 +463,8 @@ void console::logStatus() {
 
     if(errCode) {
         Output.println("Status: ERROR " + String(errCode));
+    } else if(!Log.isLogging()) {
+        Output.println("Status: NOT INITIALIZED");
     } else {
         Output.println("Status: OK");
     }
@@ -612,11 +614,11 @@ void console::logSearch() {
 }
 
 void console::enableBluetooth() {
-    ble::enableBluetooth(true);
+    bluetooth::enableBluetooth(true);
 }
 
 void console::disableBluetooth() {
-    ble::enableBluetooth(false);
+    bluetooth::enableBluetooth(false);
 }
 
 void console::setBluetoothTimeoutSeconds() {
@@ -626,7 +628,7 @@ void console::setBluetoothTimeoutSeconds() {
         seconds = atoi(seconds_str);
     }
 
-    ble::delayTimeout(millis() + (seconds * 1000));
+    bluetooth::delayTimeout(millis() + (seconds * 1000));
 }
 
 void console::sdErrorState() {
@@ -978,7 +980,7 @@ void console::repeat() {
     while(! Output.available()) {
         loopModules();
         power::refreshSleepTimeout();
-        ble::refreshTimeout();
+        bluetooth::refreshTimeout();
         if(millis() > nextLoop) {
             Output.print("[Repeated ");
             Output.print(milliseconds);
@@ -1072,6 +1074,8 @@ void console::getGpsStats() {
     }
     Output.print((float)altitude / 1e3);
     Output.println("m");
+    Output.print("Timestamp: ");
+    Output.println(status::getGpsTime());
     Output.print("Positioning System: ");
     Output.println(fix->getNavSystem());
     Output.print("Num Satellites: ");

@@ -5,16 +5,26 @@
 #include "pin_map.h"
 #include "main.h"
 
-namespace ble {
+namespace bluetooth {
     bool bluetoothEnabled = true;
     KeepAlive BluetoothTimeout(BLUETOOTH_TIMEOUT);
 }
 
-bool ble::bluetoothIsEnabled() {
+void bluetooth::init() {
+}
+
+void bluetooth::loop() {
+    bluetooth::checkTimeout();
+    if(Output.available()) {
+        bluetooth::refreshTimeout();
+    }
+}
+
+bool bluetooth::bluetoothIsEnabled() {
     return bluetoothEnabled;
 }
 
-void ble::enableBluetooth(bool enable) {
+void bluetooth::enableBluetooth(bool enable) {
     if(enable && !bluetoothEnabled) {
         digitalWrite(PIN_BT_DISABLE_, HIGH);
         BluetoothTimeout.refresh();
@@ -25,7 +35,7 @@ void ble::enableBluetooth(bool enable) {
     }
 }
 
-String ble::sendCommand(String command) {
+String bluetooth::sendCommand(String command) {
     String result;
 
     Output.flush();
@@ -53,18 +63,19 @@ String ble::sendCommand(String command) {
     return result;
 }
 
-void ble::refreshTimeout() {
+void bluetooth::refreshTimeout() {
     BluetoothTimeout.refresh();
 }
 
-void ble::delayTimeout(uint32_t value) {
+void bluetooth::delayTimeout(uint32_t value) {
     BluetoothTimeout.delayUntil(value);
 }
 
-void ble::checkTimeout() {
+void bluetooth::checkTimeout() {
     if(BluetoothTimeout.isTimedOut() && bluetoothEnabled) {
         Output.println("<Bluetooth Timeout>");
         Output.flush();
-        ble::enableBluetooth(false);
+        Log.log("bluetooth", "Bluetooth timeout; disabling.");
+        bluetooth::enableBluetooth(false);
     }
 }

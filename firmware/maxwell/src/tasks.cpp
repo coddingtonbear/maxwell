@@ -17,6 +17,8 @@
 namespace tasks {
     uint32 lastStatisticsUpdate = 0;
 
+    uint8_t logRotation = 0;
+
     Scheduler taskRunner;
 
     Task taskDisplay(
@@ -107,6 +109,8 @@ void tasks::taskLoggerStatsIntervalCallback() {
     tasks::start("Logger stats interval");
 
     // Nothing for now
+    status::logStatusUpdate();
+    logTaskStatistics();
 }
 
 void tasks::taskLTEStatusAnnounceCallback() {
@@ -133,6 +137,42 @@ void tasks::taskLTEStatusCollectCallback() {
     if(lte::isEnabled()){
         lte::collectStatusInformation();
     }
+}
+
+void tasks::logTaskStatistics() {
+    // Don't log everything every cycle since logging
+    // takes enough time that you might see LED stuttering
+    if(logRotation == 0) {
+        Log.log("tasks", "voltage: average: " + String(taskVoltage.getAverageRuntime()));
+    } else if(logRotation == 1) {
+        Log.log("tasks", "voltage: total: " + String(taskVoltage.getTotalRuntime()));
+    } else if(logRotation == 2) {
+        Log.log("tasks", "speed: average: " + String(taskSpeedRefresh.getAverageRuntime()));
+    } else if(logRotation == 3) {
+        Log.log("tasks", "speed: total: " + String(taskSpeedRefresh.getTotalRuntime()));
+    } else if(logRotation == 4) {
+        Log.log("tasks", "log stats: average: " + String(taskLoggerStatsInterval.getAverageRuntime()));
+    } else if(logRotation == 5) {
+        Log.log("tasks", "log stats: total: " + String(taskLoggerStatsInterval.getTotalRuntime()));
+    } else if(logRotation == 6) {
+        Log.log("tasks", "lte status update: average: " + String(taskLTEStatusCollect.getAverageRuntime()));
+    } else if(logRotation == 7) {
+        Log.log("tasks", "lte status update: total: " + String(taskLTEStatusCollect.getTotalRuntime()));
+    } else if (logRotation == 8) {
+        Log.log("tasks", "lte status mgr: average: " + String(taskLTEStatusManager.getAverageRuntime()));
+    } else if(logRotation == 9) {
+        Log.log("tasks", "lte status mgr: total: " + String(taskLTEStatusManager.getTotalRuntime()));
+    } else if (logRotation == 10) {
+        Log.log("tasks", "display refresh: average: " + String(taskDisplay.getAverageRuntime()));
+    } else if(logRotation == 11) {
+        Log.log("tasks", "display refresh: total: " + String(taskDisplay.getTotalRuntime()));
+    } else {
+        logRotation = 0;
+        logTaskStatistics();
+        return;
+    }
+
+    logRotation++;
 }
 
 void tasks::printTaskStatistics() {

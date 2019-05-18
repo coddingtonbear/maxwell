@@ -54,22 +54,22 @@ void setup() {
     Wire.begin();
     power::init();
 
-    SPI.setModule(2);
-    SPI.begin();
-
     digitalWrite(PIN_SPI_CS_A, HIGH);
     digitalWrite(PIN_SPI_CS_B, HIGH);
     digitalWrite(DISPLAY_CS, HIGH);
     pinMode(PIN_SPI_CS_A, OUTPUT);
     pinMode(PIN_SPI_CS_B, OUTPUT);
     pinMode(DISPLAY_CS, OUTPUT);
-    delay(250);
 
-    if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(4))) {
+    SPI.setModule(2);
+    SPI.begin();
+
+    if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(8))) {
         filesystem.initErrorPrint(&Output);
+    } else {
+        Log.begin();
     }
 
-    Log.begin();
     Log.log(String("Device reset: ") + String(RCC_BASE->CSR, HEX));
     Output.print("Device reset: ");
     if(RCC_BASE->CSR & (1 << 31)) {
@@ -113,6 +113,8 @@ void setup() {
     Display.begin();
     Display.setContrast(180);
 
+    // power::init() is earlier
+    bluetooth::init();
     tasks::init();
     neopixel::init();
     console::init();
@@ -147,14 +149,7 @@ void loop() {
 void loopModules() {
     iwdg_feed();
 
-    power::checkSleepTimeout();
-    ble::checkTimeout();
-    // If there are bytes on the serial buffer; keep the device alive
-    if(Output.available()) {
-        power::refreshSleepTimeout();
-        ble::refreshTimeout();
-    }
-
+    bluetooth::loop();
     lte::loop();
     neopixel::loop();
     tasks::loop();

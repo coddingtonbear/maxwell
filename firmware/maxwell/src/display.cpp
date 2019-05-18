@@ -217,10 +217,11 @@ void DisplayManager::out() {
     if(menuDepth == 0) {
         // Hide the menu
         showMenuUntil = 0;
-    }  else if(menuDepth > 0) {
+    } else if(menuDepth > 0) {
         menuDepth--;
     } else {
         menuDepth = 0;
+        showMenuUntil = 0;
     }
 }
 
@@ -307,7 +308,7 @@ void DisplayManager::refresh() {
                 gps_bits
             );
         }
-        if (ble::bluetoothIsEnabled()) {
+        if (bluetooth::bluetoothIsEnabled()) {
             displayCtl.drawXBM(
                 DISPLAY_WIDTH - ICON_WIDTH - 1,
                 ICON_HEIGHT + 1,

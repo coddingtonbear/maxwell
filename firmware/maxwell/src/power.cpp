@@ -52,9 +52,11 @@ void power::enableDynamoPower(bool enabled) {
     if(enabled) {
         powerIo.setState(PIN_RECTIFIER_RELAY_A, IO_HIGH);
         powerIo.setState(PIN_RECTIFIER_RELAY_B, IO_LOW);
+        Log.log("power", "Enabling dynamo power");
     } else {
         powerIo.setState(PIN_RECTIFIER_RELAY_A, IO_LOW);
         powerIo.setState(PIN_RECTIFIER_RELAY_B, IO_HIGH);
+        Log.log("power", "Disabling dynamo power");
     }
     powerIo.setMode(PIN_RECTIFIER_RELAY_A, IO_OUTPUT);
     powerIo.setMode(PIN_RECTIFIER_RELAY_B, IO_OUTPUT);
@@ -89,6 +91,11 @@ void power::loop() {
         dynamoOvervoltage = false;
 
         enableDynamoPower(true);
+    }
+
+    checkSleepTimeout();
+    if(Output.available()) {
+        power::refreshSleepTimeout();
     }
 }
 
@@ -206,7 +213,7 @@ void power::enableAux(bool enable) {
 }
 
 void power::enableAutosleep(bool enable) {
-    Log.log("Autosleep enabled: " + String(enable));
+    Log.log("power", "Autosleep enabled: " + String(enable));
     SleepTimeout.enable(enable);
 }
 
@@ -216,6 +223,7 @@ void power::refreshSleepTimeout() {
 
 void power::checkSleepTimeout() {
     if(SleepTimeout.isTimedOut()) {
+        Output.println("Sleep timeout reached; sleeping.");
         power::sleep();
     }
 }
@@ -260,7 +268,7 @@ uint8_t power::getPowerIOComResult() {
 }
 
 void power::sleep() {
-    Log.log("Sleep requested");
+    Log.log("power", "Sleep requested");
     Output.println("Sleeping now");
     Output.flush();
 

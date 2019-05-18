@@ -2,9 +2,12 @@
 
 #include <Arduino.h>
 
-#define BLUETOOTH_TIMEOUT 90000
+#define BLUETOOTH_TIMEOUT 180000
 
-namespace ble {
+namespace bluetooth {
+    void init();
+    void loop();
+
     void enableBluetooth(bool enable);
     bool bluetoothIsEnabled();
     String sendCommand(String);
