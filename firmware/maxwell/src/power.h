@@ -18,6 +18,8 @@
 #define OVERVOLTAGE_HIGH 15
 #define OVERVOLTAGE_LOW 10
 
+#define INACTIVITY_SLEEP_DURATION 300000
+
 namespace power {
     void init();
     void loop();

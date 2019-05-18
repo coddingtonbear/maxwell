@@ -8,9 +8,6 @@
 #include "logger.h"
 #include "multiserial.h"
 
-#define BLUETOOTH_TIMEOUT 90000
-#define INACTIVITY_SLEEP_DURATION 300000
-
 //#define DEBUG_VIA_UART
 
 void setup();
