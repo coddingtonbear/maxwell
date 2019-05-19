@@ -417,10 +417,9 @@ MicroNMEA* status::getGpsFix() {
 
 void status::gpsEnable(bool enable) {
     if(enable) {
-        GPSUart.write('\n');
-        GPSUart.write('\n');
+        gpsPMTK(225, ",0");
     } else {
-        gpsPMTK(161, ",0");
+        gpsPMTK(225, ",8");
     }
 }
 
