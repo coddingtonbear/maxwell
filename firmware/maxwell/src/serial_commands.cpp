@@ -49,65 +49,68 @@ void console::init() {
     commands.addCommand("ping", console::hello);
     commands.addCommand("led", console::led);
     commands.addCommand("bridge_uart", console::bridgeUART);
-    commands.addCommand("stats", console::printStatistics);
+    commands.addCommand("sleep", console::sleep);
+    commands.addCommand("btcmd", console::bleCmd);
+    commands.addCommand("reset", console::reset);
+    commands.addCommand("flash", console::flash);
+
+    commands.addCommand("autosleep_enable", console::enableAutosleep);
+    commands.addCommand("autosleep_disable", console::disableAutosleep);
+
+    commands.addCommand("general_stats", console::printStatistics);
+
     commands.addCommand("task_stats", console::printTaskStatistics);
+
+    commands.addCommand("gps_status", getGpsStats);
 
     commands.addCommand("voltage", console::voltageMeasurement);
     commands.addCommand("charging_status", console::isChargingNow);
     commands.addCommand("current", console::currentUsage);
-    commands.addCommand("get_power_io_state", console::getPowerIOState);
-    commands.addCommand("get_power_io_pin_state", console::getPowerIOPinState);
-    commands.addCommand("disable_aux_power", console::disableAuxPower);
-    commands.addCommand("enable_aux_power", console::enableAuxPower);
-    commands.addCommand("enable_dynamo_power", console::enableDynamoPower);
-    commands.addCommand("disable_dynamo_power", console::disableDynamoPower);
+    commands.addCommand("power_io_state", console::getPowerIOState);
+    commands.addCommand("power_io_pin_state", console::getPowerIOPinState);
+    commands.addCommand("aux_disable", console::disableAuxPower);
+    commands.addCommand("aux_enable", console::enableAuxPower);
+    commands.addCommand("dynamo_enable", console::enableDynamoPower);
+    commands.addCommand("dynamo_disable", console::disableDynamoPower);
 
-    commands.addCommand("sleep", console::sleep);
-    commands.addCommand("btcmd", console::bleCmd);
-    commands.addCommand("reset", console::reset);
+    commands.addCommand("bluetooth_disable", console::disableBluetooth);
+    commands.addCommand("bluetooth_enable", console::enableBluetooth);
+    commands.addCommand("bluetooth_timeout_delay", console::setBluetoothTimeoutSeconds);
 
-    commands.addCommand("flash", console::flash);
-    commands.addCommand("enable_autosleep", console::enableAutosleep);
-    commands.addCommand("disable_autosleep", console::disableAutosleep);
-    commands.addCommand("disable_bluetooth", console::disableBluetooth);
-    commands.addCommand("enable_bluetooth", console::enableBluetooth);
-    commands.addCommand("delay_bt_timeout", console::setBluetoothTimeoutSeconds);
-
-    commands.addCommand("enable_lte", console::enableLTE);
-    commands.addCommand("disable_lte", console::disableLTE);
-    commands.addCommand("get_lte_status", console::getLTEStatus);
-    commands.addCommand("get_lte_rssi", console::getLTERSSI);
-    commands.addCommand("send_text_message", console::sendTextMessage);
+    commands.addCommand("lte_enable", console::enableLTE);
+    commands.addCommand("lte_disable", console::disableLTE);
+    commands.addCommand("lte_status", console::getLTEStatus);
+    commands.addCommand("lte_rssi", console::getLTERSSI);
+    commands.addCommand("lte_text_message", console::sendTextMessage);
     commands.addCommand("lte_command", console::lteCommand);
     commands.addCommand("lte_timestamp", console::showLTETimestamp);
 
-    commands.addCommand("set_uart_register", console::setUartRegister);
-    commands.addCommand("get_uart_register", console::getUartRegister);
+    commands.addCommand("lte_uart_register_set", console::setUartRegister);
+    commands.addCommand("lte_uart_register_get", console::getUartRegister);
 
     commands.addCommand("log_status", console::logStatus);
-    commands.addCommand("list_logs", console::logList);
-    commands.addCommand("delete_log", console::logDelete);
-    commands.addCommand("print_log", console::logPrint);
-    commands.addCommand("search_log", console::logSearch);
-    commands.addCommand("sd_error_state", console::sdErrorState);
+    commands.addCommand("log_list", console::logList);
+    commands.addCommand("log_delete", console::logDelete);
+    commands.addCommand("log_print", console::logPrint);
+    commands.addCommand("log_search", console::logSearch);
+    commands.addCommand("log_sd_error_state", console::sdErrorState);
 
-    commands.addCommand("set_time", console::setTime);
-    commands.addCommand("get_time", console::getTime);
+    commands.addCommand("time_set", console::setTime);
+    commands.addCommand("time_get", console::getTime);
 
     commands.addCommand("lte_logger_emit", console::sendStatusUpdate);
     commands.addCommand("lte_logger_status", console::getLTELogStatus);
     commands.addCommand("lte_logger_connect", console::connectLTELogger);
     commands.addCommand("lte_logger_disconnect", console::disconnectLTELogger);
 
-    commands.addCommand("enable_backlight", console::enableBacklight);
-    commands.addCommand("disable_backlight", console::disableBacklight);
-    commands.addCommand("set_contrast", console::setContrast);
+    commands.addCommand("display_backlight_enable", console::enableBacklight);
+    commands.addCommand("display_backlight_disable", console::disableBacklight);
+    commands.addCommand("display_contrast_set", console::setContrast);
+
     commands.addCommand("menu_up", console::menuUp);
     commands.addCommand("menu_down", console::menuDown);
     commands.addCommand("menu_in", console::menuIn);
     commands.addCommand("menu_out", console::menuOut);
-
-    commands.addCommand("get_gps_stats", getGpsStats);
 }
 
 void console::getPowerIOPinState() {
