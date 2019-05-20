@@ -627,6 +627,22 @@ MenuItem cameraMenu("Camera", &cameraMenuList);
                 };
             MenuList baseLTEMenuList(baseLTEMenuItems, COUNT_OF(baseLTEMenuItems));
 
+                MenuItem gpsMenuItems[] = {
+                    MenuItem(
+                        "Disable",
+                        []() -> void {
+                            status::gpsEnable(false);
+                        }
+                    ),
+                    MenuItem(
+                        "Enable",
+                        []() -> void {
+                            status::gpsEnable(true);
+                        }
+                    )
+                };
+            MenuList gpsMenuList(gpsMenuItems, COUNT_OF(gpsMenuItems));
+
         MenuItem commsMenuItems[] = {
             MenuItem(
                 "BT",
@@ -636,6 +652,10 @@ MenuItem cameraMenu("Camera", &cameraMenuList);
                 "LTE",
                 &baseLTEMenuList
             ),
+            MenuItem(
+                "GPS",
+                &gpsMenuList
+            )
         };
     MenuList commsMenuList(commsMenuItems, COUNT_OF(commsMenuItems));
 MenuItem commsMenu("Radio", &commsMenuList);

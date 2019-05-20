@@ -372,10 +372,12 @@ uint32_t status::getLastStatusUpdateTime() {
 }
 
 void status::gpsPMTK(uint cmd, String data) {
+    return gpsPMTK("PMTK" + String(cmd) + data);
+}
+
+void status::gpsPMTK(String commandString) {
     GPSUart.println();
     GPSUart.print("$");
-
-    String commandString = "PMTK" + String(cmd) + String(data);
 
     GPSUart.print(commandString);
     GPSUart.print("*");

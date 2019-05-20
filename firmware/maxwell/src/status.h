@@ -65,6 +65,7 @@ namespace status {
     static int32_t getFreeMemory();
 
     void gpsEnable(bool enable=true);
+    void gpsPMTK(String cmd);
     void gpsPMTK(uint cmd, String data);
     void updateGpsFix();
     time_t getGpsTime();

@@ -76,4 +76,5 @@ namespace console {
     void sendStatusUpdate();
 
     void getGpsStats();
+    void gpsSendCommand();
 };

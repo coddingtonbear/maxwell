@@ -62,6 +62,7 @@ void console::init() {
     commands.addCommand("task_stats", console::printTaskStatistics);
 
     commands.addCommand("gps_status", getGpsStats);
+    commands.addCommand("gps_send_command", gpsSendCommand);
 
     commands.addCommand("voltage", console::voltageMeasurement);
     commands.addCommand("charging_status", console::isChargingNow);
@@ -1087,6 +1088,12 @@ void console::getGpsStats() {
     Output.println(fix->getMessageID());
     Output.print("Current sentence: ");
     Output.println(fix->getSentence());
+}
+
+void console::gpsSendCommand() {
+    char* gpsCommand = commands.next();
+
+    status::gpsPMTK(String(gpsCommand));
 }
 
 void console::enableDynamoPower() {
