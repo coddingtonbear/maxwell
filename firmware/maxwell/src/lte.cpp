@@ -12,6 +12,7 @@
 #include "tasks.h"
 #include "status.h"
 #include "util.h"
+#include "display.h"
 
 
 void LoggedSIM7000::newLineReceived() {
@@ -252,16 +253,19 @@ bool lte::enable(bool _enable) {
                     // If we're _still_ powered-on,
                     // send the "urgent shutdown" command
                     LTE.execute("AT+CPOWD=0");
-                    util::safeDelay(10000);
-                    // If we're _still_ powered-on
-                    // 10s later, beep to warn
+                    util::safeDelay(2500);
+                    // If we're _still_ powered-on show
+                    // an error message on the console &
+                    // display.
                     if(lte::isPoweredOn()) {
-                        for(uint8_t i = 0; i < 10; i++) {
-                            delay(100);
-                        }
                         Output.println(
                             "Could not power down LTE modem!"
                         );
+                        Display.addAlert(
+                            "Could not power\ndown LTE modem!"
+                        );
+                    } else {
+                        lteEnabled = false;
                     }
                 }
             },

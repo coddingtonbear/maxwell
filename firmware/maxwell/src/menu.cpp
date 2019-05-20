@@ -624,13 +624,21 @@ MenuItem cameraMenu("Camera", &cameraMenuList);
                     MenuItem(
                         "Disable",
                         []() -> void {
-                            lte::asyncEnable(false);
+                            if(!lte::asyncEnable(false)) {
+                                Display.addAlert(
+                                    "LTE busy"
+                                );
+                            }
                         }
                     ),
                     MenuItem(
                         "Enable",
                         []() -> void {
-                            lte::asyncEnable(true);
+                            if(!lte::asyncEnable(true)) {
+                                Display.addAlert(
+                                    "LTE busy"
+                                );
+                            }
                         }
                     )
                 };
