@@ -8,6 +8,7 @@
 #include "power.h"
 #include "main.h"
 #include "neopixel.h"
+#include "lte.h"
 
 
 #define COUNT_OF(x) ((sizeof(x)/sizeof(0[x])) / ((size_t)(!(sizeof(x) % sizeof(0[x])))))
@@ -606,11 +607,15 @@ MenuItem cameraMenu("Camera", &cameraMenuList);
                 MenuItem localBluetoothMenuItems[] = {
                     MenuItem(
                         "Disable",
-                        console::disableBluetooth
+                        []() -> void {
+                            bluetooth::enableBluetooth(false);
+                        }
                     ),
                     MenuItem(
                         "Enable",
-                        console::enableBluetooth
+                        []() -> void {
+                            bluetooth::enableBluetooth(true);
+                        }
                     )
                 };
             MenuList localBluetoothMenuList(localBluetoothMenuItems, COUNT_OF(localBluetoothMenuItems));
@@ -618,11 +623,15 @@ MenuItem cameraMenu("Camera", &cameraMenuList);
                 MenuItem baseLTEMenuItems[] = {
                     MenuItem(
                         "Disable",
-                        console::disableLTE
+                        []() -> void {
+                            lte::asyncEnable(false);
+                        }
                     ),
                     MenuItem(
                         "Enable",
-                        console::enableLTE
+                        []() -> void {
+                            lte::asyncEnable(true);
+                        }
                     )
                 };
             MenuList baseLTEMenuList(baseLTEMenuItems, COUNT_OF(baseLTEMenuItems));
@@ -645,15 +654,41 @@ MenuItem cameraMenu("Camera", &cameraMenuList);
 
         MenuItem commsMenuItems[] = {
             MenuItem(
-                "BT",
+                "Disable All",
+                []() -> void {
+                    lte::asyncEnable(false);
+                    bluetooth::enableBluetooth(false);
+                    status::gpsEnable(false);
+                }
+            ),
+            MenuItem(
+                []() -> String {
+                    if(bluetooth::bluetoothIsEnabled()) {
+                        return "BT (On)";
+                    } else {
+                        return "BT (Off)";
+                    }
+                },
                 &localBluetoothMenuList
             ),
             MenuItem(
-                "LTE",
+                []() -> String {
+                    if(lte::isEnabled()) {
+                        return "LTE (On)";
+                    } else {
+                        return "LTE (Off)";
+                    }
+                },
                 &baseLTEMenuList
             ),
             MenuItem(
-                "GPS",
+                []() -> String {
+                    if(status::gpsIsEnabled()) {
+                        return "GPS (On)";
+                    } else {
+                        return "GPS (Off)";
+                    }
+                },
                 &gpsMenuList
             )
         };

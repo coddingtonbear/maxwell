@@ -20,6 +20,8 @@ namespace status {
     uint32 lastSpeedRefresh = 0;
     RollingAverage<double, 5> currentSpeedMph;
 
+    bool gpsEnabled = false;
+
     bool gpsFixAvailable = false;
     char nmeaBuffer[255] = {'\0'};
     MicroNMEA nmea(nmeaBuffer, sizeof(nmeaBuffer));
@@ -419,10 +421,16 @@ MicroNMEA* status::getGpsFix() {
 
 void status::gpsEnable(bool enable) {
     if(enable) {
+        gpsEnabled = true;
         gpsPMTK(225, ",0");
     } else {
+        gpsEnabled = false;
         gpsPMTK(225, ",8");
     }
+}
+
+bool status::gpsIsEnabled() {
+    return gpsEnabled;
 }
 
 time_t status::getGpsTime() {
