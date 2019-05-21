@@ -42,16 +42,6 @@ String Logger::getNextLogFileName() {
     sprintf(minute_ch, "%02d", minute(time));
     sprintf(second_ch, "%02d", second(time));
 
-    Output.println(year_ch);
-    Output.println(month_ch);
-    Output.println(day_ch);
-    Output.println(hour_ch);
-    Output.println(minute_ch);
-    Output.println(second_ch);
-    Output.flush();
-
-    Output.println("Year");
-    Output.flush();
     if(!filesystem->exists(year_ch)) {
         if(! filesystem->mkdir(year_ch)) {
             return "";
@@ -60,8 +50,6 @@ String Logger::getNextLogFileName() {
     if(!filesystem->chdir(year_ch)) {
         return "";
     }
-    Output.println("Month");
-    Output.flush();
 
     if(!filesystem->exists(month_ch)) {
         if(! filesystem->mkdir(month_ch)) {
@@ -71,8 +59,6 @@ String Logger::getNextLogFileName() {
     if(! filesystem->chdir(month_ch)) {
         return "";
     }
-    Output.println("Day");
-    Output.flush();
 
     if(!filesystem->exists(day_ch)) {
         if(! filesystem->mkdir(day_ch)) {
@@ -82,9 +68,6 @@ String Logger::getNextLogFileName() {
     if(! filesystem->chdir("/")) {
         return "";
     }
-
-    Output.println("Full");
-    Output.flush();
 
     char fullFilename[32];
     sprintf(
@@ -97,8 +80,6 @@ String Logger::getNextLogFileName() {
         minute_ch,
         second_ch
     );
-    Output.println(fullFilename);
-    Output.flush();
 
     return String(fullFilename);
 }
