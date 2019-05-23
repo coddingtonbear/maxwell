@@ -123,7 +123,7 @@ void status::refreshSpeed() {
 
     uint16_t tripCounter = speedCounter - tripStart;
     tripOdometer = (
-        speedCounter * (SPEED_WHEEL_RADIUS_INCHES / SPEED_PULSES_PER_ROTATION)
+        tripCounter * (SPEED_WHEEL_RADIUS_INCHES / SPEED_PULSES_PER_ROTATION)
     ) / SPEED_INCHES_PER_MILE;
 
     if (
