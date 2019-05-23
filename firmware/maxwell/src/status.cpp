@@ -19,15 +19,15 @@ namespace status {
     uint32 speedCounterPrev = 0;
     uint32 lastSpeedRefresh = 0;
     RollingAverage<double, 5> currentSpeedMph;
+
     double tripOdometer = 0;
+    double tripOdometerBase = 0;
+    double odometerBase = 0;
 
     bool gpsEnabled = false;
-
     bool gpsFixAvailable = false;
     char nmeaBuffer[255] = {'\0'};
     MicroNMEA nmea(nmeaBuffer, sizeof(nmeaBuffer));
-
-    uint16_t tripStart = 0;
 
     uint32_t lastStatusUpdate = 0;
     unsigned long lastTimeUpdate = 0;
@@ -61,6 +61,9 @@ void status::init() {
     Clock.out(LOW);
     Clock.alarmPolarity(HIGH);
     Clock.vbaten(true);
+
+    // Odometer
+    odometerBase = getSavedOdometer();
 
     // GPS
     GPSUart.begin(9600);
@@ -121,9 +124,8 @@ void status::refreshSpeed() {
     lastSpeedRefresh = millis();
     currentSpeedMph.addMeasurement(mph);
 
-    uint16_t tripCounter = speedCounter - tripStart;
     tripOdometer = (
-        tripCounter * (SPEED_WHEEL_RADIUS_INCHES / SPEED_PULSES_PER_ROTATION)
+        speedCounter * (SPEED_WHEEL_RADIUS_INCHES / SPEED_PULSES_PER_ROTATION)
     ) / SPEED_INCHES_PER_MILE;
 
     if (
@@ -143,11 +145,39 @@ double status::getSpeed() {
 }
 
 double status::getTripOdometer() {
-    return tripOdometer;
+    return tripOdometer - tripOdometerBase;
+}
+
+double status::getOdometer() {
+    // Use tripOdometer directliy instead of using the
+    // function call so as to avoid resetting of the
+    // trip odometer causing our odometer reading to
+    // become incorrect.
+    return tripOdometer + odometerBase;
+}
+
+void status::setOdometer(double newBase) {
+    odometerBase = newBase;
+}
+
+double status::getSavedOdometer() {
+    byte odometerBytes[8];
+
+    Clock.eepromRead(ODOMETER_EEPROM_ADDR, odometerBytes, sizeof(double));
+    double odometerReading = *(reinterpret_cast<double*>(odometerBytes));
+
+    return odometerReading;
+}
+
+void status::saveOdometer() {
+    double odometerReading = getOdometer();
+
+    unsigned char *odometerBytes = reinterpret_cast<byte*>(&odometerReading);
+    Clock.eepromWrite(ODOMETER_EEPROM_ADDR, odometerBytes, sizeof(double));
 }
 
 void status::resetTripOdometer() {
-    tripStart = getSpeedCounter();
+    tripOdometerBase = tripOdometer;
 }
 
 float status::getTemperature() {

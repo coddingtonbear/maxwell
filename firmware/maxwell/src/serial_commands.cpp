@@ -63,8 +63,11 @@ void console::init() {
 
     commands.addCommand("gps_status", getGpsStats);
     commands.addCommand("gps_send_command", gpsSendCommand);
-    commands.addCommand("trip_odometer_get", getTripOdometer);
-    commands.addCommand("trip_odometer_reset", resetTripOdometer);
+
+    commands.addCommand("odometer_set", setOdometer);
+    commands.addCommand("odometer_get", getOdometer);
+    commands.addCommand("odometer_trip_get", getTripOdometer);
+    commands.addCommand("odometer_trip_reset", resetTripOdometer);
 
     commands.addCommand("temperature_get", getTemperature);
 
@@ -1115,6 +1118,20 @@ void console::getTemperature() {
     Output.println(" C");
     Output.print((1.8 * celsius) + 32, 2);
     Output.println(" F");
+}
+
+void console::setOdometer() {
+    char* value = commands.next();
+    if(value) {
+        status::setOdometer(atof(value));
+    } else {
+        Output.println("Value required");
+    }
+}
+
+void console::getOdometer() {
+    Output.print(status::getOdometer(), 2);
+    Output.println(" mi");
 }
 
 void console::getTripOdometer() {

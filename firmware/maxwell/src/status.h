@@ -18,6 +18,8 @@
 
 #define UTC_OFFSET -7
 
+#define ODOMETER_EEPROM_ADDR 0x0
+
 #define SPEED_COUNTER_ADDRESS B1010001
 #define TEMPERATURE_SENSOR_ADDRESS B1001110
 
@@ -84,6 +86,10 @@ namespace status {
     double getSpeed();
     double getTripOdometer();
     void resetTripOdometer();
+    double getOdometer();
+    void setOdometer(double);
+    void saveOdometer();
+    double getSavedOdometer();
 
     bool connectStatusConnection(bool enabled=true);
     Status getStatus();

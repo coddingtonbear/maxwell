@@ -111,6 +111,14 @@ MenuList::MenuList(MenuItem* menuItems, uint8_t _length) {
             ),
             MenuItem(
                 []() -> String {
+                    return String("Odo: ") + String(
+                        status::getOdometer(),
+                        2
+                    );
+                }
+            ),
+            MenuItem(
+                []() -> String {
                     uint8_t chargingStatus = power::getChargingStatus();
                     return String("Charging: ") + String(
                         chargingStatus == CHARGING_STATUS_CHARGING_NOW ? "Yes" : "No"
