@@ -66,6 +66,8 @@ void console::init() {
     commands.addCommand("trip_odometer_get", getTripOdometer);
     commands.addCommand("trip_odometer_reset", resetTripOdometer);
 
+    commands.addCommand("temperature_get", getTemperature);
+
     commands.addCommand("voltage", console::voltageMeasurement);
     commands.addCommand("charging_status", console::isChargingNow);
     commands.addCommand("current", console::currentUsage);
