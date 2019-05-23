@@ -242,12 +242,11 @@ bool lte::enable(bool _enable) {
         if(status::statusConnectionConnected()) {
             status::connectStatusConnection(false);
         }
+        lteEnabled = false;
         return LTE.execute(
             "AT+CPOWD=1",
             "POWER DOWN",
-            [](MatchState ms) {
-                lteEnabled = false;
-            },
+            [](MatchState ms) {},
             [](ManagedSerialDevice::Command* cmd) {
                 if(lte::isPoweredOn()) {
                     // If we're _still_ powered-on,
@@ -264,8 +263,6 @@ bool lte::enable(bool _enable) {
                         Display.addAlert(
                             "Could not power\ndown LTE modem!"
                         );
-                    } else {
-                        lteEnabled = false;
                     }
                 }
             },
@@ -275,7 +272,7 @@ bool lte::enable(bool _enable) {
 }
 
 bool lte::isEnabled() {
-    return lteEnabled;
+    return lteEnabled && lte::isPoweredOn();
 }
 
 time_t lte::getTimestamp() {
