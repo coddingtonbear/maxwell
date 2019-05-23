@@ -292,8 +292,10 @@ void DisplayManager::refresh() {
             );
         } else if(
             lte::isEnabled() &&
-            (status == AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_HOME) ||
-            (status == AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_ROAMING)
+            (
+                status == AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_HOME ||
+                status == AsyncModem::SIM7000::NETWORK_STATUS::REGISTERED_ROAMING
+            )
         ) {
             displayCtl.drawXBM(
                 DISPLAY_WIDTH - ICON_WIDTH - 1, 0,
