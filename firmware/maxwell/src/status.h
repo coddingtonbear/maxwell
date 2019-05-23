@@ -82,6 +82,8 @@ namespace status {
 
     void refreshSpeed();
     double getSpeed();
+    double getTripOdometer();
+    void resetTripOdometer();
 
     bool connectStatusConnection(bool enabled=true);
     Status getStatus();

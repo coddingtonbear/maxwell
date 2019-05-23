@@ -19,12 +19,15 @@ namespace status {
     uint32 speedCounterPrev = 0;
     uint32 lastSpeedRefresh = 0;
     RollingAverage<double, 5> currentSpeedMph;
+    double tripOdometer = 0;
 
     bool gpsEnabled = false;
 
     bool gpsFixAvailable = false;
     char nmeaBuffer[255] = {'\0'};
     MicroNMEA nmea(nmeaBuffer, sizeof(nmeaBuffer));
+
+    uint16_t tripStart = 0;
 
     uint32_t lastStatusUpdate = 0;
     unsigned long lastTimeUpdate = 0;
@@ -118,6 +121,11 @@ void status::refreshSpeed() {
     lastSpeedRefresh = millis();
     currentSpeedMph.addMeasurement(mph);
 
+    uint16_t tripCounter = speedCounter - tripStart;
+    tripOdometer = (
+        speedCounter * (SPEED_WHEEL_RADIUS_INCHES / SPEED_PULSES_PER_ROTATION)
+    ) / SPEED_INCHES_PER_MILE;
+
     if (
         pulseCount > 0 ||
         power::getChargingStatus() == CHARGING_STATUS_CHARGING_NOW
@@ -132,6 +140,14 @@ void status::refreshSpeed() {
 
 double status::getSpeed() {
     return currentSpeedMph.getValue();
+}
+
+double status::getTripOdometer() {
+    return tripOdometer;
+}
+
+void status::resetTripOdometer() {
+    tripStart = getSpeedCounter();
 }
 
 float status::getTemperature() {

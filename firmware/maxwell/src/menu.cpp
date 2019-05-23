@@ -92,6 +92,25 @@ MenuList::MenuList(MenuItem* menuItems, uint8_t _length) {
             ),
             MenuItem(
                 []() -> String {
+                    return String("Mph: ") + String(
+                        status::getSpeed(),
+                        2
+                    );
+                }
+            ),
+            MenuItem(
+                []() -> String {
+                    return String("Trip: ") + String(
+                        status::getTripOdometer(),
+                        2
+                    );
+                },
+                []() -> void {
+                    status::resetTripOdometer();
+                }
+            ),
+            MenuItem(
+                []() -> String {
                     uint8_t chargingStatus = power::getChargingStatus();
                     return String("Charging: ") + String(
                         chargingStatus == CHARGING_STATUS_CHARGING_NOW ? "Yes" : "No"

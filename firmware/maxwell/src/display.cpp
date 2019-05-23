@@ -348,18 +348,33 @@ void DisplayManager::refresh() {
         displayCtl.println(displayCtlTime);
 
         displayCtl.setFont(SMALL_DISPLAY_FONT);
-        String velocity = "";
-        velocity = String(
-            status::getSpeed(),
-            1
-        );
-        velocity += "mph";
-        width = displayCtl.getStrWidth(velocity.c_str());
-        displayCtl.setCursor(
-            (DISPLAY_WIDTH - width - 1) / 2,
-            SMALL_DISPLAY_FONT_HEIGHT + 1
-        );
-        displayCtl.println(velocity);
+        if(statusPhase < 5) {
+            String velocity = "";
+            velocity = String(
+                status::getSpeed(),
+                1
+            );
+            velocity += "mph";
+            width = displayCtl.getStrWidth(velocity.c_str());
+            displayCtl.setCursor(
+                (DISPLAY_WIDTH - width - 1) / 2,
+                SMALL_DISPLAY_FONT_HEIGHT + 1
+            );
+            displayCtl.println(velocity);
+        } else {
+            String distance = "";
+            distance = String(
+                status::getTripOdometer(),
+                2
+            );
+            distance += "mi";
+            width = displayCtl.getStrWidth(distance.c_str());
+            displayCtl.setCursor(
+                (DISPLAY_WIDTH - width - 1) / 2,
+                SMALL_DISPLAY_FONT_HEIGHT + 1
+            );
+            displayCtl.println(distance);
+        }
 
 
     }

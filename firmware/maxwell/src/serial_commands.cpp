@@ -63,6 +63,8 @@ void console::init() {
 
     commands.addCommand("gps_status", getGpsStats);
     commands.addCommand("gps_send_command", gpsSendCommand);
+    commands.addCommand("trip_odometer_get", getTripOdometer);
+    commands.addCommand("trip_odometer_reset", resetTripOdometer);
 
     commands.addCommand("voltage", console::voltageMeasurement);
     commands.addCommand("charging_status", console::isChargingNow);
@@ -1111,4 +1113,13 @@ void console::getTemperature() {
     Output.println(" C");
     Output.print((1.8 * celsius) + 32, 2);
     Output.println(" F");
+}
+
+void console::getTripOdometer() {
+    Output.print(status::getTripOdometer(), 2);
+    Output.println(" mi");
+}
+
+void console::resetTripOdometer() {
+    status::resetTripOdometer();
 }

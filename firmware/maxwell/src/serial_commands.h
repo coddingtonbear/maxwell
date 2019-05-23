@@ -21,6 +21,9 @@ namespace console {
     void getPowerIOState();
     void getPowerIOPinState();
 
+    void getTripOdometer();
+    void resetTripOdometer();
+
     void getTemperature();
 
     void toggleLightingPreset();
