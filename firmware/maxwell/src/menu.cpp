@@ -171,6 +171,22 @@ MenuList::MenuList(MenuItem* menuItems, uint8_t _length) {
                     );
                 }
             ),
+            MenuItem(
+                []() -> String {
+                    return String("Tmp C: ") + String(
+                        status::getTemperature(),
+                        2
+                    );
+                }
+            ),
+            MenuItem(
+                []() -> String {
+                    return String("Tmp F: ") + String(
+                        (1.8 * status::getTemperature()) + 32,
+                        2
+                    );
+                }
+            )
         };
     MenuList statsMenuList(statsMenuItems, COUNT_OF(statsMenuItems));
 MenuItem statsMenu("Stats", &statsMenuList);

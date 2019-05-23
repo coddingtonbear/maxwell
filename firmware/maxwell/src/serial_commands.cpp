@@ -1103,3 +1103,12 @@ void console::enableDynamoPower() {
 void console::disableDynamoPower() {
     power::enableDynamoPower(false);
 }
+
+void console::getTemperature() {
+    float celsius = status::getTemperature();
+
+    Output.print(celsius, 2);
+    Output.println(" C");
+    Output.print((1.8 * celsius) + 32, 2);
+    Output.println(" F");
+}

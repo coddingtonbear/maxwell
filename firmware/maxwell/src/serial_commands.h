@@ -21,6 +21,8 @@ namespace console {
     void getPowerIOState();
     void getPowerIOPinState();
 
+    void getTemperature();
+
     void toggleLightingPreset();
 
     void enableBacklight();

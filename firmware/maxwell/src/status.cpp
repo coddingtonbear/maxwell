@@ -39,29 +39,40 @@ static int32_t status::getFreeMemory() {
 }
 
 void status::init() {
-    // Configure the speed counter for event counting mode
+    // Speed counter
     Wire.beginTransmission(SPEED_COUNTER_ADDRESS);
     Wire.write(0x0);
-    Wire.write(B00100000);
+    Wire.write(B00100000); // Event counter mode (?)
     Wire.write(0x0);
     Wire.write(0x0);
     Wire.write(0x0);
     Wire.endTransmission();
 
+    // Clock
     time_t powerFailed, powerReturned;
     if(Clock.powerFail(&powerFailed, &powerReturned)) {
         Output.println(
             "Warning: Power has failed since last boot!"
         );
     }
-
     Clock.out(LOW);
     Clock.alarmPolarity(HIGH);
     Clock.vbaten(true);
 
+    // GPS
     GPSUart.begin(9600);
     delay(100);
     gpsEnable(true);
+
+    // Temperature Sensor
+    Wire.beginTransmission(TEMPERATURE_SENSOR_ADDRESS);
+    Wire.write(0x01);
+    Wire.write(0); // 9-bit precision
+    Wire.endTransmission();
+
+    Wire.beginTransmission(TEMPERATURE_SENSOR_ADDRESS);
+    Wire.write(0x00);
+    Wire.endTransmission();
 }
 
 void status::loop() {
@@ -123,6 +134,16 @@ double status::getSpeed() {
     return currentSpeedMph.getValue();
 }
 
+float status::getTemperature() {
+    Wire.requestFrom(TEMPERATURE_SENSOR_ADDRESS, 2);
+    byte msb = Wire.read();
+    byte lsb = Wire.read();
+
+    int raw = ((msb << 8) | lsb) >> 4;
+
+    return raw * 0.0625;
+}
+
 void appendStatusUpdateLine(char* dest, const char* field, const char* value) {
     char statusUpdateLine[128];
     sprintf(statusUpdateLine, "%s=%s\r\n", field, value);
@@ -172,6 +193,7 @@ status::Status status::getStatus() {
     st.led_cycle_id = ledStatus.cycle;
     st.led_brightness = ledStatus.brightness;
     st.led_interval = ledStatus.interval;
+    st.temperature = status::getTemperature();
 
     return st;
 }
@@ -215,6 +237,8 @@ void status::logStatusUpdate() {
         Log.log("status", "led_interval: " + String(st.led_interval));
     } else if(logRotation == 14) {
         Log.log("status", "free_memory: " + String(st.free_memory));
+    } else if(logRotation == 15) {
+        Log.log("status", "temperature: " + String(st.temperature));
     } else {
         logRotation = 0;
         logStatusUpdate();
@@ -266,6 +290,11 @@ bool status::sendStatusUpdate() {
         statusUpdate,
         "sd_logging",
         String(st.sd_logging ? "1" : "0").c_str()
+    );
+    appendStatusUpdateLine(
+        statusUpdate,
+        "temperature",
+        String(st.temperature).c_str()
     );
     appendStatusUpdateLine(
         statusUpdate,

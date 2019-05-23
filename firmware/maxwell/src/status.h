@@ -19,6 +19,7 @@
 #define UTC_OFFSET -7
 
 #define SPEED_COUNTER_ADDRESS B1010001
+#define TEMPERATURE_SENSOR_ADDRESS B1001110
 
 //#define DEBUG_GPS
 
@@ -57,6 +58,7 @@ namespace status {
         uint8_t led_cycle_id;
         uint8_t led_brightness;
         uint32_t led_interval;
+        float temperature;
     };
 
     void init();
@@ -73,6 +75,8 @@ namespace status {
     bool gpsFixValid();
     MicroNMEA* getGpsFix();
     bool syncClockWithGps();
+
+    float getTemperature();
 
     uint16_t getSpeedCounter();
 
