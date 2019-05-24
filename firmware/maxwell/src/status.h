@@ -48,6 +48,8 @@ namespace status {
         bool gps_altitude_valid;
         long gps_altitude;
         float velocity;
+        float odometer;
+        float trip_odometer;
         unsigned int timestamp;
         unsigned int uptime;
         bool sd_logging;

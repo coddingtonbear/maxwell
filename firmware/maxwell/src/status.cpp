@@ -213,6 +213,9 @@ status::Status status::getStatus() {
     }
 
     st.velocity = (float)currentSpeedMph.getValue();
+    st.odometer = getOdometer();
+    st.trip_odometer = getTripOdometer();
+
     st.timestamp = (uint32_t)Clock.get();
     st.uptime = (uint32_t)millis();
 
@@ -285,6 +288,10 @@ void status::logStatusUpdate() {
         Log.log("status", "free_memory: " + String(st.free_memory));
     } else if(logRotation == 15) {
         Log.log("status", "temperature: " + String(st.temperature));
+    } else if(logRotation == 16) {
+        Log.log("status", "odometer: " + String(st.odometer, 2));
+    } else if(logRotation == 17) {
+        Log.log("status", "trip_odometer: " + String(st.trip_odometer, 2));
     } else {
         logRotation = 0;
         logStatusUpdate();
@@ -321,6 +328,16 @@ bool status::sendStatusUpdate() {
         statusUpdate,
         "velocity",
         String(st.velocity).c_str()
+    );
+    appendStatusUpdateLine(
+        statusUpdate,
+        "odometer",
+        String(st.odometer, 2).c_str()
+    );
+    appendStatusUpdateLine(
+        statusUpdate,
+        "trip_odometer",
+        String(st.trip_odometer, 2).c_str()
     );
     appendStatusUpdateLine(
         statusUpdate,
