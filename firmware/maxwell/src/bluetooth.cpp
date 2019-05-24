@@ -14,10 +14,10 @@ void bluetooth::init() {
 }
 
 void bluetooth::loop() {
-    bluetooth::checkTimeout();
     if(Output.available()) {
         bluetooth::refreshTimeout();
     }
+    bluetooth::checkTimeout();
 }
 
 bool bluetooth::bluetoothIsEnabled() {

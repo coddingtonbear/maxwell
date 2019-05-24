@@ -232,9 +232,7 @@ void tasks::taskDisplayRefreshCallback() {
 
 void tasks::taskLoopCallback() {
     bluetooth::loop();
-    lte::loop();
     neopixel::loop();
     power::loop();
     display::loop();
-    status::loop();
 }

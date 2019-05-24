@@ -93,10 +93,10 @@ void power::loop() {
         enableDynamoPower(true);
     }
 
-    checkSleepTimeout();
     if(Output.available()) {
         power::refreshSleepTimeout();
     }
+    checkSleepTimeout();
 }
 
 uint16_t power::getAdcValue(uint8_t ch) {
