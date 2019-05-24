@@ -149,11 +149,5 @@ void loop() {
 void loopModules() {
     iwdg_feed();
 
-    bluetooth::loop();
-    lte::loop();
-    neopixel::loop();
     tasks::loop();
-    power::loop();
-    display::loop();
-    status::loop();
 }

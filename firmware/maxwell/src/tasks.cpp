@@ -58,9 +58,15 @@ namespace tasks {
         &taskRunner
     );
     Task taskLTEStatusManager(
-        LTE_STATUS_MANAGER,
+        LTE_STATUS_MANAGER_INTERVAL,
         TASK_FOREVER,
         &tasks::taskLTEStatusManagerCallback,
+        &taskRunner
+    );
+    Task taskLoop(
+        LOOP_CALLBACK_INTERVAL,
+        TASK_FOREVER,
+        &tasks::taskLoopCallback,
         &taskRunner
     );
 }
@@ -222,4 +228,13 @@ void tasks::printTaskStatistics() {
 void tasks::taskDisplayRefreshCallback() {
     tasks::start("Display refresh");
     Display.refresh();
+}
+
+void tasks::taskLoopCallback() {
+    bluetooth::loop();
+    lte::loop();
+    neopixel::loop();
+    power::loop();
+    display::loop();
+    status::loop();
 }
