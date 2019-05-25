@@ -21,6 +21,45 @@ namespace tasks {
 
     Scheduler taskRunner;
 
+    // Periodic loop things
+    Task taskLoopBluetooth(
+        LOOP_BLUETOOTH_INTERVAL,
+        TASK_FOREVER,
+        &bluetooth::loop,
+        &taskRunner
+    );
+    Task taskLoopNeopixel(
+        LOOP_NEOPIXEL_INTERVAL,
+        TASK_FOREVER,
+        &neopixel::loop,
+        &taskRunner
+    );
+    Task taskLoopPower(
+        LOOP_POWER_INTERVAL,
+        TASK_FOREVER,
+        &power::loop,
+        &taskRunner
+    );
+    Task taskLoopDisplay(
+        LOOP_DISPLAY_INTERVAL,
+        TASK_FOREVER,
+        &display::loop,
+        &taskRunner
+    );
+    Task taskLoopStatus(
+        LOOP_STATUS_INTERVAL,
+        TASK_FOREVER,
+        &status::loop,
+        &taskRunner
+    );
+    Task taskLoopLte(
+        LOOP_LTE_INTERVAL,
+        TASK_FOREVER,
+        &lte::loop,
+        &taskRunner
+    );
+
+    // Other periodic tasks
     Task taskDisplay(
         DISPLAY_REFRESH_INTERVAL,
         TASK_FOREVER,
@@ -63,12 +102,6 @@ namespace tasks {
         &tasks::taskLTEStatusManagerCallback,
         &taskRunner
     );
-    Task taskLoop(
-        LOOP_CALLBACK_INTERVAL,
-        TASK_FOREVER,
-        &tasks::taskLoopCallback,
-        &taskRunner
-    );
 }
 
 void tasks::init() {
@@ -86,17 +119,6 @@ void tasks::loop() {
     taskRunner.execute();
 }
 
-void tasks::start(String message) {
-    #ifdef TASK_DEBUG
-        UART4.print("<Task: ");
-        UART4.print(message);
-        UART4.println(">");
-        UART4.flush();
-        
-        delay(50);
-    #endif
-}
-
 void tasks::enableLTEStatusManager(bool _enable) {
     if (_enable) {
         taskLTEStatusManager.enable();
@@ -106,40 +128,27 @@ void tasks::enableLTEStatusManager(bool _enable) {
 }
 
 void tasks::taskVoltageCallback() {
-    tasks::start("Voltage");
-
     power::updatePowerMeasurements();
 }
 
 void tasks::taskLoggerStatsIntervalCallback() {
-    tasks::start("Logger stats interval");
-
-    // Nothing for now
     status::logStatusUpdate();
     logTaskStatistics();
 }
 
 void tasks::taskLTEStatusAnnounceCallback() {
-    tasks::start("LTE logger emit");
-
     status::sendStatusUpdate();
 }
 
 void tasks::taskLTEStatusManagerCallback() {
-    tasks::start("LTE status manager iteration");
-
     lte::asyncManagerLoop();
 }
 
 void tasks::taskSpeedRefreshCallback() {
-    tasks::start("Recalculate velocity");
-
     status::refreshSpeed();
 }
 
 void tasks::taskLTEStatusCollectCallback() {
-    tasks::start("LTE status collection");
-
     if(lte::isEnabled()){
         lte::collectStatusInformation();
     }
@@ -223,16 +232,44 @@ void tasks::printTaskStatistics() {
     Output.print(" (");
     Output.print(taskDisplay.getTotalRuntime());
     Output.println(")");
+
+    Output.print("Bluetooth Loop: ");
+    Output.print(taskLoopBluetooth.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskLoopBluetooth.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("Neopixel Loop: ");
+    Output.print(taskLoopNeopixel.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskLoopNeopixel.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("Power Loop: ");
+    Output.print(taskLoopPower.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskLoopPower.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("Display Loop: ");
+    Output.print(taskLoopDisplay.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskLoopDisplay.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("Status Loop: ");
+    Output.print(taskLoopStatus.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskLoopStatus.getTotalRuntime());
+    Output.println(")");
+
+    Output.print("LTE Loop: ");
+    Output.print(taskLoopLte.getAverageRuntime());
+    Output.print(" (");
+    Output.print(taskLoopLte.getTotalRuntime());
+    Output.println(")");
 }
 
 void tasks::taskDisplayRefreshCallback() {
-    tasks::start("Display refresh");
     Display.refresh();
-}
-
-void tasks::taskLoopCallback() {
-    bluetooth::loop();
-    neopixel::loop();
-    power::loop();
-    display::loop();
 }

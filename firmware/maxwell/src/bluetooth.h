@@ -6,6 +6,7 @@
 
 namespace bluetooth {
     void init();
+
     void loop();
 
     void enableBluetooth(bool enable);

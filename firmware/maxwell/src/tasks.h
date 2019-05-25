@@ -8,9 +8,14 @@
 #define VOLTAGE_UPDATE_INTERVAL 1200
 #define DISPLAY_REFRESH_INTERVAL 100
 
-#define VOLTAGE_LEVEL_SHUTDOWN 2.75
+#define LOOP_BLUETOOTH_INTERVAL 1000
+#define LOOP_NEOPIXEL_INTERVAL 10
+#define LOOP_POWER_INTERVAL 1000
+#define LOOP_DISPLAY_INTERVAL 10
+#define LOOP_STATUS_INTERVAL 50
+#define LOOP_LTE_INTERVAL 100
 
-#define LOOP_CALLBACK_INTERVAL 25
+#define VOLTAGE_LEVEL_SHUTDOWN 2.75
 
 //#define TASK_DEBUG
 
@@ -32,6 +37,4 @@ namespace tasks {
     void taskLTEStatusManagerCallback();
     void taskSpeedRefreshCallback();
     void taskDisplayRefreshCallback();
-
-    void taskLoopCallback();
 };
