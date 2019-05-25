@@ -144,8 +144,6 @@ void loop() {
     loopModules();
 
     console::loop();
-    status::loop();
-    lte::loop();
 }
 
 void loopModules() {
