@@ -97,13 +97,17 @@ void DisplayManager::enable(bool _enabled) {
     enabled = _enabled;
 }
 
-void DisplayManager::enableBacklight(bool _enabled) {
+void DisplayManager::enableBacklight(bool _enabled, bool save) {
     if(_enabled) {
         digitalWrite(DISPLAY_BACKLIGHT_ON_, LOW);
-        backlightOn = true;
+        if(save) {
+            backlightOn = true;
+        }
     } else {
         digitalWrite(DISPLAY_BACKLIGHT_ON_, HIGH);
-        backlightOn = false;
+        if(save) {
+            backlightOn = false;
+        }
     }
 }
 
@@ -318,14 +322,6 @@ void DisplayManager::refresh() {
                 bt_bits
             );
         }
-        if(!Log.isLogging()) {
-            displayCtl.drawXBM(
-                DISPLAY_WIDTH - ICON_WIDTH - 1,
-                (ICON_HEIGHT + 1) * 2,
-                ICON_WIDTH, ICON_HEIGHT,
-                noLogging_bits
-            );
-        }
 
         if(autosleep && !sleeping) {
             sleep();
@@ -380,19 +376,6 @@ void DisplayManager::refresh() {
     }
     displayCtl.setFont(SMALL_DISPLAY_FONT);
 
-    /* Display alert if necessary */
-    if(currentAlertEnd > 0 && currentAlertEnd > millis()) {
-        displayCtl.setDrawColor(1);
-        displayCtl.drawLine(0, 0, 128, 0);
-        displayCtl.drawLine(0, 47, 128, 47);
-        displayCtl.setDrawColor(0);
-        displayCtl.drawBox(0, 1, 128, 46);
-        displayCtl.setCursor(0, 2 + FONT_HEIGHT);
-
-        displayCtl.setDrawColor(1);
-        displayCtl.println(currentAlert);
-    }
-
     /* Display Status Information */
     displayCtl.setCursor(0, DISPLAY_HEIGHT - 1);
     displayCtl.setDrawColor(0);
@@ -419,16 +402,58 @@ void DisplayManager::refresh() {
     );
     displayCtl.println(amps);
 
+    /* Display alert if necessary */
+    String currentAlert = getAlert();
+    if(currentAlert.length() > 0) {
+        displayCtl.setDrawColor(1);
+        displayCtl.drawLine(0, 0, 128, 0);
+        displayCtl.drawLine(0, 47, 128, 47);
+        displayCtl.setDrawColor(0);
+        displayCtl.drawBox(0, 1, 128, 46);
+        displayCtl.setCursor(0, 2 + FONT_HEIGHT);
+
+        displayCtl.setDrawColor(1);
+        displayCtl.println(currentAlert);
+
+        if((millis() % 1000) < 500) {
+            enableBacklight(true, false);
+        } else {
+            enableBacklight(false, false);
+        }
+    } else {
+        enableBacklight(backlightOn, false);
+    }
+
     displayCtl.sendBuffer();
 }
 
-void DisplayManager::addAlert(String message) {
-    message.toCharArray(currentAlert, 255);
-    redisplayAlert();
+String DisplayManager::getAlert() {
+    if(displayingAlertNow && millis() > currentAlertEnd) {
+        displayingAlertNow = false;
+
+        for(uint8_t i = 1; i < alertCount; i++) {
+            alert[i - 1] = alert[i];
+        }
+
+        alertCount--;
+    }
+
+    if(alertCount > 0) {
+        if(!displayingAlertNow) {
+            currentAlertEnd = millis() + ALERT_DURATION;
+            displayingAlertNow = true;
+        }
+        return alert[0];
+    }
+
+    return "";
 }
 
-void DisplayManager::redisplayAlert() {
-    currentAlertEnd = millis() + ALERT_DURATION;
+void DisplayManager::addAlert(String message) {
+    if(alertCount < 9) {
+        alert[alertCount] = message;
+        alertCount++;
+    }
 }
 
 MenuList* DisplayManager::getCurrentMenu() {

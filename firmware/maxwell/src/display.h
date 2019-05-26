@@ -17,6 +17,7 @@
 
 #define FONT_HEIGHT 14
 
+#define ALERT_COUNT 10
 #define STATUS_PHASE_DURATION 600
 #define ALERT_DURATION 10000;
 
@@ -38,10 +39,12 @@ class DisplayManager {
 
         void setContrast(uint8_t);
         void setAutosleep(bool _enabled=true);
+
         void addAlert(String message);
+        String getAlert();
         void redisplayAlert();
 
-        void enableBacklight(bool _enabled=true);
+        void enableBacklight(bool _enabled=true, bool save=true);
         void toggleBacklight();
 
         void menuKeepalive();
@@ -58,8 +61,10 @@ class DisplayManager {
 
         MenuList* getCurrentMenu();
 
-        char currentAlert[255];
-        uint32_t currentAlertEnd = 0;
+        bool displayingAlertNow = false;
+        unsigned long currentAlertEnd = 0;
+        uint8_t alertCount = 0;
+        String alert[ALERT_COUNT];
 
         bool enabled = true;
         bool autosleep = false;

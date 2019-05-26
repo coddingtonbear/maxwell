@@ -66,6 +66,7 @@ void setup() {
 
     if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(8))) {
         filesystem.initErrorPrint(&Output);
+        Display.addAlert("Log init failed");
     } else {
         Log.begin();
     }
@@ -125,6 +126,7 @@ void setup() {
     LTEUart.begin(115200, true);
     if(!LTEUart.ping()) {
         Output.println("Error connecting to UART over SPI; no LTE available.");
+        Display.addAlert("LTE init failed");
     } else {
         LTEUart.GPIOSetPinMode(PIN_LTE_DTR, OUTPUT);
         LTEUart.GPIOSetPinMode(PIN_LTE_OE, OUTPUT);

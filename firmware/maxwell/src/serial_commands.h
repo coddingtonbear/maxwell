@@ -37,6 +37,7 @@ namespace console {
     void menuDown();
     void menuIn();
     void menuOut();
+    void addAlert();
 
     void disableAuxPower();
     void enableAuxPower();

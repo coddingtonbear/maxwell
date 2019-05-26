@@ -119,6 +119,7 @@ void console::init() {
     commands.addCommand("menu_down", console::menuDown);
     commands.addCommand("menu_in", console::menuIn);
     commands.addCommand("menu_out", console::menuOut);
+    commands.addCommand("add_alert", console::addAlert);
 }
 
 void console::getPowerIOPinState() {
@@ -1141,4 +1142,13 @@ void console::getTripOdometer() {
 
 void console::resetTripOdometer() {
     status::resetTripOdometer();
+}
+
+void console::addAlert() {
+    char* value = commands.next();
+    if(value) {
+        Display.addAlert(value);
+    } else {
+        Output.println("Value required");
+    }
 }
