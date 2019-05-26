@@ -410,10 +410,28 @@ void DisplayManager::refresh() {
         displayCtl.drawLine(0, 47, 128, 47);
         displayCtl.setDrawColor(0);
         displayCtl.drawBox(0, 1, 128, 46);
-        displayCtl.setCursor(0, 2 + FONT_HEIGHT);
 
         displayCtl.setDrawColor(1);
-        displayCtl.println(currentAlert);
+
+        uint8_t startingChar = 0;
+        uint8_t currentChar = 0;
+        uint8_t currentLine = 1;
+        while(currentChar < currentAlert.length()) {
+            if(displayCtl.getStrWidth(currentAlert.substring(startingChar, currentChar).c_str()) > DISPLAY_WIDTH) {
+                displayCtl.setCursor(0, (2 + FONT_HEIGHT) * currentLine);
+
+                displayCtl.println(currentAlert.substring(startingChar, currentChar - 1));
+
+                startingChar = currentChar - 1;
+                currentLine++;
+            } else if (currentChar == currentAlert.length() - 1) {
+                displayCtl.setCursor(0, (2 + FONT_HEIGHT) * currentLine);
+
+                displayCtl.println(currentAlert.substring(startingChar));
+            }
+
+            currentChar++;
+        }
 
         if((millis() % 1000) < 500) {
             enableBacklight(true, false);
