@@ -171,7 +171,7 @@ void neopixel::setMaxBrightness(uint8_t _brightness) {
 }
 
 void neopixel::loop() {
-    if(! enabled) {
+    if(! neopixel::enabled) {
         return;
     }
 
@@ -294,6 +294,6 @@ void neopixel::loop() {
 
 
 void neopixel::enable(bool enable) {
-    enabled = enable;
-    digitalWrite(PIN_ENABLE_NEOPIXEL, enabled);
+    neopixel::enabled = enable;
+    digitalWrite(PIN_ENABLE_NEOPIXEL, neopixel::enabled);
 }
