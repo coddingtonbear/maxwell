@@ -1145,10 +1145,18 @@ void console::resetTripOdometer() {
 }
 
 void console::addAlert() {
+    String message = "";
+
     char* value = commands.next();
-    if(value) {
-        Display.addAlert(value);
+    while(value) {
+        message = message + " " + String(value);
+
+        value = commands.next();
+    }
+
+    if(message.length() > 0) {
+        Display.addAlert(message);
     } else {
-        Output.println("Value required");
+        Output.println("Message required");
     }
 }
