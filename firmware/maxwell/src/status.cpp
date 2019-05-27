@@ -57,6 +57,7 @@ void status::init() {
         Output.println(
             "Warning: Power has failed since last boot!"
         );
+        Log.log("status", "Power failed since last boot.");
     }
     Clock.out(LOW);
     Clock.alarmPolarity(HIGH);
