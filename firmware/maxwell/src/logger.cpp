@@ -20,9 +20,15 @@ void Logger::begin() {
     if(logFileName.length() == 0) {
         errorExit();
     }
+    if(!logFile.open(filesystem, logFileName.c_str(), O_RDWR | O_CREAT | O_APPEND | O_AT_END)) {
+        errorExit();
+    }
 }
 
 void Logger::end() {
+    if(initialized) {
+        logFile.close();
+    }
 }
 
 String Logger::getNextLogFileName() {
@@ -113,10 +119,6 @@ void Logger::log(String logger, String message) {
     if(!initialized) {
         return;
     }
-    if(!logFile.open(filesystem, logFileName.c_str(), O_RDWR | O_CREAT | O_APPEND | O_AT_END)) {
-        errorExit();
-        return;
-    }
 
     uint8_t clockLength = 10 + 2 + 1;
     char clockBytes[clockLength];
@@ -150,8 +152,6 @@ void Logger::log(String logger, String message) {
     logFile.sync();
 
     messagesLogged++;
-
-    logFile.close();
 }
 
 void Logger::logCanIncoming(CanMsg* canMsg) {
