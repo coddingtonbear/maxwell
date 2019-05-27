@@ -182,10 +182,6 @@ void DisplayManager::down() {
 }
 
 void DisplayManager::in() {
-    if(currentAlertEnd > 0 && currentAlertEnd > millis()) {
-        currentAlertEnd = 0;
-        return;
-    }
     if(showMenuUntil < millis()) {
         menuKeepalive();
         return;
@@ -209,6 +205,10 @@ void DisplayManager::setActionTimeout() {
 }
 
 void DisplayManager::out() {
+    if(currentAlertEnd > 0 && currentAlertEnd > millis()) {
+        currentAlertEnd = 0;
+        return;
+    }
     if(showMenuUntil < millis()) {
         menuKeepalive();
         return;
