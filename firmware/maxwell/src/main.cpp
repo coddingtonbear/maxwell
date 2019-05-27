@@ -64,7 +64,7 @@ void setup() {
     SPI.setModule(2);
     SPI.begin();
 
-    if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(8))) {
+    if(!filesystem.begin(PIN_SPI_CS_A, SD_SCK_MHZ(100))) {
         filesystem.initErrorPrint(&Output);
         Display.addAlert("Log init failed");
     } else {
