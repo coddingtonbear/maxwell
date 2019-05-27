@@ -4,6 +4,7 @@
 #include <ArduinoJson.h>
 #include <RollingAverage.h>
 #include <MCP79412RTC.h>
+#include <RTClock.h>
 #include <MicroNMEA.h>
 
 #include "main.h"
@@ -33,6 +34,8 @@ namespace status {
     unsigned long lastTimeUpdate = 0;
 
     uint8_t logRotation = 0;
+
+    RTClock HSEClock(RTCSEL_HSE);
 }
 
 extern "C" char* sbrk(int incr);
@@ -62,6 +65,9 @@ void status::init() {
     Clock.out(LOW);
     Clock.alarmPolarity(HIGH);
     Clock.vbaten(true);
+
+    // Synchronize HSE clock with external clock
+    HSEClock.setTime(Clock.get());
 
     // Odometer
     odometerBase = getSavedOdometer();
@@ -526,6 +532,10 @@ bool status::gpsIsEnabled() {
     return gpsEnabled;
 }
 
+time_t status::getTime() {
+    return HSEClock.getTime();
+}
+
 time_t status::getGpsTime() {
     MicroNMEA* nmea = getGpsFix();
 
@@ -556,6 +566,7 @@ bool status::syncClockWithGps() {
         } else {
             lastTimeUpdate = millis();
             Clock.set(time_s);
+            HSEClock.setTime(time_s);
             Log.log(
                 "status",
                 "Setting clock from GPS to " + String((unsigned long)time_s, DEC)

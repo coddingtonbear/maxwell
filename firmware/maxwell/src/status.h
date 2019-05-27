@@ -2,6 +2,7 @@
 
 #include <Arduino.h>
 #include <MicroNMEA.h>
+#include <RTClock.h>
 
 #define SPEED_WHEEL_RADIUS_INCHES 80.0
 #define SPEED_PULSES_PER_ROTATION 14.0
@@ -75,6 +76,7 @@ namespace status {
     void gpsPMTK(String cmd);
     void gpsPMTK(uint cmd, String data);
     void updateGpsFix();
+    time_t getTime();
     time_t getGpsTime();
     bool gpsFixValid();
     MicroNMEA* getGpsFix();

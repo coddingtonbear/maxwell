@@ -655,7 +655,7 @@ void console::setTime() {
 }
 
 void console::getTime() {
-    time_t time = Clock.get();
+    time_t time = status::getTime();
     Output.print("Current timestamp: ");
     Output.print(String((uint32)time));
     Output.print(" (");

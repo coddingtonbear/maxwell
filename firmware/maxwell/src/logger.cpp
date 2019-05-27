@@ -7,6 +7,7 @@
 
 #include "logger.h"
 #include "main.h"
+#include "status.h"
 
 
 Logger::Logger(SdFat* _filesystem) {
@@ -32,7 +33,7 @@ void Logger::end() {
 }
 
 String Logger::getNextLogFileName() {
-    time_t time = Clock.get();
+    time_t time = status::getTime();
 
     char year_ch[5];
     char month_ch[3];
@@ -122,7 +123,7 @@ void Logger::log(String logger, String message) {
 
     uint8_t clockLength = 10 + 2 + 1;
     char clockBytes[clockLength];
-    time_t time = Clock.get();
+    time_t time = status::getTime();
     sprintf(
         clockBytes,
         "%02d:%02d:%02d\t",
