@@ -22,3 +22,4 @@ software/bin/*
 software/lib/*
 software/src/*
 software/include/*
+software/logs/*
