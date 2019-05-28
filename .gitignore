@@ -18,3 +18,7 @@ firmware/maxwell/src/private.h
 _saved_*
 *.gcode
 .vscode
+software/bin/*
+software/lib/*
+software/src/*
+software/include/*

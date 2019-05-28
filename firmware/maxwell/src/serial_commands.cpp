@@ -100,6 +100,7 @@ void console::init() {
     commands.addCommand("log_list", console::logList);
     commands.addCommand("log_delete", console::logDelete);
     commands.addCommand("log_print", console::logPrint);
+    commands.addCommand("log_size", console::logSize);
     commands.addCommand("log_search", console::logSearch);
     commands.addCommand("log_sd_error_state", console::sdErrorState);
 
@@ -488,6 +489,17 @@ void console::logList() {
     filesystem.ls(&Output, LS_R);
 }
 
+void console::logSize() {
+    char* filenameBytes = commands.next();
+
+    if(!openFile.open(&filesystem, filenameBytes, O_READ | O_WRITE)) {
+        Output.println("Error opening file " + String(filenameBytes));
+        return;
+    }
+    Output.println(openFile.fileSize());
+    openFile.close();
+}
+
 void console::logDelete() {
     char* filenameBytes = commands.next();
 
@@ -533,6 +545,9 @@ void console::logPrint() {
     int32_t lengthPrinted = 0;
     while(openFile.available()) {
         iwdg_feed();
+        bluetooth::refreshTimeout();
+        power::refreshSleepTimeout();
+
         if(currByte >= afterByte) {
             Output.print((char)openFile.read());
             lengthPrinted++;
@@ -601,6 +616,9 @@ void console::logSearch() {
     uint16_t currentIndex = 0;
     while(openFile.available()) {
         iwdg_feed();
+        bluetooth::refreshTimeout();
+        power::refreshSleepTimeout();
+
         currentLine[currentIndex] = (char)openFile.read();
         if (currentLine[currentIndex] == '\n') {
             for(uint16_t i = 0; i < maxLineLength; i++) {

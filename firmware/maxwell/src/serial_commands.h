@@ -76,6 +76,7 @@ namespace console {
     void logDelete();
     void logPrint();
     void logSearch();
+    void logSize();
     void sdErrorState();
 
     void setTime();
