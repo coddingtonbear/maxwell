@@ -251,6 +251,8 @@ void DisplayManager::refresh() {
         }
     }
 
+    int width;
+
     if(millis() < showMenuExecNoticeUntil) {
         //displayCtl.invertDisplay(true);
     } else {
@@ -336,7 +338,7 @@ void DisplayManager::refresh() {
             hour(localTime),
             minute(localTime)
         );
-        int width = displayCtl.getStrWidth(displayCtlTime);
+        width = displayCtl.getStrWidth(displayCtlTime);
         displayCtl.setCursor(
             (DISPLAY_WIDTH - width - 1) / 2,
             DISPLAY_HEIGHT - 1 - 17
@@ -344,32 +346,31 @@ void DisplayManager::refresh() {
         displayCtl.println(displayCtlTime);
 
         displayCtl.setFont(SMALL_DISPLAY_FONT);
-        if(statusPhase < 5) {
-            String velocity = "";
-            velocity = String(
-                status::getSpeed(),
-                1
-            );
-            velocity += "mph";
-            width = displayCtl.getStrWidth(velocity.c_str());
-            displayCtl.setCursor(
-                (DISPLAY_WIDTH - width - 1) / 2,
-                SMALL_DISPLAY_FONT_HEIGHT + 1
-            );
-            displayCtl.println(velocity);
-        } else {
-            String distance = "";
-            distance = String(
-                status::getTripOdometer(),
+        if((statusPhase / 2) % 2 == 0) {
+            String voltage = String(
+                power::getVoltage(VOLTAGE_BATTERY),
                 2
             );
-            distance += "mi";
-            width = displayCtl.getStrWidth(distance.c_str());
+            voltage += "V";
+
+            width = displayCtl.getStrWidth(voltage.c_str());
             displayCtl.setCursor(
                 (DISPLAY_WIDTH - width - 1) / 2,
                 SMALL_DISPLAY_FONT_HEIGHT + 1
             );
-            displayCtl.println(distance);
+            displayCtl.println(voltage);
+        } else {
+            String amps = String(
+                power::getCurrentUsage(),
+                2
+            );
+            amps += "A";
+            width = displayCtl.getStrWidth(amps.c_str());
+            displayCtl.setCursor(
+                (DISPLAY_WIDTH - width - 1) / 2,
+                SMALL_DISPLAY_FONT_HEIGHT + 1
+            );
+            displayCtl.println(amps);
         }
 
 
@@ -377,30 +378,33 @@ void DisplayManager::refresh() {
     displayCtl.setFont(SMALL_DISPLAY_FONT);
 
     /* Display Status Information */
-    displayCtl.setCursor(0, DISPLAY_HEIGHT - 1);
     displayCtl.setDrawColor(0);
     displayCtl.drawBox(0, 48, 128, 16);
     displayCtl.setDrawColor(1);
 
-    int width;
-    String voltage = String(
-        power::getVoltage(VOLTAGE_BATTERY),
-        2
+    displayCtl.setCursor(0, DISPLAY_HEIGHT - 1);
+    // Velocity
+    String velocity = "";
+    velocity = String(
+        status::getSpeed(),
+        1
     );
-    voltage += "V";
-    displayCtl.println(voltage);
+    velocity += "mph";
+    displayCtl.println(velocity);
 
-    String amps = String(
-        power::getCurrentUsage(),
+    // Distance
+    String distance = "";
+    distance = String(
+        status::getTripOdometer(),
         2
     );
-    amps += "A";
-    width = displayCtl.getStrWidth(amps.c_str());
+    distance += "mi";
+    width = displayCtl.getStrWidth(distance.c_str());
     displayCtl.setCursor(
         DISPLAY_WIDTH - width - 1,
         DISPLAY_HEIGHT - 1
     );
-    displayCtl.println(amps);
+    displayCtl.println(distance);
 
     /* Display alert if necessary */
     String currentAlert = getAlert();

@@ -18,8 +18,10 @@
 #define FONT_HEIGHT 14
 
 #define ALERT_COUNT 10
-#define STATUS_PHASE_DURATION 600
 #define ALERT_DURATION 10000;
+
+#define STATUS_PHASE_COUNT 8
+#define STATUS_PHASE_DURATION 500
 
 #define LONG_PRESS_INTERVAL 500
 
@@ -79,7 +81,7 @@ class DisplayManager {
         void executeMenuCommand(void(*)());
 
         uint8_t statusPhase = 0;
-        uint8_t statusPhaseCount = 10;
+        uint8_t statusPhaseCount = STATUS_PHASE_COUNT;
         unsigned long statusPhaseEnds = 0;
 
         unsigned long showMenuUntil = 0;
