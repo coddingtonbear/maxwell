@@ -295,6 +295,7 @@ void power::sleep() {
     // Disable GPS
     status::gpsEnable(false);
     status::saveOdometer();
+    status::savePosition();
 
     currentSense.powerDown();
 

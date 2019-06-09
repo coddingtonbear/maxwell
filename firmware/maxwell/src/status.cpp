@@ -183,6 +183,41 @@ void status::saveOdometer() {
     Clock.eepromWrite(ODOMETER_EEPROM_ADDR, odometerBytes, sizeof(double));
 }
 
+void status::savePosition() {
+    if(gpsFixValid()) {
+        MicroNMEA* fix = status::getGpsFix();
+
+        double gpsLatitude = (float)(fix->getLatitude() / 1e6);
+        double gpsLongitude = (float)(fix->getLongitude() / 1e6);
+
+        unsigned char *latBytes = reinterpret_cast<byte*>(&gpsLatitude);
+        Clock.eepromWrite(LATITUDE_EEPROM_ADDR, latBytes, sizeof(double));
+
+        unsigned char *lngBytes = reinterpret_cast<byte*>(&gpsLongitude);
+        Clock.eepromWrite(LONGITUDE_EEPROM_ADDR, lngBytes, sizeof(double));
+    }
+}
+
+double status::getSavedLatitude() {
+    byte latBytes[8];
+
+    Clock.eepromRead(LATITUDE_EEPROM_ADDR, latBytes, sizeof(double));
+    double latReading = *(reinterpret_cast<double*>(latBytes));
+
+    return latReading;
+}
+
+double status::getSavedLongitude() {
+    byte lngBytes[8];
+
+    Clock.eepromRead(LONGITUDE_EEPROM_ADDR, lngBytes, sizeof(double));
+    double lngReading = *(reinterpret_cast<double*>(lngBytes));
+
+    return lngReading;
+}
+
+
+
 void status::resetTripOdometer() {
     tripOdometerBase = tripOdometer;
 }

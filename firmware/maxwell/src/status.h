@@ -20,6 +20,8 @@
 #define UTC_OFFSET -7
 
 #define ODOMETER_EEPROM_ADDR 0x0
+#define LATITUDE_EEPROM_ADDR 0x8
+#define LONGITUDE_EEPROM_ADDR 0x10
 
 #define SPEED_COUNTER_ADDRESS B1010001
 #define TEMPERATURE_SENSOR_ADDRESS B1001110
@@ -76,11 +78,16 @@ namespace status {
     void gpsPMTK(String cmd);
     void gpsPMTK(uint cmd, String data);
     void updateGpsFix();
-    time_t getTime();
-    time_t getGpsTime();
     bool gpsFixValid();
     MicroNMEA* getGpsFix();
+    void savePosition();
+    double getSavedLatitude();
+    double getSavedLongitude();
+
     bool syncClockWithGps();
+    time_t getGpsTime();
+    time_t getTime();
+    bool isDarkOutside();
 
     float getTemperature();
 
