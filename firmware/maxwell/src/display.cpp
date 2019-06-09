@@ -330,7 +330,7 @@ void DisplayManager::refresh() {
         }
         displayCtl.setFont(LARGE_DISPLAY_FONT);
 
-        time_t localTime = status::getTime() + (UTC_OFFSET * 3600);
+        time_t localTime = status::getTime() + (status::getEffectiveUTCOffset() * 3600);
         char displayCtlTime[10];
         sprintf(
             displayCtlTime,

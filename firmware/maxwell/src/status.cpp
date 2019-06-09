@@ -567,6 +567,10 @@ bool status::gpsIsEnabled() {
     return gpsEnabled;
 }
 
+int status::getEffectiveUTCOffset() {
+    return UTC_OFFSET + (DST ? 1 : 0);
+}
+
 time_t status::getTime() {
     return HSEClock.getTime();
 }

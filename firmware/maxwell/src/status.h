@@ -17,7 +17,8 @@
 #define MQTT_KEY ""
 #define MQTT_CLIENT "maxwell"
 
-#define UTC_OFFSET -7
+#define UTC_OFFSET -8
+#define DST true
 
 #define ODOMETER_EEPROM_ADDR 0x0
 #define LATITUDE_EEPROM_ADDR 0x8
@@ -83,6 +84,7 @@ namespace status {
     void savePosition();
     double getSavedLatitude();
     double getSavedLongitude();
+    int getEffectiveUTCOffset();
 
     bool syncClockWithGps();
     time_t getGpsTime();
