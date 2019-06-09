@@ -282,7 +282,7 @@ void DisplayManager::refresh() {
                 );
             }
         }
-        if (power::isOvervoltage()) {
+        if (! power::isDynamoEnabled()) {
             displayCtl.drawXBM(
                 16, 0,
                 ICON_WIDTH, ICON_HEIGHT,

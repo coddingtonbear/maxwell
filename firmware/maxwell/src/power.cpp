@@ -23,6 +23,7 @@ namespace power {
 
     bool batteryChargingEnabled = false;
     bool auxiliaryPowerEnabled = false;
+    bool dynamoEnabled = false;
 
     bool dynamoOvervoltage = false;
 
@@ -64,11 +65,16 @@ void power::enableDynamoPower(bool enabled) {
     powerIo.setMode(PIN_RECTIFIER_RELAY_A, IO_INPUT);
     powerIo.setMode(PIN_RECTIFIER_RELAY_B, IO_INPUT);
 
+    dynamoEnabled = enabled;
     dynamoOvervoltage = false;
 }
 
 bool power::isOvervoltage() {
     return dynamoOvervoltage;
+}
+
+bool power::isDynamoEnabled() {
+    return dynamoEnabled;
 }
 
 void power::setWake(bool enable) {
@@ -87,6 +93,8 @@ void power::loop() {
         dynamoOvervoltage = true;
 
         enableDynamoPower(false);
+
+        Display.addAlert("Dynamo Overvoltage!");
     } else if(dynamoOvervoltage && voltage < OVERVOLTAGE_LOW) {
         dynamoOvervoltage = false;
 

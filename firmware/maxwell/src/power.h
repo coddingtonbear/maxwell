@@ -28,6 +28,7 @@ namespace power {
     uint16_t getAdcValue(uint8_t pin);
     uint8_t getChargingStatus();
     bool isOvervoltage();
+    bool isDynamoEnabled();
 
     void enableDynamoPower(bool enabled=true);
 
