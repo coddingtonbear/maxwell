@@ -5,6 +5,7 @@ namespace console {
     void unrecognized(const char *command);
     void prompt();
     void loop();
+    void debug();
 
     void repeat();
 

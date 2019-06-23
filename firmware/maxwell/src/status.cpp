@@ -246,7 +246,7 @@ double status::getSavedLongitude() {
     return lngReading;
 }
 
-bool status::isLightOutside() {
+time_t status::getSunrise() {
     double latitude, longitude;
 
     if(gpsFixValid()) {
@@ -259,12 +259,12 @@ bool status::isLightOutside() {
         longitude = getSavedLongitude();
     }
 
-    Dusk2Dawn location(longitude, latitude, UTC_OFFSET);
+    Dusk2Dawn location(latitude, longitude, UTC_OFFSET);
 
-    time_t time = Clock.get();
+    time_t time = status::getTime() + (status::getEffectiveUTCOffset() * 60 * 60);
 
     tmElements_t midnightEts;
-    midnightEts.Year = year(time);
+    midnightEts.Year = year(time) - 1970;
     midnightEts.Month = month(time);
     midnightEts.Day = day(time);
     midnightEts.Hour = 0;
@@ -272,10 +272,45 @@ bool status::isLightOutside() {
     midnightEts.Second = 0;
     time_t midnight = makeTime(midnightEts);
 
-    time_t sunrise = location.sunrise(year(time), month(time), day(time), DST) + midnight;
-    time_t sunset = location.sunset(year(time), month(time), day(time), DST) + midnight;
+    return (location.sunrise(year(time), month(time), day(time), DST) * 60) + midnight;
+}
 
-    if (time < sunrise || time > sunset) {
+time_t status::getSunset() {
+    double latitude, longitude;
+
+    if(gpsFixValid()) {
+        MicroNMEA* fix = status::getGpsFix();
+
+        latitude = (float)(fix->getLatitude() / 1e6);
+        longitude = (float)(fix->getLongitude() / 1e6);
+    } else {
+        latitude = getSavedLatitude();
+        longitude = getSavedLongitude();
+    }
+
+    Dusk2Dawn location(latitude, longitude, UTC_OFFSET);
+
+    time_t time = status::getTime() + (status::getEffectiveUTCOffset() * 60 * 60);
+
+    tmElements_t midnightEts;
+    midnightEts.Year = year(time) - 1970;
+    midnightEts.Month = month(time);
+    midnightEts.Day = day(time);
+    midnightEts.Hour = 0;
+    midnightEts.Minute = 0;
+    midnightEts.Second = 0;
+    time_t midnight = makeTime(midnightEts);
+
+    return (location.sunset(year(time), month(time), day(time), DST) * 60) + midnight;
+}
+
+bool status::isLightOutside() {
+    time_t time = status::getTime() + (status::getEffectiveUTCOffset() * 60 * 60);
+
+    time_t sunrise = status::getSunrise();
+    time_t sunset = status::getSunset();
+
+    if (time < (sunrise + 60 * 30) || time > (sunset - 60 * 30)) {
         return false;
     }
     return true;

@@ -89,6 +89,9 @@ namespace status {
     bool syncClockWithGps();
     time_t getGpsTime();
     time_t getTime();
+
+    time_t getSunrise();
+    time_t getSunset();
     bool isLightOutside();
 
     float getTemperature();

@@ -53,6 +53,7 @@ void console::init() {
     commands.addCommand("btcmd", console::bleCmd);
     commands.addCommand("reset", console::reset);
     commands.addCommand("flash", console::flash);
+    commands.addCommand("debug", console::debug);
 
     commands.addCommand("autosleep_enable", console::enableAutosleep);
     commands.addCommand("autosleep_disable", console::disableAutosleep);
@@ -1177,4 +1178,7 @@ void console::addAlert() {
     } else {
         Output.println("Message required");
     }
+}
+
+void console::debug() {
 }
