@@ -273,7 +273,7 @@ bool status::isLightOutside() {
     time_t midnight = makeTime(midnightEts);
 
     time_t sunrise = location.sunrise(year(time), month(time), day(time), DST) + midnight;
-    time_t sunset = location.sunrise(year(time), month(time), day(time), DST) + midnight;
+    time_t sunset = location.sunset(year(time), month(time), day(time), DST) + midnight;
 
     if (time < sunrise || time > sunset) {
         return false;
