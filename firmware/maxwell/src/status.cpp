@@ -6,12 +6,14 @@
 #include <MCP79412RTC.h>
 #include <RTClock.h>
 #include <MicroNMEA.h>
+#include <Dusk2Dawn.h>
 
 #include "main.h"
 #include "power.h"
 #include "neopixel.h"
 #include "lte.h"
 #include "status.h"
+#include "display.h"
 
 #include "private.h"
 
@@ -20,6 +22,8 @@ namespace status {
     uint32 speedCounterPrev = 0;
     uint32 lastSpeedRefresh = 0;
     RollingAverage<double, 5> currentSpeedMph;
+
+    bool dynamoDisabledOnStartup = false;
 
     double tripOdometer = 0;
     double tripOdometerBase = 0;
@@ -86,6 +90,15 @@ void status::init() {
     Wire.beginTransmission(TEMPERATURE_SENSOR_ADDRESS);
     Wire.write(0x00);
     Wire.endTransmission();
+
+    // Disable dynamo power if its not light outside so
+    // the dynamo-powered lights will be able to power-on
+    // immediately.
+    if(!status::isLightOutside()) {
+        power::enableDynamoPower(false);
+        dynamoDisabledOnStartup = true;
+        Display.addAlert("Dynamo disabled (Sunset)");
+    }
 }
 
 void status::loop() {
@@ -97,6 +110,15 @@ void status::loop() {
         )
     ) {
         syncClockWithGps();
+    }
+
+    if(
+        dynamoDisabledOnStartup
+        && getTripOdometer() > 0.5
+    ) {
+        power::enableDynamoPower(true);
+        dynamoDisabledOnStartup = false;
+        Display.addAlert("Dynamo re-enabled");
     }
 }
 
@@ -216,7 +238,40 @@ double status::getSavedLongitude() {
     return lngReading;
 }
 
+bool status::isLightOutside() {
+    double latitude, longitude;
 
+    if(gpsFixValid()) {
+        MicroNMEA* fix = status::getGpsFix();
+
+        latitude = (float)(fix->getLatitude() / 1e6);
+        longitude = (float)(fix->getLongitude() / 1e6);
+    } else {
+        latitude = getSavedLatitude();
+        longitude = getSavedLongitude();
+    }
+
+    Dusk2Dawn location(longitude, latitude, UTC_OFFSET);
+
+    time_t time = Clock.get();
+
+    tmElements_t midnightEts;
+    midnightEts.Year = year(time);
+    midnightEts.Month = month(time);
+    midnightEts.Day = day(time);
+    midnightEts.Hour = 0;
+    midnightEts.Minute = 0;
+    midnightEts.Second = 0;
+    time_t midnight = makeTime(midnightEts);
+
+    time_t sunrise = location.sunrise(year(time), month(time), day(time), DST) + midnight;
+    time_t sunset = location.sunrise(year(time), month(time), day(time), DST) + midnight;
+
+    if (time < sunrise || time > sunset) {
+        return false;
+    }
+    return true;
+}
 
 void status::resetTripOdometer() {
     tripOdometerBase = tripOdometer;
