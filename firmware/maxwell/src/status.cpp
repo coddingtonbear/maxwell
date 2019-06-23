@@ -226,6 +226,10 @@ double status::getSavedLatitude() {
     Clock.eepromRead(LATITUDE_EEPROM_ADDR, latBytes, sizeof(double));
     double latReading = *(reinterpret_cast<double*>(latBytes));
 
+    if (latReading > 90 || latReading < -90) {
+        return 0;
+    }
+
     return latReading;
 }
 
@@ -234,6 +238,10 @@ double status::getSavedLongitude() {
 
     Clock.eepromRead(LONGITUDE_EEPROM_ADDR, lngBytes, sizeof(double));
     double lngReading = *(reinterpret_cast<double*>(lngBytes));
+
+    if (lngReading > 180 || lngReading < -180) {
+        return 0;
+    }
 
     return lngReading;
 }
