@@ -310,7 +310,7 @@ bool status::isLightOutside() {
     time_t sunrise = status::getSunrise();
     time_t sunset = status::getSunset();
 
-    if (time < (sunrise + 60 * 30) || time > (sunset - 60 * 30)) {
+    if (time < sunrise || time > sunset) {
         return false;
     }
     return true;

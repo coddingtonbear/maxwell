@@ -409,6 +409,7 @@ void DisplayManager::refresh() {
     /* Display alert if necessary */
     String currentAlert = getAlert();
     if(currentAlert.length() > 0) {
+        displayCtl.setFont(MESSAGE_DISPLAY_FONT);
         displayCtl.setDrawColor(1);
         displayCtl.drawLine(0, 0, 128, 0);
         displayCtl.drawLine(0, 47, 128, 47);
@@ -419,19 +420,18 @@ void DisplayManager::refresh() {
 
         uint8_t startingChar = 0;
         uint8_t currentChar = 0;
-        uint8_t currentLine = 1;
+        uint8_t currentLine = 0;
         while(currentChar < currentAlert.length()) {
+            displayCtl.setCursor(0, (4 + SMALL_DISPLAY_FONT_HEIGHT) + ((MESSAGE_DISPLAY_FONT_HEIGHT + 1) * currentLine));
             if(displayCtl.getStrWidth(currentAlert.substring(startingChar, currentChar).c_str()) > DISPLAY_WIDTH) {
-                displayCtl.setCursor(0, (2 + FONT_HEIGHT) * currentLine);
-
                 displayCtl.println(currentAlert.substring(startingChar, currentChar - 1));
 
                 startingChar = currentChar - 1;
                 currentLine++;
             } else if (currentChar == currentAlert.length() - 1) {
-                displayCtl.setCursor(0, (2 + FONT_HEIGHT) * currentLine);
-
                 displayCtl.println(currentAlert.substring(startingChar));
+
+                currentLine++;
             }
 
             currentChar++;
