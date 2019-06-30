@@ -288,6 +288,12 @@ MenuItem powerMenu("Power", &powerMenuList);
                         []() -> void {
                             neopixel::activatePreset(LED_PRESET_PRIDE);
                         }
+                    ),
+                    MenuItem(
+                        "White",
+                        []() -> void {
+                            neopixel::activatePreset(LED_PRESET_WHITE);
+                        }
                     )
                 };
             MenuList presetMenuList(presetOptions, COUNT_OF(presetOptions));

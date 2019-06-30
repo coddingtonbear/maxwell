@@ -270,6 +270,8 @@ void console::led() {
             neopixel::activatePreset(LED_PRESET_MIDNIGHT);
         } else if(presetName == "pride") {
             neopixel::activatePreset(LED_PRESET_PRIDE);
+        } else if(presetName == "white") {
+            neopixel::activatePreset(LED_PRESET_WHITE);
         } else {
             Output.println("Unknown preset.");
         }

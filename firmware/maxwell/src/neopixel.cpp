@@ -112,6 +112,10 @@ void neopixel::activatePreset(uint32 preset) {
             colorBlue(colorTarget[0])
         );
         setSecondaryColor(255, 255, 255);
+    } else if(preset == LED_PRESET_WHITE) {
+        setCycle(LED_CYCLE_ON);
+        setColor(255, 255, 255);
+        colorTargetCount = 0;
     }
 }
 
