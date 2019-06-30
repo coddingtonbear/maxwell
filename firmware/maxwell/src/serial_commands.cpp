@@ -26,7 +26,8 @@ namespace console {
     uint8_t lightingPresets[] = {
         LED_PRESET_SAFETY,
         LED_PRESET_MIDNIGHT,
-        LED_PRESET_RAINBOW
+        LED_PRESET_RAINBOW,
+        LED_PRESET_PRIDE
     };
 
     SerialCommand commands(&Output);
@@ -267,6 +268,8 @@ void console::led() {
             neopixel::activatePreset(LED_PRESET_RAINBOW);
         } else if(presetName == "midnight") {
             neopixel::activatePreset(LED_PRESET_MIDNIGHT);
+        } else if(presetName == "pride") {
+            neopixel::activatePreset(LED_PRESET_PRIDE);
         } else {
             Output.println("Unknown preset.");
         }

@@ -71,7 +71,7 @@ void neopixel::activatePreset(uint32 preset) {
     } else if(preset == LED_PRESET_MIDNIGHT) {
         setCycle(LED_CYCLE_ON);
         setMaxBrightness(32);
-        setInterval(25);
+        setInterval(1);
 
         colorTargetCount = 4;
         colorTarget[0] = pixels.Color(
@@ -86,6 +86,25 @@ void neopixel::activatePreset(uint32 preset) {
         colorTarget[3] = pixels.Color(
             0xff, 0xff, 0xff
         );
+
+        setColor(
+            colorRed(colorTarget[0]),
+            colorGreen(colorTarget[0]),
+            colorBlue(colorTarget[0])
+        );
+        setSecondaryColor(255, 255, 255);
+    } else if(preset == LED_PRESET_PRIDE) {
+        setCycle(LED_CYCLE_ON);
+        setMaxBrightness(32);
+        setInterval(1);
+
+        colorTargetCount = 6;
+        colorTarget[0] = pixels.Color(255, 0, 0);
+        colorTarget[1] = pixels.Color(255, 168, 0);
+        colorTarget[2] = pixels.Color(255, 255, 0);
+        colorTarget[3] = pixels.Color(0, 255, 0);
+        colorTarget[4] = pixels.Color(0, 0, 255);
+        colorTarget[5] = pixels.Color(168, 0, 255);
 
         setColor(
             colorRed(colorTarget[0]),

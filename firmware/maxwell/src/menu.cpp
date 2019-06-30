@@ -282,6 +282,12 @@ MenuItem powerMenu("Power", &powerMenuList);
                         []() -> void {
                             neopixel::activatePreset(LED_PRESET_RAINBOW);
                         }
+                    ),
+                    MenuItem(
+                        "Pride",
+                        []() -> void {
+                            neopixel::activatePreset(LED_PRESET_PRIDE);
+                        }
                     )
                 };
             MenuList presetMenuList(presetOptions, COUNT_OF(presetOptions));
