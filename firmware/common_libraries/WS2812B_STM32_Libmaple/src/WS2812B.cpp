@@ -51,7 +51,7 @@ void WS2812B::begin(void) {
 
 if (!begun)
 {
-  LedSPI.setClockDivider(SPI_CLOCK_DIV32);// need bit rate of 400nS but closest we can do @ 72Mhz is 444ns (which is within spec)
+  LedSPI.setClockDivider(WS2812B_SPI_DIVISOR);
   LedSPI.begin();
   begun = true;
 }
