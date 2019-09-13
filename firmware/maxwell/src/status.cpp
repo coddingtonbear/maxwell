@@ -23,8 +23,6 @@ namespace status {
     uint32 lastSpeedRefresh = 0;
     RollingAverage<double, 5> currentSpeedMph;
 
-    bool dynamoDisabledOnStartup = false;
-
     double tripOdometer = 0;
     double tripOdometerBase = 0;
     double odometerBase = 0;
@@ -96,7 +94,6 @@ void status::init() {
     // immediately.
     if(!status::isLightOutside()) {
         power::enableDynamoPower(false);
-        dynamoDisabledOnStartup = true;
         Display.addAlert("Dynamo disabled (Sunset)");
     }
 }
@@ -110,15 +107,6 @@ void status::loop() {
         )
     ) {
         syncClockWithGps();
-    }
-
-    if(
-        dynamoDisabledOnStartup
-        && getTripOdometer() > 0.5
-    ) {
-        power::enableDynamoPower(true);
-        dynamoDisabledOnStartup = false;
-        Display.addAlert("Dynamo re-enabled");
     }
 }
 
