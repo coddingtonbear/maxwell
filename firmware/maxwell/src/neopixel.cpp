@@ -207,6 +207,8 @@ void neopixel::loop() {
         for(int i = 0; i < NUM_LEDS; i++) {
             pixels.setPixelColor(i, black);
         }
+    } else if(cycle == LED_CYCLE_STATIC) {
+        // Do nothing
     } else if(cycle == LED_CYCLE_ON) {
         for(int i = 0; i < NUM_LEDS; i++) {
             pixels.setPixelColor(i, color);

@@ -7,6 +7,7 @@
 #define LED_CYCLE_BLINK 4
 //#define LED_CYCLE_ 5
 #define LED_CYCLE_ROTATION 6
+#define LED_CYCLE_STATIC 7
 
 #define LED_PRESET_OFF 0
 #define LED_PRESET_SAFETY 1
