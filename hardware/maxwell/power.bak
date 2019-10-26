@@ -1509,32 +1509,6 @@ F 3 "" H 4900 6600 60  0001 C CNN
 	1    4900 6600
 	-1   0    0    1   
 $EndComp
-Text GLabel 2650 7300 2    60   Output ~ 0
-~CHARGE_SHDN
-Text GLabel 7350 2500 0    60   Input ~ 0
-~CHARGE_SHDN
-$Comp
-L maxwell-rescue:R-RESCUE-maxwell R11
-U 1 1 5CDC6AC4
-P 7650 2200
-F 0 "R11" H 7450 2100 50  0000 L CNN
-F 1 "10k" H 7500 2200 50  0000 L CNN
-F 2 "coddingtonbear:0805_Milling" V 7580 2200 50  0001 C CNN
-F 3 "" H 7650 2200 50  0001 C CNN
-	1    7650 2200
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7650 2350 7650 2500
-Wire Wire Line
-	7650 2500 7400 2500
-Wire Wire Line
-	7150 1400 7400 1400
-Wire Wire Line
-	7400 1400 7400 2500
-Connection ~ 7400 2500
-Wire Wire Line
-	7400 2500 7350 2500
 $Comp
 L coddingtonbear:+3V3_U #PWR0198
 U 1 1 5CDE456A
@@ -1549,19 +1523,4 @@ $EndComp
 Wire Wire Line
 	8550 4450 8250 4450
 Connection ~ 8550 4450
-$Comp
-L coddingtonbear:+3V3_U #PWR0199
-U 1 1 5CDEE251
-P 7550 1900
-F 0 "#PWR0199" H 7550 1750 50  0001 C CNN
-F 1 "+3V3_U" H 7565 2073 50  0000 C CNN
-F 2 "" H 7550 1900 50  0001 C CNN
-F 3 "" H 7550 1900 50  0001 C CNN
-	1    7550 1900
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7650 2050 7550 2050
-Wire Wire Line
-	7550 2050 7550 1900
 $EndSCHEMATC
