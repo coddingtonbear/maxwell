@@ -43,6 +43,7 @@ class DisplayManager {
 
         void setContrast(uint8_t);
         void setAutosleep(bool _enabled=true);
+        void setBacklightBrightness(uint8_t);
 
         void addAlert(String message);
         String getAlert();
@@ -64,6 +65,8 @@ class DisplayManager {
         void wake();
 
         MenuList* getCurrentMenu();
+
+        uint8_t backlightBrightness = 255;
 
         bool displayingAlertNow = false;
         unsigned long currentAlertEnd = 0;

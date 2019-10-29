@@ -99,11 +99,12 @@ void DisplayManager::enable(bool _enabled) {
 
 void DisplayManager::enableBacklight(bool _enabled, bool save) {
     if(_enabled) {
-        digitalWrite(DISPLAY_BACKLIGHT_ON_, LOW);
+        analogWrite(DISPLAY_BACKLIGHT_ON_, 255 - backlightBrightness);
         if(save) {
             backlightOn = true;
         }
     } else {
+        pinMode(DISPLAY_BACKLIGHT_ON_, OUTPUT);
         digitalWrite(DISPLAY_BACKLIGHT_ON_, HIGH);
         if(save) {
             backlightOn = false;
@@ -129,6 +130,10 @@ void DisplayManager::menuKeepalive() {
 
 void DisplayManager::setContrast(uint8_t value) {
     displayCtl.setContrast(value);
+}
+
+void DisplayManager::setBacklightBrightness(uint8_t value) {
+    backlightBrightness = value;
 }
 
 void DisplayManager::setAutosleep(bool _enabled) {

@@ -89,12 +89,20 @@ void status::init() {
     Wire.write(0x00);
     Wire.endTransmission();
 
-    // Disable dynamo power if its not light outside so
-    // the dynamo-powered lights will be able to power-on
-    // immediately.
+    // Configure the system for night vs. day mode;
+    // At night:
+    //  * Charging from the dynamo will be disabled
+    //    to let our lights be as bright as possible
+    //  * We'll turn the backlight brightness down
+    //    since it doesn't need to compete with the sun
     if(!status::isLightOutside()) {
         power::enableDynamoPower(false);
         Display.addAlert("Dynamo disabled (Sunset)");
+
+        Display.setBacklightBrightness(BACKLIGHT_BRIGHTNESS_NIGHT);
+        Display.enableBacklight();
+    } else {
+        Display.setBacklightBrightness(BACKLIGHT_BRIGHTNESS_DAY);
     }
 }
 
