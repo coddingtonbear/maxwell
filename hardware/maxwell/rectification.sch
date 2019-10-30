@@ -474,17 +474,6 @@ Wire Wire Line
 Connection ~ 7700 2950
 Wire Wire Line
 	4350 2650 4350 2800
-$Comp
-L power:GND #PWR0168
-U 1 1 5DB8C688
-P 3650 2800
-F 0 "#PWR0168" H 3650 2550 50  0001 C CNN
-F 1 "GND" H 3655 2627 50  0000 C CNN
-F 2 "" H 3650 2800 50  0001 C CNN
-F 3 "" H 3650 2800 50  0001 C CNN
-	1    3650 2800
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	3650 2800 4350 2800
 Connection ~ 4350 2800
@@ -554,4 +543,15 @@ Wire Wire Line
 Connection ~ 3450 1650
 Wire Wire Line
 	3450 1650 5000 1650
+$Comp
+L coddingtonbear:GND_C #PWR?
+U 1 1 5DB9EB94
+P 3650 2800
+F 0 "#PWR?" H 3650 2550 50  0001 C CNN
+F 1 "GND_C" H 3655 2627 50  0000 C CNN
+F 2 "" H 3650 2800 50  0001 C CNN
+F 3 "" H 3650 2800 50  0001 C CNN
+	1    3650 2800
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

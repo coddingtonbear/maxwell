@@ -444,7 +444,7 @@ Wire Wire Line
 Wire Wire Line
 	4350 3300 5000 3300
 Wire Wire Line
-	2650 1650 5000 1650
+	2650 1650 3450 1650
 Wire Wire Line
 	5000 1650 5000 2250
 Connection ~ 2650 1650
@@ -545,4 +545,13 @@ F 3 "~" H 10900 2950 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	11100 2850 11100 2450
+Text GLabel 3350 1550 0    60   Input ~ 0
+V_AC+_SW
+Wire Wire Line
+	3350 1550 3450 1550
+Wire Wire Line
+	3450 1550 3450 1650
+Connection ~ 3450 1650
+Wire Wire Line
+	3450 1650 5000 1650
 $EndSCHEMATC
