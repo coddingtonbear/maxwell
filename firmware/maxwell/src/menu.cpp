@@ -772,13 +772,30 @@ MenuItem commsMenu("Radio", &commsMenuList);
             MenuList menuTimeoutMenuList(menuTimeoutMenuItems, COUNT_OF(menuTimeoutMenuItems));
                 MenuItem menuBacklightMenuItems[] = {
                     MenuItem(
-                        "Disable",
-                        [](){Display.enableBacklight(false);}
+                        "High",
+                        [](){
+                            Display.setBacklightBrightness(255);
+                            Display.enableBacklight(true);
+                        }
                     ),
                     MenuItem(
-                        "Enable",
-                        [](){Display.enableBacklight(true);}
-                    )
+                        "Medium",
+                        [](){
+                            Display.setBacklightBrightness(32);
+                            Display.enableBacklight(true);
+                        }
+                    ),
+                    MenuItem(
+                        "Low",
+                        [](){
+                            Display.setBacklightBrightness(1);
+                            Display.enableBacklight(true);
+                        }
+                    ),
+                    MenuItem(
+                        "Off",
+                        [](){Display.enableBacklight(false);}
+                    ),
                 };
             MenuList menuBacklightMenuList(menuBacklightMenuItems, COUNT_OF(menuBacklightMenuItems));
         MenuItem menuMenuItems[] = {
