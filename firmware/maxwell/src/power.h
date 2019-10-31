@@ -31,6 +31,7 @@ namespace power {
     bool isDynamoEnabled();
 
     void enableDynamoPower(bool enabled=true);
+    void enableDynamoOvervoltageChecking(bool enabled=true);
 
     uint8_t getPowerIOComResult();
     uint8_t getPowerIOState(Pca9536::pin_t pin);

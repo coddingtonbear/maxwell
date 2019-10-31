@@ -232,6 +232,21 @@ MenuItem statsMenu("Stats", &statsMenuList);
                     )
                 };
             MenuList dynamoEnMenuList(dynamoEnMenuOptions, COUNT_OF(dynamoEnMenuOptions));
+                MenuItem dynamoOvervoltageMenuOptions[] = {
+                    MenuItem(
+                        "Enable",
+                        []() -> void {
+                            power::enableDynamoOvervoltageChecking(true);
+                        }
+                    ),
+                    MenuItem(
+                        "Disable",
+                        []() -> void {
+                            power::enableDynamoOvervoltageChecking(false);
+                        }
+                    )
+                };
+            MenuList dynamoOvervoltageMenuList(dynamoOvervoltageMenuOptions, COUNT_OF(dynamoOvervoltageMenuOptions));
                 MenuItem autosleepMenuOptions[] = {
                     MenuItem(
                         "Enable",
@@ -251,6 +266,10 @@ MenuItem statsMenu("Stats", &statsMenuList);
             MenuItem(
                 "Dynamo",
                 &dynamoEnMenuList
+            ),
+            MenuItem(
+                "OverV Chk",
+                &dynamoOvervoltageMenuList
             ),
             MenuItem(
                 "Autosleep",

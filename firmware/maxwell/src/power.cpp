@@ -26,6 +26,7 @@ namespace power {
     bool dynamoEnabled = false;
 
     bool dynamoOvervoltage = false;
+    bool dynamoOvervoltageCheckingEnabled = true;
 
     RollingAverage<double, 10> currentAmps;
     RollingAverage<double, 25> batteryVoltage;
@@ -69,6 +70,10 @@ void power::enableDynamoPower(bool enabled) {
     dynamoOvervoltage = false;
 }
 
+void power::enableDynamoOvervoltageChecking(bool enabled) {
+    dynamoOvervoltageCheckingEnabled = enabled;
+}
+
 bool power::isOvervoltage() {
     return dynamoOvervoltage;
 }
@@ -89,16 +94,18 @@ void power::setWake(bool enable) {
 void power::loop() {
     double voltage = dynamoVoltage.getValue();
 
-    if(!dynamoOvervoltage && voltage > OVERVOLTAGE_HIGH) {
-        dynamoOvervoltage = true;
+    if(dynamoOvervoltageCheckingEnabled) {
+        if(!dynamoOvervoltage && voltage > OVERVOLTAGE_HIGH) {
+            dynamoOvervoltage = true;
 
-        enableDynamoPower(false);
+            enableDynamoPower(false);
 
-        Display.addAlert("Dynamo Overvoltage!");
-    } else if(dynamoOvervoltage && voltage < OVERVOLTAGE_LOW) {
-        dynamoOvervoltage = false;
+            Display.addAlert("Dynamo Overvoltage!");
+        } else if(dynamoOvervoltage && voltage < OVERVOLTAGE_LOW) {
+            dynamoOvervoltage = false;
 
-        enableDynamoPower(true);
+            enableDynamoPower(true);
+        }
     }
 
     if(Output.available()) {
