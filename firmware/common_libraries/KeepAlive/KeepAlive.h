@@ -6,6 +6,7 @@ class KeepAlive{
     public:
         KeepAlive(uint32_t);
         void refresh();
+	bool isEnabled();
         void enable(bool);
         void delayUntil(uint32_t);
         bool isTimedOut();

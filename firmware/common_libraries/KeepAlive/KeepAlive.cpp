@@ -19,6 +19,10 @@ void KeepAlive::delayUntil(uint32_t _until) {
     timeout = _until;
 }
 
+bool KeepAlive::isEnabled() {
+    return enabled;
+}
+
 bool KeepAlive::isTimedOut() {
     if(enabled) {
         return millis() > timeout;
