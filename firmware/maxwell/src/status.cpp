@@ -97,7 +97,6 @@ void status::init() {
     //    since it doesn't need to compete with the sun
     if(!status::isLightOutside()) {
         power::enableDynamoPower(false);
-        Display.addAlert("Dynamo disabled (Sunset)");
 
         Display.setBacklightBrightness(BACKLIGHT_BRIGHTNESS_NIGHT);
         Display.enableBacklight();

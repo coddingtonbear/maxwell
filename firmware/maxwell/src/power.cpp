@@ -25,6 +25,7 @@ namespace power {
     bool auxiliaryPowerEnabled = false;
     bool dynamoEnabled = false;
 
+    unsigned long dynamoOvervoltageStarted = 0;
     bool dynamoOvervoltage = false;
     bool dynamoOvervoltageCheckingEnabled = true;
 
@@ -99,16 +100,42 @@ void power::loop() {
     double voltage = dynamoVoltage.getValue();
 
     if(dynamoOvervoltageCheckingEnabled) {
-        if(!dynamoOvervoltage && voltage > OVERVOLTAGE_HIGH) {
-            dynamoOvervoltage = true;
-
-            enableDynamoPower(false);
-
-            Display.addAlert("Dynamo Overvoltage!");
+        if(voltage > OVERVOLTAGE_HIGH) {
+            if(!dynamoOvervoltage) {
+                if(
+                    dynamoOvervoltageStarted
+                    && (
+                        (millis() - dynamoOvervoltageStarted) > OVERVOLTAGE_DURATION
+                    )
+                ) {
+                    dynamoOvervoltage = true;
+                    Log.log(
+                        "Dynamo has been above "
+                        + String(OVERVOLTAGE_HIGH)
+                        + "V for "
+                        + String(OVERVOLTAGE_DURATION)
+                        + "ms; disabling until voltage drops below "
+                        + String(OVERVOLTAGE_LOW)
+                        + "V."
+                    );
+                    enableDynamoPower(false);
+                } else if (!dynamoOvervoltageStarted) {
+                    Log.log(
+                        "Dynamo has exceeded "
+                        + String(OVERVOLTAGE_HIGH)
+                        + "V; will disable in "
+                        + String(OVERVOLTAGE_DURATION)
+                        + "ms if voltage does not fall."
+                    );
+                    dynamoOvervoltageStarted = millis();
+                }
+            }
         } else if(dynamoOvervoltage && voltage < OVERVOLTAGE_LOW) {
             dynamoOvervoltage = false;
-
+            dynamoOvervoltageStarted = 0;
             enableDynamoPower(true);
+        } else {
+            dynamoOvervoltageStarted = 0;
         }
     }
 
