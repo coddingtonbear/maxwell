@@ -28,9 +28,9 @@ namespace power {
     bool dynamoOvervoltage = false;
     bool dynamoOvervoltageCheckingEnabled = true;
 
-    RollingAverage<double, 10> currentAmps;
-    RollingAverage<double, 25> batteryVoltage;
-    RollingAverage<double, 25> dynamoVoltage;
+    RollingAverage<double, 5> currentAmps;
+    RollingAverage<double, 5> batteryVoltage;
+    RollingAverage<double, 5> dynamoVoltage;
 
     double lastChargingStatusSample = 0;
 
