@@ -40,6 +40,61 @@ MenuItem::MenuItem(String(*_function)()) {
     nameFunction = _function;
 }
 
+MenuItem::MenuItem(String _name, bool(*_status)(), void(*_enable)(), void(*_disable)())
+{
+    name = _name;
+    statusFunction = _status;
+    enableFunction = _enable;
+    disableFunction = _disable;
+}
+
+String MenuItem::getName() {
+    if(statusFunction) {
+        String checkedName = "";
+
+        if(statusFunction()) {
+            checkedName += "<x> ";
+        } else {
+            checkedName += "< > ";
+        }
+
+        checkedName += name;
+
+        return checkedName;
+    }
+    if(nameFunction) {
+        return nameFunction();
+    }
+    return name;
+}
+
+bool MenuItem::hasSubmenu() {
+    return subMenu != NULL;
+}
+
+bool MenuItem::hasAction() {
+    return (
+        function != NULL
+        || (
+            enableFunction != NULL
+            && disableFunction != NULL
+            && statusFunction != NULL
+        )
+    );
+}
+
+void MenuItem::runAction() {
+    if(statusFunction) {
+        if(statusFunction()) {
+            disableFunction();
+        } else {
+            enableFunction();
+        }
+    } else {
+        function();
+    }
+}
+
 MenuList::MenuList(MenuItem* menuItems, uint8_t _length) {
     items = menuItems;
     length = _length;
@@ -217,47 +272,6 @@ MenuList::MenuList(MenuItem* menuItems, uint8_t _length) {
         };
     MenuList statsMenuList(statsMenuItems, COUNT_OF(statsMenuItems));
 MenuItem statsMenu("Stats", &statsMenuList);
-                MenuItem dynamoEnMenuOptions[] = {
-                    MenuItem(
-                        "Enable",
-                        []() -> void {
-                            power::enableDynamoPower(true);
-                        }
-                    ),
-                    MenuItem(
-                        "Disable",
-                        []() -> void {
-                            power::enableDynamoPower(false);
-                        }
-                    )
-                };
-            MenuList dynamoEnMenuList(dynamoEnMenuOptions, COUNT_OF(dynamoEnMenuOptions));
-                MenuItem dynamoOvervoltageMenuOptions[] = {
-                    MenuItem(
-                        "Enable",
-                        []() -> void {
-                            power::enableDynamoOvervoltageChecking(true);
-                        }
-                    ),
-                    MenuItem(
-                        "Disable",
-                        []() -> void {
-                            power::enableDynamoOvervoltageChecking(false);
-                        }
-                    )
-                };
-            MenuList dynamoOvervoltageMenuList(dynamoOvervoltageMenuOptions, COUNT_OF(dynamoOvervoltageMenuOptions));
-                MenuItem autosleepMenuOptions[] = {
-                    MenuItem(
-                        "Enable",
-                        console::enableAutosleep
-                    ),
-                    MenuItem(
-                        "Disable",
-                        console::disableAutosleep
-                    )
-                };
-            MenuList autosleepMenuList(autosleepMenuOptions, COUNT_OF(autosleepMenuOptions));
         MenuItem powerMenuItems[] = {
             MenuItem(
                 "Power Off",
@@ -265,15 +279,39 @@ MenuItem statsMenu("Stats", &statsMenuList);
             ),
             MenuItem(
                 "Dynamo",
-                &dynamoEnMenuList
+                []() -> bool {
+                    return power::isDynamoEnabled();
+                },
+                []() -> void {
+                    power::enableDynamoPower(true);
+                },
+                []() -> void {
+                    power::enableDynamoPower(false);
+                }
             ),
             MenuItem(
                 "OverV Chk",
-                &dynamoOvervoltageMenuList
+                []() -> bool {
+                    return power::isOvervoltageCheckingEnabled();
+                },
+                []() -> void {
+                    power::enableDynamoOvervoltageChecking(true);
+                },
+                []() -> void {
+                    power::enableDynamoOvervoltageChecking(false);
+                }
             ),
             MenuItem(
                 "Autosleep",
-                &autosleepMenuList
+                []() -> bool {
+                    return power::isAutosleepEnabled();
+                },
+                []() -> void {
+                    power::enableAutosleep(true);
+                },
+                []() -> void {
+                    power::enableAutosleep(false);
+                }
             ),
             MenuItem(
                 "Reset",
@@ -612,11 +650,9 @@ MenuItem powerMenu("Power", &powerMenuList);
         */
         MenuItem lightingMenuItems[] = {
             MenuItem(
-                "Enable",
-                []() -> void {neopixel::enable(true);}
-            ),
-            MenuItem(
-                "Disable",
+                "Enabled",
+                []() -> bool {return neopixel::isEnabled();},
+                []() -> void {neopixel::enable(true);},
                 []() -> void {neopixel::enable(false);}
             ),
             MenuItem(
@@ -677,63 +713,6 @@ MenuItem lightingMenu("Lighting", &lightingMenuList);
     MenuList cameraMenuList(cameraMenuItems, COUNT_OF(cameraMenuItems));
 MenuItem cameraMenu("Camera", &cameraMenuList);
 */
-
-                MenuItem localBluetoothMenuItems[] = {
-                    MenuItem(
-                        "Disable",
-                        []() -> void {
-                            bluetooth::enableBluetooth(false);
-                        }
-                    ),
-                    MenuItem(
-                        "Enable",
-                        []() -> void {
-                            bluetooth::enableBluetooth(true);
-                        }
-                    )
-                };
-            MenuList localBluetoothMenuList(localBluetoothMenuItems, COUNT_OF(localBluetoothMenuItems));
-
-                MenuItem baseLTEMenuItems[] = {
-                    MenuItem(
-                        "Disable",
-                        []() -> void {
-                            if(!lte::asyncEnable(false)) {
-                                Display.addAlert(
-                                    "LTE busy"
-                                );
-                            }
-                        }
-                    ),
-                    MenuItem(
-                        "Enable",
-                        []() -> void {
-                            if(!lte::asyncEnable(true)) {
-                                Display.addAlert(
-                                    "LTE busy"
-                                );
-                            }
-                        }
-                    )
-                };
-            MenuList baseLTEMenuList(baseLTEMenuItems, COUNT_OF(baseLTEMenuItems));
-
-                MenuItem gpsMenuItems[] = {
-                    MenuItem(
-                        "Disable",
-                        []() -> void {
-                            status::gpsEnable(false);
-                        }
-                    ),
-                    MenuItem(
-                        "Enable",
-                        []() -> void {
-                            status::gpsEnable(true);
-                        }
-                    )
-                };
-            MenuList gpsMenuList(gpsMenuItems, COUNT_OF(gpsMenuItems));
-
         MenuItem commsMenuItems[] = {
             MenuItem(
                 "Disable All",
@@ -744,71 +723,79 @@ MenuItem cameraMenu("Camera", &cameraMenuList);
                 }
             ),
             MenuItem(
-                []() -> String {
-                    if(bluetooth::bluetoothIsEnabled()) {
-                        return "BT (On)";
-                    } else {
-                        return "BT (Off)";
-                    }
+                "BT",
+                []() -> bool {
+                    return bluetooth::bluetoothIsEnabled();
                 },
-                &localBluetoothMenuList
+                []() -> void {
+                    bluetooth::enableBluetooth(true);
+                },
+                []() -> void {
+                    bluetooth::enableBluetooth(false);
+                }
             ),
             MenuItem(
-                []() -> String {
-                    if(lte::isEnabled()) {
-                        return "LTE (On)";
-                    } else {
-                        return "LTE (Off)";
+                "LTE",
+                []() -> bool {
+                    return lte::isEnabled();
+                },
+                []() -> void {
+                    if(!lte::asyncEnable(true)) {
+                        Display.addAlert(
+                            "LTE busy"
+                        );
                     }
                 },
-                &baseLTEMenuList
+                []() -> void {
+                    if(!lte::asyncEnable(false)) {
+                        Display.addAlert(
+                            "LTE busy"
+                        );
+                    }
+                }
             ),
             MenuItem(
-                []() -> String {
-                    if(status::gpsIsEnabled()) {
-                        return "GPS (On)";
-                    } else {
-                        return "GPS (Off)";
-                    }
+                "GPS",
+                []() -> bool {
+                    return status::gpsIsEnabled();
                 },
-                &gpsMenuList
+                []() -> void {
+                    status::gpsEnable(true);
+                },
+                []() -> void {
+                    status::gpsEnable(false);
+                }
             )
         };
     MenuList commsMenuList(commsMenuItems, COUNT_OF(commsMenuItems));
 MenuItem commsMenu("Radio", &commsMenuList);
 
-
-                MenuItem menuTimeoutMenuItems[] = {
-                    MenuItem(
-                        "Disable",
-                        [](){Display.enableTimeout(false);}
-                    ),
-                    MenuItem(
-                        "Enable",
-                        [](){Display.enableTimeout(true);}
-                    )
-                };
-            MenuList menuTimeoutMenuList(menuTimeoutMenuItems, COUNT_OF(menuTimeoutMenuItems));
                 MenuItem menuBacklightMenuItems[] = {
                     MenuItem(
                         "High",
                         [](){
                             Display.setBacklightBrightness(255);
-                            Display.enableBacklight(true);
+                            if(Display.backlightEnabled()) {
+                                Display.enableBacklight(true);
+                            }
                         }
                     ),
                     MenuItem(
                         "Medium",
                         [](){
                             Display.setBacklightBrightness(32);
-                            Display.enableBacklight(true);
+                            if(Display.backlightEnabled()) {
+                                Display.enableBacklight(true);
+                            }
                         }
                     ),
                     MenuItem(
                         "Low",
                         [](){
                             Display.setBacklightBrightness(1);
-                            Display.enableBacklight(true);
+                            if(Display.backlightEnabled()) {
+                                Display.enableBacklight(true);
+                            }
                         }
                     ),
                     MenuItem(
@@ -819,12 +806,32 @@ MenuItem commsMenu("Radio", &commsMenuList);
             MenuList menuBacklightMenuList(menuBacklightMenuItems, COUNT_OF(menuBacklightMenuItems));
         MenuItem menuMenuItems[] = {
             MenuItem(
-                "Backlight",
+                "Brightness",
                 &menuBacklightMenuList
             ),
             MenuItem(
+                "Backlight",
+                []() -> bool {
+                    return Display.backlightEnabled();
+                },
+                []() -> void {
+                    Display.enableBacklight(true);
+                },
+                []() -> void {
+                    Display.enableBacklight(false);
+                }
+            ),
+            MenuItem(
                 "Timeout",
-                &menuTimeoutMenuList
+                []() -> bool {
+                    return Display.timeoutEnabled();
+                },
+                []() -> void {
+                    Display.enableTimeout(true);
+                },
+                []() -> void {
+                    Display.enableTimeout(false);
+                }
             )
         };
     MenuList menuMenuList(menuMenuItems, COUNT_OF(menuMenuItems));

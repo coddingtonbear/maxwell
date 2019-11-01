@@ -97,6 +97,10 @@ void DisplayManager::enable(bool _enabled) {
     enabled = _enabled;
 }
 
+bool DisplayManager::backlightEnabled() {
+    return backlightOn;
+}
+
 void DisplayManager::enableBacklight(bool _enabled, bool save) {
     if(_enabled) {
         analogWrite(DISPLAY_BACKLIGHT_ON_, 255 - backlightBrightness);
@@ -118,6 +122,10 @@ void DisplayManager::toggleBacklight() {
     } else {
         enableBacklight(true);
     }
+}
+
+bool DisplayManager::timeoutEnabled() {
+    return timeout;
 }
 
 void DisplayManager::enableTimeout(bool enable) {
@@ -197,10 +205,10 @@ void DisplayManager::in() {
 
     menuKeepalive();
 
-    if(selectedItem.function != NULL) {
+    if(selectedItem.hasAction()) {
         setActionTimeout();
-        selectedItem.function();
-    } else if(selectedItem.subMenu != NULL) {
+        selectedItem.runAction();
+    } else if(selectedItem.hasSubmenu()) {
         menuDepth++;
     }
 }
@@ -518,38 +526,28 @@ void DisplayManager::showMenu() {
         if(
             i == menuPosition[menuDepth]
             && (
-                currMenu->items[i].function != NULL ||
-                currMenu->items[i].subMenu != NULL
-
+                currMenu->items[i].hasSubmenu() ||
+                currMenu->items[i].hasAction()
             )
         ) {
             displayCtl.print("[");
         }
-        if (currMenu->items[i].nameFunction != NULL) {
-            displayCtl.print(currMenu->items[i].nameFunction());
-        } else {
-            displayCtl.print(currMenu->items[i].name);
-        }
+        displayCtl.print(currMenu->items[i].getName());
         if(
             i == menuPosition[menuDepth]
             && (
-                currMenu->items[i].function != NULL ||
-                currMenu->items[i].subMenu != NULL
-
+                currMenu->items[i].hasSubmenu() ||
+                currMenu->items[i].hasAction()
             )
         ) {
             displayCtl.print("]");
         }
-        if(currMenu->items[i].subMenu != NULL) {
+        if(currMenu->items[i].hasSubmenu()) {
             displayCtl.print(" >");
         }
         displayCtl.println();
         j++;
     }
-}
-
-void DisplayManager::executeMenuCommand(void(*function)()) {
-    function();
 }
 
 DisplayManager Display(&mainMenu);

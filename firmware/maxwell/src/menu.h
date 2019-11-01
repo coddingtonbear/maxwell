@@ -10,16 +10,32 @@ class MenuList;
 
 class MenuItem {
     public:
+        // Name w/ Action
         MenuItem(String, MenuList*);
+        // Dynamic Name w/ Menu
         MenuItem(String(*)(), MenuList*);
+        // Name w/ Action
         MenuItem(String, void(*)());
+        // Dynamic Name w/ Action
         MenuItem(String(*)(), void(*)());
+        // Display-only
         MenuItem(String(*)());
+        // Toggle
+        MenuItem(String, bool(*)(), void(*)(), void(*)());
+
+        String getName();
+        bool hasAction();
+        bool hasSubmenu();
+        void runAction();
 
         String name;
         String (*nameFunction)();
         MenuList* subMenu;
         void (*function)();
+
+        bool(*statusFunction)();
+        void(*enableFunction)();
+        void(*disableFunction)();
 };
 
 class MenuList {

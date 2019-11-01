@@ -317,6 +317,9 @@ void neopixel::loop() {
     delay(5);
 }
 
+bool neopixel::isEnabled() {
+    return neopixel::enabled;
+}
 
 void neopixel::enable(bool enable) {
     neopixel::enabled = enable;

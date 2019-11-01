@@ -70,6 +70,10 @@ void power::enableDynamoPower(bool enabled) {
     dynamoOvervoltage = false;
 }
 
+bool power::isOvervoltageCheckingEnabled() {
+    return dynamoOvervoltageCheckingEnabled;
+}
+
 void power::enableDynamoOvervoltageChecking(bool enabled) {
     dynamoOvervoltageCheckingEnabled = enabled;
 }
@@ -230,6 +234,10 @@ void power::enableAux(bool enable) {
 void power::enableAutosleep(bool enable) {
     Log.log("power", "Autosleep enabled: " + String(enable));
     SleepTimeout.enable(enable);
+}
+
+bool power::isAutosleepEnabled() {
+    return SleepTimeout.isEnabled();
 }
 
 void power::refreshSleepTimeout() {

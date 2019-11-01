@@ -26,6 +26,7 @@ namespace neopixel {
     void init();
     void loop();
 
+    bool isEnabled();
     void enable(bool);
 
     void getStatus(LedStatus&);

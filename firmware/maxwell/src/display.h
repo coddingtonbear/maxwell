@@ -49,6 +49,7 @@ class DisplayManager {
         String getAlert();
         void redisplayAlert();
 
+        bool backlightEnabled();
         void enableBacklight(bool _enabled=true, bool save=true);
         void toggleBacklight();
 
@@ -58,6 +59,7 @@ class DisplayManager {
         void in();
         void out();
 
+        bool timeoutEnabled();
         void enableTimeout(bool);
         void setActionTimeout();
 
@@ -83,7 +85,6 @@ class DisplayManager {
         uint8_t menuPosition[10];
 
         void showMenu();
-        void executeMenuCommand(void(*)());
 
         uint8_t statusPhase = 0;
         uint8_t statusPhaseCount = STATUS_PHASE_COUNT;

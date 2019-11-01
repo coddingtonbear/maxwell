@@ -27,11 +27,13 @@ namespace power {
     double getCurrentUsage();
     uint16_t getAdcValue(uint8_t pin);
     uint8_t getChargingStatus();
-    bool isOvervoltage();
-    bool isDynamoEnabled();
 
+    bool isDynamoEnabled();
     void enableDynamoPower(bool enabled=true);
+
+    bool isOvervoltageCheckingEnabled();
     void enableDynamoOvervoltageChecking(bool enabled=true);
+    bool isOvervoltage();
 
     uint8_t getPowerIOComResult();
     uint8_t getPowerIOState(Pca9536::pin_t pin);
@@ -47,5 +49,6 @@ namespace power {
     void sleep();
     void checkSleepTimeout();
     void enableAutosleep(bool);
+    bool isAutosleepEnabled();
     void refreshSleepTimeout();
 };
