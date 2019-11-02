@@ -521,6 +521,8 @@ void console::logPrint() {
     char* filenameBytes = commands.next();
     char* afterByteBytes = commands.next();
     char* lengthBytes = commands.next();
+    char* delayMsBytes = commands.next();
+    char* delayMsEveryBytes = commands.next();
 
     char filename[255];
 
@@ -544,7 +546,20 @@ void console::logPrint() {
     }
     int32_t length = openFile.fileSize();
     if(lengthBytes != NULL) {
-        length = atoi(lengthBytes);
+        uint32_t requestedLength = atoi(lengthBytes);
+        if(requestedLength > 0) {
+            length = requestedLength;
+        }
+    }
+
+    uint32_t delayUs = 0;
+    if(delayMsBytes != NULL) {
+        delayUs = atoi(delayMsBytes);
+    }
+
+    uint32_t delayMsEvery = 256;
+    if(delayMsEveryBytes != NULL) {
+        delayMsEvery = atoi(delayMsEveryBytes);
     }
 
     int32_t currByte = 0;
@@ -561,6 +576,10 @@ void console::logPrint() {
             openFile.read();
         }
         currByte++;
+
+        if(delayUs && currByte % delayMsEvery == 0) {
+            delay_us(delayUs);
+        }
 
         if(lengthPrinted >= length) {
             break;
