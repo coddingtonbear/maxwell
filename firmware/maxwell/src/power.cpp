@@ -110,6 +110,7 @@ void power::loop() {
                 ) {
                     dynamoOvervoltage = true;
                     Log.log(
+                        "power",
                         "Dynamo has been above "
                         + String(OVERVOLTAGE_HIGH)
                         + "V for "
@@ -121,6 +122,7 @@ void power::loop() {
                     enableDynamoPower(false);
                 } else if (!dynamoOvervoltageStarted) {
                     Log.log(
+                        "power",
                         "Dynamo has exceeded "
                         + String(OVERVOLTAGE_HIGH)
                         + "V; will disable in "
