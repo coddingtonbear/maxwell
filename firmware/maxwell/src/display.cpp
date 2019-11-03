@@ -103,7 +103,7 @@ bool DisplayManager::backlightEnabled() {
 
 void DisplayManager::enableBacklight(bool _enabled, bool save) {
     if(_enabled) {
-        analogWrite(DISPLAY_BACKLIGHT_ON_, 255 - backlightBrightness);
+        applyBacklightBrightness(backlightBrightness);
         if(save) {
             backlightOn = true;
         }
@@ -114,6 +114,10 @@ void DisplayManager::enableBacklight(bool _enabled, bool save) {
             backlightOn = false;
         }
     }
+}
+
+void DisplayManager::applyBacklightBrightness(uint8_t value) {
+    analogWrite(DISPLAY_BACKLIGHT_ON_, 255 - value);
 }
 
 void DisplayManager::toggleBacklight() {
@@ -142,6 +146,10 @@ void DisplayManager::setContrast(uint8_t value) {
 
 void DisplayManager::setBacklightBrightness(uint8_t value) {
     backlightBrightness = value;
+}
+
+uint8_t DisplayManager::getBacklightBrightness() {
+    return backlightBrightness;
 }
 
 void DisplayManager::setAutosleep(bool _enabled) {
@@ -451,11 +459,14 @@ void DisplayManager::refresh() {
         }
 
         if((millis() % 1000) < 500) {
-            enableBacklight(true, false);
+            applyBacklightBrightness(255);
         } else {
-            enableBacklight(false, false);
+            applyBacklightBrightness(32);
         }
     } else {
+        applyBacklightBrightness(
+            getBacklightBrightness()
+        );
         enableBacklight(backlightOn, false);
     }
 
