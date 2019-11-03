@@ -7,6 +7,7 @@
 #include <SdFat.h>
 #include <MCP79412RTC.h>
 #include <time.h>
+#include <CRC32.h>
 
 #include "main.h"
 #include "serial_commands.h"
@@ -102,7 +103,9 @@ void console::init() {
     commands.addCommand("log_list", console::logList);
     commands.addCommand("log_delete", console::logDelete);
     commands.addCommand("log_print", console::logPrint);
+    commands.addCommand("log_print_chk", console::logPrintChk);
     commands.addCommand("log_size", console::logSize);
+    commands.addCommand("log_crc32", console::logCrc32);
     commands.addCommand("log_search", console::logSearch);
     commands.addCommand("log_sd_error_state", console::sdErrorState);
 
@@ -517,6 +520,118 @@ void console::logDelete() {
     Output.println("Deleted");
 }
 
+void console::printChecksummedLine(char line[], uint16_t lineLength) {
+    CRC32 crc;
+    for(uint16_t i = 0; i < lineLength; i++) {
+        Output.print(line[i]);
+    }
+    uint32_t checksum = crc.calculate(line, lineLength);
+    Output.print("\t::::\t");
+    Output.print(checksum);
+    Output.print('\n');
+}
+
+bool console::printAndConfirmChecksummedLine(char line[], uint16_t lineLength) {
+    bool haveConfirmation = false;
+    while(!haveConfirmation) {
+        console::printChecksummedLine(line, lineLength);
+
+        unsigned long timeout = millis() + 1000;
+        bool responseReceived = false;
+        while(millis() < timeout && !responseReceived) {
+            iwdg_feed();
+            bluetooth::refreshTimeout();
+            power::refreshSleepTimeout();
+
+            if(Output.available()) {
+                char response = Output.read();
+
+                if(response == '1') {
+                    responseReceived = true;
+                    haveConfirmation = true;
+                } else {
+                    responseReceived = true;
+                }
+            }
+        }
+        if(!responseReceived) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void console::logPrintChk() {
+    char* filenameBytes = commands.next();
+
+    char filename[255];
+
+    if(strcmp(filenameBytes, "_") == 0) {
+        strcpy(filename, Log.getLogFileName().c_str());
+    } else {
+        strcpy(filename, filenameBytes);
+    }
+    if(!openFile.open(&filesystem, filename, O_READ)) {
+        Output.println("Error opening file " + String(filename));
+        return;
+    }
+
+    char line[512];
+    uint16_t lineLength = 0;
+    while(openFile.available()) {
+        iwdg_feed();
+        bluetooth::refreshTimeout();
+        power::refreshSleepTimeout();
+
+        char chr = openFile.read();
+        line[lineLength] = chr;
+        lineLength++;
+
+        if(chr == '\n') {
+            bool result = printAndConfirmChecksummedLine(line, lineLength - 1);
+            if(!result) {
+                Output.println("Error: timeout");
+                openFile.close();
+                return;
+            }
+            lineLength = 0;
+        }
+    }
+    openFile.close();
+}
+
+void console::logCrc32() {
+    char* filenameBytes = commands.next();
+
+    char filename[255];
+
+    if(strcmp(filenameBytes, "_") == 0) {
+        strcpy(filename, Log.getLogFileName().c_str());
+    } else {
+        strcpy(filename, filenameBytes);
+    }
+    if(!openFile.open(&filesystem, filename, O_READ)) {
+        Output.println("Error opening file " + String(filename));
+        return;
+    }
+
+    CRC32 crc;
+    while(openFile.available()) {
+        iwdg_feed();
+        bluetooth::refreshTimeout();
+        power::refreshSleepTimeout();
+
+        char ch = openFile.read();
+
+        crc.update(ch);
+    }
+    uint32_t checksum = crc.finalize();
+
+    Output.println(checksum);
+
+    openFile.close();
+}
+
 void console::logPrint() {
     char* filenameBytes = commands.next();
     char* afterByteBytes = commands.next();
@@ -533,7 +648,7 @@ void console::logPrint() {
     }
 
     if(!openFile.open(&filesystem, filename, O_READ)) {
-        Output.println("Error opening file " + String(filenameBytes));
+        Output.println("Error opening file " + String(filename));
         return;
     }
     int32_t afterByte = 0;

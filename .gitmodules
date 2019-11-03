@@ -1,3 +1,6 @@
 [submodule "firmware/common_libraries/Dusk2Dawn.git"]
 	path = firmware/common_libraries/Dusk2Dawn.git
 	url = git@github.com:dmkishi/Dusk2Dawn.git
+[submodule "firmware/common_libraries/CRC32"]
+	path = firmware/common_libraries/CRC32
+	url = git@github.com:bakercp/CRC32.git

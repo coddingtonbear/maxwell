@@ -76,9 +76,13 @@ namespace console {
     void logList();
     void logDelete();
     void logPrint();
+    void logPrintChk();
     void logSearch();
     void logSize();
+    void logCrc32();
     void sdErrorState();
+    void printChecksummedLine(char*, uint16_t);
+    bool printAndConfirmChecksummedLine(char*, uint16_t);
 
     void setTime();
     void getTime();
