@@ -96,8 +96,6 @@ void status::init() {
     //  * We'll turn the backlight brightness down
     //    since it doesn't need to compete with the sun
     if(!status::isLightOutside()) {
-        power::enableDynamoPower(false);
-
         Display.setBacklightBrightness(BACKLIGHT_BRIGHTNESS_NIGHT);
         Display.enableBacklight();
     } else {
