@@ -18,7 +18,7 @@
 #define MQTT_CLIENT "maxwell"
 
 #define UTC_OFFSET -8
-#define DST true
+#define DST false
 
 #define ODOMETER_EEPROM_ADDR 0x0
 #define LATITUDE_EEPROM_ADDR 0x8
