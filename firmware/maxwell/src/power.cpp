@@ -68,7 +68,6 @@ void power::enableDynamoPower(bool enabled) {
     powerIo.setMode(PIN_RECTIFIER_RELAY_B, IO_INPUT);
 
     dynamoEnabled = enabled;
-    dynamoOvervoltage = false;
 }
 
 bool power::isOvervoltageCheckingEnabled() {
