@@ -25,7 +25,6 @@ namespace power {
     bool auxiliaryPowerEnabled = false;
     bool dynamoEnabled = false;
 
-    unsigned long dynamoOvervoltageStarted = 0;
     bool dynamoOvervoltage = false;
     bool dynamoOvervoltageCheckingEnabled = true;
 
@@ -101,42 +100,20 @@ void power::loop() {
     if(dynamoOvervoltageCheckingEnabled) {
         if(voltage > OVERVOLTAGE_HIGH) {
             if(!dynamoOvervoltage) {
-                if(
-                    dynamoOvervoltageStarted
-                    && (
-                        (millis() - dynamoOvervoltageStarted) > OVERVOLTAGE_DURATION
-                    )
-                ) {
-                    dynamoOvervoltage = true;
-                    Log.log(
-                        "power",
-                        "Dynamo has been above "
-                        + String(OVERVOLTAGE_HIGH)
-                        + "V for "
-                        + String(OVERVOLTAGE_DURATION)
-                        + "ms; disabling until voltage drops below "
-                        + String(OVERVOLTAGE_LOW)
-                        + "V."
-                    );
-                    enableDynamoPower(false);
-                } else if (!dynamoOvervoltageStarted) {
-                    Log.log(
-                        "power",
-                        "Dynamo has exceeded "
-                        + String(OVERVOLTAGE_HIGH)
-                        + "V; will disable in "
-                        + String(OVERVOLTAGE_DURATION)
-                        + "ms if voltage does not fall."
-                    );
-                    dynamoOvervoltageStarted = millis();
-                }
+                dynamoOvervoltage = true;
+                Log.log(
+                    "power",
+                    "Dynamo is above "
+                    + String(OVERVOLTAGE_HIGH)
+                    + "V; disabling until voltage drops below "
+                    + String(OVERVOLTAGE_LOW)
+                    + "V."
+                );
+                enableDynamoPower(false);
             }
         } else if(dynamoOvervoltage && voltage < OVERVOLTAGE_LOW) {
             dynamoOvervoltage = false;
-            dynamoOvervoltageStarted = 0;
             enableDynamoPower(true);
-        } else {
-            dynamoOvervoltageStarted = 0;
         }
     }
 
