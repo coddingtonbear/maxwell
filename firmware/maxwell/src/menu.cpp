@@ -9,6 +9,7 @@
 #include "main.h"
 #include "neopixel.h"
 #include "lte.h"
+#include "status.h"
 
 
 #define COUNT_OF(x) ((sizeof(x)/sizeof(0[x])) / ((size_t)(!(sizeof(x) % sizeof(0[x])))))
@@ -774,7 +775,7 @@ MenuItem commsMenu("Radio", &commsMenuList);
                     MenuItem(
                         "High",
                         [](){
-                            Display.setBacklightBrightness(255);
+                            Display.setBacklightBrightness(BACKLIGHT_HIGH);
                             if(Display.backlightEnabled()) {
                                 Display.enableBacklight(true);
                             }
@@ -783,7 +784,7 @@ MenuItem commsMenu("Radio", &commsMenuList);
                     MenuItem(
                         "Medium",
                         [](){
-                            Display.setBacklightBrightness(32);
+                            Display.setBacklightBrightness(BACKLIGHT_MED);
                             if(Display.backlightEnabled()) {
                                 Display.enableBacklight(true);
                             }
@@ -792,7 +793,7 @@ MenuItem commsMenu("Radio", &commsMenuList);
                     MenuItem(
                         "Low",
                         [](){
-                            Display.setBacklightBrightness(1);
+                            Display.setBacklightBrightness(BACKLIGHT_LOW);
                             if(Display.backlightEnabled()) {
                                 Display.enableBacklight(true);
                             }
