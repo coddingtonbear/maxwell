@@ -5,6 +5,7 @@ import datetime
 import logging
 import os
 import sys
+import time
 
 import serial
 from typing import Iterable, List
@@ -107,8 +108,10 @@ def get_log(connection, path) -> Iterable[str]:
         'log_print_chk',
         path
     )
+    started = time.time()
     line_count = 0
     error_count = 0
+    byte_count = 0
     while True:
         line = connection.readline()
         line_count += 1
@@ -132,11 +135,15 @@ def get_log(connection, path) -> Iterable[str]:
             connection.write(b'0')
             error_count += 1
 
+        byte_count += len(data) + 1
+
         yield data.decode('utf-8').strip()
 
     logger.info(
-        'Successfully received (error rate %s%%)',
-        error_count / line_count * 100
+        'Successfully received (%.1f%% error; %.1fkB at %.3fkBps)',
+        error_count / line_count * 100,
+        (byte_count / 1000),
+        (byte_count / 1000) / (time.time() - started)
     )
 
 
@@ -211,7 +218,7 @@ def main(*args):
                 filename_date > args.date + datetime.timedelta(days=1)
             )
         ):
-            logger.info("Unwanted date")
+            logger.info("Skipped; date not in requested range")
             continue
 
         checksum = log_checksum(connection, filename)
