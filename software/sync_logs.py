@@ -148,7 +148,7 @@ def get_log(connection, path) -> Iterable[str]:
 
 
 def log_checksum(connection, filename) -> int:
-    with timeout(connection, 10):
+    with timeout(connection, 60):
         lines = ' '.join(get_verified_response_for_command(
             connection,
             'log_crc32',
