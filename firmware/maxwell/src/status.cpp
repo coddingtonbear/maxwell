@@ -100,6 +100,7 @@ void status::init() {
         Display.enableBacklight();
     } else {
         Display.setBacklightBrightness(BACKLIGHT_BRIGHTNESS_DAY);
+        Display.enableBacklight(false);
     }
 }
 

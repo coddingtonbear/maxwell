@@ -52,7 +52,7 @@ void neopixel::activatePreset(uint32 preset) {
         setCycle(LED_CYCLE_OFF);
     } else if(preset == LED_PRESET_SAFETY) {
         setCycle(LED_CYCLE_MOTION);
-        setColor(255, 100, 0);
+        setColor(16, 255, 16);
         setSecondaryColor(255, 255, 255);
         setMaxBrightness(32);
     } else if(preset == LED_PRESET_RAINBOW) {
@@ -128,7 +128,7 @@ void neopixel::setCycle(uint32 _cycle) {
     if(cycle == LED_CYCLE_MOTION) {
         phaseCount = 2;
         interval = 1;
-        segmentSize = 100;
+        segmentSize = 125;
     } else if(cycle == LED_CYCLE_BLINK) {
         segmentSize = 2;
     } else if(cycle == LED_CYCLE_ROTATION) {
