@@ -18,6 +18,8 @@ namespace neopixel {
     uint8_t segmentSize = 1;
     unsigned long lastCycle = 0;
 
+    unsigned long loopCount = 0;
+
     uint32_t colorList[16] = {};
     uint8_t colorListCount = 0;
 
@@ -140,6 +142,8 @@ void neopixel::setCycle(uint32 _cycle) {
     if(cycle != LED_CYCLE_OFF) {
         enable(true);
     }
+
+    loopCount = 0;
 }
 
 void neopixel::setSegmentSize(uint32 _size) {
@@ -199,7 +203,7 @@ void neopixel::loop() {
         return;
     }
 
-    if(millis() < lastCycle + interval) {
+    if(millis() < (lastCycle + interval)) {
         return;
     }
 
@@ -314,8 +318,7 @@ void neopixel::loop() {
 
     pixels.show();
     lastCycle = millis();
-
-    delay(5);
+    loopCount++;
 }
 
 bool neopixel::isEnabled() {
