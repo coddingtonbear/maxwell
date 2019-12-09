@@ -367,32 +367,18 @@ void DisplayManager::refresh() {
         displayCtl.println(displayCtlTime);
 
         displayCtl.setFont(SMALL_DISPLAY_FONT);
-        if((statusPhase / 2) % 2 == 0) {
-            String voltage = String(
-                power::getVoltage(VOLTAGE_BATTERY),
-                2
-            );
-            voltage += "V";
+        String voltage = String(
+            power::getVoltage(VOLTAGE_BATTERY),
+            2
+        );
+        voltage += "V";
 
-            width = displayCtl.getStrWidth(voltage.c_str());
-            displayCtl.setCursor(
-                (DISPLAY_WIDTH - width - 1) / 2,
-                SMALL_DISPLAY_FONT_HEIGHT + 1
-            );
-            displayCtl.println(voltage);
-        } else {
-            String amps = String(
-                power::getCurrentUsage(),
-                2
-            );
-            amps += "A";
-            width = displayCtl.getStrWidth(amps.c_str());
-            displayCtl.setCursor(
-                (DISPLAY_WIDTH - width - 1) / 2,
-                SMALL_DISPLAY_FONT_HEIGHT + 1
-            );
-            displayCtl.println(amps);
-        }
+        width = displayCtl.getStrWidth(voltage.c_str());
+        displayCtl.setCursor(
+            (DISPLAY_WIDTH - width - 1) / 2,
+            SMALL_DISPLAY_FONT_HEIGHT + 1
+        );
+        displayCtl.println(voltage);
 
 
     }
