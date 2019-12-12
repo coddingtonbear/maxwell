@@ -54,7 +54,10 @@ void neopixel::activatePreset(uint32 preset) {
         setCycle(LED_CYCLE_OFF);
     } else if(preset == LED_PRESET_SAFETY) {
         setCycle(LED_CYCLE_MOTION);
-        setColor(32, 255, 32);
+        setMaxBrightness(32);
+        setInterval(1);
+
+        setColor(0x80, 0xff, 0x10);
         setSecondaryColor(255, 255, 255);
     } else if(preset == LED_PRESET_SAFETY_FADE) {
         setCycle(LED_CYCLE_ON);
