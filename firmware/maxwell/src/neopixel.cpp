@@ -16,6 +16,7 @@ namespace neopixel {
     uint8_t phase = 0;
     uint8_t phaseCount = 0;
     uint8_t segmentSize = 1;
+    float pctPerCycle = 0.01;
     unsigned long lastCycle = 0;
 
     unsigned long loopCount = 0;
@@ -26,6 +27,17 @@ namespace neopixel {
     uint32_t colorTarget[16] = {};
     uint8_t colorTargetCount = 0;
     uint8_t currentColorTarget = 0;
+    
+    uint8_t startRed = 0;
+    uint8_t startGreen = 0;
+    uint8_t startBlue = 0;
+    uint8_t targetRed = 0;
+    uint8_t targetGreen = 0;
+    uint8_t targetBlue = 0;
+    float targetRedStep = 0;
+    float targetGreenStep = 0;
+    float targetBlueStep = 0;
+    uint8_t targetStepCounter = 0;
 }
 
 void neopixel::init() {
@@ -161,6 +173,10 @@ void neopixel::setCycle(uint32 _cycle) {
     loopCount = 0;
 }
 
+void neopixel::setPctPerCycle(float _pctPerCycle) {
+    pctPerCycle = _pctPerCycle;
+}
+
 void neopixel::setSegmentSize(uint32 _size) {
     segmentSize = _size;
 }
@@ -189,6 +205,11 @@ void neopixel::addColorList(
         _green,
         _blue
     );
+    colorListCount++;
+}
+
+void neopixel::clearColorList() {
+    colorListCount = 0;
 }
 
 void neopixel::addColorTarget(
@@ -199,6 +220,11 @@ void neopixel::addColorTarget(
         _green,
         _blue
     );
+    colorTargetCount++;
+}
+
+void neopixel::clearColorTargets() {
+    colorTargetCount = 0;
 }
 
 void neopixel::setColor(uint8_t _red, uint8_t _green, uint8_t _blue) {
@@ -283,6 +309,66 @@ void neopixel::loop() {
         }
     }
 
+    if(colorTargetCount > 0) {
+        uint8_t currRed = colorRed(color);
+        uint8_t currGreen = colorGreen(color);
+        uint8_t currBlue = colorBlue(color);
+
+        if(color == colorTarget[currentColorTarget] || loopCount == 0 || targetStepCounter >= (100 / pctPerCycle)) {
+            if(loopCount == 0) {
+                currentColorTarget = 0;
+            } else {
+                currentColorTarget++;
+            }
+            if(currentColorTarget >= colorTargetCount) {
+                currentColorTarget = 0;
+            }
+
+            uint32_t target = colorTarget[currentColorTarget];
+
+            startRed = currRed;
+            startGreen = currGreen;
+            startBlue = currBlue;
+
+            targetRed = colorRed(target);
+            targetGreen = colorGreen(target);
+            targetBlue = colorBlue(target);
+
+            targetRedStep = abs(int(currRed) - int(targetRed)) * (pctPerCycle / 100);
+            targetGreenStep = abs(int(currGreen) - int(targetGreen)) * (pctPerCycle / 100);
+            targetBlueStep = abs(int(currBlue) - int(targetBlue)) * (pctPerCycle / 100);
+
+            targetStepCounter = 0;
+        }
+
+
+        if (startRed > targetRed) {
+            currRed = startRed - (targetRedStep * targetStepCounter);
+        } else if (startRed < targetRed) {
+            currRed = startRed + (targetRedStep * targetStepCounter);
+        }
+        if (startGreen > targetGreen) {
+            currGreen = startGreen - (targetGreenStep * targetStepCounter);
+        } else if (startGreen < targetGreen) {
+            currGreen = startGreen + (targetGreenStep * targetStepCounter);
+        }
+        if (startBlue > targetBlue) {
+            currBlue = startBlue - (targetBlueStep * targetStepCounter);
+        } else if (startBlue < targetBlue) {
+            currBlue = startBlue + (targetBlueStep * targetStepCounter);
+        }
+        color = pixels.Color(
+            currRed,
+            currGreen,
+            currBlue
+        );
+
+        targetStepCounter++;
+    }
+
+    pixels.show();
+    lastCycle = millis();
+
     offset++;
     if(offset >= NUM_LEDS) {
         offset = 0;
@@ -291,48 +377,6 @@ void neopixel::loop() {
     if(phase >= phaseCount) {
         phase = 0;
     }
-
-    if(colorTargetCount > 0) {
-        if(color == colorTarget[currentColorTarget]) {
-            currentColorTarget++;
-            if(currentColorTarget >= colorTargetCount) {
-                currentColorTarget = 0;
-            }
-        }
-
-        uint8_t currRed = colorRed(color);
-        uint8_t currGreen = colorGreen(color);
-        uint8_t currBlue = colorBlue(color);
-
-        uint32_t target = colorTarget[currentColorTarget];
-        uint8_t targetRed = colorRed(target);
-        uint8_t targetGreen = colorGreen(target);
-        uint8_t targetBlue = colorBlue(target);
-
-        if (currRed > targetRed) {
-            currRed--;
-        } else if (currRed < targetRed) {
-            currRed++;
-        }
-        if (currGreen > targetGreen) {
-            currGreen--;
-        } else if (currGreen < targetGreen) {
-            currGreen++;
-        }
-        if (currBlue > targetBlue) {
-            currBlue--;
-        } else if (currBlue < targetBlue) {
-            currBlue++;
-        }
-        color = pixels.Color(
-            currRed,
-            currGreen,
-            currBlue
-        );
-    }
-
-    pixels.show();
-    lastCycle = millis();
     loopCount++;
 }
 

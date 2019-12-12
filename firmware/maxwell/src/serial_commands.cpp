@@ -175,7 +175,7 @@ void console::led() {
     char* subcommandBytes = commands.next();
     if(subcommandBytes == NULL) {
         Output.println(
-            "Subcommand required: cycle, color, color2, addColorList, addColorTarget, segment, interval, brightness, preset, disable, enable."
+            "Subcommand required: cycle, color, color2, addColorList, clearColorList, addColorTarget, clearColorTargets, segment, interval, pctPerCycle, brightness, preset, disable, enable."
         );
         return;
     }
@@ -225,12 +225,16 @@ void console::led() {
             getHexFromCommand(),
             getHexFromCommand()
         );
+    } else if (subcommand == "clearColorList") {
+        neopixel::clearColorList();
     } else if (subcommand == "addColorTarget") {
         neopixel::addColorTarget(
             getHexFromCommand(),
             getHexFromCommand(),
             getHexFromCommand()
         );
+    } else if (subcommand == "clearColorTargets") {
+        neopixel::clearColorTargets();
     } else if (subcommand == "segment") {
         char* segmentBytes = commands.next();
 
@@ -245,6 +249,21 @@ void console::led() {
         }
 
         neopixel::setInterval(atoi(intervalBytes));
+    } else if (subcommand == "pctPerCycle") {
+        char* pctBytes = commands.next();
+        if(pctBytes == NULL) {
+            Output.println(
+                "Required percentage (1-100)"
+            );
+            return;
+        }
+        float pct = atof(pctBytes);
+        if(pct > 100) {
+            pct = 100;
+        } else if(pct < 1) {
+            pct = 1;
+        }
+        neopixel::setPctPerCycle(pct);
     } else if (subcommand == "brightness") {
         char* brightnessBytes = commands.next();
         if(brightnessBytes == NULL) {
@@ -267,6 +286,8 @@ void console::led() {
 
         if(presetName == "safety") {
             neopixel::activatePreset(LED_PRESET_SAFETY);
+        } else if(presetName == "safetyFade") {
+            neopixel::activatePreset(LED_PRESET_SAFETY_FADE);
         } else if(presetName == "rainbow") {
             neopixel::activatePreset(LED_PRESET_RAINBOW);
         } else if(presetName == "midnight") {

@@ -36,6 +36,7 @@ namespace neopixel {
     void setCycle(uint32 _cycle);
     void setInterval(uint32 _interval);
     void setSegmentSize(uint32 _size);
+    void setPctPerCycle(float _pctPerCycle);
 
     uint8_t colorRed(uint32_t);
     uint8_t colorGreen(uint32_t);
@@ -44,9 +45,11 @@ namespace neopixel {
     void addColorList(
         uint8_t, uint8_t, uint8_t
     );
+    void clearColorList();
     void addColorTarget(
         uint8_t, uint8_t, uint8_t
     );
+    void clearColorTargets();
 
     void setColor(uint8_t _red, uint8_t _green, uint8_t blue);
     void setSecondaryColor(uint8_t _red, uint8_t _green, uint8_t blue);
